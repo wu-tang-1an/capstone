@@ -1,6 +1,31 @@
+const db = require('../db')
+const Sequelize = require('sequelize')
+
 const User = require('./user')
 const Task = require('./tasks')
 const Organization = require('./organization')
+
+const UserOrganization = db.define('user_organization', {
+  role: {
+    type: Sequelize.ENUM,
+    values: ['owner', 'co-owner', 'user', 'admin'],
+    defaultValue: 'user',
+  },
+})
+
+const UserTask = db.define('user_task', {
+  ProjectId: {
+    type: Sequelize.INTEGER,
+  },
+})
+
+//user and org association
+User.belongsToMany(Organization, {through: UserOrganization})
+Organization.belongsToMany(User, {through: UserOrganization})
+
+//user and task association and through table
+Task.belongsToMany(User, {through: UserTask})
+User.belongsToMany(Task, {through: UserTask})
 
 /**
  * If we had any associations to make, this would be a great place to put them!
@@ -19,5 +44,6 @@ module.exports = {
   Organization,
   Task,
   User,
-
+  UserOrganization,
+  UserTask,
 }

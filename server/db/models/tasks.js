@@ -1,12 +1,10 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
 
-
-
 const Task = db.define('task', {
   name: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
   },
 
   createdBy: {
@@ -14,16 +12,13 @@ const Task = db.define('task', {
   },
 
   description: {
-      type: Sequelize.TEXT
-    },
+    type: Sequelize.TEXT,
+  },
 
   status: {
     type: Sequelize.ENUM,
-    values: ['in-progress', 'todo', 'done', 'review']
-  }
-
-
+    values: ['in-progress', 'todo', 'done', 'review'],
+  },
 })
-
 
 module.exports = Task
