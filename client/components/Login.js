@@ -28,30 +28,30 @@ function Copyright() {
   )
 }
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main
+    backgroundColor: theme.palette.secondary.main,
   },
   form: {
     width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1)
+    marginTop: theme.spacing(1),
   },
   submit: {
-    margin: theme.spacing(3, 0, 2)
+    margin: theme.spacing(3, 0, 2),
   },
   oauthBtn: {
-    margin: theme.spacing(0, 0, 2)
-  }
+    margin: theme.spacing(0, 0, 2),
+  },
 }))
 
-export default function AuthForm(props) {
+export function AuthForm(props) {
   const classes = useStyles()
   const {handleSubmit, error} = props
 
@@ -132,11 +132,11 @@ export default function AuthForm(props) {
   )
 }
 
-const mapLogin = state => ({
-  error: state.user.error
+const mapLogin = (state) => ({
+  error: state.user.error,
 })
 
-const mapDispatch = dispatch => {
+const mapDispatch = (dispatch) => {
   return {
     handleSubmit(evt) {
       evt.preventDefault()
@@ -144,8 +144,8 @@ const mapDispatch = dispatch => {
       const email = evt.target.email.value
       const password = evt.target.password.value
       dispatch(auth(email, password, formName))
-    }
+    },
   }
 }
 
-export const Login = connect(mapLogin, mapDispatch)(AuthForm)
+export default connect(mapLogin, mapDispatch)(AuthForm)
