@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {auth} from '../store'
 
-const AuthForm = props => {
+const AuthForm = (props) => {
   const {name, displayName, handleSubmit, error} = props
   console.log('props--->', props)
   console.log('name--->', name)
@@ -78,19 +78,19 @@ const AuthForm = props => {
   }
 }
 
-const mapLogin = state => ({
+const mapLogin = (state) => ({
   name: 'login',
   displayName: 'Login',
-  error: state.user.error
+  error: state.user.error,
 })
 
-const mapSignup = state => ({
+const mapSignup = (state) => ({
   name: 'signup',
   displayName: 'Sign Up',
-  error: state.user.error
+  error: state.user.error,
 })
 
-const mapDispatch = dispatch => {
+const mapDispatch = (dispatch) => {
   return {
     handleSubmit(evt) {
       evt.preventDefault()
@@ -99,7 +99,7 @@ const mapDispatch = dispatch => {
       const password = evt.target.password.value
 
       dispatch(auth(email, password, formName))
-    }
+    },
   }
 }
 

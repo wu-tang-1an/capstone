@@ -15,10 +15,10 @@ const defaultUser = []
  * ACTION CREATORS
  */
 
-export const updateUser = user => {
+export const updateUser = (user) => {
   return {
     type: UPDATE_USER,
-    user
+    user,
   }
 }
 
@@ -26,8 +26,8 @@ export const updateUser = user => {
  * THUNK CREATORS
  */
 
-export const fetchUpdateUser = user => {
-  return async dispatch => {
+export const fetchUpdateUser = (user) => {
+  return async (dispatch) => {
     const {data} = await axios.put(`/api/users/${user.id}`, user)
     dispatch(updateUser(data))
   }
@@ -39,7 +39,7 @@ export const fetchUpdateUser = user => {
 export default function usersReducer(state = defaultUser, action) {
   switch (action.type) {
     case UPDATE_USER:
-      return state.map(user => {
+      return state.map((user) => {
         return user.id === action.user.id ? action.user : user
       })
     default:

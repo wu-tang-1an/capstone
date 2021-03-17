@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {User} = require('../db/models')
+const {User, UserOrganization, Organization} = require('../db/models')
 module.exports = router
 
 async function checkUser(req, res, next) {
@@ -14,13 +14,13 @@ async function checkUser(req, res, next) {
     } else {
       // if logged-in user is NOT an user
       res.status(403).json({
-        message: 'Access Denied'
+        message: 'Access Denied',
       })
     }
   } else {
     // this block runs when nobody is logged in
     res.status(403).json({
-      message: 'Access Denied'
+      message: 'Access Denied',
     })
   }
 }
@@ -30,7 +30,7 @@ router.get('/', checkUser, async (req, res, next) => {
       // explicitly select only the id and email fields - even though
       // users' passwords are encrypted, it won't help if we just
       // send everything to anyone who asks!
-      attributes: ['id', 'email']
+      attributes: ['id', 'email'],
     })
     res.json(users)
   } catch (err) {
@@ -55,33 +55,82 @@ router.get('/:userId', async (req, res, next) => {
   }
 })
 
+// add user to org
+router.put('/addorg', async (req, res, next) => {
+  try {
+    //test route
+    const UserFound = await User.findOne({
+      where: {
+        id: 2,
+      },
+    })
+
+    const FoundOrg = await Organization.findByPk(1)
+
+    UserFound.addOrganization(FoundOrg, {
+      through: {
+        role: 'user',
+      },
+    })
+
+    res.json([UserFound, FoundOrg])
+  } catch (e) {
+    console.log(e)
+    next(e)
+  }
+})
+
+//delete user from the org
+// now i just need a user id and org id
+// to do it dynamically
+router.delete('/delete-user-org', async (req, res, next) => {
+  try {
+    //test route
+    const UserFound = await User.findOne({
+      where: {
+        id: 2,
+      },
+    })
+
+    const FoundOrg = await Organization.findByPk(1)
+
+    UserFound.removeOrganization(FoundOrg)
+
+    res.json([UserFound, FoundOrg])
+  } catch (e) {
+    console.log(e)
+    next(e)
+  }
+})
+
+//deletes user from database
+router.delete('/delete-user', async (req, res, next) => {
+  try {
+    const UserFound = await User.findOne({
+      where: {
+        id: 1,
+      },
+    })
+
+    UserFound.destroy()
+    res.send('user deleted')
+  } catch (e) {
+    console.log(e)
+    next(e)
+  }
+})
+
 router.post('/', async (req, res, next) => {
   try {
     const createUser = await User.create({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       password: req.body.password,
-      email: req.body.email
+      email: req.body.email,
     })
 
     res.status(201).json(createUser)
   } catch (err) {
     next(err)
-  }
-})
-
-router.put('/:userId', async (req, res, next) => {
-  try {
-    const updateUser = await User.findByPk(req.params.id)
-    res.json(
-      await updateUser.update({
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        password: req.body.password,
-        email: req.body.email
-      })
-    )
-  } catch (error) {
-    next(error)
   }
 })

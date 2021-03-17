@@ -7,9 +7,50 @@ async function seed() {
   await db.sync({force: true})
   console.log('db synced!')
 
+  const Fullstack = await Organization.create({
+    name: 'Fullstack',
+  })
+
+  const Johnny = await User.create({
+    firstName: 'Johhn',
+    lastName: 'Vazquez',
+    email: 'john@email.com',
+    password: '123',
+  })
+
+  const Clean = await Task.create({
+    name: 'Clean the room',
+    createdBy: 'Mr. Johnny Vazquez',
+    description: 'hello world',
+    status: 'todo',
+  })
+
+  Johnny.addTask(Clean, {
+    through: {
+      ProjectId: 2,
+    },
+  })
+
+  await Johnny.addOrganization(Fullstack, {
+    through: {
+      role: 'owner',
+      OrgId: 1,
+    },
+  })
+
   const users = await Promise.all([
-    User.create({email: 'cody@email.com', password: '123'}),
-    User.create({email: 'murphy@email.com', password: '123'})
+    User.create({
+      firstName: 'Cody',
+      lastName: 'Richardson',
+      email: 'cody@email.com',
+      password: '123',
+    }),
+    User.create({
+      firstName: 'Murphy',
+      lastName: 'Clark',
+      email: 'murphy@email.com',
+      password: '123',
+    }),
   ])
 
   console.log(`seeded ${users.length} users`)

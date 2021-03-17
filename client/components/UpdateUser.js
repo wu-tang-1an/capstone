@@ -9,7 +9,7 @@ export class UpdateUser extends React.Component {
       firstName: '',
       lastName: '',
       email: '',
-      password: ''
+      password: '',
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -20,7 +20,7 @@ export class UpdateUser extends React.Component {
         firstName: this.props.user.firstName,
         lastName: this.props.user.lastName,
         email: this.props.user.email,
-        password: this.props.user.password
+        password: this.props.user.password,
       })
     }
   }
@@ -30,19 +30,19 @@ export class UpdateUser extends React.Component {
         firstName: this.props.user.firstName,
         lastName: this.props.user.lastName,
         email: this.props.user.email,
-        password: this.props.user.password
+        password: this.props.user.password,
       })
     }
   }
   handleChange(event) {
     this.setState({
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     })
   }
   async handleSubmit() {
     await this.props.fetchUpdateUser({
       ...this.props.user,
-      ...this.state
+      ...this.state,
     })
   }
   render() {
@@ -106,14 +106,14 @@ export class UpdateUser extends React.Component {
     )
   }
 }
-const mapState = state => {
+const mapState = (state) => {
   return {user: state.user}
 }
-const mapDispatch = dispatch => {
+const mapDispatch = (dispatch) => {
   return {
-    updateUser: state => {
+    updateUser: (state) => {
       return dispatch(fetchUpdateUser(state))
-    }
+    },
   }
 }
 

@@ -7,7 +7,7 @@ import usersReducer from './users'
 
 const reducer = combineReducers({
   user,
-  users: usersReducer
+  users: usersReducer,
 })
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))

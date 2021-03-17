@@ -7,27 +7,27 @@ const Project = db.define('project', {
     unique: true,
     allowNull: false,
     validate: {
-      notEmpty: true
-    }
+      notEmpty: true,
+    },
   },
 
   status: {
     type: Sequelize.ENUM('in progress', 'complete'),
-    defaultValue: 'in progress'
+    defaultValue: 'in progress',
   },
 
   description: {
     type: Sequelize.TEXT,
-    defaultValue: ''
+    defaultValue: '',
   },
 
   imageUrl: {
     type: Sequelize.STRING,
     defaultValue: 'https://unsplash.it/200/200',
     validate: {
-      isUrl: true
-    }
-  }
+      isUrl: true,
+    },
+  },
 })
 
 module.exports = Project

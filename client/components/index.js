@@ -9,4 +9,3 @@ export {default as UserHome} from './user-home'
 export {default as UpdateUser} from './UpdateUser'
 
 export {default as Login} from './Login'
-
