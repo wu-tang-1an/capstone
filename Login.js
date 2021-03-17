@@ -20,11 +20,7 @@ import styled from 'styled-components'
 
 const darkTheme = createMuiTheme({
   palette: {
-    type: 'dark',
-    background: {
-      default: '#e056fd',
-      backgroundImage: 'linear-gradient(315deg, #e056fd 0%, #000000 74%)'
-    }
+    type: 'dark'
   }
 })
 
