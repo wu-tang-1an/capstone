@@ -57,7 +57,7 @@ export class UpdateUser extends React.Component {
                 <input
                   type="text"
                   name="firstName"
-                  value={this.state.firstName}
+                  value={this.state.firstName || ''}
                   onChange={this.handleChange}
                 />
               </label>
@@ -69,7 +69,7 @@ export class UpdateUser extends React.Component {
                 <input
                   type="text"
                   name="lastName"
-                  value={this.state.lastName}
+                  value={this.state.lastName || ''}
                   onChange={this.handleChange}
                 />
               </label>
@@ -81,7 +81,7 @@ export class UpdateUser extends React.Component {
                 <input
                   type="text"
                   name="email"
-                  value={this.state.email}
+                  value={this.state.email || ''}
                   onChange={this.handleChange}
                 />
               </label>
@@ -93,6 +93,7 @@ export class UpdateUser extends React.Component {
                 <input
                   name="password"
                   type="password"
+                  value={this.state.password || ''}
                   onChange={this.handleChange}
                 />
               </label>
@@ -110,7 +111,7 @@ const mapState = state => {
 }
 const mapDispatch = dispatch => {
   return {
-    fetchUpdateUser: state => {
+    updateUser: state => {
       return dispatch(fetchUpdateUser(state))
     }
   }
