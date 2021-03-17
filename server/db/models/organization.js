@@ -9,7 +9,7 @@ const Organization = db.define('organization', {
 
   imageUrl: {
     type: Sequelize.STRING,
-    default:
+    defaultValue:
       'https://images-na.ssl-images-amazon.com/images/I/41UQFhW1eUL._AC_SX425_.jpg',
   },
 })

@@ -16,7 +16,7 @@ const User = db.define('user', {
   status: {
     type: Sequelize.ENUM,
     values: ['admin', 'user'],
-    default: 'user',
+    defaultValue: 'user',
   },
 
   email: {
@@ -27,7 +27,7 @@ const User = db.define('user', {
 
   imageUrl: {
     type: Sequelize.STRING,
-    default:
+    defaultValue:
       'https://improvementarchitecture.co.uk/wp-content/uploads/2015/02/missing-profile-picture.jpg',
   },
 
