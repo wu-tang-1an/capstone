@@ -61,8 +61,9 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function SignIn() {
+export default function AuthForm(props) {
   const classes = useStyles()
+  const {name, displayName, handleSubmit, error} = props
 
   return (
     <ThemeProvider>
@@ -75,7 +76,8 @@ export default function SignIn() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <form className={classes.form} noValidate>
+          {error && error.response && <div> {error.response.data} </div>}
+          <form className={classes.form} onSubmit={handleSubmit} name={name}>
             <TextField
               variant="outlined"
               margin="normal"
@@ -132,3 +134,24 @@ export default function SignIn() {
     </ThemeProvider>
   )
 }
+
+const mapLogin = state => ({
+  name: 'login',
+  displayName: 'Login',
+  error: state.user.error
+})
+
+const mapDispatch = dispatch => {
+  return {
+    handleSubmit(evt) {
+      evt.preventDefault()
+      const formName = evt.target.name
+      const email = evt.target.email.value
+      const password = evt.target.password.value
+      dispatch(auth(email, password, formName))
+    }
+  }
+}
+
+export const Login = connect(mapLogin, mapDispatch)(AuthForm)
+export const Signup = connect(mapSignup, mapDispatch)(AuthForm)
