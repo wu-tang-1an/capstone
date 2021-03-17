@@ -4,6 +4,8 @@ const Sequelize = require('sequelize')
 const User = require('./user')
 const Task = require('./task')
 const Organization = require('./organization')
+const Column = require('./column')
+const Project = require('./project')
 
 const UserOrganization = db.define('user_organization', {
   role: {
@@ -19,14 +21,6 @@ const UserTask = db.define('user_task', {
   },
 })
 
-//user and org association
-User.belongsToMany(Organization, {through: UserOrganization})
-Organization.belongsToMany(User, {through: UserOrganization})
-
-//user and task association and through table
-Task.belongsToMany(User, {through: UserTask})
-User.belongsToMany(Task, {through: UserTask})
-
 /**
  * If we had any associations to make, this would be a great place to put them!
  * ex. if we had another model called BlogPost, we might say:
@@ -34,9 +28,11 @@ User.belongsToMany(Task, {through: UserTask})
  *    BlogPost.belongsTo(User)
  */
 
+//user and org association
 User.belongsToMany(Organization, {through: UserOrganization})
 Organization.belongsToMany(User, {through: UserOrganization})
 
+//user and task association and through table
 Task.belongsToMany(User, {through: UserTask})
 User.belongsToMany(Task, {through: UserTask})
 
@@ -50,6 +46,8 @@ module.exports = {
   Organization,
   Task,
   User,
+  Column,
+  Project,
   UserOrganization,
   UserTask,
 }
