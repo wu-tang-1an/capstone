@@ -2,7 +2,7 @@ const router = require('express').Router()
 const {Project} = require('../db/models')
 module.exports = router
 
-// GET all projects route '/api/project'
+// GET all projects route '/api/projects'
 router.get('/', (req, res, next) => {
   try {
     const projects = Project.findAll()
@@ -12,7 +12,7 @@ router.get('/', (req, res, next) => {
   }
 })
 
-// GET single project route '/api/project/:projectId'
+// GET single project route '/api/projects/:projectId'
 router.get('/:projectId', async (req, res, next) => {
   try {
     const {projectId} = req.params
@@ -27,7 +27,7 @@ router.get('/:projectId', async (req, res, next) => {
   }
 })
 
-// POST create new project route '/api/project/'
+// POST create new project route '/api/projects/'
 router.post('/', async (req, res, next) => {
   try {
     const data = req.body
@@ -39,7 +39,7 @@ router.post('/', async (req, res, next) => {
   }
 })
 
-// PUT edit project route '/api/project/:projectId'
+// PUT edit project route '/api/projects/:projectId'
 router.put('/:projectId', async (req, res, next) => {
   try {
     const data = req.body
@@ -53,7 +53,7 @@ router.put('/:projectId', async (req, res, next) => {
   }
 })
 
-// DELETE project route '/api/project/:projectId'
+// DELETE project route '/api/projects/:projectId'
 router.delete('/:projectId', async (req, res, next) => {
   try {
     const {projectId} = req.params

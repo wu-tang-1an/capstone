@@ -2,7 +2,7 @@ const router = require('express').Router()
 const {Column} = require('../db/models')
 module.exports = router
 
-// GET all columns route '/api/column'
+// GET all columns route '/api/columns'
 router.get('/', (req, res, next) => {
   try {
     const columns = Column.findAll()
@@ -12,7 +12,7 @@ router.get('/', (req, res, next) => {
   }
 })
 
-// GET single column route '/api/column/:columnId'
+// GET single column route '/api/columns/:columnId'
 router.get('/:columnId', async (req, res, next) => {
   try {
     const {columnId} = req.params
@@ -27,7 +27,7 @@ router.get('/:columnId', async (req, res, next) => {
   }
 })
 
-// POST create new column route '/api/column/'
+// POST create new column route '/api/columns/'
 router.post('/', async (req, res, next) => {
   try {
     const data = req.body
@@ -39,7 +39,7 @@ router.post('/', async (req, res, next) => {
   }
 })
 
-// PUT edit column route '/api/column/:columnId'
+// PUT edit column route '/api/columns/:columnId'
 router.put('/:columnId', async (req, res, next) => {
   try {
     const data = req.body
@@ -53,7 +53,7 @@ router.put('/:columnId', async (req, res, next) => {
   }
 })
 
-// DELETE column route '/api/column/:columnId'
+// DELETE column route '/api/columns/:columnId'
 router.delete('/:columnId', async (req, res, next) => {
   try {
     const {columnId} = req.params
