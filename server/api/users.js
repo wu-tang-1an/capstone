@@ -38,7 +38,7 @@ router.get('/', checkUser, async (req, res, next) => {
   }
 })
 
-router.get('/:id', async (req, res, next) => {
+router.get('/:userId', async (req, res, next) => {
   try {
     const userId = req.params.id
     const user = await User.findByPk(userId)
@@ -70,7 +70,7 @@ router.post('/', async (req, res, next) => {
   }
 })
 
-router.put('/:id', async (req, res, next) => {
+router.put('/:userId', async (req, res, next) => {
   try {
     const updateUser = await User.findByPk(req.params.id)
     res.json(
