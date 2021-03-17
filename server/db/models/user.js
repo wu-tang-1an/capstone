@@ -3,11 +3,34 @@ const Sequelize = require('sequelize')
 const db = require('../db')
 
 const User = db.define('user', {
+  fisrtName: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+
+  lastName: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+
+  status: {
+    type: Sequelize.ENUM,
+    values: ['admin', 'user'],
+    default: 'user'
+  },
+
   email: {
     type: Sequelize.STRING,
     unique: true,
     allowNull: false
   },
+
+  imageUrl: {
+    type: Sequelize.STRING,
+    default:
+      'https://improvementarchitecture.co.uk/wp-content/uploads/2015/02/missing-profile-picture.jpg'
+  },
+
   password: {
     type: Sequelize.STRING,
     // Making `.password` act like a func hides it when serializing to JSON.
