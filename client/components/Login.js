@@ -45,12 +45,15 @@ const useStyles = makeStyles(theme => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2)
+  },
+  oauthBtn: {
+    margin: theme.spacing(0, 0, 2)
   }
 }))
 
 export default function AuthForm(props) {
   const classes = useStyles()
-  const {name, displayName, handleSubmit, error} = props
+  const {handleSubmit, error} = props
 
   return (
     <Container component="main" maxWidth="xs">
@@ -63,7 +66,7 @@ export default function AuthForm(props) {
           Sign in
         </Typography>
         {error && error.response && <div> {error.response.data} </div>}
-        <form className={classes.form} onSubmit={handleSubmit} name={name}>
+        <form className={classes.form} onSubmit={handleSubmit} name="login">
           <TextField
             variant="outlined"
             margin="normal"
@@ -97,9 +100,15 @@ export default function AuthForm(props) {
             color="primary"
             className={classes.submit}
           >
-            {displayName}
+            Login
           </Button>
-          <Button type="submit" fullWidth variant="contained" color="secondary">
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="secondary"
+            className={classes.oauthBtn}
+          >
             Login with Google
           </Button>
           <Grid container>
@@ -124,8 +133,6 @@ export default function AuthForm(props) {
 }
 
 const mapLogin = state => ({
-  name: 'login',
-  displayName: 'Login',
   error: state.user.error
 })
 
