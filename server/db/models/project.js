@@ -10,14 +10,17 @@ const Project = db.define('project', {
       notEmpty: true,
     },
   },
+
   status: {
     type: Sequelize.ENUM('in progress', 'complete'),
     defaultValue: 'in progress',
   },
+
   description: {
     type: Sequelize.TEXT,
     defaultValue: '',
   },
+
   imageUrl: {
     type: Sequelize.STRING,
     defaultValue: 'https://unsplash.it/200/200',
