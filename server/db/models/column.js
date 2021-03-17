@@ -4,8 +4,8 @@ const db = require('../db')
 const Column = db.define('column', {
   name: {
     type: Sequelize.STRING,
-    allowNull: false,
-  },
+    allowNull: false
+  }
 })
 
 module.exports = Column

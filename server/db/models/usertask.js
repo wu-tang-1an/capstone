@@ -9,17 +9,17 @@ const UserTask = db.define('usertask', {
     type: Sequelize.INTEGER,
     references: {
       model: Task,
-      key: 'id',
-    },
+      key: 'id'
+    }
   },
 
   userId: {
     type: Sequelize.INTEGER,
     references: {
       model: User,
-      key: 'id',
-    },
-  },
+      key: 'id'
+    }
+  }
 })
 
 module.exports = UserTask

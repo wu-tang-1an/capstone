@@ -7,24 +7,24 @@ const User = require('./user')
 const UserOrganization = db.define('userorganization', {
   role: {
     type: Sequelize.ENUM,
-    values: ['owner', 'co-owner', 'user', 'admin'],
+    values: ['owner', 'co-owner', 'user', 'admin']
   },
 
   orgId: {
     type: Sequelize.INTEGER,
     references: {
       model: Organization,
-      key: 'id',
-    },
+      key: 'id'
+    }
   },
 
   userId: {
     type: Sequelize.INTEGER,
     references: {
       model: User,
-      key: 'id',
-    },
-  },
+      key: 'id'
+    }
+  }
 })
 
 module.exports = UserOrganization

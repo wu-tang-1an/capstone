@@ -4,21 +4,21 @@ const db = require('../db')
 const Task = db.define('task', {
   name: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: false
   },
 
   createdBy: {
-    type: Sequelize.STRING,
+    type: Sequelize.STRING
   },
 
   description: {
-    type: Sequelize.TEXT,
+    type: Sequelize.TEXT
   },
 
   status: {
     type: Sequelize.ENUM,
-    values: ['in-progress', 'todo', 'done', 'review'],
-  },
+    values: ['in-progress', 'todo', 'done', 'review']
+  }
 })
 
 module.exports = Task

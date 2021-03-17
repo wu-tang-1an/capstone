@@ -28,5 +28,5 @@ module.exports = {
   Task,
   User,
   UserOrganization,
-  UserTask,
+  UserTask
 }
