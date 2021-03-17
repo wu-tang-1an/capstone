@@ -2,7 +2,7 @@ const db = require('../db')
 const Sequelize = require('sequelize')
 
 const User = require('./user')
-const Task = require('./tasks')
+const Task = require('./task')
 const Organization = require('./organization')
 
 const UserOrganization = db.define('user_organization', {
@@ -33,6 +33,12 @@ User.belongsToMany(Task, {through: UserTask})
  *
  *    BlogPost.belongsTo(User)
  */
+
+User.belongsToMany(Organization, {through: UserOrganization})
+Organization.belongsToMany(User, {through: UserOrganization})
+
+Task.belongsToMany(User, {through: UserTask})
+User.belongsToMany(Task, {through: UserTask})
 
 /**
  * We'll export all of our models here, so that any time a module needs a model,
