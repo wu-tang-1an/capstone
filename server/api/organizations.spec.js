@@ -36,20 +36,20 @@ describe('Organization routes', () => {
       }
     })
 
-    // it('GET /api/organizations/:orgId', async () => {
-    //   try {
-    //     await request(app)
-    //       .get('/api/organizations/1')
-    //       .expect(200)
-    //       .then((res) => {
-    //         expect(res.body).to.be.an('object')
-    //         expect(res.body.name).to.be.equal(testOrg.name)
-    //       })
-    //   } catch (error) {
-    //     console.log(error)
-    //     throw error
-    //   }
-    // })
+    /* it('GET /api/organizations/:orgId', async () => {
+      try {
+        await request(app)
+          .get('/api/organizations/1')
+          .expect(200)
+          .then((res) => {
+            expect(res.body).to.be.an('object')
+            expect(res.body.name).to.be.equal(testOrg.name)
+          })
+      } catch (error) {
+        console.log(error)
+        throw error
+      }
+    }) */
 
     it('GET /api/organizations/:orgId/users', async () => {
       const testMan = {
@@ -78,49 +78,49 @@ describe('Organization routes', () => {
       }
     })
 
-    // it('POST /api/organizations', async () => {
-    //   const ionicOrg = {
-    //     name: 'Ionic Organization',
-    //   }
+    /* it('POST /api/organizations', async () => {
+      const ionicOrg = {
+        name: 'Ionic Organization',
+      }
 
-    //   try {
-    //     await request(app)
-    //       .post('/api/organizations')
-    //       .send(ionicOrg)
-    //       .expect(200)
-    //       .then((res) => {
-    //         expect(res.body).to.be.an('object')
-    //         expect(res.body.name).to.be.equal(ionicOrg.name)
-    //       })
-    //   } catch (error) {
-    //     console.log(error)
-    //     throw error
-    //   }
-    // })
+      try {
+        await request(app)
+          .post('/api/organizations')
+          .send(ionicOrg)
+          .expect(200)
+          .then((res) => {
+            expect(res.body).to.be.an('object')
+            expect(res.body.name).to.be.equal(ionicOrg.name)
+          })
+      } catch (error) {
+        console.log(error)
+        throw error
+      }
+    }) */
 
-    // it('PUT /api/organizations/:orgId', async () => {
-    //   try {
-    //     await request(app)
-    //       .put('/api/organizations/1')
-    //       .send({name: 'Doric Organization'})
-    //       .expect(200)
-    //       .then((res) => {
-    //         expect(res.body).to.be.an('object')
-    //         expect(res.body.name).to.be.equal('Doric Organization')
-    //       })
-    //   } catch (error) {
-    //     console.log(error)
-    //     throw error
-    //   }
-    // })
+    /* it('PUT /api/organizations/:orgId', async () => {
+      try {
+        await request(app)
+          .put('/api/organizations/1')
+          .send({name: 'Doric Organization'})
+          .expect(200)
+          .then((res) => {
+            expect(res.body).to.be.an('object')
+            expect(res.body.name).to.be.equal('Doric Organization')
+          })
+      } catch (error) {
+        console.log(error)
+        throw error
+      }
+    }) */
 
-    // it('DELETE /api/organizations/:orgId', async () => {
-    //   try {
-    //     await request(app).delete('/api/organizations/1').expect(204)
-    //   } catch (error) {
-    //     console.log(error)
-    //     throw error
-    //   }
-    // })
+    /* it('DELETE /api/organizations/:orgId', async () => {
+      try {
+        await request(app).delete('/api/organizations/1').expect(204)
+      } catch (error) {
+        console.log(error)
+        throw error
+      }
+    }) */
   })
 })
