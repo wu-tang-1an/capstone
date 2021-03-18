@@ -5,6 +5,9 @@
  */
 export {default as Navbar} from './navbar'
 export {default as UserHome} from './user-home'
+
+export {default as UpdateUser} from './UpdateUser'
+
 export {default as Login} from './Login'
 export {default as Board} from './Board'
 export {default as TaskCard} from './TaskCard'
