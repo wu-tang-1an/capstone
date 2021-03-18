@@ -36,6 +36,15 @@ Organization.belongsToMany(User, {through: UserOrganization})
 Task.belongsToMany(User, {through: UserTask})
 User.belongsToMany(Task, {through: UserTask})
 
+Project.belongsTo(Organization)
+Organization.hasMany(Project)
+
+Task.belongsTo(Column)
+Column.hasMany(Task)
+
+Column.belongsTo(Project)
+Project.hasMany(Column)
+
 /**
  * We'll export all of our models here, so that any time a module needs a model,
  * we can just require it from 'db/models'
