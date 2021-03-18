@@ -4,18 +4,21 @@ import Comment from './Comment'
 
 const fakeDb = [
   {
+    id: 1,
     name: 'Albert',
     imageUrl: 'https://i.imgur.com/ZoKHJRz.jpg',
     createdAt: '20210214',
     content: 'you got this!',
   },
   {
+    id: 2,
     name: 'Felix',
     imageUrl: 'https://i.imgur.com/ZoKHJRz.jpg',
     createdAt: '20210214',
     content: 'you got this!',
   },
   {
+    id: 3,
     name: 'Sam',
     imageUrl: 'https://i.imgur.com/ZoKHJRz.jpg',
     createdAt: '20210214',
