@@ -48,16 +48,16 @@ class SingleTaskExpanded extends React.Component {
 
   componentDidMount() {
     // mount task data here
-    this.props.getSingleTask(this.props.match.params.taskId)
+    // this.props.getSingleTask(this.props.match.params.taskId)
   }
 
-  componentDidUpdate(prevProps) {
+  /* componentDidUpdate(prevProps) {
     const prevId = prevProps.match.params.taskId
     const currId = this.props.match.params.taskId
     if (!prevId && currId) {
       this.props.getSingleTask(currId)
     }
-  }
+  } */
 
   handleChange(evt) {
     const change = toggleMarkup(evt.target.value)
