@@ -106,5 +106,5 @@ describe('Project routes', () => {
         throw error
       }
     })
-  }) // end describe('/api/users')
-}) // end describe('User routes')
+  })
+})
