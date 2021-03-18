@@ -35,10 +35,9 @@ class SingleTaskExpanded extends React.Component {
     this.state = {
       name: '',
       issueType: '',
-      description: '',
-      isActive: '',
+      description: '### markdown is cool!',
       collaborators: [],
-      textareaFocused: false,
+      activeMarkdownEditor: false,
     }
   }
 
@@ -70,7 +69,7 @@ class SingleTaskExpanded extends React.Component {
   }
 
   render() {
-    const {name, issueType} = this.state || ''
+    const {name, issueType} = this.state
     // const {comments} = this.props || []
 
     // fakeDb: remove after connecting to real db
@@ -84,16 +83,28 @@ class SingleTaskExpanded extends React.Component {
             <span className={styles.taskName}>{name}</span>
             <span className={styles.issueType}>{issueType}</span>
           </div>
-          {this.state.textareaFocused ? (
+          {this.state.activeMarkdownEditor ? (
             <textarea
-              onFocus={() => this.setState({textareaFocused: true})}
-              onBlur={() => this.setState({textareaFocused: false})}
+              ref={(input) => input && input.focus()}
+              onBlur={() =>
+                this.setState({
+                  activeMarkdownEditor: false,
+                })
+              }
+              name="description"
+              value={this.state.description || ''}
               onChange={handleChange}
             ></textarea>
           ) : (
-            <div className="descriptionMarkdown">
-              {marked(this.state.description)}
-            </div>
+            <div
+              className="descriptionMarkdown"
+              onClick={() =>
+                this.setState({
+                  activeMarkdownEditor: true,
+                })
+              }
+              dangerouslySetInnerHTML={{__html: marked(this.state.description)}}
+            ></div>
           )}
           <div className={styles.commentsContainer}>
             {comments.map((comment) => (
