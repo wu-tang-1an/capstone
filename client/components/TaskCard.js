@@ -1,23 +1,60 @@
 import React from 'react'
-import {Paper} from '@material-ui/core'
-import {makeStyles} from '@material-ui/core/styles'
+import marked from 'marked'
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-  paper: {
-    padding: theme.spacing(1),
-    margin: theme.spacing(2),
-    width: '100%',
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-  },
-}))
+const toggleMarkup = (content) => {
+  return this.state.textareaFocused ? content : marked(content)
+}
 
-const TaskCard = () => {
-  const classes = useStyles()
-  return <Paper className={classes.paper}>item</Paper>
+class TaskCard extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      name: '',
+      description: '',
+      isActive: '',
+      collaborators: [],
+      textareaFocused: false,
+    }
+  }
+
+  componentDidMount() {}
+
+  handleUpdateTask() {}
+
+  handleDeleteTask() {}
+
+  render() {
+    const {comments} = this.props || []
+    const {handleUpdateTask, handleDeleteTask} = this
+    return (
+      <div className="taskCardContainer">
+        <div className="leftPanel">
+          <div className="nameAndIssue">
+            <span className="taskName"></span>
+            <span className="issueType"></span>
+          </div>
+          <textarea
+            onFocus={() => this.setState({textareaFocused: true})}
+            onBlur={() => this.setState({textareaFocused: false})}
+          ></textarea>
+          <div className="commentsContainer">
+            {comments.map((comment) => (
+              <Comment comment={comment} />
+            ))}
+          </div>
+          <div className="updateAndDeleteBtns">
+            <button type="button" name="update" onClick={handleUpdateTask}>
+              Update Task
+            </button>
+            <button type="button" name="delete" onClick={handleUpdateTask}>
+              Delete Task
+            </button>
+          </div>
+        </div>
+        <div className="rightPanel"></div>
+      </div>
+    )
+  }
 }
 
 export default TaskCard

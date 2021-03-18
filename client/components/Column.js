@@ -1,25 +1,21 @@
 import React from 'react'
-import Grid from '@material-ui/core/Grid'
-import {makeStyles} from '@material-ui/core/styles'
 import TaskCard from './TaskCard'
 
-const useStyles = makeStyles((theme) => ({
-  style: {
-    backgroundColor: '#bbbbbb',
-    height: '100%',
-  },
-}))
-
 const Column = (props) => {
-  const classes = useStyles()
+  const {cards} = props
 
   return (
-    <Grid item xs={2} className={classes.style}>
-      <TaskCard />
-      <TaskCard />
-      <TaskCard />
-      <TaskCard />
-    </Grid>
+    <div className="columnContainer">
+      <div className="titleAndDotMenu">
+        <span className="columnTitle"></span>
+        <span className="material-icons">more_horiz</span>
+      </div>
+      <div className="cardContainer">
+        {cards.map((card, idx) => (
+          <TaskCard key={idx} card={card} />
+        ))}
+      </div>
+    </div>
   )
 }
 
