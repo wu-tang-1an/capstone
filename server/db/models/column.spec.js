@@ -9,10 +9,14 @@ describe('Column Model', () => {
   afterEach(() => db.sync({force: true}))
 
   it('has fields name', async () => {
-    const column = await Column.create({
-      name: 'in-progress',
-    })
-    const foundColumn = await Column.findByPk(1)
-    expect(foundColumn).to.equal(column)
+    try {
+      const column = await Column.create({
+        name: 'in-progress',
+      })
+      const foundColumn = await Column.findByPk(1)
+      expect(foundColumn).to.deep.equal(column)
+    } catch (err) {
+      console.error(err)
+    }
   })
 })
