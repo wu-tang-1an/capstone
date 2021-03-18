@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {User, UserOrganization, Organization} = require('../db/models')
+const {User, UserOrganization, Organization, UserTask} = require('../db/models')
 module.exports = router
 
 async function checkUser(req, res, next) {
@@ -52,6 +52,20 @@ router.get('/:userId', async (req, res, next) => {
     }
   } catch (error) {
     next(error)
+  }
+})
+
+//get a user's tasks
+router.get('/user-task/:userId', async (req, res, next) => {
+  try {
+    let userId = req.params.userId
+    console.log('this is the user id ', userId)
+    const UserFound = await User.findByPk(userId)
+    let tasks = await UserFound.getTasks()
+    res.json(tasks)
+  } catch (e) {
+    console.log(e)
+    next(e)
   }
 })
 

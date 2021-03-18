@@ -19,6 +19,9 @@ const Task = db.define('task', {
     type: Sequelize.ENUM,
     values: ['in-progress', 'todo', 'done', 'review'],
   },
+  completionDate: {
+    type: Sequelize.DATE,
+  },
 })
 
 module.exports = Task
