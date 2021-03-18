@@ -80,7 +80,7 @@ class SingleTaskExpanded extends React.Component {
           ></textarea>
           <div className="commentsContainer">
             {comments.map((comment) => (
-              <Comment comment={comment} />
+              <Comment key={comment.id} comment={comment} />
             ))}
           </div>
           <div className="updateAndDeleteBtns">

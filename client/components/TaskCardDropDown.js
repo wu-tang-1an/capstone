@@ -1,5 +1,6 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
+import TaskModal from './TaskModal'
 
 // fields are actions that user can take from dropdown menu
 const fields = [
@@ -8,25 +9,32 @@ const fields = [
   // more fields as necessary
 ]
 
-const TaskCardDropDown = (props) => {
-  const handleDeleteTask = () => {
-    // call delete task thunk here
+class TaskCardDropDown extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      isActive: false,
+    }
   }
 
-  const {taskId} = props
-
-  return (
-    <div className="taskDropDownContainer">
-      {fields.map((field) => (
-        <div key={field.id} className="dropDownField">
-          {field.content === 'Edit' ? (
-            <Link to={`/tasks/${taskId}`}>{field.content}</Link>
-          ) : (
-            <div onClick={() => handleDeleteTask(taskId)}>{field.content}</div>
-          )}
-        </div>
-      ))}
-    </div>
-  )
+  render() {
+    const {taskId} = this.props || 0
+    const {isActive} = this.state
+    return (
+      <div className="taskCardDropDownContainer">
+        {fields.map((field) => (
+          <div key={field.id} className="dropDownField">
+            {field.content === 'Edit' ? (
+              <Link to={`/tasks/${taskId}`}>{field.content}</Link>
+            ) : (
+              field.content
+            )}
+            {isActive && <TaskModal type={field.content} />}
+          </div>
+        ))}
+      </div>
+    )
+  }
 }
+
 export default TaskCardDropDown

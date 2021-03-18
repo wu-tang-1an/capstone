@@ -14,14 +14,14 @@ const fakeDb = [
   },
   {
     id: 2,
-    name: 'create homepage',
+    name: 'create navbar',
     createdBy: 'Sam',
     description: '### Markdown\n## is\n#cool!',
     status: 'todo',
   },
   {
     id: 3,
-    name: 'create homepage',
+    name: 'create footer',
     createdBy: 'Felix',
     description:
       '<div><span style="color: red;">some red text (hopefully)</span></div>',
@@ -29,34 +29,53 @@ const fakeDb = [
   },
 ]
 
-const Column = (props) => {
-  // const {tasks} = props
+class Column extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      isActive: false,
+    }
+    this.handleDelete = this.handleDelete.bind(this)
+  }
 
-  // fakeDb: remove when connected to real db
-  const tasks = fakeDb
+  handleDelete() {}
 
-  return (
-    <div className="columnContainer">
-      <div className="badgeTitleDotMenu">
-        <div className="inlineFlexContainer">
-          <span className="columnBadge">{tasks.length}</span>
-          <span className="columnTitle"></span>
+  render() {
+    const {isActive} = this.state
+    const {handleDelete} = this
+    // const {tasks} = props
+
+    // fakeDb: remove when connected to real db
+    const tasks = fakeDb
+
+    return (
+      <div className="columnContainer">
+        <div className="badgeTitleDotMenu">
+          <div className="inlineFlexContainer">
+            <span className="columnBadge">{tasks.length}</span>
+            <span className="columnTitle"></span>
+          </div>
+          <div className="inlineFlexContainer">
+            <span className="material-icons">add</span>
+            <span
+              className="material-icons"
+              onClick={() => this.setState({isActive: !isActive})}
+            >
+              more_horiz
+            </span>
+          </div>
+          {isActive && <ColumnDropDown handleDelete={handleDelete} />}
         </div>
-        <div className="inlineFlexContainer">
-          <span className="material-icons">add</span>
-          <span className="material-icons">more_horiz</span>
+        <div className="cardContainer">
+          {tasks.map((task) => (
+            <Link to={`/tasks/${task.id}`} key={task.id}>
+              <TaskCard task={task} />
+            </Link>
+          ))}
         </div>
-        <ColumnDropDown />
       </div>
-      <div className="cardContainer">
-        {tasks.map((task) => (
-          <Link to={`/tasks/${task.id}`} key={task.id}>
-            <TaskCard task={task} />
-          </Link>
-        ))}
-      </div>
-    </div>
-  )
+    )
+  }
 }
 
 export default Column
