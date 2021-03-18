@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {Login, Signup, Board} from './components'
+import {Login, Signup, ProjectView} from './components'
 import {me} from './store'
 
 /**
@@ -21,11 +21,12 @@ class Routes extends Component {
         {/* Routes placed here are available to all visitors */}
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
-        <Route path="/home" component={Board} />
+        {/* temp -- ProjectView will only be visible after login */}
+        <Route path="/home" component={ProjectView} />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
-            <Route path="/home" component={Board} />
+            <Route path="/home" component={ProjectView} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}

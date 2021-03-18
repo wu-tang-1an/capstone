@@ -2,12 +2,13 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {auth} from '../store'
 
+import styles from './AuthForm.css'
 const AuthForm = (props) => {
   const {name, displayName, handleSubmit, error} = props
 
   return (
-    <div className="outer-container">
-      <div className="authForm-container">
+    <div className={styles.outerContainer}>
+      <div className={styles.authFormContainer}>
         <form onSubmit={handleSubmit} name={name}>
           <div>
             <label htmlFor="email">
@@ -25,7 +26,7 @@ const AuthForm = (props) => {
             <button type="submit">{displayName}</button>
           </div>
           {error && error.response && (
-            <div className="warning"> {error.response.data} </div>
+            <div className={styles.warning}> {error.response.data} </div>
           )}
         </form>
         <a href="/auth/google">
