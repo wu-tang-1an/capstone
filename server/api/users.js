@@ -56,7 +56,7 @@ router.get('/:userId', async (req, res, next) => {
 })
 
 //get a user's tasks
-router.get('/user-task/:userId', async (req, res, next) => {
+router.get('/:userId/tasks', async (req, res, next) => {
   try {
     let userId = req.params.userId
     console.log('this is the user id ', userId)
