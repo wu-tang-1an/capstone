@@ -3,9 +3,9 @@ const {Column} = require('../db/models')
 module.exports = router
 
 // GET all columns route '/api/columns'
-router.get('/', (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try {
-    const columns = Column.findAll()
+    const columns = await Column.findAll()
     res.json(columns)
   } catch (error) {
     next(error)
