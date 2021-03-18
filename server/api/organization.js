@@ -13,7 +13,7 @@ router.get('/', async (req, res, next) => {
 })
 
 // get the users in the org
-router.get('/org-user/:orgId', async (req, res, next) => {
+router.get('/:orgId/users', async (req, res, next) => {
   let orgId = req.params.id
 
   try {
