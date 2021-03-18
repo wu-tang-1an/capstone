@@ -1,21 +1,17 @@
 import React from 'react'
+import TaskCardDropDown from './TaskCardDropDown'
 
 class TaskCard extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      // if inactive, onClick dotMenu shows a dropdown
       isActive: false,
     }
   }
 
   componentDidMount() {
     // mount task here
-  }
-
-  handleChange(evt) {
-    this.setState({
-      [evt.target.name]: evt.target.value,
-    })
   }
 
   render() {
@@ -28,6 +24,7 @@ class TaskCard extends React.Component {
       status,
       user,
     } = this.props
+    const {isActive} = this.state
     return (
       <div className="taskCardContainer">
         <div className="issueIcon"></div>
@@ -35,8 +32,12 @@ class TaskCard extends React.Component {
           <div className="title"></div>
           <div className="idAndCreatedBy">{`#${id} opened by ${name}`}</div>
         </div>
-        <div className="dotMenuAndAvatar">
+        <div
+          className="dotMenuAndAvatar"
+          onClick={() => this.setState({isActive: !isActive})}
+        >
           <span className="material-icons">more_horiz</span>
+          {isActive && <TaskCardDropDown taskId={id} />}
           <img src={user.imageUrl} />
         </div>
       </div>
