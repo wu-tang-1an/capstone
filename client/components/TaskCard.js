@@ -1,4 +1,5 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
 import TaskCardDropDown from './TaskCardDropDown'
 
 import styles from './TaskCard.css'
@@ -30,7 +31,9 @@ class TaskCard extends React.Component {
       <div className={styles.taskCardContainer}>
         <div className="material-icons">error_outline</div>
         <div className={styles.titleAndCreator}>
-          <div className={styles.title}>{name}</div>
+          <Link to={`/tasks/${id}`}>
+            <div className={styles.title}>{name}</div>
+          </Link>
           <div
             className={styles.idAndCreatedBy}
           >{`#${id} opened by ${user.name}`}</div>
