@@ -28,10 +28,6 @@ const fakeCommentsDB = [
   },
 ]
 
-const toggleMarkup = (content) => {
-  return this.state.textareaFocused ? content : marked(content)
-}
-
 import styles from './SingleTaskExpanded.css'
 class SingleTaskExpanded extends React.Component {
   constructor(props) {
@@ -60,9 +56,8 @@ class SingleTaskExpanded extends React.Component {
   } */
 
   handleChange(evt) {
-    const change = toggleMarkup(evt.target.value)
     this.setState({
-      [evt.target.name]: change,
+      [evt.target.name]: evt.target.value,
     })
   }
 
@@ -81,7 +76,7 @@ class SingleTaskExpanded extends React.Component {
     // fakeDb: remove after connecting to real db
     const comments = fakeCommentsDB
 
-    const {handleUpdateTask, handleDeleteTask} = this
+    const {handleChange, handleUpdateTask, handleDeleteTask} = this
     return (
       <div className={styles.singleTaskContainer}>
         <div className={styles.leftPanel}>
@@ -89,10 +84,17 @@ class SingleTaskExpanded extends React.Component {
             <span className={styles.taskName}>{name}</span>
             <span className={styles.issueType}>{issueType}</span>
           </div>
-          <textarea
-            onFocus={() => this.setState({textareaFocused: true})}
-            onBlur={() => this.setState({textareaFocused: false})}
-          ></textarea>
+          {this.state.textareaFocused ? (
+            <textarea
+              onFocus={() => this.setState({textareaFocused: true})}
+              onBlur={() => this.setState({textareaFocused: false})}
+              onChange={handleChange}
+            ></textarea>
+          ) : (
+            <div className="descriptionMarkdown">
+              {marked(this.state.description)}
+            </div>
+          )}
           <div className={styles.commentsContainer}>
             {comments.map((comment) => (
               <Comment key={comment.id} comment={comment} />
