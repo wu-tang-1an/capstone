@@ -1,6 +1,9 @@
 import React from 'react'
+import {connect} from 'react-redux'
 import TaskCard from './TaskCard'
 import ColumnDropDown from './ColumnDropDown'
+
+import {fetchAllTasks} from '../store/task'
 
 import styles from './Column.css'
 const fakeDb = [
@@ -63,6 +66,7 @@ class Column extends React.Component {
     const {handleDelete} = this
     const {name} = this.props.column || ''
     // const {tasks} = props
+    // const columnTasks = tasks.filter(task => task.status === name)
 
     // fakeDb: remove when connected to real db
     const tasks = fakeDb
@@ -96,4 +100,12 @@ class Column extends React.Component {
   }
 }
 
-export default Column
+const mapState = (state) => ({
+  tasks: state.tasks,
+})
+
+const mapDispatch = (dispatch) => ({
+  getAllTasks: () => dispatch(fetchAllTasks()),
+})
+
+export default connect(mapState, mapDispatch)(Column)

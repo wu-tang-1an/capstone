@@ -1,8 +1,10 @@
 import React from 'react'
 import marked from 'marked'
 import Comment from './Comment'
+import {connect} from 'react-redux'
+import {fetchSingleTask} from '../store/singleTask'
 
-const fakeDb = [
+const fakeCommentsDB = [
   {
     id: 1,
     name: 'Albert',
@@ -67,7 +69,7 @@ class SingleTaskExpanded extends React.Component {
     // const {comments} = this.props || []
 
     // fakeDb: remove after connecting to real db
-    const comments = fakeDb
+    const comments = fakeCommentsDB
 
     const {handleUpdateTask, handleDeleteTask} = this
     return (
@@ -107,4 +109,12 @@ class SingleTaskExpanded extends React.Component {
   }
 }
 
-export default SingleTaskExpanded
+const mapState = (state) => ({
+  singleTask: state.singleTask,
+})
+
+const mapDispatch = (dispatch) => ({
+  getSingleTask: (taskId) => dispatch(fetchSingleTask(taskId)),
+})
+
+export default connect(mapState, mapDispatch)(SingleTaskExpanded)
