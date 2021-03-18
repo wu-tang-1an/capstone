@@ -1,5 +1,6 @@
 import React from 'react'
 import marked from 'marked'
+import Comment from './Comment'
 
 const toggleMarkup = (content) => {
   return this.state.textareaFocused ? content : marked(content)
@@ -10,6 +11,7 @@ class TaskCard extends React.Component {
     super(props)
     this.state = {
       name: '',
+      issueType: '',
       description: '',
       isActive: '',
       collaborators: [],
@@ -17,21 +19,35 @@ class TaskCard extends React.Component {
     }
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    // mount task data here
+  }
 
-  handleUpdateTask() {}
+  handleChange(evt) {
+    const change = toggleMarkup(evt.target.value)
+    this.setState({
+      [evt.target.name]: change,
+    })
+  }
 
-  handleDeleteTask() {}
+  handleUpdateTask() {
+    // call thunk to update task here
+  }
+
+  handleDeleteTask() {
+    // call thunk to delete task here
+  }
 
   render() {
+    const {name, issueType} = this.state || ''
     const {comments} = this.props || []
     const {handleUpdateTask, handleDeleteTask} = this
     return (
       <div className="taskCardContainer">
         <div className="leftPanel">
           <div className="nameAndIssue">
-            <span className="taskName"></span>
-            <span className="issueType"></span>
+            <span className="taskName">{name}</span>
+            <span className="issueType">{issueType}</span>
           </div>
           <textarea
             onFocus={() => this.setState({textareaFocused: true})}
@@ -46,12 +62,18 @@ class TaskCard extends React.Component {
             <button type="button" name="update" onClick={handleUpdateTask}>
               Update Task
             </button>
-            <button type="button" name="delete" onClick={handleUpdateTask}>
+            <button type="button" name="delete" onClick={handleDeleteTask}>
               Delete Task
             </button>
           </div>
         </div>
-        <div className="rightPanel"></div>
+        <div className="rightPanel">
+          <div className="label"></div>
+          <div className="members"></div>
+          <div className="attachFile"></div>
+          <div className="projectDate"></div>
+          <div className="taskChecklist"></div>
+        </div>
       </div>
     )
   }

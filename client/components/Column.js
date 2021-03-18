@@ -3,7 +3,6 @@ import TaskCard from './TaskCard'
 
 const Column = (props) => {
   const {cards} = props
-
   return (
     <div className="columnContainer">
       <div className="titleAndDotMenu">

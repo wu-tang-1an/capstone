@@ -5,10 +5,9 @@ const Board = (props) => {
   const {columns} = props
   return (
     <div className="boardContainer">
-      <Column name="Todo" />
-      <Column name="In-progress" />
-      <Column name="Review" />
-      <Column name="Done" />
+      {columns.map((column, idx) => (
+        <Column key={idx} column={column} />
+      ))}
     </div>
   )
 }
