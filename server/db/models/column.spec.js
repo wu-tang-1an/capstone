@@ -14,7 +14,7 @@ describe('Column Model', () => {
         name: 'in-progress',
       })
       const foundColumn = await Column.findByPk(1)
-      expect(foundColumn).to.deep.equal(column)
+      expect(foundColumn.dataValues).to.deep.include({name: 'in-progress'})
     } catch (err) {
       console.error(err)
     }
