@@ -4,6 +4,20 @@ import Comment from './Comment'
 import {connect} from 'react-redux'
 import {fetchSingleTask} from '../store/singleTask'
 
+// custom parser instructions can be given to an options instance
+// by passing in renderer options
+const renderer = {
+  checkbox(text) {
+    text.test(/\[\s?x?\]/gi)
+      ? text.replace(/\[x\]/gi, '<i className="material-icons">check_box</i>')
+      : text.replace(
+          /\[\s\]/gi,
+          '<i className="material-icons">check_box_outline_blank</i>'
+        )
+  },
+}
+marked.use(renderer)
+
 const fakeCommentsDB = [
   {
     id: 1,
@@ -35,11 +49,7 @@ class SingleTaskExpanded extends React.Component {
     this.state = {
       name: '',
       issueType: '',
-      description: `
-        [Marked] - Markdown Parser
-        ==========================
-        [Marked] lets you convert stuff
-        `,
+      description: '## markdown is here\n~lets see if it works~',
       collaborators: [],
       activeMarkdownEditor: false,
     }
