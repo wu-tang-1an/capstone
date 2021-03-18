@@ -32,6 +32,7 @@ const toggleMarkup = (content) => {
   return this.state.textareaFocused ? content : marked(content)
 }
 
+import styles from './SingleTaskExpanded.css'
 class SingleTaskExpanded extends React.Component {
   constructor(props) {
     super(props)
@@ -47,6 +48,15 @@ class SingleTaskExpanded extends React.Component {
 
   componentDidMount() {
     // mount task data here
+    this.props.getSingleTask(this.props.match.params.taskId)
+  }
+
+  componentDidUpdate(prevProps) {
+    const prevId = prevProps.match.params.taskId
+    const currId = this.props.match.params.taskId
+    if (!prevId && currId) {
+      this.props.getSingleTask(currId)
+    }
   }
 
   handleChange(evt) {
@@ -73,22 +83,22 @@ class SingleTaskExpanded extends React.Component {
 
     const {handleUpdateTask, handleDeleteTask} = this
     return (
-      <div className="singleTaskContainer">
-        <div className="leftPanel">
-          <div className="nameAndIssue">
-            <span className="taskName">{name}</span>
-            <span className="issueType">{issueType}</span>
+      <div className={styles.singleTaskContainer}>
+        <div className={styles.leftPanel}>
+          <div className={styles.nameAndIssue}>
+            <span className={styles.taskName}>{name}</span>
+            <span className={styles.issueType}>{issueType}</span>
           </div>
           <textarea
             onFocus={() => this.setState({textareaFocused: true})}
             onBlur={() => this.setState({textareaFocused: false})}
           ></textarea>
-          <div className="commentsContainer">
+          <div className={styles.commentsContainer}>
             {comments.map((comment) => (
               <Comment key={comment.id} comment={comment} />
             ))}
           </div>
-          <div className="updateAndDeleteBtns">
+          <div className={styles.updateAndDeleteBtns}>
             <button type="button" name="update" onClick={handleUpdateTask}>
               Update Task
             </button>
@@ -97,12 +107,12 @@ class SingleTaskExpanded extends React.Component {
             </button>
           </div>
         </div>
-        <div className="rightPanel">
-          <div className="label"></div>
-          <div className="members"></div>
-          <div className="attachFile"></div>
-          <div className="projectDate"></div>
-          <div className="taskChecklist"></div>
+        <div className={styles.rightPanel}>
+          <div className={styles.label}></div>
+          <div className={styles.members}></div>
+          <div className={styles.attachFile}></div>
+          <div className={styles.projectDate}></div>
+          <div className={styles.taskChecklist}></div>
         </div>
       </div>
     )

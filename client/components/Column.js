@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import TaskCard from './TaskCard'
 import ColumnDropDown from './ColumnDropDown'
 
-import {fetchAllTasks} from '../store/task'
+import {fetchAllTasks} from '../store/tasks'
 
 import styles from './Column.css'
 const fakeDb = [

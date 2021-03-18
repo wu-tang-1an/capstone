@@ -37,11 +37,20 @@ const getModal = (type) => {
   }
 }
 
+import styles from './TaskModal.css'
 const TaskModal = (props) => {
   const {type, clearActiveField} = props
 
   return (
-    <div className="taskModalContainer">{getModal(type)(clearActiveField)}</div>
+    <div className="taskModalContainer">
+      <div className="modalTitleAndCloseBtn">
+        <div className="modalTitle"></div>
+        <div className="closeModalBtn">
+          <span className="material-icons">close</span>
+        </div>
+      </div>
+      <div className="modalContent">{getModal(type)(clearActiveField)}</div>
+    </div>
   )
 }
 
