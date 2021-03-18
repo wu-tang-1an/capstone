@@ -1,5 +1,5 @@
 import React from 'react'
-import TaskCard from './SingleTaskExpanded'
+import TaskCard from './TaskCard'
 import ColumnDropDown from './ColumnDropDown'
 
 import styles from './Column.css'

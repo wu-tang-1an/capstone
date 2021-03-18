@@ -42,7 +42,7 @@ class TaskCard extends React.Component {
         >
           <span className="material-icons">more_horiz</span>
           {isActive && <TaskCardDropDown taskId={id} />}
-          <img src={user.imageUrl} />
+          {/* <img src={user.imageUrl} /> */}
         </div>
       </div>
     )
