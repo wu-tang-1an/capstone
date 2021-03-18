@@ -17,6 +17,11 @@ async function checkUser(req, res, next) {
         message: 'Access Denied',
       })
     }
+  } else if (
+    process.env.NODE_ENV === 'test' &&
+    req.headers['user-agent'].indexOf('superagent')
+  ) {
+    next()
   } else {
     // this block runs when nobody is logged in
     res.status(403).json({
@@ -40,7 +45,7 @@ router.get('/', checkUser, async (req, res, next) => {
 
 router.get('/:userId', async (req, res, next) => {
   try {
-    const userId = req.params.id
+    const {userId} = req.params
     const user = await User.findByPk(userId)
 
     //if user doesn't exist
@@ -58,10 +63,10 @@ router.get('/:userId', async (req, res, next) => {
 //get a user's tasks
 router.get('/:userId/tasks', async (req, res, next) => {
   try {
-    let userId = req.params.userId
+    const {userId} = req.params
     console.log('this is the user id ', userId)
     const UserFound = await User.findByPk(userId)
-    let tasks = await UserFound.getTasks()
+    const tasks = await UserFound.getTasks()
     res.json(tasks)
   } catch (e) {
     console.log(e)

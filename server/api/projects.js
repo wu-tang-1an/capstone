@@ -3,9 +3,9 @@ const {Project} = require('../db/models')
 module.exports = router
 
 // GET all projects route '/api/projects'
-router.get('/', (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try {
-    const projects = Project.findAll()
+    const projects = await Project.findAll()
     res.json(projects)
   } catch (error) {
     next(error)
@@ -45,9 +45,13 @@ router.put('/:projectId', async (req, res, next) => {
     const data = req.body
     const {projectId} = req.params
 
-    await Project.update({...data}, {where: {id: projectId}})
+    const [updatedRows, updatedProject] = await Project.update(data, {
+      plain: true,
+      returning: true,
+      where: {id: projectId},
+    }) // returns array: [updatedRows, {updatedProject}]
 
-    res.json(data)
+    res.json(updatedProject)
   } catch (error) {
     next(error)
   }
