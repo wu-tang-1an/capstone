@@ -15,7 +15,7 @@ router.get('/', async (req, res, next) => {
 })
 
 //get tasks for a single user
-router.get('/task-user/:userId', async (req, res, next) => {
+router.get('/:userId/tasks', async (req, res, next) => {
   try {
     const userId = req.params.userId
 
@@ -31,7 +31,7 @@ router.get('/task-user/:userId', async (req, res, next) => {
 //assign a task to user if it exists already
 // you need the project id, userId that is being assigned to
 
-router.put('/task-user/:userId', async (req, res, next) => {
+router.put('/:userId/tasks', async (req, res, next) => {
   try {
     const userId = req.params.userId
     const taskId = req.body.taskId
