@@ -5,6 +5,7 @@ import moment from 'moment'
 
 const Comment = (props) => {
   const {comment} = props
+
   return (
     <div className="commentContainer">
       <div className="nameAndAvatar">
