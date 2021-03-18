@@ -3,9 +3,9 @@ const {Column} = require('../db/models')
 module.exports = router
 
 // GET all columns route '/api/columns'
-router.get('/', (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try {
-    const columns = Column.findAll()
+    const columns = await Column.findAll()
     res.json(columns)
   } catch (error) {
     next(error)
@@ -45,9 +45,13 @@ router.put('/:columnId', async (req, res, next) => {
     const data = req.body
     const {columnId} = req.params
 
-    await Column.update({...data}, {where: {id: columnId}})
+    const [updatedRows, updatedColumn] = await Column.update(data, {
+      plain: true,
+      returning: true,
+      where: {id: columnId},
+    })
 
-    res.json(data)
+    res.json(updatedColumn)
   } catch (error) {
     next(error)
   }

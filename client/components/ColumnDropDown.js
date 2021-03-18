@@ -12,7 +12,7 @@ const ColumnDropDown = (props) => {
   return (
     <div className="columnDropDownContainer">
       {fields.map((field) => (
-        // onClick, reveal a modal for each field
+        // onClick, reveal a dropdown with clickable links for each field
         <div key={field.id} className="dropDownField">
           {field.content}
         </div>

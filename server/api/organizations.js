@@ -14,7 +14,7 @@ router.get('/', async (req, res, next) => {
 
 // get the users in the org
 router.get('/:orgId/users', async (req, res, next) => {
-  let orgId = req.params.id
+  const {orgId} = req.params
 
   try {
     //test route
