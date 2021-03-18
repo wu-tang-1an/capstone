@@ -12,6 +12,11 @@ const fakeDb = [
     description:
       '[] write a homepage\n[] connect to backend oauth routes\n[] write oauth tests',
     status: 'in-progress',
+    user: {
+      id: 1,
+      name: 'Albert',
+      imageUrl: 'https://i.imgur.com/ZoKHJRz.jpg',
+    },
   },
   {
     id: 2,
@@ -20,6 +25,11 @@ const fakeDb = [
     createdAt: String(Date.now() - 4),
     description: '### Markdown\n## is\n#cool!',
     status: 'todo',
+    user: {
+      id: 2,
+      name: 'Sam',
+      imageUrl: 'https://i.imgur.com/TUsXHrj.jpg',
+    },
   },
   {
     id: 3,
@@ -29,6 +39,11 @@ const fakeDb = [
     description:
       '<div><div style="color: red;">some red text (hopefully)</div></div>',
     status: 'done',
+    user: {
+      id: 3,
+      name: 'Felix',
+      imageUrl: 'https://i.imgur.com/7nMCKHE.jpg',
+    },
   },
 ]
 
