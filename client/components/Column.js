@@ -1,5 +1,4 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
 import TaskCard from './SingleTaskExpanded'
 import ColumnDropDown from './ColumnDropDown'
 
@@ -9,6 +8,7 @@ const fakeDb = [
     id: 1,
     name: 'create homepage',
     createdBy: 'Albert',
+    createdAt: String(Date.now() - 2),
     description:
       '[] write a homepage\n[] connect to backend oauth routes\n[] write oauth tests',
     status: 'in-progress',
@@ -17,6 +17,7 @@ const fakeDb = [
     id: 2,
     name: 'create navbar',
     createdBy: 'Sam',
+    createdAt: String(Date.now() - 4),
     description: '### Markdown\n## is\n#cool!',
     status: 'todo',
   },
@@ -24,6 +25,7 @@ const fakeDb = [
     id: 3,
     name: 'create footer',
     createdBy: 'Felix',
+    createdAt: String(Date.now() - 5),
     description:
       '<div><div style="color: red;">some red text (hopefully)</div></div>',
     status: 'done',

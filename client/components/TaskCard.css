@@ -1,4 +1,10 @@
 /* ---- TaskCard ---- */
 
 .taskCardContainer {
+  display: flex;
+}
+
+.titleAndCreator {
+  display: flex;
+  flex-direction: column;
 }

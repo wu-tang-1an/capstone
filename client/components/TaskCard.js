@@ -1,5 +1,6 @@
 import React from 'react'
 import TaskCardDropDown from './TaskCardDropDown'
+import moment from 'moment'
 
 import styles from './TaskCard.css'
 class TaskCard extends React.Component {
@@ -28,9 +29,9 @@ class TaskCard extends React.Component {
     const {isActive} = this.state
     return (
       <div className={styles.taskCardContainer}>
-        <div className={styles.issueIcon}></div>
+        <div className="material-icons">error_outline</div>
         <div className={styles.titleAndCreator}>
-          <div className={styles.title}></div>
+          <div className={styles.title}>{name}</div>
           <div
             className={styles.idAndCreatedBy}
           >{`#${id} opened by ${name}`}</div>
