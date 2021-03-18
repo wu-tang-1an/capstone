@@ -35,10 +35,15 @@ class SingleTaskExpanded extends React.Component {
     this.state = {
       name: '',
       issueType: '',
-      description: '### markdown is cool!',
+      description: `
+        [Marked] - Markdown Parser
+        ==========================
+        [Marked] lets you convert stuff
+        `,
       collaborators: [],
       activeMarkdownEditor: false,
     }
+    this.handleChange = this.handleChange.bind(this)
   }
 
   componentDidMount() {
