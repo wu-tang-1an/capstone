@@ -1,4 +1,4 @@
-/* header {
+.navbarContainer {
   display: flex;
   position: flex;
   margin: 0 4em;
@@ -9,48 +9,48 @@
   border-radius: 0 0 1em 1em;
   z-index: 2;
 }
-header .heading {
+.heading {
   flex-grow: 1;
   padding-top: 0.25em;
 }
-header nav {
+.headerNav {
   display: flex;
 }
 
-.nav-item {
+.navItem {
   height: 1.5em;
   margin: 0 1.5em 0 0;
 }
 
-.nav-item a {
+.navItem a {
   font-size: 1.3em;
   color: #fff;
   text-decoration: none;
   padding: 5px;
 }
 
-.nav-item a:hover {
+.navItem a:hover {
   color: #202b47;
   border-radius: 5px;
   background-color: #fff;
   box-shadow: #d3d3d3;
 }
 
-.nav-item-login {
+.navItemLogin {
   height: 1.5em;
   margin: 0 1.5em 0 0;
 }
 
-.nav-item-login a {
+.navItemLogin a {
   font-size: 1.3em;
   color: #fff;
   text-decoration: none;
   padding: 5px;
 }
 
-.nav-item-login a:hover {
+.navItemLogin a:hover {
   color: #202b47;
   border-radius: 5px;
   background-color: black;
   box-shadow: #d3d3d3;
-} */
+}

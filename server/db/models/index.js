@@ -4,6 +4,8 @@ const Sequelize = require('sequelize')
 const User = require('./user')
 const Task = require('./task')
 const Organization = require('./organization')
+const Column = require('./column')
+const Project = require('./project')
 
 const UserOrganization = db.define('user_organization', {
   role: {
@@ -19,6 +21,13 @@ const UserTask = db.define('user_task', {
   },
 })
 
+/**
+ * If we had any associations to make, this would be a great place to put them!
+ * ex. if we had another model called BlogPost, we might say:
+ *
+ *    BlogPost.belongsTo(User)
+ */
+
 //user and org association
 User.belongsToMany(Organization, {through: UserOrganization})
 Organization.belongsToMany(User, {through: UserOrganization})
@@ -27,18 +36,14 @@ Organization.belongsToMany(User, {through: UserOrganization})
 Task.belongsToMany(User, {through: UserTask})
 User.belongsToMany(Task, {through: UserTask})
 
-/**
- * If we had any associations to make, this would be a great place to put them!
- * ex. if we had another model called BlogPost, we might say:
- *
- *    BlogPost.belongsTo(User)
- */
+Project.belongsTo(Organization)
+Organization.hasMany(Project)
 
-User.belongsToMany(Organization, {through: UserOrganization})
-Organization.belongsToMany(User, {through: UserOrganization})
+Task.belongsTo(Column)
+Column.hasMany(Task)
 
-Task.belongsToMany(User, {through: UserTask})
-User.belongsToMany(Task, {through: UserTask})
+Column.belongsTo(Project)
+Project.hasMany(Column)
 
 /**
  * We'll export all of our models here, so that any time a module needs a model,
@@ -50,6 +55,8 @@ module.exports = {
   Organization,
   Task,
   User,
+  Column,
+  Project,
   UserOrganization,
   UserTask,
 }

@@ -3,31 +3,34 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {logout} from '../store'
+import styles from './navbar.css'
 
 const Navbar = ({handleClick, isLoggedIn}) => (
-  <div>
-    <h1 className="heading">BOILERMAKER</h1>
-    <nav>
-      {isLoggedIn ? (
-        <div className="nav-item-login">
-          {/* The navbar will show these links after you log in */}
-          <Link to="/home">Home</Link>
-          <Link to="/updateUser">Update Profile</Link>
-          <a href="#" onClick={handleClick}>
-            Logout
-          </a>
-        </div>
-      ) : (
-        <div className="nav-item">
-          {/* The navbar will show these links before you log in */}
-          <Link to="/">Home</Link>
-          <Link to="/login">Login</Link>
-          <Link to="/signup">Sign Up</Link>
-        </div>
-      )}
-    </nav>
-    <hr />
-  </div>
+  <header className={styles.navbarContainer}>
+    <div>
+      <h1 className={styles.heading}>BOILERMAKER</h1>
+      <nav className={styles.headerNav}>
+        {isLoggedIn ? (
+          <div className={styles.navItemLogin}>
+            {/* The navbar will show these links after you log in */}
+            <Link to="/home">Home</Link>
+            <Link to="/updateUser">Update Profile</Link>
+            <a href="#" onClick={handleClick}>
+              Logout
+            </a>
+          </div>
+        ) : (
+          <div className={styles.navItem}>
+            {/* The navbar will show these links before you log in */}
+            <Link to="/">Home</Link>
+            <Link to="/login">Login</Link>
+            <Link to="/signup">Sign Up</Link>
+          </div>
+        )}
+      </nav>
+      <hr />
+    </div>
+  </header>
 )
 
 /**
