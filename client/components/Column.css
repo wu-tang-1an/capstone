@@ -1,0 +1,48 @@
+/* ---- Column ---- */
+
+.columnContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 320px;
+  margin: 0 0.3em;
+  height: 100vh;
+  background-color: lightgrey;
+  padding: 0.5em;
+}
+
+.badgeTitleDotMenu {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.3em;
+}
+
+.badgeAndTitle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 75%;
+}
+
+.columnBadge {
+  font-size: 18px;
+  padding: 0.3em;
+  background-color: #fff;
+  border-radius: 5px;
+  margin-right: 0.5em;
+}
+
+.newTaskAndMoreOpts {
+  display: inline-flex;
+  width: 25%;
+  align-items: center;
+  justify-content: right;
+  margin-right: 0.3em;
+}
+
+.newTaskAndMoreOpts *:hover {
+  cursor: pointer;
+}
