@@ -45,9 +45,13 @@ router.put('/:columnId', async (req, res, next) => {
     const data = req.body
     const {columnId} = req.params
 
-    await Column.update({...data}, {where: {id: columnId}})
+    const [updatedRows, updatedColumn] = await Column.update(data, {
+      plain: true,
+      returning: true,
+      where: {id: columnId},
+    })
 
-    res.json(data)
+    res.json(updatedColumn)
   } catch (error) {
     next(error)
   }
