@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom'
 import TaskCard from './SingleTaskExpanded'
 import ColumnDropDown from './ColumnDropDown'
 
+import styles from './Column.css'
 const fakeDb = [
   {
     id: 1,
@@ -43,19 +44,21 @@ class Column extends React.Component {
   render() {
     const {isActive} = this.state
     const {handleDelete} = this
+    const {name} = this.props.column || ''
     // const {tasks} = props
 
     // fakeDb: remove when connected to real db
     const tasks = fakeDb
 
     return (
-      <div className="columnContainer">
-        <div className="badgeTitleDotMenu">
-          <div className="inlineFlexContainer">
-            <span className="columnBadge">{tasks.length}</span>
-            <span className="columnTitle"></span>
+      <div className={styles.columnContainer}>
+        <div className={styles.badgeTitleDotMenu}>
+          <div className={styles.inlineFlexContainer}>
+            <span className={styles.columnBadge}>{tasks.length}</span>
+            <span className={styles.columnTitle}>{name}</span>
           </div>
-          <div className="inlineFlexContainer">
+          <div className={styles.inlineFlexContainer}>
+            {/* material-icons is delivered from index.html with every route -- we can simply use "material-icons" className whenever we want to render an icon */}
             <span className="material-icons">add</span>
             <span
               className="material-icons"
@@ -66,7 +69,7 @@ class Column extends React.Component {
           </div>
           {isActive && <ColumnDropDown handleDelete={handleDelete} />}
         </div>
-        <div className="cardContainer">
+        <div className={styles.cardContainer}>
           {tasks.map((task) => (
             <Link to={`/tasks/${task.id}`} key={task.id}>
               <TaskCard task={task} />

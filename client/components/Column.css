@@ -1,0 +1,31 @@
+/* ---- Column ---- */
+
+.columnContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+  justify-content: flex-start;
+  width: min-content;
+  height: 100vh;
+  background-color: lightgrey;
+}
+
+.badgeTitleDotMenu {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.3em;
+}
+
+.inlineFlexContainer {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.columnBadge {
+  font-size: 18px;
+  padding: 0.3em;
+  background-color: #fff;
+  border-radius: 5px;
+}

@@ -1,6 +1,7 @@
 import React from 'react'
 import TaskCardDropDown from './TaskCardDropDown'
 
+import styles from './TaskCard.css'
 class TaskCard extends React.Component {
   constructor(props) {
     super(props)
@@ -26,14 +27,16 @@ class TaskCard extends React.Component {
     } = this.props
     const {isActive} = this.state
     return (
-      <div className="taskCardContainer">
-        <div className="issueIcon"></div>
-        <div className="titleAndCreator">
-          <div className="title"></div>
-          <div className="idAndCreatedBy">{`#${id} opened by ${name}`}</div>
+      <div className={styles.taskCardContainer}>
+        <div className={styles.issueIcon}></div>
+        <div className={styles.titleAndCreator}>
+          <div className={styles.title}></div>
+          <div
+            className={styles.idAndCreatedBy}
+          >{`#${id} opened by ${name}`}</div>
         </div>
         <div
-          className="dotMenuAndAvatar"
+          className={styles.dotMenuAndAvatar}
           onClick={() => this.setState({isActive: !isActive})}
         >
           <span className="material-icons">more_horiz</span>
