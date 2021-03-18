@@ -68,7 +68,7 @@ class SingleTaskExpanded extends React.Component {
 
     const {handleUpdateTask, handleDeleteTask} = this
     return (
-      <div className="taskCardContainer">
+      <div className="singleTaskContainer">
         <div className="leftPanel">
           <div className="nameAndIssue">
             <span className="taskName">{name}</span>

@@ -1,6 +1,7 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 import TaskCard from './SingleTaskExpanded'
+import ColumnDropDown from './ColumnDropDown'
 
 const fakeDb = [
   {
@@ -36,9 +37,16 @@ const Column = (props) => {
 
   return (
     <div className="columnContainer">
-      <div className="titleAndDotMenu">
-        <span className="columnTitle"></span>
-        <span className="material-icons">more_horiz</span>
+      <div className="badgeTitleDotMenu">
+        <div className="inlineFlexContainer">
+          <span className="columnBadge">{tasks.length}</span>
+          <span className="columnTitle"></span>
+        </div>
+        <div className="inlineFlexContainer">
+          <span className="material-icons">add</span>
+          <span className="material-icons">more_horiz</span>
+        </div>
+        <ColumnDropDown />
       </div>
       <div className="cardContainer">
         {tasks.map((task) => (
