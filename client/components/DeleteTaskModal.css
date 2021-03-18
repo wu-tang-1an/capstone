@@ -1,4 +1,51 @@
 /* ---- TaskModal ---- */
 
 .taskModalContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  opacity: 0.5;
+}
+
+.centeredModalblock {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5em;
+  border: 2px solid blue;
+  z-index: 2;
+}
+
+.modalTitleAndCloseBtn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modalContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.deleteMessage {
+  width: 80%;
+  line-height: 1.6em;
+  font-size: 22px;
+}
+
+.modalBtnsContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0.5em;
+}
+
+.modalBtnsContainer button {
+  margin: 0.3em;
+  padding: 0.5em;
 }

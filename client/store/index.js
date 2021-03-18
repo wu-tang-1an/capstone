@@ -5,12 +5,13 @@ import {composeWithDevTools} from 'redux-devtools-extension'
 import singleUser from './singleUser'
 import tasks from './tasks'
 import singleTask from './singleTask'
-import usersReducer from './users'
+import users from './users'
 
 const reducer = combineReducers({
-  user,
-  task,
+  singleUser,
+  users,
   singleTask,
+  tasks,
 })
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
