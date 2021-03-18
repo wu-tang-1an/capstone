@@ -25,7 +25,7 @@ const fakeDb = [
     name: 'create footer',
     createdBy: 'Felix',
     description:
-      '<div><span style="color: red;">some red text (hopefully)</span></div>',
+      '<div><div style="color: red;">some red text (hopefully)</div></div>',
     status: 'done',
   },
 ]
@@ -53,27 +53,25 @@ class Column extends React.Component {
     return (
       <div className={styles.columnContainer}>
         <div className={styles.badgeTitleDotMenu}>
-          <div className={styles.inlineFlexContainer}>
-            <span className={styles.columnBadge}>{tasks.length}</span>
-            <span className={styles.columnTitle}>{name}</span>
+          <div className={styles.badgeAndTitle}>
+            <div className={styles.columnBadge}>{tasks.length}</div>
+            <div className={styles.columnTitle}>{name}</div>
           </div>
-          <div className={styles.inlineFlexContainer}>
+          <div className={styles.newTaskAndMoreOpts}>
             {/* material-icons is delivered from index.html with every route -- we can simply use "material-icons" className whenever we want to render an icon */}
-            <span className="material-icons">add</span>
-            <span
+            <div className="material-icons">add</div>
+            <div
               className="material-icons"
               onClick={() => this.setState({isActive: !isActive})}
             >
               more_horiz
-            </span>
+            </div>
           </div>
           {isActive && <ColumnDropDown handleDelete={handleDelete} />}
         </div>
         <div className={styles.cardContainer}>
           {tasks.map((task) => (
-            <Link to={`/tasks/${task.id}`} key={task.id}>
-              <TaskCard task={task} />
-            </Link>
+            <TaskCard key={task.id} task={task} />
           ))}
         </div>
       </div>

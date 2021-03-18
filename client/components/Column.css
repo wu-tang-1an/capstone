@@ -12,15 +12,17 @@
 
 .badgeTitleDotMenu {
   display: flex;
+  width: 100%;
   align-items: center;
   justify-content: space-between;
   padding: 0.3em;
 }
 
-.inlineFlexContainer {
+.badgeAndTitle {
   display: inline-flex;
   align-items: center;
   justify-content: flex-start;
+  width: 75%;
 }
 
 .columnBadge {
@@ -28,4 +30,17 @@
   padding: 0.3em;
   background-color: #fff;
   border-radius: 5px;
+  margin-right: 0.5em;
+}
+
+.newTaskAndMoreOpts {
+  display: inline-flex;
+  width: 25%;
+  align-items: center;
+  justify-content: right;
+  margin-right: 0.3em;
+}
+
+.newTaskAndMoreOpts *:hover {
+  cursor: pointer;
 }
