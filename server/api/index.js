@@ -3,7 +3,7 @@ module.exports = router
 
 router.use('/users', require('./users'))
 router.use('/tasks', require('./tasks'))
-router.use('/organization', require('./organization'))
+router.use('/organizations', require('./organizations'))
 router.use('/columns', require('./columns'))
 router.use('/projects', require('./projects'))
 
