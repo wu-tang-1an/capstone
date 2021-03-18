@@ -1,6 +1,6 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
-import TaskModal from './TaskModal'
+import DeleteTaskModal from './DeleteTaskModal'
 
 // fields are actions that user can take from dropdown menu
 const fields = [
@@ -15,20 +15,26 @@ class TaskCardDropDown extends React.Component {
     this.state = {
       activeField: '',
     }
-    this.clearActiveField = this.clearActiveField.bind(this)
+    this.handleCloseModal = this.handleCloseModal.bind(this)
   }
 
   // clear active field closes an open task modal by resetting active field to a falsey value
-  clearActiveField() {
+  handleCloseModal() {
     this.setState({
       activeField: '',
+    })
+  }
+
+  handleOpenModal(taskType) {
+    this.setState({
+      activeField: taskType,
     })
   }
 
   render() {
     const {taskId} = this.props || 0
     const {activeField} = this.state
-    const {clearActiveField} = this
+    const {handleCloseModal, handleOpenModal} = this
 
     return (
       <div className="taskCardDropDownContainer">
@@ -45,12 +51,17 @@ class TaskCardDropDown extends React.Component {
               {field.type === 'Edit' ? (
                 <Link to={`/tasks/${taskId}`}>{field.type}</Link>
               ) : (
-                field.type
+                <div onClick={() => handleOpenModal(field.type)}>
+                  {field.type}
+                </div>
               )}
             </div>
           ))}
-        {activeField && (
-          <TaskModal type={activeField} clearActiveField={clearActiveField} />
+        {activeField === 'Delete' && (
+          <DeleteTaskModal
+            handleCloseModal={handleCloseModal}
+            taskId={taskId}
+          />
         )}
       </div>
     )

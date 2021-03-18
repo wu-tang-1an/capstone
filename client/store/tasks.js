@@ -2,6 +2,7 @@ import axios from 'axios'
 
 const GET_ALL_TASKS = 'GET_ALL_TASKS'
 const UPDATE_TASK = 'UPDATE_TASK'
+const DELETE_TASK = 'DELETE_TASK'
 
 const getAllTasks = (tasks) => ({
   type: GET_ALL_TASKS,
@@ -10,6 +11,10 @@ const getAllTasks = (tasks) => ({
 const updateTask = (task) => ({
   type: UPDATE_TASK,
   task,
+})
+const deleteTask = (taskId) => ({
+  type: DELETE_TASK,
+  taskId,
 })
 
 export const fetchAllTasks = () => {
@@ -32,6 +37,16 @@ export const fetchUpdateTask = (task) => {
     }
   }
 }
+export const fetchDeleteTask = (taskId) => {
+  return async (dispatch) => {
+    try {
+      await axios.delete(`/api/tasks/${taskId}`)
+      dispatch(deleteTask(taskId))
+    } catch (err) {
+      console.error(err)
+    }
+  }
+}
 
 const initState = []
 
@@ -45,6 +60,8 @@ export default (state = initState, action) => {
       return state.map((task) => {
         return task.id === action.task.id ? action.task.id : task
       })
+    case DELETE_TASK:
+      return state.filter((task) => task.id !== action.taskId)
     default:
       return state
   }
