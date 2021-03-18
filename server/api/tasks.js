@@ -50,7 +50,7 @@ router.put('/task-user/:userId', async (req, res, next) => {
 //create a task and assigned it to a user
 // along with their project
 // you will need userId, ProjectId,
-router.post('/task-user/:userId', async (req, res, next) => {
+router.post('/:userId/tasks', async (req, res, next) => {
   try {
     const userId = req.params.userId
 
