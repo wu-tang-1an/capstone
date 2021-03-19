@@ -60,6 +60,19 @@ router.get('/:userId', async (req, res, next) => {
   }
 })
 
+router.get('/:userId/orgs', async (req, res, next) => {
+  try {
+    const {userId} = req.params
+    console.log('this is the user id ', userId)
+    const UserFound = await User.findByPk(userId)
+    const orgs = await UserFound.getOrganizations()
+    res.json(orgs)
+  } catch (e) {
+    console.log(e)
+    next(e)
+  }
+})
+
 //get a user's tasks
 router.get('/:userId/tasks', async (req, res, next) => {
   try {
@@ -80,7 +93,7 @@ router.put('/addorg', async (req, res, next) => {
     //test route
     const UserFound = await User.findOne({
       where: {
-        id: 2,
+        id: req.body.userId,
       },
     })
 

@@ -2,7 +2,13 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {Login, Signup, ProjectView, SingleTaskExpanded} from './components'
+import {
+  Login,
+  Signup,
+  ProjectView,
+  SingleTaskExpanded,
+  AllOrgs,
+} from './components'
 import {me} from './store'
 
 class Routes extends Component {
@@ -25,6 +31,7 @@ class Routes extends Component {
           <Switch>
             {/* Routes placed here are only available after logging in */}
             <Route path="/home" component={ProjectView} />
+            <Route exact path="/organizations" component={AllOrgs} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}

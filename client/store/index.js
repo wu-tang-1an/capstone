@@ -9,6 +9,7 @@ import users from './users'
 import singleTask from './singleTask'
 import tasks from './tasks'
 import columns from './columns'
+import organizations from './organizations'
 
 const reducer = combineReducers({
   singleUser,
@@ -16,6 +17,7 @@ const reducer = combineReducers({
   singleTask,
   tasks,
   columns,
+  organizations,
 })
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))

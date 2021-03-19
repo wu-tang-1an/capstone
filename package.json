@@ -71,7 +71,6 @@
     "redux": "^4.0.1",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
-    "rsuite": "^4.9.3",
     "sequelize": "^5.22.4",
     "socket.io": "^2.4.1",
     "styled-components": "^5.2.1"

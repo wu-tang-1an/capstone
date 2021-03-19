@@ -9,6 +9,8 @@ async function seed() {
 
   const Fullstack = await Organization.create({
     name: 'Fullstack',
+    imageUrl:
+      'https://q3p9g6n2.rocketcdn.me/wp-content/ml-loads/2019/08/shutterstock_1283238880-800x450.jpg',
   })
 
   const Johnny = await User.create({
