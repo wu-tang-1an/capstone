@@ -38,13 +38,13 @@ class TaskCard extends React.Component {
             className={styles.idAndCreatedBy}
           >{`#${id} opened by ${user.name}`}</div>
         </div>
-        <div
-          className={styles.dotMenuAndAvatar}
-          onClick={() => {
-            if (!isActive) this.setState({isActive: !isActive})
-          }}
-        >
-          <span className="material-icons">more_horiz</span>
+        <div className={styles.dotMenuAndAvatar}>
+          <span
+            className="material-icons"
+            onClick={() => this.setState({isActive: !isActive})}
+          >
+            more_horiz
+          </span>
           {isActive && <TaskCardDropDown taskId={id} />}
           <img src={user.imageUrl} />
         </div>
