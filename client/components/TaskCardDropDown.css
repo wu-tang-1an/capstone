@@ -1,0 +1,22 @@
+.taskCardDropDownContainer {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  right: -50%;
+  width: 50%;
+  justify-content: space-between;
+  background-color: white;
+}
+
+.fieldContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dropDownField {
+  height: min-content;
+  width: 100%;
+  padding: 0.5em;
+  border-bottom: 1px solid lightgrey;
+}

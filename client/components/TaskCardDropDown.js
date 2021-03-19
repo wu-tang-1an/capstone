@@ -10,6 +10,7 @@ const fields = [
   // more fields as necessary
 ]
 
+import styles from './TaskCardDropDown.css'
 class TaskCardDropDown extends React.Component {
   constructor(props) {
     super(props)
@@ -39,22 +40,29 @@ class TaskCardDropDown extends React.Component {
     const {handleCloseModal, handleOpenModal} = this
 
     return (
-      <div className="taskCardDropDownContainer">
+      <div className={styles.taskCardDropDownContainer}>
         {/* keep things extensible here by mapping over a fields array and sending the type of field to the TaskModal, which will render with content according to activeField */}
         {fields.map((field) => (
           <div
             key={field.id}
-            className="dropDownField"
+            className={styles.dropDownField}
             onClick={() => {
               this.setState({activeField: field.type})
             }}
           >
             {field.type === 'Edit' ? (
-              <Link to={`/tasks/${taskId}`}>{field.type}</Link>
+              <div className={styles.fieldContainer}>
+                <Link to="/tasks/">{field.type}</Link>
+                <span className="material-icons">keyboard_arrow_right</span>
+                <div className={styles.cssTriangle}></div>
+              </div>
             ) : field.type === 'Delete' ? (
-              <a onClick={() => handleOpenModal(field.type)} href="#">
-                {field.type}
-              </a>
+              <div className={styles.fieldContainer}>
+                <a onClick={() => handleOpenModal(field.type)} href="#">
+                  {field.type}
+                </a>
+                <span className="material-icons">keyboard_arrow_right</span>
+              </div>
             ) : null}
           </div>
         ))}

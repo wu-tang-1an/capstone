@@ -28,25 +28,27 @@ class TaskCard extends React.Component {
     } = this.props.task
     const {isActive} = this.state
     return (
-      <div className={styles.taskCardContainer}>
-        <div className="material-icons">error_outline</div>
-        <div className={styles.titleAndCreator}>
-          <Link to={`/tasks/${id}`}>
-            <div className={styles.title}>{name}</div>
-          </Link>
-          <div
-            className={styles.idAndCreatedBy}
-          >{`#${id} opened by ${user.name}`}</div>
-        </div>
-        <div className={styles.dotMenuAndAvatar}>
-          <span
-            className="material-icons"
-            onClick={() => this.setState({isActive: !isActive})}
-          >
-            more_horiz
-          </span>
-          {isActive && <TaskCardDropDown taskId={id} />}
-          <img src={user.imageUrl} />
+      <div>
+        {isActive && <TaskCardDropDown taskId={id} />}
+        <div className={styles.taskCardContainer}>
+          <div className="material-icons">error_outline</div>
+          <div className={styles.titleAndCreator}>
+            <Link to="/tasks/">
+              <div className={styles.title}>{name}</div>
+            </Link>
+            <div
+              className={styles.idAndCreatedBy}
+            >{`# opened by ${user.name}`}</div>
+          </div>
+          <div className={styles.dotMenuAndAvatar}>
+            <span
+              className="material-icons"
+              onClick={() => this.setState({isActive: !isActive})}
+            >
+              more_horiz
+            </span>
+            <img src={user.imageUrl} />
+          </div>
         </div>
       </div>
     )
