@@ -7,9 +7,9 @@ const app = require('../index')
 const User = db.model('user')
 const Task = db.model('task')
 
-const superuser = request.agent(app)
+// const superuser = request.agent(app)
 
-describe('User routes', () => {
+describe.only('User routes', () => {
   beforeEach(() => {
     return db.sync({force: true})
   })
@@ -28,7 +28,7 @@ describe('User routes', () => {
 
     it('GET /api/users', async () => {
       try {
-        await superuser
+        await request(app)
           .get('/api/users')
           .expect(200)
           .then((res) => {
@@ -123,7 +123,7 @@ describe('User routes', () => {
           .expect(200)
           .then((res) => {
             expect(res.body).to.be.an('object')
-            expect(res.body.name).to.be.equal('Doric')
+            expect(res.body.firstName).to.be.equal('Doric')
           })
       } catch (error) {
         console.log(error)
@@ -131,13 +131,13 @@ describe('User routes', () => {
       }
     })
 
-    /* it('DELETE /api/users/:userId', async () => {
+    it('DELETE /api/users/:userId', async () => {
       try {
         await request(app).delete('/api/users/1').expect(204)
       } catch (error) {
         console.log(error)
         throw error
       }
-    }) */
+    })
   })
 })
