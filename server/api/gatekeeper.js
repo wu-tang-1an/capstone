@@ -13,7 +13,7 @@ async function checkUser(req, res, next) {
     } else {
       // if logged-in user is NOT in user db
       res.status(403).json({
-        message: 'Access Denied',
+        message: 'Forbidden',
       })
     }
   } else if (
@@ -23,8 +23,8 @@ async function checkUser(req, res, next) {
     next()
   } else {
     // this block runs when nobody is logged in
-    res.status(403).json({
-      message: 'Access Denied',
+    res.status(401).json({
+      message: 'Unauthorized',
     })
   }
 }
@@ -42,7 +42,7 @@ async function checkAdmin(req, res, next) {
     } else {
       // if logged-in user is NOT in user db / NOT an admin
       res.status(403).json({
-        message: 'Access Denied',
+        message: 'Forbidden',
       })
     }
   } else if (
@@ -52,8 +52,8 @@ async function checkAdmin(req, res, next) {
     next()
   } else {
     // this block runs when nobody is logged in
-    res.status(403).json({
-      message: 'Access Denied',
+    res.status(401).json({
+      message: 'Unauthorized',
     })
   }
 }
