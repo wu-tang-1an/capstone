@@ -115,7 +115,7 @@ describe('User routes', () => {
       }
     })
 
-    /* it('PUT /api/users/:userId', async () => {
+    it('PUT /api/users/:userId', async () => {
       try {
         await request(app)
           .put('/api/users/1')
@@ -129,7 +129,7 @@ describe('User routes', () => {
         console.log(error)
         throw error
       }
-    }) */
+    })
 
     /* it('DELETE /api/users/:userId', async () => {
       try {
