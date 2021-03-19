@@ -5,13 +5,16 @@ import {DndProvider} from 'react-dnd'
 
 // fetch relevant data to all subviews in this component
 
-const ProjectView = (props) => {
+const ProjectView = () => {
   return (
     // topLevelViewContainer should be used for all
     // top-level view components
-    <DndProvider className="topLevelViewContainer" backend={HTML5Backend}>
+    // <DndProvider className="topLevelViewContainer" backend={HTML5Backend}>
+    //   <Board />
+    // </DndProvider>
+    <div className="topLevelViewContainer">
       <Board />
-    </DndProvider>
+    </div>
   )
 }
 
