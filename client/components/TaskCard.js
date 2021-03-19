@@ -1,6 +1,11 @@
 import React, {useState} from 'react'
-import {Link} from 'react-router-dom'
 import TaskCardDropDown from './TaskCardDropDown'
+
+const onDragStart = (e, task) => {
+  e.preventDefault()
+  console.log('dragging task: ', task)
+  e.dataTransfer.setData('text/plain', JSON.stringify(task))
+}
 
 import styles from './TaskCard.css'
 const TaskCard = (props) => {
@@ -9,7 +14,7 @@ const TaskCard = (props) => {
   const {id, name, createdBy, createdAt, description, status, user} = props.task
 
   return (
-    <div draggable={true}>
+    <div draggable={true} onDragStart={(e) => onDragStart(e, props.task)}>
       {isActive && <TaskCardDropDown taskId={id} />}
       <div className={styles.taskCardContainer}>
         <div className="material-icons">error_outline</div>

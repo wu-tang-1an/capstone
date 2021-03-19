@@ -2,9 +2,8 @@ import React, {useState} from 'react'
 import {connect} from 'react-redux'
 import TaskCard from './TaskCard'
 import ColumnDropDown from './ColumnDropDown'
-import {fetchAllTasks} from '../store/tasks'
+import {fetchAllTasks, fetchUpdateTask} from '../store/tasks'
 import AddButton from './AddButton'
-import {ItemTypes} from './DragConstants'
 
 const fakeDb = [
   {
@@ -50,13 +49,32 @@ const fakeDb = [
   },
 ]
 
-const moveTaskCard = (columnName) => {}
-
 import styles from './Column.css'
 const Column = (props) => {
   const [isActive, setActive] = useState(false)
 
-  const {name} = props.column || ''
+  const onDragOver = (e) => {
+    e.preventDefault()
+  }
+
+  const onDrop = (e, columnId) => {
+    // thunk that will reassign our task to a new column
+    const {updateTask} = props
+
+    // parse task from data transfer
+    const task = JSON.parse(e.dataTransfer.getData('text/plain'))
+
+    // write new columnId to updateInfo
+    const updateInfo = {
+      ...task,
+      columnId,
+    }
+
+    // pass taskId and updated task
+    updateTask(task.id, updateInfo)
+  }
+
+  const {id, name} = props.column || ''
   // const {tasks} = props
   // const columnTasks = tasks.filter(task => task.status === name)
 
@@ -79,7 +97,11 @@ const Column = (props) => {
         </div>
         {isActive && <ColumnDropDown />}
       </div>
-      <div className={styles.cardContainer}>
+      <div
+        className={styles.cardContainer}
+        onDragOver={onDragOver}
+        onDrop={(e) => onDrop(e, id)}
+      >
         {tasks.map((task) => (
           <TaskCard key={task.id} task={task} />
         ))}
@@ -95,6 +117,8 @@ const mapState = (state) => ({
 
 const mapDispatch = (dispatch) => ({
   getAllTasks: () => dispatch(fetchAllTasks()),
+  updateTask: (taskId, updateInfo) =>
+    dispatch(fetchUpdateTask(taskId, updateInfo)),
 })
 
 export default connect(mapState, mapDispatch)(Column)
