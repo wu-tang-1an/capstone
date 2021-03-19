@@ -11,8 +11,6 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
-  height: 100%;
   padding: 0.5em;
 }
 
@@ -35,7 +33,8 @@
 
 textarea {
   outline: none;
-  margin-bottom: 1em;
+  margin: 0;
+  padding: 1em;
 }
 
 textarea:focus {
@@ -44,7 +43,7 @@ textarea:focus {
 }
 
 .containerLabel {
-  margin-top: 1em;
+  margin: 1em 0 0.2em 0;
 }
 
 .commentsContainer {
@@ -68,7 +67,6 @@ textarea:focus {
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  width: 34%;
   height: 100%;
   padding: 0.5em;
   margin-left: 0.5em;
