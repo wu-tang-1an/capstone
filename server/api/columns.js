@@ -33,7 +33,7 @@ router.post('/', async (req, res, next) => {
     const data = req.body
     const {dataValues} = await Column.create(data)
 
-    res.json(dataValues)
+    res.status(201).json(dataValues)
   } catch (error) {
     next(error)
   }
