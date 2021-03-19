@@ -1,39 +1,31 @@
 import React from 'react'
+import {connect} from 'react-redux'
 import Column from './Column'
-
+import AddButton from './AddButton'
 import styles from './Board.css'
-const fakeDb = [
-  {
-    id: 1,
-    name: 'Todo',
-  },
-  {
-    id: 2,
-    name: 'In-progress',
-  },
-  {
-    id: 3,
-    name: 'Review',
-  },
-  {
-    id: 4,
-    name: 'Done',
-  },
-]
 
-const Board = (props) => {
+class Board extends React.Component {
   // const {columns} = props
 
   // fakeDb, remove when connected to real db
-  const columns = fakeDb
 
-  return (
-    <div className={styles.boardContainer}>
-      {columns.map((column) => (
-        <Column key={column.id} column={column} />
-      ))}
-    </div>
-  )
+  render() {
+    const {columns} = this.props
+    return (
+      <div className="Board">
+        <div className={styles.boardContainer}>
+          {columns.map((column) => (
+            <Column key={column.id} column={column} />
+          ))}
+          <AddButton column />
+        </div>
+      </div>
+    )
+  }
 }
 
-export default Board
+const mapStateToProps = (state) => ({
+  columns: state.columns,
+})
+
+export default connect(mapStateToProps)(Board)

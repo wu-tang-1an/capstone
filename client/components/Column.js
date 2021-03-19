@@ -5,6 +5,8 @@ import ColumnDropDown from './ColumnDropDown'
 
 import {fetchAllTasks} from '../store/tasks'
 
+import AddButton from './AddButton'
+
 import styles from './Column.css'
 const fakeDb = [
   {
@@ -91,6 +93,7 @@ class Column extends React.Component {
           {isActive && <ColumnDropDown handleDelete={handleDelete} />}
         </div>
         <div className={styles.cardContainer}>
+          <AddButton />
           {tasks.map((task) => (
             <TaskCard key={task.id} task={task} />
           ))}
