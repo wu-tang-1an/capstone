@@ -20,7 +20,7 @@ describe('Task model', () => {
           createdBy: 'Johnny Vazquez',
           description: 'It is very hard',
           status: 'review',
-          completionDate: '03/19/2021',
+          completionDate: '03/20/2021',
         })
       })
 
