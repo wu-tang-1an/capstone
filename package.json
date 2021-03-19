@@ -20,7 +20,9 @@
     "start": "node server",
     "start-dev": "NODE_ENV='development' npm run build-client-watch & NODE_ENV='development' npm run start-server",
     "start-server": "nodemon server -e html,js,scss --ignore public --ignore client",
-    "test": "NODE_ENV='test' mocha \"./server/**/*.spec.js\" \"./client/**/*.spec.js\" \"./script/**/*.spec.js\" --require @babel/polyfill --require @babel/register"
+    "test": "NODE_ENV='test' mocha \"./server/**/*.spec.js\" \"./client/**/*.spec.js\" \"./script/**/*.spec.js\" --require @babel/polyfill --require @babel/register",
+    "test-windows": "set NODE_ENV=test&& mocha \"./server/**/*.spec.js\" \"./client/**/*.spec.js\" \"./script/**/*.spec.js\" --require @babel/polyfill --require @babel/register",
+    "start-dev-windows": "set NODE_ENV=development&& npm run build-client-watch & NODE_ENV='development' npm run start-server"
   },
   "husky": {
     "hooks": {
@@ -50,6 +52,7 @@
     "express-session": "^1.15.1",
     "history": "^4.9.0",
     "marked": "^1.2.9",
+    "mdbreact": "^5.0.1",
     "moment": "^2.29.1",
     "morgan": "^1.9.1",
     "passport": "^0.4.0",
@@ -58,12 +61,17 @@
     "pg-hstore": "^2.3.2",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
+    "react-dnd": "^14.0.1",
+    "react-dnd-html5-backend": "^14.0.0",
     "react-dom": "^16.8.6",
+    "react-modal": "^3.12.1",
     "react-redux": "^7.0.1",
     "react-router-dom": "^5.0.0",
+    "react-textarea-autosize": "^8.3.2",
     "redux": "^4.0.1",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
+    "rsuite": "^4.9.3",
     "sequelize": "^5.22.4",
     "socket.io": "^2.4.1",
     "styled-components": "^5.2.1"
@@ -101,6 +109,7 @@
     "nodemon": "^1.18.3",
     "npm-merge-driver": "^2.3.6",
     "prettier": "^2.2.1",
+    "react-dnd-test-backend": "^14.0.0",
     "react-test-renderer": "^16.4.2",
     "redux-devtools-extension": "^2.13.5",
     "redux-mock-store": "^1.5.3",
@@ -110,5 +119,8 @@
     "webpack": "^4.16.4",
     "webpack-cli": "^3.1.0",
     "yaml": "^1.6.0"
+  },
+  "optionalDependencies": {
+    "win-node-env": "^0.4.0"
   }
 }
