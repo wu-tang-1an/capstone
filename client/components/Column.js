@@ -1,13 +1,10 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {connect} from 'react-redux'
 import TaskCard from './TaskCard'
 import ColumnDropDown from './ColumnDropDown'
-
-import {fetchAllTasks} from '../store/tasks'
-
+import {fetchAllTasks, fetchUpdateTask} from '../store/tasks'
 import AddButton from './AddButton'
 
-import styles from './Column.css'
 const fakeDb = [
   {
     id: 1,
@@ -52,55 +49,68 @@ const fakeDb = [
   },
 ]
 
-class Column extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      isActive: false,
+import styles from './Column.css'
+const Column = (props) => {
+  const [isActive, setActive] = useState(false)
+
+  const onDragOver = (e) => {
+    e.preventDefault()
+  }
+
+  const onDrop = (e, columnId) => {
+    // thunk that will reassign our task to a new column
+    const {updateTask} = props
+
+    // parse task from data transfer
+    const task = JSON.parse(e.dataTransfer.getData('text/plain'))
+
+    console.log(task)
+
+    // write new columnId to updateInfo
+    const updateInfo = {
+      ...task,
+      columnId,
     }
-    this.handleDelete = this.handleDelete.bind(this)
+
+    // pass taskId and updated task
+    updateTask(task.id, updateInfo)
   }
 
-  handleDelete() {}
+  const {id, name} = props.column || ''
+  // const {tasks} = props
+  // const columnTasks = tasks.filter(task => task.status === name)
 
-  render() {
-    const {isActive} = this.state
-    const {handleDelete} = this
-    const {name} = this.props.column || ''
-    // const {tasks} = props
-    // const columnTasks = tasks.filter(task => task.status === name)
+  // fakeDb: remove when connected to real db
+  const tasks = fakeDb
 
-    // fakeDb: remove when connected to real db
-    const tasks = fakeDb
-
-    return (
-      <div className={styles.columnContainer}>
-        <div className={styles.badgeTitleDotMenu}>
-          <div className={styles.badgeAndTitle}>
-            <div className={styles.columnBadge}>{tasks.length}</div>
-            <div className={styles.columnTitle}>{name}</div>
-          </div>
-          <div className={styles.newTaskAndMoreOpts}>
-            {/* material-icons is delivered from index.html with every route -- we can simply use "material-icons" className whenever we want to render an icon */}
-            {/* <div className="material-icons">add</div> */}
-            <div
-              className="material-icons"
-              onClick={() => this.setState({isActive: !isActive})}
-            >
-              more_horiz
-            </div>
-          </div>
-          {isActive && <ColumnDropDown handleDelete={handleDelete} />}
+  return (
+    <div className={styles.columnContainer}>
+      <div className={styles.badgeTitleDotMenu}>
+        <div className={styles.badgeAndTitle}>
+          <div className={styles.columnBadge}>{tasks.length}</div>
+          <div className={styles.columnTitle}>{name}</div>
         </div>
-        <div className={styles.cardContainer}>
-          {tasks.map((task) => (
-            <TaskCard key={task.id} task={task} />
-          ))}
-          <AddButton />
+        <div className={styles.newTaskAndMoreOpts}>
+          {/* material-icons is delivered from index.html with every route -- we can simply use "material-icons" className whenever we want to render an icon */}
+          <div className="material-icons">add</div>
+          <div className="material-icons" onClick={() => setActive(!isActive)}>
+            more_horiz
+          </div>
         </div>
+        {isActive && <ColumnDropDown />}
       </div>
-    )
-  }
+      <div
+        className={styles.cardContainer}
+        onDragOver={onDragOver}
+        onDrop={(e) => onDrop(e, id)}
+      >
+        {tasks.map((task) => (
+          <TaskCard key={task.id} task={task} />
+        ))}
+        <AddButton />
+      </div>
+    </div>
+  )
 }
 
 const mapState = (state) => ({
@@ -109,6 +119,8 @@ const mapState = (state) => ({
 
 const mapDispatch = (dispatch) => ({
   getAllTasks: () => dispatch(fetchAllTasks()),
+  updateTask: (taskId, updateInfo) =>
+    dispatch(fetchUpdateTask(taskId, updateInfo)),
 })
 
 export default connect(mapState, mapDispatch)(Column)

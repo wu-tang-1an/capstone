@@ -2,4 +2,99 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  /* temp for dev use */
+  margin: 0 auto;
+  width: 80vh;
+  height: 80vh;
+  background-color: #ccc;
+  padding: 0.5em;
+}
+
+.leftPanel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 66%;
+  height: 100%;
+  padding: 0.5em;
+}
+
+.nameAndIssue {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.3em;
+  color: black;
+  height: 2em;
+  width: 100%;
+}
+
+.descriptionMarkdown {
+  height: 200px;
+  width: 400px;
+  border: 1px solid black;
+}
+
+textarea {
+  outline: none;
+}
+
+textarea:focus {
+  border: transparent;
+  resize: none;
+}
+
+.commentsContainer {
+  height: 200px;
+  width: 400px;
+  border: 1px solid black;
+  overflow-y: scroll;
+  background-color: white;
+}
+
+.updateAndDeleteBtns {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.rightPanel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 34%;
+  height: 100%;
+  padding: 0.5em;
+  margin-left: 0.5em;
+}
+
+.rightPanel * {
+  height: 100px;
+  width: 100%;
+  background-color: white;
+  margin: 0.3em;
+  color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.backToProjectView {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.backToProjectView .spanContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.backToProjectView a {
+  text-decoration: none;
 }
