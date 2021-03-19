@@ -1,4 +1,3 @@
-const {Send} = require('@material-ui/icons')
 const {User} = require('../db/models')
 
 const checkUser = async (req, res, next) => {
