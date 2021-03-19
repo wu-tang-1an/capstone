@@ -20,7 +20,9 @@
     "start": "node server",
     "start-dev": "NODE_ENV='development' npm run build-client-watch & NODE_ENV='development' npm run start-server",
     "start-server": "nodemon server -e html,js,scss --ignore public --ignore client",
-    "test": "NODE_ENV='test' mocha \"./server/**/*.spec.js\" \"./client/**/*.spec.js\" \"./script/**/*.spec.js\" --require @babel/polyfill --require @babel/register"
+    "test": "NODE_ENV='test' mocha \"./server/**/*.spec.js\" \"./client/**/*.spec.js\" \"./script/**/*.spec.js\" --require @babel/polyfill --require @babel/register",
+    "test-windows": "set NODE_ENV=test&& mocha \"./server/**/*.spec.js\" \"./client/**/*.spec.js\" \"./script/**/*.spec.js\" --require @babel/polyfill --require @babel/register",
+    "start-dev-windows": "set NODE_ENV=development&& npm run build-client-watch & NODE_ENV='development' npm run start-server"
   },
   "husky": {
     "hooks": {
@@ -50,6 +52,7 @@
     "express-session": "^1.15.1",
     "history": "^4.9.0",
     "marked": "^1.2.9",
+    "mdbreact": "^5.0.1",
     "moment": "^2.29.1",
     "morgan": "^1.9.1",
     "passport": "^0.4.0",
@@ -68,6 +71,7 @@
     "redux": "^4.0.1",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
+    "rsuite": "^4.9.3",
     "sequelize": "^5.22.4",
     "socket.io": "^2.4.1",
     "styled-components": "^5.2.1"
@@ -115,5 +119,8 @@
     "webpack": "^4.16.4",
     "webpack-cli": "^3.1.0",
     "yaml": "^1.6.0"
+  },
+  "optionalDependencies": {
+    "win-node-env": "^0.4.0"
   }
 }
