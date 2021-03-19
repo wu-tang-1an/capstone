@@ -1,4 +1,5 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
 import marked from 'marked'
 import Comment from './Comment'
 import {connect} from 'react-redux'
@@ -78,64 +79,72 @@ class SingleTaskExpanded extends React.Component {
 
     const {handleChange, handleUpdateTask, handleDeleteTask} = this
     return (
-      <div className={styles.singleTaskContainer}>
-        <div className={styles.leftPanel}>
-          <div className={styles.nameAndIssue}>
-            <span className={styles.taskName}>{name}</span>
-            <span className={styles.issueType}>{issueType}</span>
-          </div>
-          <div>
-            <div className={styles.containerLabel}>Description:</div>
-            {this.state.activeMarkdownEditor ? (
-              <textarea
-                className={styles.descriptionMarkdown}
-                ref={(input) => input && input.focus()}
-                onBlur={() =>
-                  this.setState({
-                    activeMarkdownEditor: false,
-                  })
-                }
-                name="description"
-                value={this.state.description || ''}
-                onChange={handleChange}
-              ></textarea>
-            ) : (
-              <div
-                className={styles.descriptionMarkdown}
-                onClick={() =>
-                  this.setState({
-                    activeMarkdownEditor: true,
-                  })
-                }
-                dangerouslySetInnerHTML={{
-                  __html: marked(this.state.description),
-                }}
-              ></div>
-            )}
-          </div>
-          <div>
-            <div className={styles.containerLabel}>Comments:</div>
-            <div className={styles.commentsContainer}>
-              {comments.map((comment) => (
-                <Comment key={comment.id} comment={comment} />
-              ))}
+      <div>
+        <div className={styles.singleTaskContainer}>
+          <div className={styles.leftPanel}>
+            <div className={styles.nameAndIssue}>
+              <span className={styles.taskName}>{name}</span>
+              <span className={styles.issueType}>{issueType}</span>
+            </div>
+            <div>
+              <div className={styles.containerLabel}>Description:</div>
+              {this.state.activeMarkdownEditor ? (
+                <textarea
+                  className={styles.descriptionMarkdown}
+                  ref={(input) => input && input.focus()}
+                  onBlur={() =>
+                    this.setState({
+                      activeMarkdownEditor: false,
+                    })
+                  }
+                  name="description"
+                  value={this.state.description || ''}
+                  onChange={handleChange}
+                ></textarea>
+              ) : (
+                <div
+                  className={styles.descriptionMarkdown}
+                  onClick={() =>
+                    this.setState({
+                      activeMarkdownEditor: true,
+                    })
+                  }
+                  dangerouslySetInnerHTML={{
+                    __html: marked(this.state.description),
+                  }}
+                ></div>
+              )}
+            </div>
+            <div>
+              <div className={styles.containerLabel}>Comments:</div>
+              <div className={styles.commentsContainer}>
+                {comments.map((comment) => (
+                  <Comment key={comment.id} comment={comment} />
+                ))}
+              </div>
+            </div>
+            <div className={styles.updateAndDeleteBtns}>
+              <button type="button" name="update" onClick={handleUpdateTask}>
+                Update Task
+              </button>
+              <button type="button" name="delete" onClick={handleDeleteTask}>
+                Delete Task
+              </button>
             </div>
           </div>
-          <div className={styles.updateAndDeleteBtns}>
-            <button type="button" name="update" onClick={handleUpdateTask}>
-              Update Task
-            </button>
-            <button type="button" name="delete" onClick={handleDeleteTask}>
-              Delete Task
-            </button>
+          <div className={styles.rightPanel}>
+            <div className={styles.label}>label</div>
+            <div className={styles.members}>members</div>
+            <div className={styles.attachFile}>attachFile</div>
+            <div className={styles.projectDate}>projectDate</div>
+            <div className={styles.taskChecklist}>taskChecklist</div>
           </div>
         </div>
-        <div className={styles.rightPanel}>
-          <div className={styles.label}></div>
-          <div className={styles.members}></div>
-          <div className={styles.attachFile}></div>
-          <div className={styles.projectDate}></div>
-          <div className={styles.taskChecklist}></div>
+        <div className={styles.backToProjectView}>
+          <Link to="/home" className={styles.spanContainer}>
+            <span className="material-icons">keyboard_arrow_left</span>
+            <span>Back to project</span>
+          </Link>
         </div>
       </div>
     )

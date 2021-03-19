@@ -1,6 +1,7 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 import DeleteTaskModal from './DeleteTaskModal'
+import SingleTaskExpanded from './SingleTaskExpanded'
 
 // fields are actions that user can take from dropdown menu
 const fields = [
@@ -59,6 +60,12 @@ class TaskCardDropDown extends React.Component {
         ))}
         {activeField === 'Delete' && (
           <DeleteTaskModal
+            handleCloseModal={handleCloseModal}
+            taskId={taskId}
+          />
+        )}
+        {activeField === 'Edit' && (
+          <SingleTaskExpanded
             handleCloseModal={handleCloseModal}
             taskId={taskId}
           />
