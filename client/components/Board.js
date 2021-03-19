@@ -1,6 +1,4 @@
 import React from 'react'
-import {DndProvider} from 'react-dnd'
-import {HTML5Backend} from 'react-dnd-html5-backend'
 import {connect} from 'react-redux'
 import Column from './Column'
 import AddButton from './AddButton'
@@ -13,16 +11,14 @@ class Board extends React.Component {
   render() {
     const {columns} = this.props
     return (
-      <DndProvider backend={HTML5Backend}>
-        <div className="Board">
-          <div className={styles.boardContainer}>
-            {columns.map((column) => (
-              <Column key={column.id} column={column} />
-            ))}
-            <AddButton column />
-          </div>
+      <div className="Board">
+        <div className={styles.boardContainer}>
+          {columns.map((column) => (
+            <Column key={column.id} column={column} />
+          ))}
+          <AddButton column />
         </div>
-      </DndProvider>
+      </div>
     )
   }
 }

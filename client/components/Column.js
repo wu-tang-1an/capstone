@@ -1,9 +1,10 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {connect} from 'react-redux'
 import TaskCard from './TaskCard'
 import ColumnDropDown from './ColumnDropDown'
 import {fetchAllTasks} from '../store/tasks'
 import AddButton from './AddButton'
+import {ItemTypes} from './DragConstants'
 
 const fakeDb = [
   {
@@ -49,56 +50,43 @@ const fakeDb = [
   },
 ]
 
+const moveTaskCard = (columnName) => {}
+
 import styles from './Column.css'
-class Column extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      isActive: false,
-    }
-    this.handleDelete = this.handleDelete.bind(this)
-  }
+const Column = (props) => {
+  const [isActive, setActive] = useState(false)
 
-  handleDelete() {}
+  const {name} = props.column || ''
+  // const {tasks} = props
+  // const columnTasks = tasks.filter(task => task.status === name)
 
-  render() {
-    const {isActive} = this.state
-    const {handleDelete} = this
-    const {name} = this.props.column || ''
-    // const {tasks} = props
-    // const columnTasks = tasks.filter(task => task.status === name)
+  // fakeDb: remove when connected to real db
+  const tasks = fakeDb
 
-    // fakeDb: remove when connected to real db
-    const tasks = fakeDb
-
-    return (
-      <div className={styles.columnContainer}>
-        <div className={styles.badgeTitleDotMenu}>
-          <div className={styles.badgeAndTitle}>
-            <div className={styles.columnBadge}>{tasks.length}</div>
-            <div className={styles.columnTitle}>{name}</div>
-          </div>
-          <div className={styles.newTaskAndMoreOpts}>
-            {/* material-icons is delivered from index.html with every route -- we can simply use "material-icons" className whenever we want to render an icon */}
-            <div className="material-icons">add</div>
-            <div
-              className="material-icons"
-              onClick={() => this.setState({isActive: !isActive})}
-            >
-              more_horiz
-            </div>
-          </div>
-          {isActive && <ColumnDropDown handleDelete={handleDelete} />}
+  return (
+    <div className={styles.columnContainer}>
+      <div className={styles.badgeTitleDotMenu}>
+        <div className={styles.badgeAndTitle}>
+          <div className={styles.columnBadge}>{tasks.length}</div>
+          <div className={styles.columnTitle}>{name}</div>
         </div>
-        <div className={styles.cardContainer}>
-          {tasks.map((task) => (
-            <TaskCard key={task.id} task={task} />
-          ))}
-          <AddButton />
+        <div className={styles.newTaskAndMoreOpts}>
+          {/* material-icons is delivered from index.html with every route -- we can simply use "material-icons" className whenever we want to render an icon */}
+          <div className="material-icons">add</div>
+          <div className="material-icons" onClick={() => setActive(!isActive)}>
+            more_horiz
+          </div>
         </div>
+        {isActive && <ColumnDropDown />}
       </div>
-    )
-  }
+      <div className={styles.cardContainer}>
+        {tasks.map((task) => (
+          <TaskCard key={task.id} task={task} />
+        ))}
+        <AddButton />
+      </div>
+    </div>
+  )
 }
 
 const mapState = (state) => ({
