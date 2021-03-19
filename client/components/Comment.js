@@ -11,11 +11,13 @@ const Comment = (props) => {
       <div className={styles.nameAndAvatar}>
         <img src={comment.imageUrl} />
         <div className={styles.name}>{comment.name}</div>
+        <div className={styles.timeAndDate}>
+          {moment(comment.createdAt, 'YYYYMMDD').fromNow()}
+        </div>
       </div>
-      <div className={styles.timeAndDate}>
-        {moment(comment.createdAt, 'YYYYMMDD').fromNow()}
+      <div>
+        <div className={styles.commentContent}>{comment.content}</div>
       </div>
-      <div className={styles.commentContent}>{comment.content}</div>
     </div>
   )
 }
