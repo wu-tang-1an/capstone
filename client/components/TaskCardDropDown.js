@@ -40,44 +40,46 @@ class TaskCardDropDown extends React.Component {
     const {handleCloseModal, handleOpenModal} = this
 
     return (
-      <div className={styles.taskCardDropDownContainer}>
-        {/* keep things extensible here by mapping over a fields array and sending the type of field to the TaskModal, which will render with content according to activeField */}
-        {fields.map((field) => (
-          <div
-            key={field.id}
-            className={styles.dropDownField}
-            onClick={() => {
-              this.setState({activeField: field.type})
-            }}
-          >
-            {field.type === 'Edit' ? (
-              <div className={styles.fieldContainer}>
-                <Link to="/tasks/">{field.type}</Link>
-                <span className="material-icons">keyboard_arrow_right</span>
-                <div className={styles.cssTriangle}></div>
-              </div>
-            ) : field.type === 'Delete' ? (
-              <div className={styles.fieldContainer}>
-                <a onClick={() => handleOpenModal(field.type)} href="#">
-                  {field.type}
-                </a>
-                <span className="material-icons">keyboard_arrow_right</span>
-              </div>
-            ) : null}
-          </div>
-        ))}
-        {activeField === 'Delete' && (
-          <DeleteTaskModal
-            handleCloseModal={handleCloseModal}
-            taskId={taskId}
-          />
-        )}
-        {activeField === 'Edit' && (
-          <SingleTaskExpanded
-            handleCloseModal={handleCloseModal}
-            taskId={taskId}
-          />
-        )}
+      <div>
+        <div className={styles.taskCardDropDownContainer}>
+          {/* keep things extensible here by mapping over a fields array and sending the type of field to the TaskModal, which will render with content according to activeField */}
+          {fields.map((field) => (
+            <div
+              key={field.id}
+              className={styles.dropDownField}
+              onClick={() => {
+                this.setState({activeField: field.type})
+              }}
+            >
+              {field.type === 'Edit' ? (
+                <div className={styles.fieldContainer}>
+                  <Link to="/tasks/">{field.type}</Link>
+                  <span className="material-icons">keyboard_arrow_right</span>
+                </div>
+              ) : field.type === 'Delete' ? (
+                <div className={styles.fieldContainer}>
+                  <a onClick={() => handleOpenModal(field.type)} href="#">
+                    {field.type}
+                  </a>
+                  <span className="material-icons">keyboard_arrow_right</span>
+                </div>
+              ) : null}
+            </div>
+          ))}
+          {activeField === 'Delete' && (
+            <DeleteTaskModal
+              handleCloseModal={handleCloseModal}
+              taskId={taskId}
+            />
+          )}
+          {activeField === 'Edit' && (
+            <SingleTaskExpanded
+              handleCloseModal={handleCloseModal}
+              taskId={taskId}
+            />
+          )}
+        </div>
+        <div className={styles.arrowDown}></div>
       </div>
     )
   }
