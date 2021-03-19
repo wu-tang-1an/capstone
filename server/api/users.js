@@ -27,7 +27,7 @@ router.get('/:userId', checkUser, async (req, res, next) => {
     else {
       const user = await User.findByPk(userId)
 
-      //if user doesn't exist
+      // if user doesn't exist
       if (!user) res.status(404).send('User not found in database!')
 
       res.json(user)
@@ -46,7 +46,7 @@ router.get('/:userId/tasks', checkUser, async (req, res, next) => {
     else {
       const user = await User.findByPk(userId)
 
-      //if user doesn't exist
+      // if user doesn't exist
       if (!user) res.status(404).send('User not found in database!')
 
       const tasks = await user.getTasks()
@@ -126,28 +126,5 @@ router.delete('/:userId', async (req, res, next) => {
     res.status(204).end()
   } catch (error) {
     next(error)
-  }
-})
-
-//delete user from the org
-// now i just need a user id and org id
-// to do it dynamically
-router.delete('/delete-user-org', async (req, res, next) => {
-  try {
-    //test route
-    const UserFound = await User.findOne({
-      where: {
-        id: 2,
-      },
-    })
-
-    const FoundOrg = await Organization.findByPk(1)
-
-    UserFound.removeOrganization(FoundOrg)
-
-    res.json([UserFound, FoundOrg])
-  } catch (e) {
-    console.log(e)
-    next(e)
   }
 })
