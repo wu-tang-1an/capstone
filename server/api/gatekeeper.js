@@ -1,20 +1,19 @@
+const {Send} = require('@material-ui/icons')
 const {User} = require('../db/models')
 
 const checkUser = async (req, res, next) => {
   // checks if someone is logged in
   if (req.session.passport) {
-    // this userId is only accessible if someone is logged in
-    const userId = req.session.passport.user
-    const {isUser} = await User.findByPk(userId)
+    // this reqId is only accessible if someone is logged in
+    const reqId = req.session.passport.user
+    const {user} = await User.findByPk(reqId)
 
-    if (isUser || (isUser && isUser.status === 'admin')) {
-      //if logged-in user OR admin
+    if ((user && user.id === reqId) || (user && user.status === 'admin')) {
+      // if logged-in user OR admin
       next()
     } else {
       // if logged-in user is NOT in user db
-      res.status(403).json({
-        message: 'Forbidden',
-      })
+      res.status(403).send('Forbidden')
     }
   } else if (
     process.env.NODE_ENV === 'test' &&
@@ -23,27 +22,23 @@ const checkUser = async (req, res, next) => {
     next()
   } else {
     // this block runs when nobody is logged in
-    res.status(401).json({
-      message: 'Unauthorized',
-    })
+    res.status(401).send('Unauthorized')
   }
 }
 
 const checkAdmin = async (req, res, next) => {
   // checks if someone is logged in
   if (req.session.passport) {
-    // this userId is only accessible if someone is logged in
-    const userId = req.session.passport.user
-    const {isUser} = await User.findByPk(userId)
+    // this reqId is only accessible if someone is logged in
+    const reqId = req.session.passport.user
+    const {user} = await User.findByPk(reqId)
 
-    if (isUser && isUser.status === 'admin') {
-      //if admin
+    if (user && user.status === 'admin') {
+      // if admin
       next()
     } else {
       // if logged-in user is NOT in user db / NOT an admin
-      res.status(403).json({
-        message: 'Forbidden',
-      })
+      res.status(403).send('Forbidden')
     }
   } else if (
     process.env.NODE_ENV === 'test' &&
@@ -52,9 +47,7 @@ const checkAdmin = async (req, res, next) => {
     next()
   } else {
     // this block runs when nobody is logged in
-    res.status(401).json({
-      message: 'Unauthorized',
-    })
+    res.status(401).send('Unauthorized')
   }
 }
 
