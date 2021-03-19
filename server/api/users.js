@@ -13,8 +13,8 @@ router.get('/', checkAdmin, async (req, res, next) => {
       attributes: ['id', 'firstName', 'lastName', 'email'],
     })
     res.json(users)
-  } catch (err) {
-    next(err)
+  } catch (error) {
+    next(error)
   }
 })
 
@@ -28,11 +28,9 @@ router.get('/:userId', checkUser, async (req, res, next) => {
       const user = await User.findByPk(userId)
 
       //if user doesn't exist
-      if (!user) {
-        res.status(404).send('User not found in database!')
-      } else {
-        res.json(user)
-      }
+      if (!user) res.status(404).send('User not found in database!')
+
+      res.json(user)
     }
   } catch (error) {
     next(error)
@@ -40,7 +38,7 @@ router.get('/:userId', checkUser, async (req, res, next) => {
 })
 
 // GET single user's tasks route '/api/users/:userId/tasks'
-router.get('/:userId/tasks', async (req, res, next) => {
+router.get('/:userId/tasks', checkUser, async (req, res, next) => {
   try {
     const {userId} = req.params
 
@@ -49,12 +47,10 @@ router.get('/:userId/tasks', async (req, res, next) => {
       const user = await User.findByPk(userId)
 
       //if user doesn't exist
-      if (!user) {
-        res.status(404).send('User not found in database!')
-      } else {
-        const tasks = await user.getTasks()
-        res.json(tasks)
-      }
+      if (!user) res.status(404).send('User not found in database!')
+
+      const tasks = await user.getTasks()
+      res.json(tasks)
     }
   } catch (error) {
     next(error)
@@ -74,7 +70,7 @@ router.post('/', async (req, res, next) => {
 })
 
 // PUT update user route '/api/users/:userId'
-router.put('/:userId', async (req, res, next) => {
+router.put('/:userId', checkUser, async (req, res, next) => {
   try {
     const data = req.body
     const {userId} = req.params
@@ -94,28 +90,42 @@ router.put('/:userId', async (req, res, next) => {
   }
 })
 
-// PUT
-router.put('/addorg', async (req, res, next) => {
+// PUT add org to user route '/api/users/:userId/organizations/:orgId'
+router.put(
+  '/:userId/organizations/:orgId',
+  checkUser,
+  async (req, res, next) => {
+    try {
+      const {userId, orgId} = req.params
+
+      if (isNaN(userId)) res.status(400).send(userId + ' is not a number!')
+      if (isNaN(orgId)) res.status(400).send(orgId + ' is not a number!')
+
+      const user = await User.findByPk(userId)
+      if (!user) res.status(404).send('User not found in database!')
+
+      const org = await Organization.findByPk(orgId)
+      if (!org) res.status(404).send('Organization not found in database!')
+
+      user.addOrganizations(org)
+    } catch (error) {
+      next(error)
+    }
+  }
+)
+
+// DELETE user route '/api/users/:userId'
+router.delete('/:userId', async (req, res, next) => {
   try {
-    //test route
-    const UserFound = await User.findOne({
-      where: {
-        id: 2,
-      },
-    })
+    const {userId} = req.params
 
-    const FoundOrg = await Organization.findByPk(1)
+    if (isNaN(userId)) res.status(400).send(userId + ' is not a number!')
 
-    UserFound.addOrganization(FoundOrg, {
-      through: {
-        role: 'user',
-      },
-    })
+    await User.destroy({where: {id: userId}})
 
-    res.json([UserFound, FoundOrg])
-  } catch (e) {
-    console.log(e)
-    next(e)
+    res.status(204).end()
+  } catch (error) {
+    next(error)
   }
 })
 
@@ -136,23 +146,6 @@ router.delete('/delete-user-org', async (req, res, next) => {
     UserFound.removeOrganization(FoundOrg)
 
     res.json([UserFound, FoundOrg])
-  } catch (e) {
-    console.log(e)
-    next(e)
-  }
-})
-
-//deletes user from database
-router.delete('/delete-user', async (req, res, next) => {
-  try {
-    const UserFound = await User.findOne({
-      where: {
-        id: 1,
-      },
-    })
-
-    UserFound.destroy()
-    res.send('user deleted')
   } catch (e) {
     console.log(e)
     next(e)
