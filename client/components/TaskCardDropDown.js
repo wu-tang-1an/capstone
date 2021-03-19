@@ -16,6 +16,7 @@ class TaskCardDropDown extends React.Component {
       activeField: '',
     }
     this.handleCloseModal = this.handleCloseModal.bind(this)
+    this.handleOpenModal = this.handleOpenModal.bind(this)
   }
 
   // clear active field closes an open task modal by resetting active field to a falsey value
@@ -39,24 +40,23 @@ class TaskCardDropDown extends React.Component {
     return (
       <div className="taskCardDropDownContainer">
         {/* keep things extensible here by mapping over a fields array and sending the type of field to the TaskModal, which will render with content according to activeField */}
-        {!activeField &&
-          fields.map((field) => (
-            <div
-              key={field.id}
-              className="dropDownField"
-              onClick={() => {
-                this.setState({activeField: field.type})
-              }}
-            >
-              {field.type === 'Edit' ? (
-                <Link to={`/tasks/${taskId}`}>{field.type}</Link>
-              ) : (
-                <div onClick={() => handleOpenModal(field.type)}>
-                  {field.type}
-                </div>
-              )}
-            </div>
-          ))}
+        {fields.map((field) => (
+          <div
+            key={field.id}
+            className="dropDownField"
+            onClick={() => {
+              this.setState({activeField: field.type})
+            }}
+          >
+            {field.type === 'Edit' ? (
+              <Link to={`/tasks/${taskId}`}>{field.type}</Link>
+            ) : field.type === 'Delete' ? (
+              <a onClick={() => handleOpenModal(field.type)} href="#">
+                {field.type}
+              </a>
+            ) : null}
+          </div>
+        ))}
         {activeField === 'Delete' && (
           <DeleteTaskModal
             handleCloseModal={handleCloseModal}

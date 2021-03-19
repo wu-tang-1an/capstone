@@ -40,7 +40,9 @@ class TaskCard extends React.Component {
         </div>
         <div
           className={styles.dotMenuAndAvatar}
-          onClick={() => this.setState({isActive: !isActive})}
+          onClick={() => {
+            if (!isActive) this.setState({isActive: !isActive})
+          }}
         >
           <span className="material-icons">more_horiz</span>
           {isActive && <TaskCardDropDown taskId={id} />}

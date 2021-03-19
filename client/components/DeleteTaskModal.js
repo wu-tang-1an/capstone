@@ -1,8 +1,8 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import styles from './DeleteTaskModal.css'
 import {fetchDeleteTask} from '../store/tasks'
 
+import styles from './DeleteTaskModal.css'
 const DeleteTaskModal = (props) => {
   const {taskId, deleteTask, handleCloseModal} = props
 
