@@ -64,6 +64,8 @@ const Column = (props) => {
     // parse task from data transfer
     const task = JSON.parse(e.dataTransfer.getData('text/plain'))
 
+    console.log(task)
+
     // write new columnId to updateInfo
     const updateInfo = {
       ...task,

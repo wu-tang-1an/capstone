@@ -2,7 +2,6 @@ import React, {useState} from 'react'
 import TaskCardDropDown from './TaskCardDropDown'
 
 const onDragStart = (e, task) => {
-  e.preventDefault()
   console.log('dragging task: ', task)
   e.dataTransfer.setData('text/plain', JSON.stringify(task))
 }
