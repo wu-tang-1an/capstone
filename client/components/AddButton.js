@@ -29,7 +29,7 @@ export class AddButton extends React.Component {
   renderAddButton = () => {
     const {column} = this.props
 
-    const buttonText = column ? 'Add Another Column' : 'Add another Task'
+    const buttonText = column ? 'Add a column' : 'Add a task'
     const buttonTextOpacity = column ? 1 : 0.5
     const buttonTextColor = column ? 'white' : 'inherit'
     const buttonTextBackground = column ? 'rgba(0,0,0,.15)' : 'inherit'
@@ -93,14 +93,15 @@ export class AddButton extends React.Component {
           >
             {buttonTitle}{' '}
           </Button>
-          <Icon
+          <Button
+            variant="contained"
             style={{
-              marginLeft: 8,
-              cursor: 'pointer',
+              color: 'white',
+              backgroundColor: 'red',
             }}
           >
-            close
-          </Icon>
+            {'Cancel'}
+          </Button>
         </div>
       </div>
     )

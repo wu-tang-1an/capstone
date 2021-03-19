@@ -93,10 +93,10 @@ class Column extends React.Component {
           {isActive && <ColumnDropDown handleDelete={handleDelete} />}
         </div>
         <div className={styles.cardContainer}>
-          <AddButton />
           {tasks.map((task) => (
             <TaskCard key={task.id} task={task} />
           ))}
+          <AddButton />
         </div>
       </div>
     )

@@ -33,9 +33,7 @@ class TaskCard extends React.Component {
         <div className={styles.taskCardContainer}>
           <div className="material-icons">error_outline</div>
           <div className={styles.titleAndCreator}>
-            <Link to="/tasks/">
-              <div className={styles.title}>{name}</div>
-            </Link>
+            <div className={styles.title}>{name}</div>
             <div
               className={styles.idAndCreatedBy}
             >{`# opened by ${user.name}`}</div>
