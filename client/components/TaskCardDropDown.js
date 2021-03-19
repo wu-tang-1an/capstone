@@ -53,7 +53,7 @@ class TaskCardDropDown extends React.Component {
             >
               {field.type === 'Edit' ? (
                 <div className={styles.fieldContainer}>
-                  <Link to="/tasks/">{field.type}</Link>
+                  <a href="#">{field.type}</a>
                   <span className="material-icons">keyboard_arrow_right</span>
                 </div>
               ) : field.type === 'Delete' ? (
@@ -66,20 +66,25 @@ class TaskCardDropDown extends React.Component {
               ) : null}
             </div>
           ))}
-          {activeField === 'Delete' && (
-            <DeleteTaskModal
-              handleCloseModal={handleCloseModal}
-              taskId={taskId}
-            />
-          )}
-          {activeField === 'Edit' && (
-            <SingleTaskExpanded
-              handleCloseModal={handleCloseModal}
-              taskId={taskId}
-            />
-          )}
         </div>
         <div className={styles.arrowDown}></div>
+        {activeField === 'Delete' && (
+          <DeleteTaskModal
+            handleCloseModal={handleCloseModal}
+            taskId={taskId}
+          />
+        )}
+        {activeField === 'Edit' && (
+          <div>
+            <div className={styles.modalBackdrop}></div>
+            <div className={styles.transparentBlockContainer}>
+              <SingleTaskExpanded
+                handleCloseModal={handleCloseModal}
+                taskId={taskId}
+              />
+            </div>
+          </div>
+        )}
       </div>
     )
   }

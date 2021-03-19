@@ -72,6 +72,7 @@ class SingleTaskExpanded extends React.Component {
 
   render() {
     const {name, issueType} = this.state
+    const {handleCloseModal} = this.props
     // const {comments} = this.props || []
 
     // fakeDb: remove after connecting to real db
@@ -141,10 +142,14 @@ class SingleTaskExpanded extends React.Component {
           </div>
         </div>
         <div className={styles.backToProjectView}>
-          <Link to="/home" className={styles.spanContainer}>
+          <a
+            href="#"
+            className={styles.spanContainer}
+            onClick={handleCloseModal}
+          >
             <span className="material-icons">keyboard_arrow_left</span>
             <span>Back to project</span>
-          </Link>
+          </a>
         </div>
       </div>
     )
