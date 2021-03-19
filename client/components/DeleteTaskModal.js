@@ -21,7 +21,7 @@ const DeleteTaskModal = (props) => {
           </div>
           <div className={styles.modalContent}>
             <div className={styles.deleteMessage}>
-              This is action will remove any cards associated with the column.
+              This action will remove any cards associated with the column.
             </div>
             <div className={styles.modalBtnsContainer}>
               <button
