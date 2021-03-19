@@ -2,12 +2,9 @@ import React from 'react'
 import {connect} from 'react-redux'
 import TaskCard from './TaskCard'
 import ColumnDropDown from './ColumnDropDown'
-
 import {fetchAllTasks} from '../store/tasks'
-
 import AddButton from './AddButton'
 
-import styles from './Column.css'
 const fakeDb = [
   {
     id: 1,
@@ -52,6 +49,7 @@ const fakeDb = [
   },
 ]
 
+import styles from './Column.css'
 class Column extends React.Component {
   constructor(props) {
     super(props)
