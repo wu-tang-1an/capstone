@@ -1,6 +1,6 @@
 const {User} = require('../db/models')
 
-async function checkUser(req, res, next) {
+const checkUser = async (req, res, next) => {
   // checks if someone is logged in
   if (req.session.passport) {
     // this userId is only accessible if someone is logged in
@@ -29,7 +29,7 @@ async function checkUser(req, res, next) {
   }
 }
 
-async function checkAdmin(req, res, next) {
+const checkAdmin = async (req, res, next) => {
   // checks if someone is logged in
   if (req.session.passport) {
     // this userId is only accessible if someone is logged in
