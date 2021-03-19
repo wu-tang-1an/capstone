@@ -9,7 +9,7 @@ const Task = db.model('task')
 
 // const superuser = request.agent(app)
 
-describe.only('User routes', () => {
+describe('User routes', () => {
   beforeEach(() => {
     return db.sync({force: true})
   })
