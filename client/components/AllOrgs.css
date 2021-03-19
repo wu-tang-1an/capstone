@@ -1,0 +1,29 @@
+.allOrgsCont {
+  padding: 10px;
+  background-color: aqua;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  align-items: center;
+}
+
+.orgCont {
+  background-color: brown;
+  -webkit-box-shadow: 0 8px 6px -6px black;
+  -moz-box-shadow: 0 8px 6px -6px black;
+  box-shadow: 0 8px 6px -6px black;
+  margin-right: 6px;
+  margin-bottom: 6px;
+}
+
+.orgImg {
+  height: 9rem;
+  width: 15rem;
+  max-height: 9rem;
+  max-width: 15rem;
+}
+
+.orgNameCont {
+  text-align: center;
+}
