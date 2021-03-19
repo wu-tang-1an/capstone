@@ -132,6 +132,16 @@ class SingleTaskExpanded extends React.Component {
                 Delete Task
               </button>
             </div>
+            <div className={styles.backToProjectView}>
+              <a
+                href="#"
+                className={styles.spanContainer}
+                onClick={handleCloseModal}
+              >
+                <span className="material-icons">keyboard_arrow_left</span>
+                <span>Back to project</span>
+              </a>
+            </div>
           </div>
           <div className={styles.rightPanel}>
             <div className={styles.label}>label</div>
@@ -140,16 +150,6 @@ class SingleTaskExpanded extends React.Component {
             <div className={styles.projectDate}>projectDate</div>
             <div className={styles.taskChecklist}>taskChecklist</div>
           </div>
-        </div>
-        <div className={styles.backToProjectView}>
-          <a
-            href="#"
-            className={styles.spanContainer}
-            onClick={handleCloseModal}
-          >
-            <span className="material-icons">keyboard_arrow_left</span>
-            <span>Back to project</span>
-          </a>
         </div>
       </div>
     )

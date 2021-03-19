@@ -83,16 +83,18 @@ textarea:focus {
 }
 
 .backToProjectView {
+  width: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
-  position: relative;
-  left: -400px;
-  bottom: 20px;
+  justify-content: flex-start;
 }
 
 .backToProjectView .spanContainer {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.backToProjectView a {
+  text-decoration: none;
 }
