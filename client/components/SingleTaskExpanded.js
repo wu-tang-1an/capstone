@@ -4,20 +4,6 @@ import Comment from './Comment'
 import {connect} from 'react-redux'
 import {fetchSingleTask} from '../store/singleTask'
 
-// custom parser instructions can be given to an options instance
-// by passing in renderer options
-const renderer = {
-  checkbox(text) {
-    text.test(/\[\s?x?\]/gi)
-      ? text.replace(/\[x\]/gi, '<i className="material-icons">check_box</i>')
-      : text.replace(
-          /\[\s\]/gi,
-          '<i className="material-icons">check_box_outline_blank</i>'
-        )
-  },
-}
-marked.use(renderer)
-
 const fakeCommentsDB = [
   {
     id: 1,
@@ -31,14 +17,14 @@ const fakeCommentsDB = [
     name: 'Felix',
     imageUrl: 'https://i.imgur.com/TUsXHrj.jpg',
     createdAt: '20210314',
-    content: 'you got this!',
+    content: 'keep on trucking!',
   },
   {
     id: 3,
     name: 'Sam',
     imageUrl: 'https://i.imgur.com/7nMCKHE.jpg',
     createdAt: '20201225',
-    content: 'you got this!',
+    content: 'markdown is awesome!',
   },
 ]
 
@@ -47,8 +33,8 @@ class SingleTaskExpanded extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      name: '',
-      issueType: '',
+      name: 'create homepage',
+      issueType: 'todo',
       description: '## markdown is here\n~lets see if it works~',
       collaborators: [],
       activeMarkdownEditor: false,
@@ -98,33 +84,42 @@ class SingleTaskExpanded extends React.Component {
             <span className={styles.taskName}>{name}</span>
             <span className={styles.issueType}>{issueType}</span>
           </div>
-          {this.state.activeMarkdownEditor ? (
-            <textarea
-              ref={(input) => input && input.focus()}
-              onBlur={() =>
-                this.setState({
-                  activeMarkdownEditor: false,
-                })
-              }
-              name="description"
-              value={this.state.description || ''}
-              onChange={handleChange}
-            ></textarea>
-          ) : (
-            <div
-              className="descriptionMarkdown"
-              onClick={() =>
-                this.setState({
-                  activeMarkdownEditor: true,
-                })
-              }
-              dangerouslySetInnerHTML={{__html: marked(this.state.description)}}
-            ></div>
-          )}
-          <div className={styles.commentsContainer}>
-            {comments.map((comment) => (
-              <Comment key={comment.id} comment={comment} />
-            ))}
+          <div>
+            <div className={styles.containerLabel}>Description:</div>
+            {this.state.activeMarkdownEditor ? (
+              <textarea
+                className={styles.descriptionMarkdown}
+                ref={(input) => input && input.focus()}
+                onBlur={() =>
+                  this.setState({
+                    activeMarkdownEditor: false,
+                  })
+                }
+                name="description"
+                value={this.state.description || ''}
+                onChange={handleChange}
+              ></textarea>
+            ) : (
+              <div
+                className={styles.descriptionMarkdown}
+                onClick={() =>
+                  this.setState({
+                    activeMarkdownEditor: true,
+                  })
+                }
+                dangerouslySetInnerHTML={{
+                  __html: marked(this.state.description),
+                }}
+              ></div>
+            )}
+          </div>
+          <div>
+            <div className={styles.containerLabel}>Comments:</div>
+            <div className={styles.commentsContainer}>
+              {comments.map((comment) => (
+                <Comment key={comment.id} comment={comment} />
+              ))}
+            </div>
           </div>
           <div className={styles.updateAndDeleteBtns}>
             <button type="button" name="update" onClick={handleUpdateTask}>
