@@ -1,4 +1,5 @@
 import React, {useState} from 'react'
+import Modal from './Modal'
 import DeleteTaskModal from './DeleteTaskModal'
 import SingleTaskExpanded from './SingleTaskExpanded'
 
@@ -48,15 +49,14 @@ const TaskCardDropDown = ({taskId}) => {
       </div>
       <div className={styles.arrowDown}></div>
       {activeField === 'Delete' && (
-        <DeleteTaskModal closeModal={closeModal} taskId={taskId} />
+        <Modal>
+          <DeleteTaskModal closeModal={closeModal} taskId={taskId} />
+        </Modal>
       )}
       {activeField === 'Edit' && (
-        <div>
-          <div className={styles.modalBackdrop}></div>
-          <div className={styles.transparentBlockContainer}>
-            <SingleTaskExpanded closeModal={closeModal} taskId={taskId} />
-          </div>
-        </div>
+        <Modal>
+          <SingleTaskExpanded closeModal={closeModal} taskId={taskId} />
+        </Modal>
       )}
     </div>
   )
