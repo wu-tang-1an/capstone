@@ -1,11 +1,13 @@
 import React from 'react'
 import {Card, Icon, Button} from '@material-ui/core'
 import Textarea from 'react-textarea-autosize'
+import {addColumn} from '../store/columns'
+import {connect} from 'react-redux'
 
 export class AddButton extends React.Component {
   state = {
     formOpen: false,
-    text: '',
+    name: '',
   }
 
   openForm = () => {
@@ -22,8 +24,17 @@ export class AddButton extends React.Component {
 
   handleInputChange = (e) => {
     this.setState({
-      text: e.target.value,
+      name: e.target.value,
     })
+  }
+
+  handleAddColumn = () => {
+    const {dispatch} = this.props
+    const {name} = this.state
+
+    if (name) {
+      return dispatch(addColumn(name))
+    }
   }
 
   renderAddButton = () => {
@@ -73,7 +84,7 @@ export class AddButton extends React.Component {
             placeholder={placeholder}
             autoFocus
             onBlur={this.closeForm}
-            value={this.state.text}
+            value={this.state.name}
             onChange={this.handleInputChange}
             style={{
               resize: 'none',
@@ -85,6 +96,7 @@ export class AddButton extends React.Component {
         </Card>
         <div style={styles.formButtonGroup}>
           <Button
+            onMouseDown={this.handleAddColumn}
             variant="contained"
             style={{
               color: 'white',
@@ -129,4 +141,4 @@ const styles = {
   },
 }
 
-export default AddButton
+export default connect()(AddButton)

@@ -83,6 +83,8 @@ const Column = (props) => {
   // fakeDb: remove when connected to real db
   const tasks = fakeDb
 
+  console.log('Columns-props--->', props)
+
   return (
     <div className={styles.columnContainer}>
       <div className={styles.badgeTitleDotMenu}>
@@ -105,7 +107,7 @@ const Column = (props) => {
         onDrop={(e) => onDrop(e, id)}
       >
         {tasks.map((task) => (
-          <TaskCard key={task.id} task={task} />
+          <TaskCard key={task.id} task={task} name={task.name} />
         ))}
         <AddButton />
       </div>
