@@ -6,6 +6,7 @@ export const ProjectContext = React.createContext()
 export default function ProjectProvider({children, userId}) {
   const [users, setUsers] = useState([])
   const [tasks, setTasks] = useState([])
+  const [columns, setColumns] = useState([])
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -31,12 +32,26 @@ export default function ProjectProvider({children, userId}) {
     fetchTasks()
   }, [])
 
+  useEffect(() => {
+    const fetchColumns = async () => {
+      try {
+        const {data} = await axios.get(`/api/columns`)
+        setColumns(data)
+      } catch (err) {
+        console.error(err)
+      }
+    }
+    fetchColumns()
+  }, [])
+
   const providerValue = useMemo(() => {
     return {
       users,
       setUsers,
       tasks,
       setTasks,
+      columns,
+      setColumns,
     }
   }, [users, tasks])
 

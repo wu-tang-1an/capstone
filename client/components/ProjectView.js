@@ -1,5 +1,8 @@
 import React from 'react'
 import Board from './Board'
+
+// import the top-level provider here
+// and *not* the deconstructed context itself!
 import ProjectProvider from './ProjectProvider'
 
 // fetch relevant data to all subviews in this component
