@@ -215,6 +215,7 @@ async function seed() {
     lastName: 'Vazquez',
     email: 'john@email.com',
     password: '123',
+    status: 'admin',
   })
 
   const Daniel = await User.create({

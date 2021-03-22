@@ -1,15 +1,17 @@
 import React from 'react'
 import Board from './Board'
+import ProjectProvider from './ProjectProvider'
 
 // fetch relevant data to all subviews in this component
-
-const ProjectView = () => {
+// provide userId from Routes component
+const ProjectView = ({userId}) => {
   return (
-    // topLevelViewContainer should be used for all
-    // top-level view components
-    <div className="topLevelViewContainer">
-      <Board />
-    </div>
+    <ProjectProvider userId={userId}>
+      {/* topLevelViewContainer should be used for all top-level view components */}
+      <div className="topLevelViewContainer">
+        <Board />
+      </div>
+    </ProjectProvider>
   )
 }
 
