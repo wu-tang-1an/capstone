@@ -1,74 +1,32 @@
-import React, {useState} from 'react'
+import React, {useState, useContext} from 'react'
 import {connect} from 'react-redux'
 import TaskCard from './TaskCard'
 import ColumnDropDown from './ColumnDropDown'
 import {fetchAllTasks, fetchUpdateTask} from '../store/tasks'
 import AddButton from './AddButton'
 import TaskDropTargetWrapper from './TaskDropTargetWrapper'
-
-const fakeDb = [
-  {
-    id: 1,
-    name: 'create homepage',
-    createdBy: 'Albert',
-    createdAt: String(Date.now() - 2),
-    description:
-      '[] write a homepage\n[] connect to backend oauth routes\n[] write oauth tests',
-    status: 'in-progress',
-    user: {
-      id: 1,
-      name: 'Albert',
-      imageUrl: 'https://i.imgur.com/ZoKHJRz.jpg',
-    },
-  },
-  {
-    id: 2,
-    name: 'create navbar',
-    createdBy: 'Sam',
-    createdAt: String(Date.now() - 4),
-    description: '### Markdown\n## is\n#cool!',
-    status: 'todo',
-    user: {
-      id: 2,
-      name: 'Sam',
-      imageUrl: 'https://i.imgur.com/TUsXHrj.jpg',
-    },
-  },
-  {
-    id: 3,
-    name: 'create footer',
-    createdBy: 'Felix',
-    createdAt: String(Date.now() - 5),
-    description:
-      '<div><div style="color: red;">some red text (hopefully)</div></div>',
-    status: 'done',
-    user: {
-      id: 3,
-      name: 'Felix',
-      imageUrl: 'https://i.imgur.com/7nMCKHE.jpg',
-    },
-  },
-]
+import {ProjectContext} from './ProjectProvider'
 
 import styles from './Column.css'
-const Column = (props) => {
+const Column = ({columnId}) => {
+  // local state management for drop down column render
   const [isActive, setActive] = useState(false)
 
-  const {id, name} = props.column || ''
-  const {tasks} = props
-  // const columnTasks = tasks.filter(task => task.status === name)
+  // useContext pull in all tasks from ProjectProvider
+  const {columns, setColumns, tasks, setTasks} = useContext(ProjectContext)
 
-  // fakeDb: remove when connected to real db
-  // const tasks = fakeDb
+  // thisColumn selects the appropriate column data from all columns
+  const thisColumn = columns.find((column) => column.id === columnId)
 
-  const {columnId} = props
+  // theseTasks selects appropriate tasks (where thisColumn owns them) from all tasks
+  const theseTasks = tasks.filter((task) => task.columnId === columnId)
 
   return (
     <div className={styles.columnContainer}>
       <div className={styles.badgeTitleDotMenu}>
         <div className={styles.badgeAndTitle}>
-          <div className={styles.columnBadge}>{tasks.length}</div>
-          <div className={styles.columnTitle}>{name}</div>
+          <div className={styles.columnBadge}>{theseTasks.length}</div>
+          <div className={styles.columnTitle}>{thisColumn.name}</div>
         </div>
         <div className={styles.newTaskAndMoreOpts}>
           {/* material-icons is delivered from index.html with every route -- we can simply use "material-icons" className whenever we want to render an icon */}
@@ -80,13 +38,9 @@ const Column = (props) => {
         {isActive && <ColumnDropDown />}
       </div>
       <div className={styles.cardContainer}>
-        {tasks.map((task) => (
-          <TaskDropTargetWrapper
-            key={task.id}
-            columnId={id}
-            updateTask={props.updateTask}
-          >
-            <TaskCard task={task} />
+        {theseTasks.map((task) => (
+          <TaskDropTargetWrapper key={task.id} columnId={columnId}>
+            <TaskCard taskId={task.id} />
           </TaskDropTargetWrapper>
         ))}
         <AddButton columnId={columnId} />
