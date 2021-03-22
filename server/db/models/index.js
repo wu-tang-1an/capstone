@@ -6,6 +6,7 @@ const Task = require('./task')
 const Organization = require('./organization')
 const Column = require('./column')
 const Project = require('./project')
+const Comment = require('./comment')
 
 const UserOrganization = db.define('user_organization', {
   role: {
@@ -36,6 +37,12 @@ Organization.belongsToMany(User, {through: UserOrganization})
 Task.belongsToMany(User, {through: UserTask})
 User.belongsToMany(Task, {through: UserTask})
 
+Comment.belongsTo(User)
+User.hasMany(Comment)
+
+Comment.belongsTo(Task)
+Task.hasMany(Comment)
+
 Project.belongsTo(Organization)
 Organization.hasMany(Project)
 
@@ -57,6 +64,7 @@ module.exports = {
   User,
   Column,
   Project,
+  Comment,
   UserOrganization,
   UserTask,
 }
