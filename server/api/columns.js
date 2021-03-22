@@ -29,7 +29,7 @@ router.get('/:columnId', checkUser, async (req, res, next) => {
 })
 
 // POST create new column route '/api/columns/' (AUTH USER ONLY)
-/* router.post('/', checkUser, async (req, res, next) => {
+router.post('/', checkUser, async (req, res, next) => {
   try {
     const data = req.body
     const {dataValues} = await Column.create(data)
@@ -38,7 +38,7 @@ router.get('/:columnId', checkUser, async (req, res, next) => {
   } catch (error) {
     next(error)
   }
-}) */
+})
 
 // POST create new column with project route '/api/columns/projects/:projectId' (AUTH USER ONLY)
 router.post('/projects/:projectId', checkUser, async (req, res, next) => {
@@ -103,6 +103,8 @@ router.put('/:columnId/tasks/:taskId', checkUser, async (req, res, next) => {
 router.delete('/:columnId', checkUser, async (req, res, next) => {
   try {
     const {columnId} = req.params
+
+    if (isNaN(columnId)) res.status(400).send(columnId + ' is not a number!')
 
     await Column.destroy({where: {id: columnId}})
 
