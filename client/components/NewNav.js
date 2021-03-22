@@ -31,7 +31,7 @@ const Nav = ({handleClick, isLoggedIn}) => {
               <Link className="nav-link" to="/organizations">
                 Organizations
               </Link>
-              <Link className="nav-link" to="/updateUser">
+              <Link className="nav-link" to="/profile">
                 Profile
               </Link>
               <Link className="nav-link" to="#" onClick={handleClick}>
