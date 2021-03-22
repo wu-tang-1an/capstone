@@ -5,10 +5,10 @@ const db = require('../db')
 const Task = db.define('task', {
   name: {
     type: Sequelize.STRING,
-    allowNull: false,
-    validate: {
-      notEmpty: true,
-    },
+    // allowNull: false,
+    // validate: {
+    //   notEmpty: true,
+    // },
   },
 
   createdBy: {
