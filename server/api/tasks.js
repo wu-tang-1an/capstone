@@ -1,30 +1,58 @@
 const router = require('express').Router()
 const {User, UserOrganization, Organization, Task} = require('../db/models')
+const {checkUser, checkAdmin} = require('./gatekeeper')
 module.exports = router
 
-//get all tasks along with user
-router.get('/', async (req, res, next) => {
+// GET all tasks route '/api/tasks' (ADMIN ONLY)
+/* router.get('/', checkAdmin, async (req, res, next) => {
   try {
-    const Tasks = await Task.findAll({
-      include: User,
-    })
-    res.json(Tasks)
-  } catch (err) {
-    next(err)
+    const tasks = await Task.findAll()
+    res.json(tasks)
+  } catch (error) {
+    next(error)
+  }
+}) */
+
+// GET all tasks with users route '/api/tasks' (ADMIN ONLY)
+router.get('/', checkAdmin, async (req, res, next) => {
+  try {
+    const tasks = await Task.findAll({include: User})
+    res.json(tasks)
+  } catch (error) {
+    next(error)
   }
 })
 
-//get tasks for a single user
-router.get('/:userId/tasks', async (req, res, next) => {
+// POST create new task route '/api/tasks' (AUTH USER ONLY)
+router.post('/', checkUser, async (req, res, next) => {
   try {
-    const userId = req.params.userId
+    const data = req.body
+    const {dataValues} = await Task.create(data)
 
-    const UserFound = await User.findByPk(userId)
-    const tasks = await UserFound.getTasks()
-    res.json(tasks)
-  } catch (err) {
-    console.log(err)
-    next(err)
+    res.status(201).json(dataValues)
+  } catch (error) {
+    next(error)
+  }
+})
+
+// PUT update task route '/api/tasks/:taskId' (AUTH USER ONLY)
+router.put('/:taskId', checkUser, async (req, res, next) => {
+  try {
+    const data = req.body
+    const {taskId} = req.params
+
+    if (isNaN(taskId)) res.status(400).send(taskId + ' is not a number!')
+    else {
+      const [updatedRows, updatedTask] = await Task.update(data, {
+        plain: true,
+        returning: true,
+        where: {id: taskId},
+      })
+
+      res.json(updatedTask)
+    }
+  } catch (error) {
+    next(error)
   }
 })
 
@@ -67,5 +95,20 @@ router.post('/:userId/tasks', async (req, res, next) => {
   } catch (err) {
     console.log(err)
     next(err)
+  }
+})
+
+// DELETE task route '/api/task/:taskId' (AUTH USER ONLY)
+router.delete('/:taskId', checkUser, async (req, res, next) => {
+  try {
+    const {taskId} = req.params
+
+    if (isNaN(taskId)) res.status(400).send(taskId + ' is not a number!')
+
+    await Task.destroy({where: {id: taskId}})
+
+    res.status(204).end()
+  } catch (error) {
+    next(error)
   }
 })
