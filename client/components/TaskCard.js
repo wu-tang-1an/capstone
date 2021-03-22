@@ -1,42 +1,36 @@
-import React, {Fragment, useState, useRef} from 'react'
-import {Link} from 'react-router-dom'
+import React, {useState} from 'react'
 import TaskCardDropDown from './TaskCardDropDown'
-import {useDrag, useDrop} from 'react-dnd'
-import styles from './TaskCard.css'
 
+const onDragStart = (e, task) => {
+  console.log('dragging task: ', task)
+  e.dataTransfer.setData('text/plain', JSON.stringify(task))
+}
+
+import styles from './TaskCard.css'
 const TaskCard = (props) => {
-  const {
-    id,
-    name,
-    index,
-    createdBy,
-    createdAt,
-    description,
-    moveItem,
-    status,
-    user,
-  } = props.task
+  const [isActive, setActive] = useState(false)
+
+  const {id, name, createdBy, createdAt, description, status, user} = props.task
 
   return (
-    <Fragment>
+    <div draggable={true} onDragStart={(e) => onDragStart(e, props.task)}>
+      {isActive && <TaskCardDropDown taskId={id} />}
       <div className={styles.taskCardContainer}>
         <div className="material-icons">error_outline</div>
         <div className={styles.titleAndCreator}>
-          <Link to={`/tasks/${id}`}>
-            <div className={styles.title}>{name}</div>
-          </Link>
-          <div className={styles.idAndCreatedBy}>
-            {`#${id} opened by ${user.name}`}
-          </div>
+          <div className={styles.title}>{name}</div>
+          <div
+            className={styles.idAndCreatedBy}
+          >{`# opened by ${user.name}`}</div>
         </div>
-
         <div className={styles.dotMenuAndAvatar}>
-          <span className="material-icons">more_horiz</span>
-          {<TaskCardDropDown taskId={id} />}
+          <span className="material-icons" onClick={() => setActive(!isActive)}>
+            more_horiz
+          </span>
           <img src={user.imageUrl} />
         </div>
       </div>
-    </Fragment>
+    </div>
   )
 }
 

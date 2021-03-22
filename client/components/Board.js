@@ -8,7 +8,6 @@ class Board extends React.Component {
   // const {columns} = props
 
   // fakeDb, remove when connected to real db
-
   render() {
     const {columns} = this.props
     return (
