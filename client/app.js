@@ -1,7 +1,7 @@
 import React from 'react'
 
 import {Navbar} from './components'
-import NewVav from './components/newnav'
+import NewVav from './components/NewNav'
 import Routes from './routes'
 
 const App = () => {
