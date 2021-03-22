@@ -13,8 +13,6 @@ const TaskCard = (props) => {
 
   const {id, name, createdBy, createdAt, description, status, user} = props.task
 
-  console.log('TaskCard-props--->', props)
-
   return (
     <div draggable={true} onDragStart={(e) => onDragStart(e, props.task)}>
       {isActive && <TaskCardDropDown taskId={id} />}

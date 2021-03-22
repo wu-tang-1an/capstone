@@ -77,13 +77,13 @@ const Column = (props) => {
   }
 
   const {id, name} = props.column || ''
-  // const {tasks} = props
+  const {tasks} = props
   // const columnTasks = tasks.filter(task => task.status === name)
 
   // fakeDb: remove when connected to real db
-  const tasks = fakeDb
+  // const tasks = fakeDb
 
-  console.log('Columns-props--->', props)
+  const {columnId} = props
 
   return (
     <div className={styles.columnContainer}>
@@ -109,7 +109,7 @@ const Column = (props) => {
         {tasks.map((task) => (
           <TaskCard key={task.id} task={task} name={task.name} />
         ))}
-        <AddButton />
+        <AddButton columnId={columnId} />
       </div>
     </div>
   )

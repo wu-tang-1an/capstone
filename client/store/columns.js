@@ -3,6 +3,8 @@ import axios from 'axios'
 const GET_ALL_COLUMNS = 'GET_ALL_COLUMNS'
 const ADD_COLUMN = 'ADD_COLUMN'
 
+const ADD_TASK = 'ADD_TASK'
+
 const getAllColumns = (columns) => ({
   type: GET_ALL_COLUMNS,
   columns,
@@ -11,6 +13,11 @@ const getAllColumns = (columns) => ({
 export const addColumn = (name) => ({
   type: ADD_COLUMN,
   name,
+})
+
+export const addTask = (columnId, name) => ({
+  type: ADD_TASK,
+  payload: {name, columnId},
 })
 
 export const fetchAllColumns = () => {
@@ -28,6 +35,13 @@ export const fetchAddColumn = (name) => {
   return async (dispatch) => {
     let {data} = await axios.post(`/api/columns/`, name)
     dispatch(addColumn(data))
+  }
+}
+
+export const fetchAddTask = (columnId, name) => {
+  return async (dispatch) => {
+    let {data} = await axios.post(`/api/tasks/`, columnId, name)
+    dispatch(addTask(data))
   }
 }
 
@@ -59,6 +73,19 @@ export default function columns(state = initialState, action) {
         name: action.name,
       }
       return [...state, newColumn]
+    case ADD_TASK:
+      const newTask = {
+        name: action.payload.name,
+      }
+
+      const newState = state.map((column) => {
+        if (column.id === action.payload.columnId) {
+          return [...state, newTask]
+        } else {
+          return column
+        }
+      })
+      return newState
     default:
       return state
   }

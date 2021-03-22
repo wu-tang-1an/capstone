@@ -1,7 +1,7 @@
 import React from 'react'
 import {Card, Icon, Button} from '@material-ui/core'
 import Textarea from 'react-textarea-autosize'
-import {addColumn} from '../store/columns'
+import {addColumn, addTask} from '../store/columns'
 import {connect} from 'react-redux'
 
 export class AddButton extends React.Component {
@@ -33,7 +33,22 @@ export class AddButton extends React.Component {
     const {name} = this.state
 
     if (name) {
-      return dispatch(addColumn(name))
+      this.setState({
+        name: '',
+      })
+      dispatch(addColumn(name))
+    }
+  }
+
+  handleAddTask = () => {
+    const {dispatch, columnId} = this.props
+    const {name} = this.state
+
+    if (name) {
+      dispatch(addTask(columnId, name))
+      this.setState({
+        name: '',
+      })
     }
   }
 
@@ -96,7 +111,7 @@ export class AddButton extends React.Component {
         </Card>
         <div style={styles.formButtonGroup}>
           <Button
-            onMouseDown={this.handleAddColumn}
+            onMouseDown={column ? this.handleAddColumn : this.handleAddTask}
             variant="contained"
             style={{
               color: 'white',
