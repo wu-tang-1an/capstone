@@ -1,9 +1,10 @@
 const router = require('express').Router()
-const {Column} = require('../db/models')
+const {Column, Project, Task} = require('../db/models')
+const {checkUser, checkAdmin} = require('./gatekeeper')
 module.exports = router
 
-// GET all columns route '/api/columns'
-router.get('/', async (req, res, next) => {
+// GET all columns route '/api/columns' (ADMIN ONLY)
+router.get('/', checkAdmin, async (req, res, next) => {
   try {
     const columns = await Column.findAll()
     res.json(columns)
@@ -12,8 +13,8 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-// GET single column route '/api/columns/:columnId'
-router.get('/:columnId', async (req, res, next) => {
+// GET single column route '/api/columns/:columnId' (AUTH USER ONLY)
+router.get('/:columnId', checkUser, async (req, res, next) => {
   try {
     const {columnId} = req.params
 
@@ -27,20 +28,41 @@ router.get('/:columnId', async (req, res, next) => {
   }
 })
 
-// POST create new column route '/api/columns/'
-router.post('/', async (req, res, next) => {
+// POST create new column route '/api/columns/' (AUTH USER ONLY)
+router.post('/', checkUser, async (req, res, next) => {
   try {
     const data = req.body
     const {dataValues} = await Column.create(data)
 
-    res.json(dataValues)
+    res.status(201).json(dataValues)
   } catch (error) {
     next(error)
   }
 })
 
-// PUT edit column route '/api/columns/:columnId'
-router.put('/:columnId', async (req, res, next) => {
+// POST create new column with project route '/api/columns/projects/:projectId' (AUTH USER ONLY)
+router.post('/projects/:projectId', checkUser, async (req, res, next) => {
+  try {
+    const data = req.body
+    const {projectId} = req.params
+
+    if (isNaN(projectId)) res.status(400).send(projectId + ' is not a number!')
+
+    const column = await Column.create(data)
+    const project = await Project.findByPk(projectId)
+
+    if (!project) res.status(404).send('Project not found in database!')
+
+    column.setProjects(project)
+
+    res.status(201).json(column.dataValues)
+  } catch (error) {
+    next(error)
+  }
+})
+
+// PUT edit column route '/api/columns/:columnId' (AUTH USER ONLY)
+router.put('/:columnId', checkUser, async (req, res, next) => {
   try {
     const data = req.body
     const {columnId} = req.params
@@ -57,10 +79,32 @@ router.put('/:columnId', async (req, res, next) => {
   }
 })
 
-// DELETE column route '/api/columns/:columnId'
-router.delete('/:columnId', async (req, res, next) => {
+// PUT add task to column route '/api/column/:columnId/tasks/:taskId' (AUTH USER ONLY)
+router.put('/:columnId/tasks/:taskId', checkUser, async (req, res, next) => {
+  try {
+    const {columnId, taskId} = req.params
+
+    if (isNaN(columnId)) res.status(400).send(columnId + ' is not a number!')
+    if (isNaN(taskId)) res.status(400).send(taskId + ' is not a number!')
+
+    const column = await Column.findByPk(columnId)
+    if (!column) res.status(404).send('Column not found in database!')
+
+    const task = await Task.findByPk(taskId)
+    if (!task) res.status(404).send('Task not found in database!')
+
+    column.addTasks(task)
+  } catch (error) {
+    next(error)
+  }
+})
+
+// DELETE column route '/api/columns/:columnId' (AUTH USER ONLY)
+router.delete('/:columnId', checkUser, async (req, res, next) => {
   try {
     const {columnId} = req.params
+
+    if (isNaN(columnId)) res.status(400).send(columnId + ' is not a number!')
 
     await Column.destroy({where: {id: columnId}})
 

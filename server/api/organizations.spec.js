@@ -68,9 +68,8 @@ describe('Organization routes', () => {
           .get('/api/organizations/1/users')
           .expect(200)
           .then((res) => {
-            expect(res.body).to.be.an('object')
-            expect(res.body.name).to.be.equal(testOrg.name)
-            expect(res.body.users[0]).to.deep.include(testMan)
+            expect(res.body).to.be.an('array')
+            expect(res.body[0]).to.deep.include(testMan)
           })
       } catch (error) {
         console.log(error)

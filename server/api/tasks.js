@@ -1,71 +1,123 @@
 const router = require('express').Router()
-const {User, UserOrganization, Organization, Task} = require('../db/models')
+const {Task, Column, User} = require('../db/models')
+const {checkUser, checkAdmin} = require('./gatekeeper')
 module.exports = router
 
-//get all tasks along with user
-router.get('/', async (req, res, next) => {
+// GET all tasks with users route '/api/tasks' (ADMIN ONLY)
+router.get('/', checkAdmin, async (req, res, next) => {
   try {
-    const Tasks = await Task.findAll({
-      include: User,
-    })
-    res.json(Tasks)
-  } catch (err) {
-    next(err)
-  }
-})
-
-//get tasks for a single user
-router.get('/:userId/tasks', async (req, res, next) => {
-  try {
-    const userId = req.params.userId
-
-    const UserFound = await User.findByPk(userId)
-    const tasks = await UserFound.getTasks()
+    const tasks = await Task.findAll({include: User})
     res.json(tasks)
-  } catch (err) {
-    console.log(err)
-    next(err)
+  } catch (error) {
+    next(error)
   }
 })
 
-//assign a task to user if it exists already
-// you need the project id, userId that is being assigned to
-
-router.put('/:userId/tasks', async (req, res, next) => {
+// POST create new task route '/api/tasks' (AUTH USER ONLY)
+/* router.post('/', checkUser, async (req, res, next) => {
   try {
-    const userId = req.params.userId
-    const taskId = req.body.taskId
+    const data = req.body
+    const {dataValues} = await Task.create(data)
 
-    const UserFound = await User.findByPk(userId)
+    res.status(201).json(dataValues)
+  } catch (error) {
+    next(error)
+  }
+}) */
+
+// POST create new task with column route '/api/tasks/columns/:columnId' (AUTH USER ONLY)
+router.post('/columns/:columnId', checkUser, async (req, res, next) => {
+  try {
+    const data = req.body
+    const {columnId} = req.params
+
+    if (isNaN(columnId)) res.status(400).send(columnId + ' is not a number!')
+
+    const task = await Task.create(data)
+    const column = await Column.findByPk(columnId)
+
+    if (!column) res.status(404).send('Column not found in database!')
+
+    task.setColumns(column)
+
+    res.status(201).json(task.dataValues)
+  } catch (error) {
+    next(error)
+  }
+})
+
+// PUT update task route '/api/tasks/:taskId' (AUTH USER ONLY)
+router.put('/:taskId', checkUser, async (req, res, next) => {
+  try {
+    const data = req.body
+    const {taskId} = req.params
+
+    if (isNaN(taskId)) res.status(400).send(taskId + ' is not a number!')
+    else {
+      const [updatedRows, updatedTask] = await Task.update(data, {
+        plain: true,
+        returning: true,
+        where: {id: taskId},
+      })
+
+      res.json(updatedTask)
+    }
+  } catch (error) {
+    next(error)
+  }
+})
+
+// PUT add user to task route '/api/tasks/:taskId/users/:userId' (AUTH USER ONLY)
+router.put('/:taskId/users/:userId', checkUser, async (req, res, next) => {
+  try {
+    const {taskId, userId} = req.params
+
+    if (isNaN(taskId)) res.status(400).send(taskId + ' is not a number!')
+    if (isNaN(userId)) res.status(400).send(userId + ' is not a number!')
+
     const task = await Task.findByPk(taskId)
+    if (!task) res.status(404).send('Task not found in database!')
 
-    await UserFound.addTask(task, {through: {ProjectId: 1}})
-    res.json('task added assigned to user')
-  } catch (err) {
-    console.log(err)
-    next(err)
+    const user = await User.findByPk(userId)
+    if (!user) res.status(404).send('Organization not found in database!')
+
+    task.addUsers(user)
+  } catch (error) {
+    next(error)
   }
 })
 
-//create a task and assigned it to a user
-// along with their project
-// you will need userId, ProjectId,
-router.post('/:userId/tasks', async (req, res, next) => {
+// PUT set task to column route '/api/tasks/:taskId/columns/:columnId' (AUTH USER ONLY)
+router.put('/:taskId/columns/:columnId', checkUser, async (req, res, next) => {
   try {
-    const userId = req.params.userId
+    const {taskId, columnId} = req.params
 
-    const UserFound = await User.findByPk(userId)
-    const task = await Task.create({
-      name: 'go to class',
-      createdBy: 'daniel shapiro',
-      description: 'go to calc',
-      status: 'review',
-    })
+    if (isNaN(taskId)) res.status(400).send(taskId + ' is not a number!')
+    if (isNaN(columnId)) res.status(400).send(columnId + ' is not a number!')
 
-    await UserFound.addTask(task, {through: {ProjectId: 10}})
-    res.json('task created!')
-  } catch (err) {
-    console.log(err)
-    next(err)
+    const task = await Task.findByPk(taskId)
+    if (!task) res.status(404).send('Task not found in database!')
+
+    const column = await Column.findByPk(columnId)
+    if (!column) res.status(404).send('Organization not found in database!')
+
+    task.setColumns(column)
+  } catch (error) {
+    next(error)
+  }
+})
+
+// DELETE task route '/api/task/:taskId' (AUTH USER ONLY)
+router.delete('/:taskId', checkUser, async (req, res, next) => {
+  try {
+    const {taskId} = req.params
+
+    if (isNaN(taskId)) res.status(400).send(taskId + ' is not a number!')
+
+    await Task.destroy({where: {id: taskId}})
+
+    res.status(204).end()
+  } catch (error) {
+    next(error)
   }
 })

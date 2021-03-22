@@ -59,7 +59,7 @@ describe('Column routes', () => {
         await request(app)
           .post('/api/columns')
           .send(ionic)
-          .expect(200)
+          .expect(201)
           .then((res) => {
             expect(res.body).to.be.an('object')
             expect(res.body.name).to.be.equal(ionic.name)
