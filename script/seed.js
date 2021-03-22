@@ -159,8 +159,8 @@ async function seed() {
     returning: true,
   })
 
-  newColumns.map(async (column) => {
-    await column.addTasks(newTasks)
+  newColumns.forEach(async (column) => {
+    await column.addTasks(newTasks.splice(0, 2))
   })
 
   const Capstone = await Project.create({

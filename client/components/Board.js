@@ -4,42 +4,24 @@ import AddButton from './AddButton'
 import styles from './Board.css'
 import {ProjectContext} from './ProjectProvider'
 
-const fakeDb = [
-  {
-    id: 1,
-    name: 'Todo',
-  },
-  {
-    id: 2,
-    name: 'In-progress',
-  },
-  {
-    id: 3,
-    name: 'Review',
-  },
-  {
-    id: 4,
-    name: 'Done',
-  },
-]
-
 const Board = () => {
-  // const {columns} = props
+  // useContext pulls in db data for use by downstream components
+  const {tasks, setTasks, users, setUsers, columns, setColumns} = useContext(
+    ProjectContext
+  )
 
-  // fakeDb, remove when connected to real db
-  const columns = fakeDb
+  // get list of column ids to pass to column
+  // we'll use the columnId to pull the appropriate column
+  // IN to the column component with useContext()
+  const columnIds = columns.map((column) => column.id)
 
-  const {tasks, setTasks, users, setUsers} = useContext(ProjectContext)
-  console.log('users in board component, ', users)
-
-  console.log('tasks in Board component, ', tasks)
   return (
     <div className="Board">
       <div className={styles.boardContainer}>
-        {columns.map((column) => (
-          <Column key={column.id} column={column} />
+        {columnIds.map((columnId) => (
+          <Column key={columnId} columnId={columnId} />
         ))}
-        <AddButton column />
+        <AddButton />
       </div>
     </div>
   )
