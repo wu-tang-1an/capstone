@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import styles from './Modal.css'
 
-const Modal = (props) => {
+const Modal = ({children}) => {
   return (
     <div>
       <div className={styles.modalBackdrop}></div>
@@ -15,7 +15,7 @@ const Modal = (props) => {
               </span>
             </div>
           </div>
-          <div className={styles.modalContent}>{props.children}</div>
+          <div className={styles.modalContent}>{children}</div>
         </div>
       </div>
     </div>
