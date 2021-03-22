@@ -37,7 +37,7 @@ router.get('/:userId', checkUser, async (req, res, next) => {
   }
 })
 
-// GET single user's tasks route '/api/users/:userId/tasks'
+// GET single user's tasks route '/api/users/:userId/tasks' (AUTH USER ONLY)
 router.get('/:userId/tasks', checkUser, async (req, res, next) => {
   try {
     const {userId} = req.params
@@ -57,7 +57,7 @@ router.get('/:userId/tasks', checkUser, async (req, res, next) => {
   }
 })
 
-// GET single user's organizations route '/api/users/:userId/organizations'
+// GET single user's organizations route '/api/users/:userId/organizations' (AUTH USER ONLY)
 router.get('/:userId/organizations', checkUser, async (req, res, next) => {
   try {
     const {userId} = req.params
@@ -89,7 +89,7 @@ router.post('/', async (req, res, next) => {
   }
 })
 
-// PUT update user route '/api/users/:userId'
+// PUT update user route '/api/users/:userId' (AUTH USER ONLY)
 router.put('/:userId', checkUser, async (req, res, next) => {
   try {
     const data = req.body
@@ -110,7 +110,7 @@ router.put('/:userId', checkUser, async (req, res, next) => {
   }
 })
 
-// PUT add org to user route '/api/users/:userId/organizations/:orgId'
+// PUT add org to user route '/api/users/:userId/organizations/:orgId' (AUTH USER ONLY)
 router.put(
   '/:userId/organizations/:orgId',
   checkUser,
@@ -134,8 +134,8 @@ router.put(
   }
 )
 
-// DELETE user route '/api/users/:userId'
-router.delete('/:userId', async (req, res, next) => {
+// DELETE user route '/api/users/:userId'  (ADMIN ONLY)
+router.delete('/:userId', checkAdmin, async (req, res, next) => {
   try {
     const {userId} = req.params
 
