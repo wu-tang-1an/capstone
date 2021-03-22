@@ -45,24 +45,7 @@ export const fetchAddTask = (columnId, name) => {
   }
 }
 
-const initialState = [
-  {
-    id: 1,
-    name: 'Todo',
-  },
-  {
-    id: 2,
-    name: 'In-progress',
-  },
-  {
-    id: 3,
-    name: 'Review',
-  },
-  {
-    id: 4,
-    name: 'Done',
-  },
-]
+const initialState = []
 
 export default function columns(state = initialState, action) {
   switch (action.type) {
