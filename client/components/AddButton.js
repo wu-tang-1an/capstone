@@ -1,7 +1,12 @@
 import React from 'react'
 import {Card, Icon, Button} from '@material-ui/core'
 import Textarea from 'react-textarea-autosize'
-import {fetchAddColumn, fetchAddTask} from '../store/columns'
+import {
+  fetchAddColumn,
+  fetchAddTask,
+  addColumn,
+  addTask,
+} from '../store/columns'
 import {connect} from 'react-redux'
 
 export class AddButton extends React.Component {
@@ -37,6 +42,7 @@ export class AddButton extends React.Component {
         name: '',
       })
       dispatch(fetchAddColumn(name))
+      // dispatch(addColumn(name))
     }
   }
 
@@ -49,13 +55,14 @@ export class AddButton extends React.Component {
         name: '',
       })
       dispatch(fetchAddTask(columnId, name))
+      // dispatch(addTask(columnId, name))
     }
   }
 
   renderAddButton = () => {
     const {column} = this.props
 
-    const buttonText = column ? 'Add a column' : 'Add a task'
+    const buttonText = column ? 'Add Column' : 'Add Task'
     const buttonTextOpacity = column ? 1 : 0.5
     const buttonTextColor = column ? 'white' : 'inherit'
     const buttonTextBackground = column ? 'rgba(0,0,0,.15)' : 'inherit'
