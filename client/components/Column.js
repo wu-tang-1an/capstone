@@ -4,6 +4,7 @@ import TaskCard from './TaskCard'
 import ColumnDropDown from './ColumnDropDown'
 import {fetchAllTasks, fetchUpdateTask} from '../store/tasks'
 import AddButton from './AddButton'
+import TaskDropTargetWrapper from './TaskDropTargetWrapper'
 
 const fakeDb = [
   {
@@ -53,29 +54,6 @@ import styles from './Column.css'
 const Column = (props) => {
   const [isActive, setActive] = useState(false)
 
-  const onDragOver = (e) => {
-    e.preventDefault()
-  }
-
-  const onDrop = (e, columnId) => {
-    // thunk that will reassign our task to a new column
-    const {updateTask} = props
-
-    // parse task from data transfer
-    const task = JSON.parse(e.dataTransfer.getData('text/plain'))
-
-    console.log(task)
-
-    // write new columnId to updateInfo
-    const updateInfo = {
-      ...task,
-      columnId,
-    }
-
-    // pass taskId and updated task
-    updateTask(task.id, updateInfo)
-  }
-
   const {id, name} = props.column || ''
   // const {tasks} = props
   // const columnTasks = tasks.filter(task => task.status === name)
@@ -99,13 +77,15 @@ const Column = (props) => {
         </div>
         {isActive && <ColumnDropDown />}
       </div>
-      <div
-        className={styles.cardContainer}
-        onDragOver={onDragOver}
-        onDrop={(e) => onDrop(e, id)}
-      >
+      <div className={styles.cardContainer}>
         {tasks.map((task) => (
-          <TaskCard key={task.id} task={task} />
+          <TaskDropTargetWrapper
+            key={task.id}
+            columnId={id}
+            updateTask={props.updateTask}
+          >
+            <TaskCard task={task} />
+          </TaskDropTargetWrapper>
         ))}
         <AddButton />
       </div>
