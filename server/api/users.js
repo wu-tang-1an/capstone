@@ -57,6 +57,26 @@ router.get('/:userId/tasks', checkUser, async (req, res, next) => {
   }
 })
 
+// GET single user's organizations route '/api/users/:userId/organizations'
+router.get('/:userId/organizations', checkUser, async (req, res, next) => {
+  try {
+    const {userId} = req.params
+
+    if (isNaN(userId)) res.status(400).send(userId + ' is not a number!')
+    else {
+      const user = await User.findByPk(userId)
+
+      // if user doesn't exist
+      if (!user) res.status(404).send('User not found in database!')
+
+      const orgs = await user.getOrganizations()
+      res.json(orgs)
+    }
+  } catch (error) {
+    next(error)
+  }
+})
+
 // POST create new user route '/api/users'
 router.post('/', async (req, res, next) => {
   try {
