@@ -7,6 +7,7 @@ const onDragStart = (e, task) => {
 }
 
 import styles from './TaskCard.css'
+
 const TaskCard = (props) => {
   const [isActive, setActive] = useState(false)
 
