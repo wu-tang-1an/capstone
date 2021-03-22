@@ -15,7 +15,7 @@ const initialState = []
 export function fetchOrgs(userId) {
   return async (dispatch) => {
     try {
-      let {data} = await axios.get(`/api/users/${userId}/orgs`)
+      let {data} = await axios.get(`/api/users/${userId}/organizations`)
       dispatch(getAllOrgs(data))
     } catch (e) {
       console.log(e)

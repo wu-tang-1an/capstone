@@ -1,168 +1,150 @@
 const router = require('express').Router()
-const {User, UserOrganization, Organization, UserTask} = require('../db/models')
+const {User, Organization} = require('../db/models')
+const {checkUser, checkAdmin} = require('./gatekeeper')
 module.exports = router
 
-async function checkUser(req, res, next) {
-  // checks if someone is logged in
-  if (req.session.passport) {
-    // this userId is only accessible if someone is logged in
-    const userId = req.session.passport.user
-    const {isUser} = await User.findByPk(userId)
-    if (isUser) {
-      //if logged-in user
-      next()
-    } else {
-      // if logged-in user is NOT an user
-      res.status(403).json({
-        message: 'Access Denied',
-      })
-    }
-  } else if (
-    process.env.NODE_ENV === 'test' &&
-    req.headers['user-agent'].indexOf('superagent')
-  ) {
-    next()
-  } else {
-    // this block runs when nobody is logged in
-    res.status(403).json({
-      message: 'Access Denied',
-    })
-  }
-}
-router.get('/', checkUser, async (req, res, next) => {
+// GET all users route '/api/users' (ADMIN ONLY)
+router.get('/', checkAdmin, async (req, res, next) => {
   try {
     const users = await User.findAll({
-      // explicitly select only the id and email fields - even though
+      // explicitly select only the id, name, and email fields - even though
       // users' passwords are encrypted, it won't help if we just
       // send everything to anyone who asks!
-      attributes: ['id', 'email'],
+      attributes: ['id', 'firstName', 'lastName', 'email'],
     })
     res.json(users)
-  } catch (err) {
-    next(err)
+  } catch (error) {
+    next(error)
   }
 })
 
-router.get('/:userId', async (req, res, next) => {
+// GET single user route '/api/users/:userId' (AUTH USER ONLY)
+router.get('/:userId', checkUser, async (req, res, next) => {
   try {
     const {userId} = req.params
-    const user = await User.findByPk(userId)
 
-    //if user doesn't exist
-    if (!user) {
-      console.log('user not found in GET /api/users/id')
-      res.status(404).send('This user does not exist in our database')
-    } else {
-      res.status(200).json(user)
+    if (isNaN(userId)) res.status(400).send(userId + ' is not a number!')
+    else {
+      const user = await User.findByPk(userId)
+
+      // if user doesn't exist
+      if (!user) res.status(404).send('User not found in database!')
+
+      res.json(user)
     }
   } catch (error) {
     next(error)
   }
 })
 
-router.get('/:userId/orgs', async (req, res, next) => {
+// GET single user's tasks route '/api/users/:userId/tasks' (AUTH USER ONLY)
+router.get('/:userId/tasks', checkUser, async (req, res, next) => {
   try {
     const {userId} = req.params
-    console.log('this is the user id ', userId)
-    const UserFound = await User.findByPk(userId)
-    const orgs = await UserFound.getOrganizations()
-    res.json(orgs)
-  } catch (e) {
-    console.log(e)
-    next(e)
+
+    if (isNaN(userId)) res.status(400).send(userId + ' is not a number!')
+    else {
+      const user = await User.findByPk(userId)
+
+      // if user doesn't exist
+      if (!user) res.status(404).send('User not found in database!')
+
+      const tasks = await user.getTasks()
+      res.json(tasks)
+    }
+  } catch (error) {
+    next(error)
   }
 })
 
-//get a user's tasks
-router.get('/:userId/tasks', async (req, res, next) => {
+// GET single user's organizations route '/api/users/:userId/organizations' (AUTH USER ONLY)
+router.get('/:userId/organizations', checkUser, async (req, res, next) => {
   try {
     const {userId} = req.params
-    console.log('this is the user id ', userId)
-    const UserFound = await User.findByPk(userId)
-    const tasks = await UserFound.getTasks()
-    res.json(tasks)
-  } catch (e) {
-    console.log(e)
-    next(e)
+
+    if (isNaN(userId)) res.status(400).send(userId + ' is not a number!')
+    else {
+      const user = await User.findByPk(userId)
+
+      // if user doesn't exist
+      if (!user) res.status(404).send('User not found in database!')
+
+      const orgs = await user.getOrganizations()
+      res.json(orgs)
+    }
+  } catch (error) {
+    next(error)
   }
 })
 
-// add user to org
-router.put('/addorg', async (req, res, next) => {
-  try {
-    //test route
-    const UserFound = await User.findOne({
-      where: {
-        id: req.body.userId,
-      },
-    })
-
-    const FoundOrg = await Organization.findByPk(1)
-
-    UserFound.addOrganization(FoundOrg, {
-      through: {
-        role: 'user',
-      },
-    })
-
-    res.json([UserFound, FoundOrg])
-  } catch (e) {
-    console.log(e)
-    next(e)
-  }
-})
-
-//delete user from the org
-// now i just need a user id and org id
-// to do it dynamically
-router.delete('/delete-user-org', async (req, res, next) => {
-  try {
-    //test route
-    const UserFound = await User.findOne({
-      where: {
-        id: 2,
-      },
-    })
-
-    const FoundOrg = await Organization.findByPk(1)
-
-    UserFound.removeOrganization(FoundOrg)
-
-    res.json([UserFound, FoundOrg])
-  } catch (e) {
-    console.log(e)
-    next(e)
-  }
-})
-
-//deletes user from database
-router.delete('/delete-user', async (req, res, next) => {
-  try {
-    const UserFound = await User.findOne({
-      where: {
-        id: 1,
-      },
-    })
-
-    UserFound.destroy()
-    res.send('user deleted')
-  } catch (e) {
-    console.log(e)
-    next(e)
-  }
-})
-
+// POST create new user route '/api/users'
 router.post('/', async (req, res, next) => {
   try {
-    const createUser = await User.create({
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      password: req.body.password,
-      email: req.body.email,
-    })
+    const data = req.body
+    const {dataValues} = await User.create(data)
 
-    res.status(201).json(createUser)
-  } catch (err) {
-    next(err)
+    res.status(201).json(dataValues)
+  } catch (error) {
+    next(error)
+  }
+})
+
+// PUT update user route '/api/users/:userId' (AUTH USER ONLY)
+router.put('/:userId', checkUser, async (req, res, next) => {
+  try {
+    const data = req.body
+    const {userId} = req.params
+
+    if (isNaN(userId)) res.status(400).send(userId + ' is not a number!')
+    else {
+      const [updatedRows, updatedUser] = await User.update(data, {
+        plain: true,
+        returning: true,
+        where: {id: userId},
+      })
+
+      res.json(updatedUser)
+    }
+  } catch (error) {
+    next(error)
+  }
+})
+
+// PUT add org to user route '/api/users/:userId/organizations/:orgId' (AUTH USER ONLY)
+router.put(
+  '/:userId/organizations/:orgId',
+  checkUser,
+  async (req, res, next) => {
+    try {
+      const {userId, orgId} = req.params
+
+      if (isNaN(userId)) res.status(400).send(userId + ' is not a number!')
+      if (isNaN(orgId)) res.status(400).send(orgId + ' is not a number!')
+
+      const user = await User.findByPk(userId)
+      if (!user) res.status(404).send('User not found in database!')
+
+      const org = await Organization.findByPk(orgId)
+      if (!org) res.status(404).send('Organization not found in database!')
+
+      user.addOrganizations(org)
+    } catch (error) {
+      next(error)
+    }
+  }
+)
+
+// DELETE user route '/api/users/:userId'  (ADMIN ONLY)
+router.delete('/:userId', checkAdmin, async (req, res, next) => {
+  try {
+    const {userId} = req.params
+
+    if (isNaN(userId)) res.status(400).send(userId + ' is not a number!')
+
+    await User.destroy({where: {id: userId}})
+
+    res.status(204).end()
+  } catch (error) {
+    next(error)
   }
 })

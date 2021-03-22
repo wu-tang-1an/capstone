@@ -84,8 +84,8 @@ class SingleTaskExpanded extends React.Component {
         <div className={styles.singleTaskContainer}>
           <div className={styles.leftPanel}>
             <div className={styles.nameAndIssue}>
-              <span className={styles.taskName}>{name}</span>
-              <span className={styles.issueType}>{issueType}</span>
+              <span className={styles.taskName}>Task: {name}</span>
+              <span className={styles.issueType}>Issue type: {issueType}</span>
             </div>
             <div>
               <div className={styles.containerLabel}>Description:</div>
