@@ -9,6 +9,7 @@ import users from './users'
 import singleTask from './singleTask'
 import tasks from './tasks'
 import columns from './columns'
+import column from './column'
 import organizations from './organizations'
 
 const reducer = combineReducers({
@@ -16,6 +17,7 @@ const reducer = combineReducers({
   users,
   singleTask,
   tasks,
+  column,
   columns,
   organizations,
 })

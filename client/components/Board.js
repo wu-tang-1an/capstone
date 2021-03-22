@@ -14,7 +14,12 @@ class Board extends React.Component {
       <div className="Board">
         <div className={styles.boardContainer}>
           {columns.map((column) => (
-            <Column key={column.id} column={column} />
+            <Column
+              key={column.id}
+              column={column}
+              name={column.name}
+              columnId={column.id}
+            />
           ))}
           <AddButton column />
         </div>

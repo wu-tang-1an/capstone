@@ -1,4 +1,5 @@
 import axios from 'axios'
+import columns from './columns'
 
 const GET_ALL_TASKS = 'GET_ALL_TASKS'
 const UPDATE_TASK = 'UPDATE_TASK'
@@ -8,6 +9,7 @@ const getAllTasks = (tasks) => ({
   type: GET_ALL_TASKS,
   tasks,
 })
+
 const updateTask = (task) => ({
   type: UPDATE_TASK,
   task,
@@ -27,6 +29,7 @@ export const fetchAllTasks = () => {
     }
   }
 }
+
 export const fetchUpdateTask = (task) => {
   return async (dispatch) => {
     try {

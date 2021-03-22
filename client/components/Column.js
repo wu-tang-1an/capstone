@@ -55,11 +55,13 @@ const Column = (props) => {
   const [isActive, setActive] = useState(false)
 
   const {id, name} = props.column || ''
-  // const {tasks} = props
+  const {tasks} = props
   // const columnTasks = tasks.filter(task => task.status === name)
 
   // fakeDb: remove when connected to real db
-  const tasks = fakeDb
+  // const tasks = fakeDb
+
+  const {columnId} = props
 
   return (
     <div className={styles.columnContainer}>
@@ -87,7 +89,7 @@ const Column = (props) => {
             <TaskCard task={task} />
           </TaskDropTargetWrapper>
         ))}
-        <AddButton />
+        <AddButton columnId={columnId} />
       </div>
     </div>
   )
