@@ -40,6 +40,9 @@ User.belongsToMany(Task, {through: UserTask})
 Comment.belongsTo(User)
 User.hasMany(Comment)
 
+Comment.belongsTo(Task)
+Task.hasMany(Comment)
+
 Project.belongsTo(Organization)
 Organization.hasMany(Project)
 
