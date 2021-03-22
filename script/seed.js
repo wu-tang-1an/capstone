@@ -18,6 +18,7 @@ async function seed() {
     lastName: 'Vazquez',
     email: 'john@email.com',
     password: '123',
+    status: 'admin',
   })
 
   const Clean = await Task.create({
