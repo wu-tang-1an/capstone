@@ -11,7 +11,7 @@ import styles from './TaskCard.css'
 
 const TaskCard = ({taskId}) => {
   // local state management for drop down render
-  const [isActive, setActive] = useState(false)
+  const [isDropDownActive, setDropDownActive] = useState(false)
 
   // useContext pulls in all tasks from ProjectProvider
   const {tasks, setTasks} = useContext(ProjectContext)
@@ -25,7 +25,7 @@ const TaskCard = ({taskId}) => {
 
   return (
     <div draggable={true} onDragStart={(e) => onDragStart(e, thisTask)}>
-      {isActive && <TaskCardDropDown taskId={id} />}
+      {isDropDownActive && <TaskCardDropDown taskId={id} />}
       <div className={styles.taskCardContainer}>
         <div className="material-icons">error_outline</div>
         <div className={styles.titleAndCreator}>
@@ -36,7 +36,10 @@ const TaskCard = ({taskId}) => {
           >{`#${id} opened by ${'USER_NAME_HERE'}`}</div>
         </div>
         <div className={styles.dotMenuAndAvatar}>
-          <span className="material-icons" onClick={() => setActive(!isActive)}>
+          <span
+            className="material-icons"
+            onClick={() => setDropDownActive(!isDropDownActive)}
+          >
             more_horiz
           </span>
           {/* join user here to access user data: name, imageUrl */}
