@@ -21,7 +21,7 @@ const TaskCard = (props) => {
           <div className={styles.title}>{name}</div>
           <div
             className={styles.idAndCreatedBy}
-          >{`# opened by ${user.name}`}</div>
+          >{`#${id} opened by ${user.name}`}</div>
         </div>
         <div className={styles.dotMenuAndAvatar}>
           <span className="material-icons" onClick={() => setActive(!isActive)}>
