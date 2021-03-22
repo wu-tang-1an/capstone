@@ -29,7 +29,7 @@ const fakeCommentsDB = [
 
 import styles from './SingleTaskExpanded.css'
 
-const SingleTaskExpanded = ({taskId}) => {
+const SingleTaskExpanded = ({taskId, closeModal}) => {
   const {tasks, setTasks} = useContext(ProjectContext)
 
   const thisTask = tasks.find((task) => task.id === taskId)
@@ -93,11 +93,7 @@ const SingleTaskExpanded = ({taskId}) => {
             </button>
           </div>
           <div className={styles.backToProjectView}>
-            <a
-              href="#"
-              className={styles.spanContainer}
-              /* onClick={handleCloseModal} */
-            >
+            <a href="#" className={styles.spanContainer} onClick={closeModal}>
               <span className="material-icons">keyboard_arrow_left</span>
               <span>Back to project</span>
             </a>

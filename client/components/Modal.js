@@ -23,3 +23,5 @@ const Modal = (props) => {
 }
 
 export default Modal
+
+// const [isModalVisible, setIsModalVisible] = useState(false)

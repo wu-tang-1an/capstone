@@ -4,7 +4,7 @@ import {fetchDeleteTask} from '../store/tasks'
 
 import styles from './DeleteTaskModal.css'
 const DeleteTaskModal = (props) => {
-  const {taskId, deleteTask, handleCloseModal} = props
+  const {taskId, deleteTask, closeModal} = props
 
   return (
     <div>
@@ -14,7 +14,7 @@ const DeleteTaskModal = (props) => {
           <div className={styles.modalTitleAndCloseBtn}>
             <div className={styles.modalTitle}>Delete Task</div>
             <div className={styles.closeModalBtn}>
-              <span className="material-icons" onClick={handleCloseModal}>
+              <span className="material-icons" onClick={closeModal}>
                 close
               </span>
             </div>
@@ -30,12 +30,12 @@ const DeleteTaskModal = (props) => {
                 onClick={async () => {
                   // delete task and close modal
                   await deleteTask(taskId)
-                  handleCloseModal()
+                  closeModal()
                 }}
               >
                 Delete Task
               </button>
-              <button type="button" name="cancelBtn" onClick={handleCloseModal}>
+              <button type="button" name="cancelBtn" onClick={closeModal}>
                 Cancel
               </button>
             </div>
