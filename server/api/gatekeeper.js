@@ -30,7 +30,7 @@ const checkAdmin = async (req, res, next) => {
   if (req.session.passport) {
     // this reqId is only accessible if someone is logged in
     const reqId = req.session.passport.user
-    const {user} = await User.findByPk(reqId)
+    const user = await User.findByPk(reqId)
 
     if (user && user.status === 'admin') {
       // if admin
