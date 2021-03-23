@@ -9,9 +9,7 @@ const onDragStart = (e, task) => {
 
 import styles from './css/TaskCard.css'
 
-const TaskCard = ({name, taskId}) => {
-  console.log('taskName--->', name)
-  console.log('taskId--->', taskId)
+const TaskCard = ({description, taskId}) => {
   // local state management for drop down render
   const [isDropDownActive, setDropDownActive] = useState(false)
 
@@ -22,7 +20,7 @@ const TaskCard = ({name, taskId}) => {
   const thisTask = tasks.find((task) => task.id === taskId)
 
   // deconstruct task data
-  const {id, createdBy, createdAt, description, status, user} = thisTask || {}
+  const {id, createdBy, createdAt, status, user} = thisTask || {}
 
   return (
     <div draggable={true} onDragStart={(e) => onDragStart(e, thisTask)}>
@@ -30,7 +28,7 @@ const TaskCard = ({name, taskId}) => {
       <div className={styles.taskCardContainer}>
         <div className="material-icons">error_outline</div>
         <div className={styles.titleAndCreator}>
-          <div className={styles.title}>{name}</div>
+          <div className={styles.title}>{description}</div>
           <div
             className={styles.idAndCreatedBy}
             /* join user here to access user data: name, imageUrl */

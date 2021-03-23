@@ -32,9 +32,11 @@ export const fetchAllColumns = () => {
 }
 
 export const fetchAddColumn = (name) => {
+  console.log('fetchAddColumnName--->', name)
   return async (dispatch) => {
-    let {data} = await axios.post(`/api/columns/`, name)
-    dispatch(addColumn(data))
+    let {data} = await axios.post(`/api/columns/`, {name})
+    console.log('helloData--->', data)
+    dispatch(addColumn(data.name))
   }
 }
 
@@ -56,6 +58,7 @@ export default function columns(state = initialState, action) {
         name: action.name,
       }
       return [...state, newColumn]
+
     case ADD_TASK:
       const newTask = {
         name: action.payload.name,

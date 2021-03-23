@@ -3,6 +3,7 @@ import Column from './Column'
 import AddButton from './AddButton'
 import styles from './css/Board.css'
 import {ProjectContext} from './ProjectProvider'
+import AddButtonColumn from './AddButtonColumn'
 
 const Board = () => {
   // useContext pulls in db data for use by downstream components
@@ -23,6 +24,7 @@ const Board = () => {
         {columns.map((column) => (
           <Column key={column.id} columnId={column.id} name={column.name} />
         ))}
+        {/* <AddButtonColumn /> */}
         <AddButton column />
       </div>
     </div>

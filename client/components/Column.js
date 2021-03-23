@@ -42,7 +42,7 @@ const Column = ({name, columnId}) => {
         {' '}
         {theseTasks.map((task) => (
           <TaskDropTargetWrapper key={task.id} columnId={columnId}>
-            <TaskCard taskId={task.id} name={task.name} />{' '}
+            <TaskCard taskId={task.id} description={task.description} />{' '}
           </TaskDropTargetWrapper>
         ))}{' '}
         <AddButton columnId={columnId} />{' '}

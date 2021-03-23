@@ -9,6 +9,23 @@ import {
 } from '../store/columns'
 import {connect} from 'react-redux'
 
+const styles = {
+  openForButtonGroup: {
+    display: 'flex',
+    alginItems: 'center',
+    cursor: 'pointer',
+    borderRadius: 3,
+    height: 36,
+    width: 272,
+    paddingLeft: 10,
+  },
+  formButtonGroup: {
+    marginTop: 8,
+    display: 'flex',
+    alginItems: 'center',
+  },
+}
+
 export class AddButton extends React.Component {
   state = {
     formOpen: false,
@@ -36,28 +53,14 @@ export class AddButton extends React.Component {
   handleAddColumn = (e) => {
     const {dispatch} = this.props
     const {name} = this.state
+    console.log('name--->', name)
 
     if (name) {
-      this.setState({
-        name: '',
+      dispatch(fetchAddColumn(name)).then(() => {
+        this.setState({
+          name: '',
+        })
       })
-      dispatch(fetchAddColumn(name))
-
-      e.preventDefault()
-      dispatch(addColumn(name))
-    }
-  }
-
-  handleAddTask = () => {
-    const {dispatch, columnId} = this.props
-    const {name} = this.state
-
-    if (name) {
-      this.setState({
-        name: '',
-      })
-      dispatch(fetchAddTask(columnId, name))
-      // dispatch(addTask(columnId, name))
     }
   }
 
@@ -144,25 +147,16 @@ export class AddButton extends React.Component {
   }
 
   render() {
+    console.log('this.propssss===>', this.props)
+
     return this.state.formOpen ? this.renderForm() : this.renderAddButton()
   }
 }
 
-const styles = {
-  openForButtonGroup: {
-    display: 'flex',
-    alginItems: 'center',
-    cursor: 'pointer',
-    borderRadius: 3,
-    height: 36,
-    width: 272,
-    paddingLeft: 10,
-  },
-  formButtonGroup: {
-    marginTop: 8,
-    display: 'flex',
-    alginItems: 'center',
-  },
+const mapState = (state) => {
+  return {
+    columns: state.columns,
+  }
 }
 
-export default connect()(AddButton)
+export default connect(mapState)(AddButton)

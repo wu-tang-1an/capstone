@@ -1,13 +1,25 @@
 import React from 'react'
 import {Card, Icon, Button} from '@material-ui/core'
 import Textarea from 'react-textarea-autosize'
-import {
-  fetchAddColumn,
-  fetchAddTask,
-  addColumn,
-  addTask,
-} from '../store/columns'
+import {fetchAddColumn, addColumn} from '../store/columns'
 import {connect} from 'react-redux'
+
+const styles = {
+  openForButtonGroup: {
+    display: 'flex',
+    alginItems: 'center',
+    cursor: 'pointer',
+    borderRadius: 3,
+    height: 36,
+    width: 272,
+    paddingLeft: 10,
+  },
+  formButtonGroup: {
+    marginTop: 8,
+    display: 'flex',
+    alginItems: 'center',
+  },
+}
 
 export class AddButtonColumn extends React.Component {
   constructor(props) {
@@ -34,42 +46,39 @@ export class AddButtonColumn extends React.Component {
 
   handleInputChange = (e) => {
     this.setState({
-      [e.target.name]: e.target.value,
+      name: e.target.value,
     })
   }
 
-  async handleAddColumn(e) {
+  handleAddColumn(e) {
     e.preventDefault()
-    await this.props.addColumn({
+    console.log('deeee', this.props)
+    this.props.addColumn({
       ...this.state,
     })
   }
 
   render() {
+    console.log('this.props--->', this.props)
     const renderAddButton = () => {
-      const buttonText = 'Add Column'
-      const buttonTextOpacity = 1
-      const buttonTextColor = 'white'
-      const buttonTextBackground = 'rgba(0,0,0,.15)'
-
       return (
         <div
           onClick={this.openForm}
           style={{
             ...styles.openForButtonGroup,
-            opacity: buttonTextOpacity,
-            color: buttonTextColor,
-            background: buttonTextBackground,
+            opacity: 1,
+            color: 'white',
+            background: 'rgba(0,0,0,.15)',
           }}
         >
-          <Icon> add </Icon> <p> {buttonText} </p>{' '}
+          <Icon> add </Icon>
+          <p> 'Add Column' </p>{' '}
         </div>
       )
     }
 
     const renderForm = () => {
       const placeholder = 'Enter a title for Column'
-      const buttonTitle = 'Add Column'
 
       return (
         <div>
@@ -104,8 +113,7 @@ export class AddButtonColumn extends React.Component {
                 backgroundColor: '#5aac44',
               }}
             >
-              {' '}
-              {buttonTitle}{' '}
+              'Add Column'
             </Button>{' '}
             <Button
               variant="contained"
