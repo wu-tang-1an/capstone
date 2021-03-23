@@ -3,57 +3,37 @@ import axios from 'axios'
 
 export const ProjectContext = React.createContext()
 
-export default function ProjectProvider({children, userId}) {
-  const [users, setUsers] = useState([])
-  const [tasks, setTasks] = useState([])
+export default function ProjectProvider({projectId, children}) {
+  // initialize project-level state
+  const [project, setProject] = useState({})
   const [columns, setColumns] = useState([])
 
+  // fetch project by projectId
   useEffect(() => {
-    const fetchUser = async () => {
+    const fetchSingleProject = async () => {
       try {
-        const {data} = await axios.get(`/api/users`)
-        setUsers(data)
+        const {data} = await axios.get(`/api/projects/${projectId}`)
+        setProject(data)
       } catch (err) {
         console.error(err)
       }
     }
-    fetchUser()
-  }, {})
-
-  useEffect(() => {
-    const fetchTasks = async () => {
-      try {
-        const {data} = await axios.get(`/api/tasks`)
-        setTasks(data)
-      } catch (err) {
-        console.error(err)
-      }
-    }
-    fetchTasks()
+    fetchSingleProject()
   }, [])
 
-  useEffect(() => {
-    const fetchColumns = async () => {
-      try {
-        const {data} = await axios.get(`/api/columns`)
-        setColumns(data)
-      } catch (err) {
-        console.error(err)
-      }
-    }
-    fetchColumns()
-  }, [])
+  // this check prevents endless rerenders due to setting columns after successfully fetching the current project
+  if (!columns.length && project.columns) setColumns(project.columns)
 
   const providerValue = useMemo(() => {
     return {
-      users,
-      setUsers,
-      tasks,
-      setTasks,
+      project,
+      setProject,
       columns,
       setColumns,
     }
-  }, [users, tasks])
+  }, [project, columns])
+
+  console.log('provider value is : ', providerValue)
 
   return (
     <ProjectContext.Provider value={providerValue}>

@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {Project, User, Column} = require('../db/models')
+const {Project, User, Column, Task, Comment} = require('../db/models')
 const {checkUser, checkAdmin} = require('./gatekeeper')
 module.exports = router
 
@@ -24,6 +24,16 @@ router.get('/:projectId', checkUser, async (req, res, next) => {
         include: [
           {
             model: Column,
+            include: [
+              {
+                model: Task,
+                include: [
+                  {
+                    model: Comment,
+                  },
+                ],
+              },
+            ],
           },
         ],
       })

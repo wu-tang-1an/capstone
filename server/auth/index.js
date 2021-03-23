@@ -1,5 +1,12 @@
 const router = require('express').Router()
-const {User, Organization, Project} = require('../db/models')
+const {
+  User,
+  Organization,
+  Project,
+  Column,
+  Task,
+  Comment,
+} = require('../db/models')
 module.exports = router
 
 router.post('/login', async (req, res, next) => {
@@ -49,6 +56,21 @@ router.get('/me', async (req, res) => {
           include: [
             {
               model: Project,
+              include: [
+                {
+                  model: Column,
+                  include: [
+                    {
+                      model: Task,
+                      include: [
+                        {
+                          model: Comment,
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
             },
           ],
         },

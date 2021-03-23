@@ -3,26 +3,10 @@ import {Link} from 'react-router-dom'
 import {AuthContext} from '../context/authContext'
 import styles from './css/AllOrgs.css'
 
-function mapState(state) {
-  return {
-    organizations: state.organizations,
-    userId: state.singleUser.id,
-  }
-}
-
-function mapDispatch(dispatch) {
-  return {
-    fetchOrgs: (userId) => dispatch(fetchOrgs(userId)),
-    resetState: () => dispatch(resetState()),
-  }
-}
-
 const AllOrgs = (props) => {
   const [organizations, setOrganizations] = useState([])
 
   const {user, setUser} = useContext(AuthContext)
-
-  console.log('user in AllOrgs is: ', user)
 
   useEffect(() => {
     const setOrgs = () => {
