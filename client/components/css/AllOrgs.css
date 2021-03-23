@@ -1,3 +1,11 @@
+.allOrgsHeader {
+  padding: 0px 10px;
+}
+
+.allOrgsAnchor {
+  text-decoration: none;
+}
+
 .allOrgsCont {
   padding: 10px;
   background-color: aqua;
@@ -26,4 +34,8 @@
 
 .orgNameCont {
   text-align: center;
+}
+
+.orgName {
+  padding: 5px;
 }

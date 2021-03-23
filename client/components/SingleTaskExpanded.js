@@ -27,7 +27,7 @@ const fakeCommentsDB = [
   },
 ]
 
-import styles from './SingleTaskExpanded.css'
+import styles from './css/SingleTaskExpanded.css'
 
 const SingleTaskExpanded = ({taskId, closeModal}) => {
   const {tasks, setTasks} = useContext(ProjectContext)

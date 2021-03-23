@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {Organization} = require('../db/models')
+const {Organization, Project} = require('../db/models')
 const {checkUser, checkAdmin} = require('./gatekeeper')
 module.exports = router
 
@@ -20,7 +20,13 @@ router.get('/:orgId', checkUser, async (req, res, next) => {
 
     if (isNaN(orgId)) res.status(400).send(orgId + ' is not a number!')
     else {
-      const org = await Organization.findByPk(orgId)
+      const org = await Organization.findByPk(orgId, {
+        include: [
+          {
+            model: Project,
+          },
+        ],
+      })
       res.json(org)
     }
   } catch (error) {
