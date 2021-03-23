@@ -15,7 +15,7 @@ const AuthForm = ({authType}) => {
   const [method, setMethod] = useState('')
 
   // setUser method from AuthProvider
-  const {setUser} = useContext(AuthContext)
+  const {user, setUser} = useContext(AuthContext)
 
   // local form field data depends on method
   const {name, displayName, handleSubmit, error} =
@@ -31,13 +31,15 @@ const AuthForm = ({authType}) => {
           /* error: state.singleUser.error, */
         }
 
-  const authenticateUser = async (formName, userEmail, userPassword) => {
+  const authenticateUser = async (e, formName, userEmail, userPassword) => {
+    e.preventDefault()
     try {
       const {data} = await axios.post(`/auth/${method}`, {
         userEmail,
         userPassword,
       })
       setUser(data)
+      console.log('user after authentication is: ', user)
       history.push('/organizations')
     } catch (err) {
       console.error(err)
@@ -55,7 +57,7 @@ const AuthForm = ({authType}) => {
     <div className={styles.outerContainer}>
       <div className={styles.authFormContainer}>
         <form
-          onSubmit={() => authenticateUser(name, email, password)}
+          onSubmit={(e) => authenticateUser(e, name, email, password)}
           name={name}
         >
           <div>
