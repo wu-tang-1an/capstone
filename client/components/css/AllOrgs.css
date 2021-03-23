@@ -1,3 +1,16 @@
+.headerCont {
+  display: flex;
+  text-align: center;
+}
+
+.spanCont {
+  padding: 6px;
+}
+
+/* .orgSvg   {
+  margin-top: 10px;
+} */
+
 .allOrgsHeader {
   padding: 0px 10px;
 }
