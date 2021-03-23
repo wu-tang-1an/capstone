@@ -1,17 +1,15 @@
 import React from 'react'
-
-import {Navbar} from './components'
-import NewVav from './components/NewNav'
+import NewNav from './components/NewNav'
 import Routes from './routes'
+import AuthProvider from './context/authContext'
 
 const App = () => {
   return (
-    <div>
-      {/* <Navbar /> */}
-      <NewVav />
+    <AuthProvider>
+      <NewNav />
       <br />
       <Routes />
-    </div>
+    </AuthProvider>
   )
 }
 

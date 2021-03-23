@@ -1,13 +1,13 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import {connect} from 'react-redux'
+import React, {useContext} from 'react'
 import {Link} from 'react-router-dom'
-import {logout} from '../store'
+import {AuthContext} from '../context/authContext'
 
-const Nav = ({handleClick, isLoggedIn}) => {
+const Nav = ({handleClick}) => {
+  const user = useContext(AuthContext)
+
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-top">
-      {isLoggedIn ? (
+      {user.id ? (
         <div className="container-fluid">
           <Link className="navbar-brand" to="/">
             <h1 style={{fontFamily: "'Noto Sans KR', sans-serif"}}>Note-ary</h1>
@@ -72,26 +72,4 @@ const Nav = ({handleClick, isLoggedIn}) => {
   )
 }
 
-const mapState = (state) => {
-  return {
-    isLoggedIn: !!state.singleUser.id,
-  }
-}
-
-const mapDispatch = (dispatch) => {
-  return {
-    handleClick() {
-      dispatch(logout())
-    },
-  }
-}
-
-export default connect(mapState, mapDispatch)(Nav)
-// export default Navbar
-/**
- * PROP TYPES
- */
-Nav.propTypes = {
-  handleClick: PropTypes.func.isRequired,
-  isLoggedIn: PropTypes.bool.isRequired,
-}
+export default Nav
