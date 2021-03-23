@@ -1,6 +1,6 @@
 import React, {useState, useContext} from 'react'
 import TaskCardDropDown from './TaskCardDropDown'
-import {ProjectContext} from './ProjectProvider'
+import {ProjectContext} from '../context/projectContext'
 
 const onDragStart = (e, task) => {
   console.log('dragging task: ', task)

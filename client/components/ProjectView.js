@@ -3,17 +3,17 @@ import {withRouter} from 'react-router'
 import ProjectProvider from '../context/projectContext'
 import Board from './Board'
 
-const ProjectView = (props) => {
-  const projectId = +props.match.params.projectId
+const ProjectView = ({match}) => {
+  console.log('routeProps:match are: ', match)
 
-  console.log('projectId is: ', projectId)
+  const projectId = +match.params.projectId
 
   return (
-    <ProjectProvider projectId={projectId}>
-      <div className="topLevelViewContainer">
+    <div className="topLevelViewContainer">
+      <ProjectProvider projectId={projectId}>
         <Board />
-      </div>
-    </ProjectProvider>
+      </ProjectProvider>
+    </div>
   )
 }
 
