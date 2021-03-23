@@ -4,6 +4,7 @@ import {
   AuthForm,
   ProjectView,
   SingleTaskExpanded,
+  SingleOrganization,
   AllOrgs,
   Profile,
 } from './components'
@@ -24,7 +25,11 @@ const Routes = () => {
         </Switch>
       ) : (
         <Switch>
-          <Route path="/organizations" component={AllOrgs} />
+          <Route exact path="/organizations" component={AllOrgs} />
+          <Route
+            path="/organizations/:organizationId"
+            component={SingleOrganization}
+          />
           <Route
             path="/organization/:organizationId/projects/:projectId"
             component={ProjectView}
