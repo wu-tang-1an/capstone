@@ -33,28 +33,29 @@ const AllOrgs = (props) => {
 
   return (
     <div>
-      <h1 className={styles.allOrgsHeader}>Your Organizations</h1>
-      <div className={styles.allOrgsCont}>
-        {organizations.map((org, index) => {
-          return (
-            <Link
-              key={index}
-              className={styles.allOrgsAnchor}
-              to={`/organizations/${org.id}`}
-            >
-              <div className={styles.orgCont}>
-                <div>
-                  <img className={styles.orgImg} src={org.imageUrl} />
+      {organizations && (
+        <div>
+          <h1 className={styles.allOrgsHeader}>Your Organizations</h1>
+          <div className={styles.allOrgsCont}>
+            {organizations.map((org, index) => (
+              <Link
+                key={index}
+                className={styles.allOrgsAnchor}
+                to={`/organizations/${org.id}`}
+              >
+                <div className={styles.orgCont}>
+                  <div>
+                    <img className={styles.orgImg} src={org.imageUrl} />
+                  </div>
+                  <div className={styles.orgNameCont}>
+                    <h3 className={styles.orgName}>{org.name}</h3>
+                  </div>
                 </div>
-
-                <div className={styles.orgNameCont}>
-                  <h3 className={styles.orgName}>{org.name}</h3>
-                </div>
-              </div>
-            </Link>
-          )
-        })}
-      </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   )
 }

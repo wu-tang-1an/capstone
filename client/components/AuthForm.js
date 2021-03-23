@@ -41,7 +41,7 @@ const AuthForm = ({authType}) => {
         password: userPassword,
       })
       setUser(data)
-      history.push('/organizations')
+      history.push('/organizations/')
     } catch (err) {
       console.error(err)
     }
