@@ -1,6 +1,5 @@
-import React, {useState, useEffect, useMemo, useContext} from 'react'
+import React, {useState, useContext} from 'react'
 import {AuthContext} from '../context/authContext'
-import {auth} from '../store'
 import axios from 'axios'
 import history from '../history'
 import styles from './css/AuthForm.css'
@@ -12,12 +11,12 @@ const AuthForm = ({authType}) => {
 
   // local state of login/signup method
   // either 'me' or 'google'
-  const [method, setMethod] = useState('')
+  const [authMethod, setAuthMethod] = useState('me')
 
   // setUser method from AuthProvider
   const {user, setUser} = useContext(AuthContext)
 
-  console.log('user before login, ', user)
+  console.log('user is, ', user)
 
   // local form field data depends on method
   const {name, displayName, error} =
@@ -33,6 +32,7 @@ const AuthForm = ({authType}) => {
           /* error: state.singleUser.error, */
         }
 
+  // login method
   const authenticateUser = async (e, formName, userEmail, userPassword) => {
     e.preventDefault()
     try {
@@ -47,11 +47,9 @@ const AuthForm = ({authType}) => {
     }
   }
 
+  // form management method
   const handleChange = (e) => {
     e.preventDefault()
-
-    console.log(e.target)
-
     e.target.name === 'email'
       ? setEmail(e.target.value)
       : setPassword(e.target.value)
@@ -90,18 +88,6 @@ const AuthForm = ({authType}) => {
       </div>
     </div>
   )
-}
-
-const mapDispatch = (dispatch) => {
-  return {
-    handleSubmit(evt) {
-      evt.preventDefault()
-      const formName = evt.target.name
-      const email = evt.target.email.value
-      const password = evt.target.password.value
-      dispatch(auth(email, password, formName))
-    },
-  }
 }
 
 export default AuthForm

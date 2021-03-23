@@ -12,7 +12,7 @@ import {AuthContext} from './context/authContext'
 import routesArray from './routes-array'
 
 const Routes = () => {
-  const user = useContext(AuthContext)
+  const {user} = useContext(AuthContext)
 
   return (
     <div>
@@ -24,13 +24,12 @@ const Routes = () => {
         </Switch>
       ) : (
         <Switch>
-          {routesArray.map((route) => (
-            <Route
-              key={route.path}
-              path={route.path}
-              component={route.component}
-            />
-          ))}
+          <Route path="/organizations" component={AllOrgs} />
+          <Route
+            path="/organization/:organizationId/projects/:projectId"
+            component={ProjectView}
+          />
+          <Route path="/profiles/users/:userId" component={Profile} />
         </Switch>
       )}
     </div>

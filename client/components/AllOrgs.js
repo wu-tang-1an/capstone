@@ -1,8 +1,6 @@
-import React from 'react'
-import {connect} from 'react-redux'
+import React, {useState, useContext, useEffect} from 'react'
 import {Link} from 'react-router-dom'
-
-import {fetchOrgs, resetState} from '../store/organizations'
+import {AuthContext} from '../context/authContext'
 import styles from './css/AllOrgs.css'
 
 function mapState(state) {
@@ -19,43 +17,46 @@ function mapDispatch(dispatch) {
   }
 }
 
-class AllOrgs extends React.Component {
-  componentDidMount() {
-    this.props.fetchOrgs(this.props.userId)
-  }
-  componentWillUnmount() {
-    this.props.resetState()
-  }
+const AllOrgs = (props) => {
+  const [organizations, setOrganizations] = useState([])
 
-  render() {
-    console.log('this s the state ', this.props)
-    return (
-      <div>
-        <h1 className={styles.allOrgsHeader}>Your Organizations</h1>
-        <div className={styles.allOrgsCont}>
-          {this.props.organizations.map((org, index) => {
-            return (
-              <Link
-                key={index}
-                className={styles.allOrgsAnchor}
-                to={`/organizations/${org.id}`}
-              >
-                <div className={styles.orgCont}>
-                  <div>
-                    <img className={styles.orgImg} src={org.imageUrl} />
-                  </div>
+  const {user, setUser} = useContext(AuthContext)
 
-                  <div className={styles.orgNameCont}>
-                    <h3 className={styles.orgName}>{org.name}</h3>
-                  </div>
+  console.log('user in AllOrgs is: ', user)
+
+  useEffect(() => {
+    const setOrgs = () => {
+      setOrganizations(user.organizations)
+    }
+    setOrgs()
+  }, [organizations])
+
+  return (
+    <div>
+      <h1 className={styles.allOrgsHeader}>Your Organizations</h1>
+      <div className={styles.allOrgsCont}>
+        {organizations.map((org, index) => {
+          return (
+            <Link
+              key={index}
+              className={styles.allOrgsAnchor}
+              to={`/organizations/${org.id}`}
+            >
+              <div className={styles.orgCont}>
+                <div>
+                  <img className={styles.orgImg} src={org.imageUrl} />
                 </div>
-              </Link>
-            )
-          })}
-        </div>
+
+                <div className={styles.orgNameCont}>
+                  <h3 className={styles.orgName}>{org.name}</h3>
+                </div>
+              </div>
+            </Link>
+          )
+        })}
       </div>
-    )
-  }
+    </div>
+  )
 }
 
-export default connect(mapState, mapDispatch)(AllOrgs)
+export default AllOrgs

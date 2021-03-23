@@ -2,10 +2,6 @@ import {AuthForm, AllOrgs, ProjectView, Profile} from './components'
 
 const frontendRoutes = [
   {
-    path: '/',
-    component: AuthForm,
-  },
-  {
     path: `/organizations`,
     component: AllOrgs,
   },
@@ -16,6 +12,10 @@ const frontendRoutes = [
   {
     path: '/profile',
     component: Profile,
+  },
+  {
+    path: '/',
+    component: AuthForm,
   },
 ]
 
