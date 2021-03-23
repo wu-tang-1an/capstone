@@ -14,13 +14,14 @@ const Board = () => {
   // we'll use the columnId to pull the appropriate column
   // IN to the column component with useContext()
   const columnIds = columns.map((column) => column.id)
-  const columnName = columns.map((column) => column.name)
+  const columnNames = columns.map((column) => column.name)
 
   return (
     <div className="Board">
+      <h2>Organization Board</h2>
       <div className={styles.boardContainer}>
-        {columnIds.map((columnId) => (
-          <Column key={columnId} columnId={columnId} name={columnName} />
+        {columns.map((column) => (
+          <Column key={column.id} columnId={column.id} name={column.name} />
         ))}
         <AddButton column />
       </div>

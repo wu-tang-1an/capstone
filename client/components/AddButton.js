@@ -33,7 +33,7 @@ export class AddButton extends React.Component {
     })
   }
 
-  handleAddColumn = () => {
+  handleAddColumn = (e) => {
     const {dispatch} = this.props
     const {name} = this.state
 
@@ -42,7 +42,9 @@ export class AddButton extends React.Component {
         name: '',
       })
       dispatch(fetchAddColumn(name))
-      // dispatch(addColumn(name))
+
+      e.preventDefault()
+      dispatch(addColumn(name))
     }
   }
 
