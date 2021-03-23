@@ -1,4 +1,4 @@
-const tasks = [
+module.exports = [
   {
     description: 'refactor components',
     completionDate: '4/1/2021',

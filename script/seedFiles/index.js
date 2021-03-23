@@ -8,6 +8,7 @@ const columnTasks = require('./columnTasks')
 const orgProjects = require('./orgProjects')
 const projectColumns = require('./projectColumns')
 const userTasks = require('./userTasks')
+const userOrgs = require('./userOrgs')
 
 module.exports = {
   users,
@@ -20,4 +21,5 @@ module.exports = {
   orgProjects,
   projectColumns,
   userTasks,
+  userOrgs,
 }

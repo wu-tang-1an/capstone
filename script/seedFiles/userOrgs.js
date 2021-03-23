@@ -1,0 +1,58 @@
+module.exports = [
+  {
+    userId: 1,
+    organizationId: 1,
+    role: 'admin',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  {
+    userId: 2,
+    organizationId: 1,
+    role: 'admin',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  {
+    userId: 3,
+    organizationId: 2,
+    role: 'admin',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  {
+    userId: 4,
+    organizationId: 2,
+    role: 'admin',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  {
+    userId: 1,
+    organizationId: 3,
+    role: 'admin',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  {
+    userId: 2,
+    organizationId: 3,
+    role: 'admin',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  {
+    userId: 3,
+    organizationId: 4,
+    role: 'admin',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  {
+    userId: 4,
+    organizationId: 4,
+    role: 'admin',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+]
