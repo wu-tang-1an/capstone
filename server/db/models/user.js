@@ -5,12 +5,19 @@ const db = require('../db')
 const User = db.define('user', {
   firstName: {
     type: Sequelize.STRING,
+    defaultValue: 'Add First Name',
     allowNull: false,
+    validate: {
+      notEmpty: true,
+    },
   },
-
   lastName: {
     type: Sequelize.STRING,
+    defaultValue: 'Add Last Name',
     allowNull: false,
+    validate: {
+      notEmpty: true,
+    },
   },
 
   status: {

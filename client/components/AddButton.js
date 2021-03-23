@@ -1,12 +1,7 @@
 import React from 'react'
 import {Card, Icon, Button} from '@material-ui/core'
 import Textarea from 'react-textarea-autosize'
-import {
-  fetchAddColumn,
-  fetchAddTask,
-  addColumn,
-  addTask,
-} from '../store/columns'
+import {fetchAddColumn, fetchAddTask} from '../store/columns'
 import {connect} from 'react-redux'
 
 const styles = {
@@ -50,13 +45,28 @@ export class AddButton extends React.Component {
     })
   }
 
-  handleAddColumn = (e) => {
+  handleAddColumn = () => {
     const {dispatch} = this.props
     const {name} = this.state
     console.log('name--->', name)
 
     if (name) {
       dispatch(fetchAddColumn(name)).then(() => {
+        this.setState({
+          name: '',
+        })
+      })
+    }
+  }
+
+  handleAddTask = () => {
+    const {dispatch, columnId} = this.props
+    const {name} = this.state
+    console.log('name--->', name)
+    console.log('columnId--->', columnId)
+
+    if (name) {
+      dispatch(fetchAddTask(columnId, name)).then(() => {
         this.setState({
           name: '',
         })
@@ -156,6 +166,7 @@ export class AddButton extends React.Component {
 const mapState = (state) => {
   return {
     columns: state.columns,
+    tasks: state.tasks,
   }
 }
 
