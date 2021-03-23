@@ -32,9 +32,11 @@ export const fetchAllColumns = () => {
 }
 
 export const fetchAddColumn = (name) => {
+  console.log('fetchAddColumnName--->', name)
   return async (dispatch) => {
-    let {data} = await axios.post(`/api/columns/`, name)
-    dispatch(addColumn(data))
+    let {data} = await axios.post(`/api/columns/`, {name})
+    console.log('helloData--->', data)
+    dispatch(addColumn(data.name))
   }
 }
 
@@ -45,24 +47,7 @@ export const fetchAddTask = (columnId, name) => {
   }
 }
 
-const initialState = [
-  {
-    id: 1,
-    name: 'Todo',
-  },
-  {
-    id: 2,
-    name: 'In-progress',
-  },
-  {
-    id: 3,
-    name: 'Review',
-  },
-  {
-    id: 4,
-    name: 'Done',
-  },
-]
+const initialState = []
 
 export default function columns(state = initialState, action) {
   switch (action.type) {
@@ -73,6 +58,7 @@ export default function columns(state = initialState, action) {
         name: action.name,
       }
       return [...state, newColumn]
+
     case ADD_TASK:
       const newTask = {
         name: action.payload.name,

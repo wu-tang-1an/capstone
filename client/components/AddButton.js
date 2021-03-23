@@ -1,8 +1,30 @@
 import React from 'react'
 import {Card, Icon, Button} from '@material-ui/core'
 import Textarea from 'react-textarea-autosize'
-import {addColumn, addTask} from '../store/columns'
+import {
+  fetchAddColumn,
+  fetchAddTask,
+  addColumn,
+  addTask,
+} from '../store/columns'
 import {connect} from 'react-redux'
+
+const styles = {
+  openForButtonGroup: {
+    display: 'flex',
+    alginItems: 'center',
+    cursor: 'pointer',
+    borderRadius: 3,
+    height: 36,
+    width: 272,
+    paddingLeft: 10,
+  },
+  formButtonGroup: {
+    marginTop: 8,
+    display: 'flex',
+    alginItems: 'center',
+  },
+}
 
 export class AddButton extends React.Component {
   state = {
@@ -16,7 +38,7 @@ export class AddButton extends React.Component {
     })
   }
 
-  closeForm = (e) => {
+  closeForm = () => {
     this.setState({
       formOpen: false,
     })
@@ -28,26 +50,16 @@ export class AddButton extends React.Component {
     })
   }
 
-  handleAddColumn = () => {
+  handleAddColumn = (e) => {
     const {dispatch} = this.props
     const {name} = this.state
+    console.log('name--->', name)
 
     if (name) {
-      this.setState({
-        name: '',
-      })
-      dispatch(addColumn(name))
-    }
-  }
-
-  handleAddTask = () => {
-    const {dispatch, columnId} = this.props
-    const {name} = this.state
-
-    if (name) {
-      dispatch(addTask(columnId, name))
-      this.setState({
-        name: '',
+      dispatch(fetchAddColumn(name)).then(() => {
+        this.setState({
+          name: '',
+        })
       })
     }
   }
@@ -55,7 +67,7 @@ export class AddButton extends React.Component {
   renderAddButton = () => {
     const {column} = this.props
 
-    const buttonText = column ? 'Add a column' : 'Add a task'
+    const buttonText = column ? 'Add Column' : 'Add Task'
     const buttonTextOpacity = column ? 1 : 0.5
     const buttonTextColor = column ? 'white' : 'inherit'
     const buttonTextBackground = column ? 'rgba(0,0,0,.15)' : 'inherit'
@@ -135,25 +147,16 @@ export class AddButton extends React.Component {
   }
 
   render() {
+    console.log('this.propssss===>', this.props)
+
     return this.state.formOpen ? this.renderForm() : this.renderAddButton()
   }
 }
 
-const styles = {
-  openForButtonGroup: {
-    display: 'flex',
-    alginItems: 'center',
-    cursor: 'pointer',
-    borderRadius: 3,
-    height: 36,
-    width: 272,
-    paddingLeft: 10,
-  },
-  formButtonGroup: {
-    marginTop: 8,
-    display: 'flex',
-    alginItems: 'center',
-  },
+const mapState = (state) => {
+  return {
+    columns: state.columns,
+  }
 }
 
-export default connect()(AddButton)
+export default connect(mapState)(AddButton)
