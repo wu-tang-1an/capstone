@@ -8,11 +8,13 @@ const TaskCard = () => {
   const [isDropDownActive, setDropDownActive] = useState(false)
 
   // get task and user
+  // type-checking necessary to avoid render issues
   const {task} = useContext(TaskContext)
-  const {id, description} = task
+  const {id} = task
   const users = task.users || []
   const user = (users && users[0]) || {}
 
+  // returns firstName + lastName for task card "opened by _____"
   const getFullName = () => `${user.firstName} ${user.lastName}`
 
   return (
@@ -33,8 +35,7 @@ const TaskCard = () => {
           >
             more_horiz
           </span>
-          {/* join user here to access user data: name, imageUrl */}
-          <img src="USER_IMAGE_HERE" />
+          <img src={user.imageUrl} />
         </div>
       </div>
     </div>
