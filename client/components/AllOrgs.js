@@ -30,26 +30,29 @@ class AllOrgs extends React.Component {
   render() {
     console.log('this s the state ', this.props)
     return (
-      <div className={styles.allOrgsCont}>
-        {this.props.organizations.map((org, index) => {
-          return (
-            <Link
-              key={index}
-              className={styles.allOrgsAnchor}
-              to={`/organizations/${org.id}`}
-            >
-              <div className={styles.orgCont}>
-                <div>
-                  <img className={styles.orgImg} src={org.imageUrl} />
-                </div>
+      <div>
+        <h1 className={styles.allOrgsHeader}>Your Organizations</h1>
+        <div className={styles.allOrgsCont}>
+          {this.props.organizations.map((org, index) => {
+            return (
+              <Link
+                key={index}
+                className={styles.allOrgsAnchor}
+                to={`/organizations/${org.id}`}
+              >
+                <div className={styles.orgCont}>
+                  <div>
+                    <img className={styles.orgImg} src={org.imageUrl} />
+                  </div>
 
-                <div className={styles.orgNameCont}>
-                  <h3>{org.name}</h3>
+                  <div className={styles.orgNameCont}>
+                    <h3 className={styles.orgName}>{org.name}</h3>
+                  </div>
                 </div>
-              </div>
-            </Link>
-          )
-        })}
+              </Link>
+            )
+          })}
+        </div>
       </div>
     )
   }
