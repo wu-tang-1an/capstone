@@ -9,6 +9,7 @@ import {
   SingleTaskExpanded,
   AllOrgs,
   Profile,
+  SingleOrganization,
 } from './components'
 import {me} from './store'
 
@@ -40,6 +41,11 @@ class Routes extends Component {
             />
             <Route exact path="/organizations" component={AllOrgs} />
             <Route exact path="/profile" component={Profile} />
+            <Route
+              exact
+              path="/organizations/:orgId"
+              component={SingleOrganization}
+            />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}

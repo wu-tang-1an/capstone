@@ -1,6 +1,8 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
+import {CgOrganisation} from 'react-icons/cg'
+import {IconContext} from 'react-icons'
 
 import {fetchOrgs, resetState} from '../store/organizations'
 import styles from './css/AllOrgs.css'
@@ -31,7 +33,15 @@ class AllOrgs extends React.Component {
     console.log('this s the state ', this.props)
     return (
       <div>
-        <h1 className={styles.allOrgsHeader}>Your Organizations</h1>
+        <div className={styles.headerCont}>
+          <h1 className={styles.allOrgsHeader}>Your Organizations</h1>
+          <IconContext.Provider
+            value={{size: '2rem', style: {marginTop: '0.7rem'}}}
+          >
+            <CgOrganisation />
+          </IconContext.Provider>
+        </div>
+
         <div className={styles.allOrgsCont}>
           {this.props.organizations.map((org, index) => {
             return (
