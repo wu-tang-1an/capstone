@@ -82,7 +82,7 @@ const AuthForm = ({authType}) => {
           )}
         </form>
         <a href="/auth/google">
-          <img src="google-logo.webp" />
+          <img src="/google-logo.webp" />
           <span>{displayName} with Google</span>
         </a>
       </div>

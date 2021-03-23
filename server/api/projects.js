@@ -18,6 +18,8 @@ router.get('/:projectId', checkUser, async (req, res, next) => {
   try {
     const {projectId} = req.params
 
+    console.log('projectId is: ', projectId)
+
     if (isNaN(projectId)) res.status(400).send(projectId + ' is not a number!')
     else {
       const project = await Project.findByPk(projectId, {

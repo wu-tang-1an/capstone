@@ -14,14 +14,11 @@ const SingleOrganization = ({match}) => {
   // get projects from thisOrg
   const projects = thisOrg.projects
 
-  // destructure organization
-  const {id, name, imageUrl} = thisOrg
-
   return (
     <div>
       Projects:
       {projects.map((project) => (
-        <Link to={`/projects/${id}`} key={project.id}>
+        <Link to={`/projects/${project.id}`} key={project.id}>
           <img src={project.imageUrl} />
           <div>{project.name}</div>
           <div>{project.status}</div>

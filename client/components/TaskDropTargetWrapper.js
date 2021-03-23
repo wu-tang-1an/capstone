@@ -2,16 +2,18 @@ import React, {useState} from 'react'
 import styles from './css/TaskDropTargetWrapper.css'
 
 const TaskDropTargetWrapper = ({children, columnId, updateTask}) => {
+  // initialize state to check mouse position relative to drop zone
   const [isMouseOverLowerHalf, setMouseOverLowerHalf] = useState(false)
-
   const [isMouseOverUpperHalf, setMouseOverUpperHalf] = useState(false)
 
+  // calculate y-axis mouse position
   const getMousePosition = (e) => {
     const rect = e.target.getBoundingClientRect()
     const y = e.clientY - rect.top
     return y
   }
 
+  // set state according to y-axis mouse position
   const setMousePosition = (isOverUpperHalf) => {
     if (isOverUpperHalf === '') return
     if (isOverUpperHalf) {
@@ -25,6 +27,7 @@ const TaskDropTargetWrapper = ({children, columnId, updateTask}) => {
     setMouseOverLowerHalf(true)
   }
 
+  // set mouse position on drag over event
   const onDragOver = (e) => {
     e.preventDefault()
     const targetHeight = e.target.clientHeight
@@ -37,7 +40,8 @@ const TaskDropTargetWrapper = ({children, columnId, updateTask}) => {
       : setMousePosition('')
   }
 
-  const onDrop = (e, columnId) => {
+  // put database order
+  const onDrop = (e) => {
     // parse task from data transfer
     const task = JSON.parse(e.dataTransfer.getData('text/plain'))
 
@@ -46,7 +50,7 @@ const TaskDropTargetWrapper = ({children, columnId, updateTask}) => {
     // write new columnId to updateInfo
     const updateInfo = {
       ...task,
-      columnId,
+      columnId, // available on props
     }
 
     // clear mouseover info

@@ -1,5 +1,5 @@
 import React, {useContext} from 'react'
-import {ProjectContext} from './ProjectProvider'
+import {ProjectContext} from '../context/projectContext'
 import ColumnProvider from '../context/columnContext'
 import Column from './Column'
 import styles from './css/Board.css'

@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
-import Modal from './Modal'
-import DeleteTaskModal from './DeleteTaskModal'
+// import Modal from './Modal'
+// import DeleteTaskModal from './DeleteTaskModal'
 import SingleTaskExpanded from './SingleTaskExpanded'
 
 // fields are actions that user can take from dropdown menu
@@ -48,16 +48,18 @@ const TaskCardDropDown = ({taskId}) => {
         ))}
       </div>
       <div className={styles.arrowDown}></div>
-      {activeField === 'Delete' && (
+      {
+        /* {activeField === 'Delete' && (
         <Modal>
           <DeleteTaskModal closeModal={closeModal} taskId={taskId} />
         </Modal>
-      )}
-      {activeField === 'Edit' && (
-        <Modal>
-          <SingleTaskExpanded closeModal={closeModal} taskId={taskId} />
-        </Modal>
-      )}
+      )}*/
+        activeField === 'Edit' && (
+          <Modal>
+            <SingleTaskExpanded closeModal={closeModal} taskId={taskId} />
+          </Modal>
+        )
+      }
     </div>
   )
 }

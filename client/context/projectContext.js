@@ -19,7 +19,9 @@ export default function ProjectProvider({projectId, children}) {
       }
     }
     fetchSingleProject()
-  }, [])
+  }, {})
+
+  console.log('projectId in projectcontext is: ', projectId)
 
   // this check prevents endless rerenders due to setting columns after successfully fetching the current project
   if (!columns.length && project.columns) setColumns(project.columns)

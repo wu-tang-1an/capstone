@@ -1,45 +1,14 @@
 import React, {useState, useContext} from 'react'
-import {ProjectContext} from './ProjectProvider'
 import marked from 'marked'
 import Comment from './Comment'
-
-const fakeCommentsDB = [
-  {
-    id: 1,
-    name: 'Albert',
-    imageUrl: 'https://i.imgur.com/ZoKHJRz.jpg',
-    createdAt: '20190614',
-    content: 'you got this!',
-  },
-  {
-    id: 2,
-    name: 'Felix',
-    imageUrl: 'https://i.imgur.com/TUsXHrj.jpg',
-    createdAt: '20210314',
-    content: 'keep on trucking!',
-  },
-  {
-    id: 3,
-    name: 'Sam',
-    imageUrl: 'https://i.imgur.com/7nMCKHE.jpg',
-    createdAt: '20201225',
-    content: 'markdown is awesome!',
-  },
-]
 
 import styles from './css/SingleTaskExpanded.css'
 
 const SingleTaskExpanded = ({taskId, closeModal}) => {
-  const {tasks, setTasks} = useContext(ProjectContext)
-
-  const thisTask = tasks.find((task) => task.id === taskId)
-
   const [name, setName] = useState(thisTask.name)
   const [issueType, setIssueType] = useState(thisTask.issueType)
   const [description, setDescription] = useState(thisTask.description)
   const [activeMarkdownEditor, setActiveMarkdownEditor] = useState(false)
-
-  const comments = fakeCommentsDB
 
   return (
     <div>

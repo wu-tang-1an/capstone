@@ -1,13 +1,14 @@
 import React from 'react'
-import ProjectProvider from './ProjectProvider'
+import {withRouter} from 'react-router'
+import ProjectProvider from '../context/projectContext'
 import Board from './Board'
 
-const ProjectView = ({match}) => {
-  // get projectId from route props
-  const projectId = +match.params.projectId
+const ProjectView = (props) => {
+  const projectId = +props.match.params.projectId
+
+  console.log('projectId is: ', projectId)
 
   return (
-    /* topLevelViewContainer should be used for all top-level view components */
     <ProjectProvider projectId={projectId}>
       <div className="topLevelViewContainer">
         <Board />
@@ -16,4 +17,4 @@ const ProjectView = ({match}) => {
   )
 }
 
-export default ProjectView
+export default withRouter(ProjectView)

@@ -1,16 +1,14 @@
 import React, {useContext} from 'react'
-import {withRouter, Route, Switch} from 'react-router-dom'
+import {Route, Switch} from 'react-router-dom'
 import {
   AuthForm,
   ProjectView,
-  SingleTaskExpanded,
   SingleOrganization,
   AllOrgs,
   Profile,
 } from './components'
 
 import {AuthContext} from './context/authContext'
-import routesArray from './routes-array'
 
 const Routes = () => {
   const {user} = useContext(AuthContext)
