@@ -41,8 +41,15 @@ export const fetchAddColumn = (name) => {
 }
 
 export const fetchAddTask = (columnId, name) => {
+  console.log('fetchAddTaskName--->', name)
+
   return async (dispatch) => {
-    let {data} = await axios.post(`/api/tasks/`, columnId, name)
+    let {data} = await axios.post(`/api/tasks/columns/${columnId}`, {
+      name,
+    })
+
+    console.log('helloDataDEEEEEEE--->', data)
+
     dispatch(addTask(data))
   }
 }
