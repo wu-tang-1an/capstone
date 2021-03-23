@@ -7,8 +7,6 @@ export default function TaskProvider({taskId, children}) {
   // initialize task-level state
   const [task, setTask] = useState({})
 
-  console.log('taskId in taskContext is: ', taskId)
-
   // fetch task by taskId
   useEffect(() => {
     const fetchSingleTask = async () => {

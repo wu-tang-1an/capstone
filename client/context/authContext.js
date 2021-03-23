@@ -18,8 +18,6 @@ const AuthProvider = ({children}) => {
     getMe()
   }, {})
 
-  console.log('user in authContext is: ', user)
-
   const providerValue = useMemo(() => {
     return {user, setUser}
   }, [user])

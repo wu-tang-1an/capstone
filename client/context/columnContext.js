@@ -19,8 +19,7 @@ const ColumnProvider = ({children, columnId}) => {
     getColumn()
   }, {})
 
-  console.log('column in columnContext is: ', column)
-
+  // this check prevents endless rerenders due to setting columns after successfully fetching the current project
   if (!tasks.length && column.tasks) setTasks(column.tasks)
 
   const providerValue = useMemo(() => {
