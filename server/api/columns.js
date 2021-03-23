@@ -38,6 +38,7 @@ router.get('/:columnId', checkUser, async (req, res, next) => {
 router.post('/', checkUser, async (req, res, next) => {
   try {
     const data = req.body
+    console.log('req.body--->', req.body)
     const {dataValues} = await Column.create(data)
 
     res.status(201).json(dataValues)
