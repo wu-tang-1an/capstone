@@ -13,7 +13,7 @@ export default function ProjectProvider({projectId, children}) {
     const fetchSingleProject = async () => {
       try {
         const {data} = await axios.get(`/api/projects/${projectId}`)
-        setProject(data)
+        setProject(data || {})
       } catch (err) {
         console.error(err)
       }

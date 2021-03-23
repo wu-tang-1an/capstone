@@ -1,30 +1,24 @@
 import React, {useState, useContext} from 'react'
 import TaskCard from './TaskCard'
 import ColumnDropDown from './ColumnDropDown'
-import {fetchAllTasks, fetchUpdateTask} from '../store/tasks'
 import AddButton from './AddButton'
 import TaskDropTargetWrapper from './TaskDropTargetWrapper'
-import {ProjectContext} from './ProjectProvider'
+import {ColumnContext} from '../context/columnContext'
 
 import styles from './css/Column.css'
+
 const Column = ({name, columnId}) => {
   // local state management for drop down column render
   const [isActive, setActive] = useState(false)
 
   // useContext pull in all tasks from ProjectProvider
-  const {columns, setColumns, tasks, setTasks} = useContext(ProjectContext)
-
-  // thisColumn selects the appropriate column data from all columns
-  const thisColumn = columns.find((column) => column.id === columnId)
-
-  // theseTasks selects appropriate tasks (where thisColumn owns them) from all tasks
-  const theseTasks = tasks.filter((task) => task.columnId === columnId)
+  const {columns, setColumns, tasks, setTasks} = useContext(ColumnContext)
 
   return (
     <div className={styles.columnContainer}>
       <div className={styles.badgeTitleDotMenu}>
         <div className={styles.badgeAndTitle}>
-          <div className={styles.columnBadge}> {theseTasks.length} </div>{' '}
+          <div className={styles.columnBadge}> {tasks.length} </div>{' '}
           <div className={styles.columnTitle}> {name} </div>{' '}
         </div>{' '}
         <div className={styles.newTaskAndMoreOpts}>
@@ -39,7 +33,7 @@ const Column = ({name, columnId}) => {
       </div>{' '}
       <div className={styles.cardContainer}>
         {' '}
-        {theseTasks.map((task) => (
+        {tasks.map((task) => (
           <TaskDropTargetWrapper key={task.id} columnId={columnId}>
             <TaskCard taskId={task.id} description={task.description} />{' '}
           </TaskDropTargetWrapper>
