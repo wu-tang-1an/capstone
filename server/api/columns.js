@@ -20,7 +20,13 @@ router.get('/:columnId', checkUser, async (req, res, next) => {
 
     if (isNaN(columnId)) res.status(400).send(columnId + ' is not a number!')
     else {
-      const column = await Column.findByPk(columnId)
+      const column = await Column.findByPk(columnId, {
+        include: [
+          {
+            model: Task,
+          },
+        ],
+      })
       res.json(column)
     }
   } catch (error) {
