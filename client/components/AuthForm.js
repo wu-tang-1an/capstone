@@ -17,8 +17,10 @@ const AuthForm = ({authType}) => {
   // setUser method from AuthProvider
   const {user, setUser} = useContext(AuthContext)
 
+  console.log('user before login, ', user)
+
   // local form field data depends on method
-  const {name, displayName, handleSubmit, error} =
+  const {name, displayName, error} =
     authType === 'login'
       ? {
           name: 'login',
@@ -34,12 +36,11 @@ const AuthForm = ({authType}) => {
   const authenticateUser = async (e, formName, userEmail, userPassword) => {
     e.preventDefault()
     try {
-      const {data} = await axios.post(`/auth/${method}`, {
-        userEmail,
-        userPassword,
+      const {data} = await axios.post(`/auth/${formName}`, {
+        email: userEmail,
+        password: userPassword,
       })
       setUser(data)
-      console.log('user after authentication is: ', user)
       history.push('/organizations')
     } catch (err) {
       console.error(err)
@@ -48,6 +49,9 @@ const AuthForm = ({authType}) => {
 
   const handleChange = (e) => {
     e.preventDefault()
+
+    console.log(e.target)
+
     e.target.name === 'email'
       ? setEmail(e.target.value)
       : setPassword(e.target.value)
