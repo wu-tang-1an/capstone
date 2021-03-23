@@ -11,14 +11,23 @@ const SingleOrganization = ({match}) => {
   // get thisOrg from orgs joined on user instance
   const thisOrg = user.organizations.find((org) => org.id === orgId)
 
+  // get projects from thisOrg
+  const projects = thisOrg.projects
+
   // destructure organization
   const {id, name, imageUrl} = thisOrg
 
   return (
     <div>
-      <div className="orgId">{id}</div>
-      <div className="orgName">{name}</div>
-      <image src="imageUrl" />
+      Projects:
+      {projects.map((project) => (
+        <Link to={`/projects/${id}`} key={project.id}>
+          <img src={project.imageUrl} />
+          <div>{project.name}</div>
+          <div>{project.status}</div>
+          <div>{project.description}</div>
+        </Link>
+      ))}
     </div>
   )
 }

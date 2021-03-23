@@ -1,5 +1,4 @@
 import React, {useState, useContext} from 'react'
-import {connect} from 'react-redux'
 import TaskCard from './TaskCard'
 import ColumnDropDown from './ColumnDropDown'
 import {fetchAllTasks, fetchUpdateTask} from '../store/tasks'
@@ -45,20 +44,10 @@ const Column = ({name, columnId}) => {
             <TaskCard taskId={task.id} description={task.description} />{' '}
           </TaskDropTargetWrapper>
         ))}{' '}
-        <AddButton columnId={columnId} />{' '}
+        {/* <AddButton columnId={columnId} />{' '} */}
       </div>{' '}
     </div>
   )
 }
 
-const mapState = (state) => ({
-  tasks: state.tasks,
-})
-
-const mapDispatch = (dispatch) => ({
-  getAllTasks: () => dispatch(fetchAllTasks()),
-  updateTask: (taskId, updateInfo) =>
-    dispatch(fetchUpdateTask(taskId, updateInfo)),
-})
-
-export default connect(mapState, mapDispatch)(Column)
+export default Column

@@ -25,7 +25,7 @@ const Board = () => {
           <Column key={column.id} columnId={column.id} name={column.name} />
         ))}
         {/* <AddButtonColumn /> */}
-        <AddButton column />
+        {/* <AddButton column /> */}
       </div>
     </div>
   )

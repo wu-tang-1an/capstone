@@ -30,10 +30,7 @@ const Routes = () => {
             path="/organizations/:organizationId"
             component={SingleOrganization}
           />
-          <Route
-            path="/organization/:organizationId/projects/:projectId"
-            component={ProjectView}
-          />
+          <Route path="/projects/:projectId" component={ProjectView} />
           <Route path="/profiles/users/:userId" component={Profile} />
         </Switch>
       )}
