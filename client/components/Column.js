@@ -3,6 +3,7 @@ import TaskCard from './TaskCard'
 import ColumnDropDown from './ColumnDropDown'
 import AddButton from './AddButton'
 import TaskDropTargetWrapper from './TaskDropTargetWrapper'
+import TaskProvider from '../context/taskContext'
 import {ColumnContext} from '../context/columnContext'
 
 import styles from './css/Column.css'
@@ -36,9 +37,11 @@ const Column = ({name, columnId}) => {
 
       <div className={styles.cardContainer}>
         {tasks.map((task) => (
-          <TaskDropTargetWrapper key={task.id} taskId={task.id}>
-            <TaskCard task={task} />
-          </TaskDropTargetWrapper>
+          <TaskProvider key={task.id} taskId={task.id}>
+            <TaskDropTargetWrapper taskId={task.id}>
+              <TaskCard />
+            </TaskDropTargetWrapper>
+          </TaskProvider>
         ))}
         {/* <AddButton columnId={columnId} /> */}
       </div>

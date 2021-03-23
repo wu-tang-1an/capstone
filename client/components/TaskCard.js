@@ -1,23 +1,22 @@
 import React, {useState, useContext} from 'react'
 import TaskCardDropDown from './TaskCardDropDown'
-import {ProjectContext} from '../context/projectContext'
-
-const onDragStart = (e, task) => {
-  console.log('dragging task: ', task)
-  e.dataTransfer.setData('text/plain', JSON.stringify(task))
-}
-
+import {TaskContext} from '../context/taskContext'
 import styles from './css/TaskCard.css'
 
-const TaskCard = ({task}) => {
+const TaskCard = () => {
   // local state management for drop down render
   const [isDropDownActive, setDropDownActive] = useState(false)
 
-  // deconstruct task data
-  const {id, createdBy, createdAt, status, user} = task || {}
+  // get task and user
+  const {task} = useContext(TaskContext)
+  const {id, description} = task
+  const users = task.users || []
+  const user = (users && users[0]) || {}
+
+  const getFullName = () => `${user.firstName} ${user.lastName}`
 
   return (
-    <div draggable={true} onDragStart={(e) => onDragStart(e, task)}>
+    <div>
       {isDropDownActive && <TaskCardDropDown taskId={id} />}
       <div className={styles.taskCardContainer}>
         <div className="material-icons">error_outline</div>
@@ -25,8 +24,7 @@ const TaskCard = ({task}) => {
           <div className={styles.title}>{task.description}</div>
           <div
             className={styles.idAndCreatedBy}
-            /* join user here to access user data: name, imageUrl */
-          >{`#${id} opened by ${'USER_NAME_HERE'}`}</div>
+          >{`#${id} opened by ${getFullName()}`}</div>
         </div>
         <div className={styles.dotMenuAndAvatar}>
           <span

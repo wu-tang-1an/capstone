@@ -19,6 +19,9 @@ router.get('/:taskId', checkAdmin, async (req, res, next) => {
     const task = await Task.findByPk(+req.params.taskId, {
       include: [
         {
+          model: User,
+        },
+        {
           model: Comment,
           include: [
             {
