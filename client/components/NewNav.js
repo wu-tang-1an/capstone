@@ -3,6 +3,10 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {logout} from '../store'
+import {AiFillHome} from 'react-icons/ai'
+import {CgOrganisation, CgProfile, CgLogOut} from 'react-icons/cg'
+
+import styles from './css/NewNav.css'
 
 const Nav = ({handleClick, isLoggedIn}) => {
   return (
@@ -25,18 +29,47 @@ const Nav = ({handleClick, isLoggedIn}) => {
           </button>
           <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div className="navbar-nav">
-              <Link className="nav-link active" aria-current="page" to="/home">
-                Home
-              </Link>
-              <Link className="nav-link" to="/organizations">
-                Organizations
-              </Link>
-              <Link className="nav-link" to="/profile">
-                Profile
-              </Link>
-              <Link className="nav-link" to="#" onClick={handleClick}>
-                Logout
-              </Link>
+              <div className={styles.linkCont}>
+                <span className={styles.spanCont}>
+                  <AiFillHome />
+                </span>
+
+                <Link
+                  className="nav-link active"
+                  aria-current="page"
+                  to="/home"
+                >
+                  Home
+                </Link>
+              </div>
+
+              <div className={styles.linkCont}>
+                <span className={styles.spanCont}>
+                  <CgOrganisation />
+                </span>
+                <Link className="nav-link" to="/organizations">
+                  Organizations
+                </Link>
+              </div>
+
+              <div className={styles.linkCont}>
+                <span className={styles.spanCont}>
+                  <CgProfile />
+                </span>
+
+                <Link className="nav-link" to="/profile">
+                  Profile
+                </Link>
+              </div>
+
+              <div className={styles.linkCont}>
+                <span className={styles.spanCont}>
+                  <CgLogOut />
+                </span>
+                <Link className="nav-link" to="#" onClick={handleClick}>
+                  Logout
+                </Link>
+              </div>
             </div>
           </div>
         </div>
