@@ -1,8 +1,9 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import {Link} from 'react-router-dom'
 
 import {fetchOrgs, resetState} from '../store/organizations'
-import styles from './AllOrgs.css'
+import styles from './css/AllOrgs.css'
 
 function mapState(state) {
   return {
@@ -32,15 +33,21 @@ class AllOrgs extends React.Component {
       <div className={styles.allOrgsCont}>
         {this.props.organizations.map((org, index) => {
           return (
-            <div key={index} className={styles.orgCont}>
-              <div>
-                <img className={styles.orgImg} src={org.imageUrl} />
-              </div>
+            <Link
+              key={index}
+              className={styles.allOrgsAnchor}
+              to={`/organizations/${org.id}`}
+            >
+              <div className={styles.orgCont}>
+                <div>
+                  <img className={styles.orgImg} src={org.imageUrl} />
+                </div>
 
-              <div className={styles.orgNameCont}>
-                <h3>{org.name}</h3>
+                <div className={styles.orgNameCont}>
+                  <h3>{org.name}</h3>
+                </div>
               </div>
-            </div>
+            </Link>
           )
         })}
       </div>

@@ -2,7 +2,7 @@ import React from 'react'
 import moment from 'moment'
 
 // animate open/close comment edit field
-import styles from './Comment.css'
+import styles from './css/Comment.css'
 const Comment = (props) => {
   const {comment} = props
 
