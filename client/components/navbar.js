@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {logout} from '../store'
-import styles from './navbar.css'
+import styles from './css/navbar.css'
 
 const Navbar = ({handleClick, isLoggedIn}) => (
   <header className={styles.navbarContainer}>

@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {User, Organization} = require('../db/models')
+const {User, Organization, Task, Comment} = require('../db/models')
 const {checkUser, checkAdmin} = require('./gatekeeper')
 module.exports = router
 
@@ -25,7 +25,18 @@ router.get('/:userId', checkUser, async (req, res, next) => {
 
     if (isNaN(userId)) res.status(400).send(userId + ' is not a number!')
     else {
-      const user = await User.findByPk(userId)
+      const user = await User.findByPk(userId, {
+        include: [
+          {
+            model: Task,
+            include: [
+              {
+                model: Comment,
+              },
+            ],
+          },
+        ],
+      })
 
       // if user doesn't exist
       if (!user) res.status(404).send('User not found in database!')

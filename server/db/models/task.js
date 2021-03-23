@@ -3,25 +3,8 @@ const Sequelize = require('sequelize')
 const db = require('../db')
 
 const Task = db.define('task', {
-  name: {
-    type: Sequelize.STRING,
-    // allowNull: false,
-    // validate: {
-    //   notEmpty: true,
-    // },
-  },
-
-  createdBy: {
-    type: Sequelize.STRING,
-  },
-
   description: {
     type: Sequelize.TEXT,
-  },
-
-  status: {
-    type: Sequelize.ENUM,
-    values: ['in-progress', 'todo', 'done', 'review'],
   },
   completionDate: {
     type: Sequelize.STRING,
@@ -30,10 +13,6 @@ const Task = db.define('task', {
 
 Task.prototype.getDescription = function () {
   return this.description
-}
-
-Task.prototype.getName = function () {
-  return this.name
 }
 
 Task.prototype.getDate = function () {

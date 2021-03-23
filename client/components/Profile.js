@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react'
 import axios from 'axios'
-import styles from './Profile.css'
+import styles from './css/Profile.css'
 import {Link} from 'react-router-dom'
+import AllOrgs from './AllOrgs'
 
 export default function Profile() {
   const [profile, setProfile] = useState({})

@@ -1,7 +1,7 @@
 import React, {useContext} from 'react'
 import Column from './Column'
 import AddButton from './AddButton'
-import styles from './Board.css'
+import styles from './css/Board.css'
 import {ProjectContext} from './ProjectProvider'
 
 const Board = () => {

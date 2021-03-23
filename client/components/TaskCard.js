@@ -7,7 +7,7 @@ const onDragStart = (e, task) => {
   e.dataTransfer.setData('text/plain', JSON.stringify(task))
 }
 
-import styles from './TaskCard.css'
+import styles from './css/TaskCard.css'
 
 const TaskCard = ({name, taskId}) => {
   console.log('taskName--->', name)
