@@ -1,7 +1,6 @@
 import React, {useState, useContext} from 'react'
 import marked from 'marked'
 import Comment from './Comment'
-
 import styles from './css/SingleTaskExpanded.css'
 
 const SingleTaskExpanded = ({taskId, closeModal}) => {
