@@ -7,7 +7,7 @@ import AddButton from './AddButton'
 import TaskDropTargetWrapper from './TaskDropTargetWrapper'
 import {ProjectContext} from './ProjectProvider'
 
-import styles from './Column.css'
+import styles from './css/Column.css'
 const Column = ({columnId}) => {
   // local state management for drop down column render
   const [isActive, setActive] = useState(false)

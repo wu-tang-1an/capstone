@@ -16,11 +16,7 @@ const UserOrganization = db.define('user_organization', {
   },
 })
 
-const UserTask = db.define('user_task', {
-  ProjectId: {
-    type: Sequelize.INTEGER,
-  },
-})
+const UserTask = db.define('user_task')
 
 /**
  * If we had any associations to make, this would be a great place to put them!

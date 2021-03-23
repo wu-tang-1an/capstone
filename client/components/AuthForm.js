@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {auth} from '../store'
 
-import styles from './AuthForm.css'
+import styles from './css/AuthForm.css'
 const AuthForm = (props) => {
   const {name, displayName, handleSubmit, error} = props
 

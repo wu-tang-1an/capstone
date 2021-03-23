@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {Task, Column, User} = require('../db/models')
+const {Task, Column, User, Comment} = require('../db/models')
 const {checkUser, checkAdmin} = require('./gatekeeper')
 module.exports = router
 
@@ -8,6 +8,27 @@ router.get('/', checkAdmin, async (req, res, next) => {
   try {
     const tasks = await Task.findAll({include: User})
     res.json(tasks)
+  } catch (error) {
+    next(error)
+  }
+})
+
+// GET single task
+router.get('/:taskId', checkAdmin, async (req, res, next) => {
+  try {
+    const task = await Task.findByPk(+req.params.taskId, {
+      include: [
+        {
+          model: Comment,
+          include: [
+            {
+              model: User,
+            },
+          ],
+        },
+      ],
+    })
+    res.json(task)
   } catch (error) {
     next(error)
   }

@@ -1,0 +1,45 @@
+.profileMasterCont {
+  display: flex;
+  padding: 10px;
+  /* background-color: aqua; */
+  justify-content: space-evenly;
+}
+
+.profileContainer {
+  /* width: 95%; */
+}
+
+.profileImgCont {
+  display: flex;
+  justify-content: center;
+}
+
+.profileImg {
+  max-width: 10rem;
+  max-height: 10rem;
+  border-radius: 50%;
+  border: solid black;
+}
+
+.nameCont {
+  text-align: center;
+}
+
+.emailCont {
+  text-align: center;
+}
+
+.updateProfileCont {
+  display: inline;
+}
+
+.updateProfileCont a {
+  text-decoration: none;
+  color: white;
+  background-color: blue;
+  padding: 8px;
+  float: right;
+  border: none;
+
+  border-radius: 16px;
+}

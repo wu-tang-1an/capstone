@@ -8,6 +8,7 @@ import {
   ProjectView,
   SingleTaskExpanded,
   AllOrgs,
+  Profile,
 } from './components'
 import {me} from './store'
 
@@ -38,6 +39,7 @@ class Routes extends Component {
               render={() => <ProjectView userId={this.props.singleUser.id} />}
             />
             <Route exact path="/organizations" component={AllOrgs} />
+            <Route exact path="/profile" component={Profile} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}

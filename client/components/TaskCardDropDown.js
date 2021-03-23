@@ -1,4 +1,5 @@
-import React from 'react'
+import React, {useState} from 'react'
+import Modal from './Modal'
 import DeleteTaskModal from './DeleteTaskModal'
 import SingleTaskExpanded from './SingleTaskExpanded'
 
@@ -9,84 +10,56 @@ const fields = [
   // more fields as necessary
 ]
 
-import styles from './TaskCardDropDown.css'
-class TaskCardDropDown extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      activeField: '',
-    }
-    this.handleCloseModal = this.handleCloseModal.bind(this)
-    this.handleOpenModal = this.handleOpenModal.bind(this)
-  }
+import styles from './css/TaskCardDropDown.css'
+const TaskCardDropDown = ({taskId}) => {
+  // designate local state to handle modal visibility
+  const [activeField, setActiveField] = useState('')
 
-  // clear active field closes an open task modal by resetting active field to a falsey value
-  handleCloseModal() {
-    this.setState({
-      activeField: '',
-    })
-  }
+  // closeModal sets activeField to ES
+  const closeModal = () => setActiveField('')
 
-  handleOpenModal(taskType) {
-    this.setState({
-      activeField: taskType,
-    })
-  }
+  // openModal sets activeField to fieldType, ex. 'Delete'
+  const openModal = (taskType) => setActiveField(taskType)
 
-  render() {
-    const {taskId} = this.props || 0
-    const {activeField} = this.state
-    const {handleCloseModal, handleOpenModal} = this
-
-    return (
-      <div>
-        <div className={styles.taskCardDropDownContainer}>
-          {/* keep things extensible here by mapping over a fields array and sending the type of field to the TaskModal, which will render with content according to activeField */}
-          {fields.map((field) => (
-            <div
-              key={field.id}
-              className={styles.dropDownField}
-              onClick={() => {
-                this.setState({activeField: field.type})
-              }}
-            >
-              {field.type === 'Edit' ? (
-                <div className={styles.fieldContainer}>
-                  <a href="#">{field.type}</a>
-                  <span className="material-icons">keyboard_arrow_right</span>
-                </div>
-              ) : field.type === 'Delete' ? (
-                <div className={styles.fieldContainer}>
-                  <a onClick={() => handleOpenModal(field.type)} href="#">
-                    {field.type}
-                  </a>
-                  <span className="material-icons">keyboard_arrow_right</span>
-                </div>
-              ) : null}
-            </div>
-          ))}
-        </div>
-        <div className={styles.arrowDown}></div>
-        {activeField === 'Delete' && (
-          <DeleteTaskModal
-            handleCloseModal={handleCloseModal}
-            taskId={taskId}
-          />
-        )}
-        {activeField === 'Edit' && (
-          <div>
-            <div className={styles.modalBackdrop}></div>
-            <div className={styles.transparentBlockContainer}>
-              <SingleTaskExpanded
-                handleCloseModal={handleCloseModal}
-                taskId={taskId}
-              />
-            </div>
+  return (
+    <div>
+      <div className={styles.taskCardDropDownContainer}>
+        {/* keep things extensible here by mapping over a fields array and sending the type of field to the TaskModal, which will render with content according to activeField */}
+        {fields.map((field) => (
+          <div
+            key={field.id}
+            className={styles.dropDownField}
+            onClick={() => setActiveField(field.type)}
+          >
+            {field.type === 'Edit' ? (
+              <div className={styles.fieldContainer}>
+                <a href="#">{field.type}</a>
+                <span className="material-icons">keyboard_arrow_right</span>
+              </div>
+            ) : field.type === 'Delete' ? (
+              <div className={styles.fieldContainer}>
+                <a onClick={() => openModal(field.type)} href="#">
+                  {field.type}
+                </a>
+                <span className="material-icons">keyboard_arrow_right</span>
+              </div>
+            ) : null}
           </div>
-        )}
+        ))}
       </div>
-    )
-  }
+      <div className={styles.arrowDown}></div>
+      {activeField === 'Delete' && (
+        <Modal>
+          <DeleteTaskModal closeModal={closeModal} taskId={taskId} />
+        </Modal>
+      )}
+      {activeField === 'Edit' && (
+        <Modal>
+          <SingleTaskExpanded closeModal={closeModal} taskId={taskId} />
+        </Modal>
+      )}
+    </div>
+  )
 }
 
 export default TaskCardDropDown
