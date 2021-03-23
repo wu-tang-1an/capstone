@@ -1,18 +1,21 @@
-import React, {useState, useEffect, useMemo} from 'react'
-import {connect} from 'react-redux'
+import React, {useState, useEffect, useMemo, useContext} from 'react'
+import {AuthContext} from '../context/authContext'
 import {auth} from '../store'
+import axios from 'axios'
+import history from '../history'
 import styles from './css/AuthForm.css'
 
 const AuthForm = ({authType}) => {
-  // local state of user email
+  // local state of user input
   const [email, setEmail] = useState('')
-
-  // local state of user password
   const [password, setPassword] = useState('')
 
   // local state of login/signup method
   // either 'me' or 'google'
   const [method, setMethod] = useState('')
+
+  // setUser method from AuthProvider
+  const {setUser} = useContext(AuthContext)
 
   // local form field data depends on method
   const {name, displayName, handleSubmit, error} =
@@ -28,21 +31,44 @@ const AuthForm = ({authType}) => {
           /* error: state.singleUser.error, */
         }
 
+  const authenticateUser = async (formName, userEmail, userPassword) => {
+    try {
+      const {data} = await axios.post(`/auth/${method}`, {
+        userEmail,
+        userPassword,
+      })
+      setUser(data)
+      history.push('/organizations')
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  const handleChange = (e) => {
+    e.preventDefault()
+    e.target.name === 'email'
+      ? setEmail(e.target.value)
+      : setPassword(e.target.value)
+  }
+
   return (
     <div className={styles.outerContainer}>
       <div className={styles.authFormContainer}>
-        <form onSubmit={handleSubmit} name={name}>
+        <form
+          onSubmit={() => authenticateUser(name, email, password)}
+          name={name}
+        >
           <div>
             <label htmlFor="email">
               <small>Email</small>
             </label>
-            <input name="email" type="text" />
+            <input name="email" type="text" onChange={handleChange} />
           </div>
           <div>
             <label htmlFor="password">
               <small>Password</small>
             </label>
-            <input name="password" type="password" />
+            <input name="password" type="password" onChange={handleChange} />
           </div>
           <div>
             <button type="submit">{displayName}</button>
