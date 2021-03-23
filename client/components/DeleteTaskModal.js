@@ -1,6 +1,6 @@
 import React, {useContext} from 'react'
 import {ProjectContext} from './ProjectProvider'
-import styles from './DeleteTaskModal.css'
+import styles from './css/DeleteTaskModal.css'
 
 const DeleteTaskModal = (props) => {
   const {tasks, setTasks} = useContext(ProjectContext)

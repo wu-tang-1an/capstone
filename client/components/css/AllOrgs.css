@@ -1,3 +1,7 @@
+.allOrgsAnchor {
+  text-decoration: none;
+}
+
 .allOrgsCont {
   padding: 10px;
   background-color: aqua;

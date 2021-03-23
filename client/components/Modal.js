@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import styles from './Modal.css'
+import styles from './css/Modal.css'
 
 const Modal = ({children}) => {
   return (

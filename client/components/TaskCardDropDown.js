@@ -10,7 +10,7 @@ const fields = [
   // more fields as necessary
 ]
 
-import styles from './TaskCardDropDown.css'
+import styles from './css/TaskCardDropDown.css'
 const TaskCardDropDown = ({taskId}) => {
   // designate local state to handle modal visibility
   const [activeField, setActiveField] = useState('')
