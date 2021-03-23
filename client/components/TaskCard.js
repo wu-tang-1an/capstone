@@ -9,26 +9,20 @@ const onDragStart = (e, task) => {
 
 import styles from './css/TaskCard.css'
 
-const TaskCard = ({description, taskId}) => {
+const TaskCard = ({task}) => {
   // local state management for drop down render
   const [isDropDownActive, setDropDownActive] = useState(false)
 
-  // useContext pulls in all tasks from ProjectProvider
-  const {tasks, setTasks} = useContext(ProjectContext)
-
-  // thisTask selects the appropriate task data from all tasks
-  const thisTask = tasks.find((task) => task.id === taskId)
-
   // deconstruct task data
-  const {id, createdBy, createdAt, status, user} = thisTask || {}
+  const {id, createdBy, createdAt, status, user} = task || {}
 
   return (
-    <div draggable={true} onDragStart={(e) => onDragStart(e, thisTask)}>
+    <div draggable={true} onDragStart={(e) => onDragStart(e, task)}>
       {isDropDownActive && <TaskCardDropDown taskId={id} />}
       <div className={styles.taskCardContainer}>
         <div className="material-icons">error_outline</div>
         <div className={styles.titleAndCreator}>
-          <div className={styles.title}>{description}</div>
+          <div className={styles.title}>{task.description}</div>
           <div
             className={styles.idAndCreatedBy}
             /* join user here to access user data: name, imageUrl */

@@ -3,15 +3,15 @@ import axios from 'axios'
 
 export const ColumnContext = React.createContext()
 
-const ColumnProvider = ({children}) => {
+const ColumnProvider = ({children, columnId}) => {
   const [column, setColumn] = useState({})
   const [tasks, setTasks] = useState([])
 
   useEffect(() => {
     const getColumn = async () => {
       try {
-        const {data} = await axios.get('/api/columns/:columnId')
-        setColumn(data || [])
+        const {data} = await axios.get(`/api/columns/${columnId}`)
+        setColumn(data || {})
       } catch (err) {
         console.error(err)
       }

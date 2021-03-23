@@ -12,34 +12,36 @@ const Column = ({name, columnId}) => {
   const [isActive, setActive] = useState(false)
 
   // useContext pull in all tasks from ProjectProvider
-  const {columns, setColumns, tasks, setTasks} = useContext(ColumnContext)
+  const {column, setColumn, tasks, setTasks} = useContext(ColumnContext)
+
+  console.log('tasks in single column are: ', tasks)
 
   return (
     <div className={styles.columnContainer}>
       <div className={styles.badgeTitleDotMenu}>
         <div className={styles.badgeAndTitle}>
-          <div className={styles.columnBadge}> {tasks.length} </div>{' '}
-          <div className={styles.columnTitle}> {name} </div>{' '}
-        </div>{' '}
+          <div className={styles.columnBadge}> {tasks.length} </div>
+          <div className={styles.columnTitle}> {name} </div>
+        </div>
+
         <div className={styles.newTaskAndMoreOpts}>
-          {' '}
-          {/* material-icons is delivered from index.html with every route -- we can simply use "material-icons" className whenever we want to render an icon */}{' '}
-          <div className="material-icons"> add </div>{' '}
+          <div className="material-icons"> add </div>
           <div className="material-icons" onClick={() => setActive(!isActive)}>
-            more_horiz{' '}
-          </div>{' '}
-        </div>{' '}
-        {isActive && <ColumnDropDown />}{' '}
-      </div>{' '}
+            more_horiz
+          </div>
+        </div>
+
+        {isActive && <ColumnDropDown />}
+      </div>
+
       <div className={styles.cardContainer}>
-        {' '}
         {tasks.map((task) => (
-          <TaskDropTargetWrapper key={task.id} columnId={columnId}>
-            <TaskCard taskId={task.id} description={task.description} />{' '}
+          <TaskDropTargetWrapper key={task.id} taskId={task.id}>
+            <TaskCard task={task} />
           </TaskDropTargetWrapper>
-        ))}{' '}
-        {/* <AddButton columnId={columnId} />{' '} */}
-      </div>{' '}
+        ))}
+        {/* <AddButton columnId={columnId} /> */}
+      </div>
     </div>
   )
 }
