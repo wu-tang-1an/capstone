@@ -103,6 +103,13 @@ async function seed() {
   }
   console.log('Each column has been associated with 2 tasks')
 
+  const associableProjectIds = [...createdProjects].map((project) => project.id)
+  i = 0
+  while (associableProjectIds.length) {
+    await createdOrganizations[i].setProjects([associableProjectIds.shift()])
+  }
+  console.log('Each organization has been associated with 1 project')
+
   console.log(green('Database sucessfully seeded!'))
 }
 
