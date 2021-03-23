@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import styles from './TaskDropTargetWrapper.css'
+import styles from './css/TaskDropTargetWrapper.css'
 
 const TaskDropTargetWrapper = ({children, columnId, updateTask}) => {
   const [isMouseOverLowerHalf, setMouseOverLowerHalf] = useState(false)
