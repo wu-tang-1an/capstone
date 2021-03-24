@@ -5,9 +5,11 @@ import Comment from './Comment'
 import styles from './css/SingleTaskExpanded.css'
 
 const SingleTaskExpanded = ({closeModal}) => {
+  // grab task from task provider and destructure
   const {task} = useContext(TaskContext)
   const {name, issueType, description, comments} = task
 
+  // then declare state and initialize with task data
   const [taskName, setName] = useState(name)
   const [taskIssueType, setIssueType] = useState(issueType)
   const [taskDescription, setDescription] = useState(description)
@@ -25,7 +27,9 @@ const SingleTaskExpanded = ({closeModal}) => {
           </div>
           <div>
             <div className={styles.containerLabel}>Description:</div>
-            {activeMarkdownEditor ? (
+
+            {/* when markdown editor has focus, it is a textarea */}
+            {activeMarkdownEditor && (
               <textarea
                 className={styles.descriptionMarkdown}
                 ref={(input) => input && input.focus()}
@@ -34,7 +38,10 @@ const SingleTaskExpanded = ({closeModal}) => {
                 value={taskDescription || ''}
                 onChange={(e) => setDescription(e.target.value)}
               ></textarea>
-            ) : (
+            )}
+
+            {/* when markdown editor does not have focus it is a div that renders its innerHTML as markdown */}
+            {!activeMarkdownEditor && (
               <div
                 className={styles.descriptionMarkdown}
                 onClick={() => setActiveMarkdownEditor(true)}
