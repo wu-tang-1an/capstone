@@ -1,13 +1,13 @@
 import React from 'react'
 import styles from './css/AddColumnDialog.css'
 
-const AddColumnDialog = ({cancel, taskOrColumn}) => {
+const AddColumnDialog = ({cancel}) => {
   return (
-    <div className={styles.addTaskDropDownContainer}>
+    <div className={styles.addColumnDropDownContainer}>
       <textarea className={styles.description}></textarea>
       <div className={styles.btnContainer}>
         <button type="button" className={styles.addBtn}>
-          Add task
+          Add column
         </button>
         <button type="button" className={styles.cancelBtn} onClick={cancel}>
           Cancel

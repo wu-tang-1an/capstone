@@ -1,9 +1,10 @@
-.addTaskDropDownContainer {
+.addColumnDropDownContainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: 0.5em 0;
+  width: 100%;
 }
 
 textarea {

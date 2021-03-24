@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from './css/AddTaskDialog.css'
 
-const AddTaskDialog = ({cancel, taskOrColumn}) => {
+const AddTaskDialog = ({cancel}) => {
   return (
     <div className={styles.addTaskDropDownContainer}>
       <textarea className={styles.description}></textarea>
