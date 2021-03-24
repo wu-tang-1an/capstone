@@ -9,15 +9,18 @@ textarea {
   outline: none;
   margin: 0;
   padding: 1em;
-  height: 200px;
-  width: 400px;
+  height: 80px;
+  width: 100%;
   background-color: white;
+  border: transparent;
+  border-radius: 5px;
 }
 
 .btnContainer {
   display: flex;
+  width: 100%;
   align-items: baseline;
-  justify-content: space-around;
+  justify-content: space-between;
 }
 
 .btnContainer button {
