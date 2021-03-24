@@ -1,9 +1,11 @@
 import React, {useState, useContext, useEffect} from 'react'
 import {Link} from 'react-router-dom'
 import {AuthContext} from '../context/authContext'
+import {CgOrganisation} from 'react-icons/cg'
+import {IconContext} from 'react-icons'
 import styles from './css/AllOrgs.css'
 
-const AllOrgs = (props) => {
+const AllOrgs = () => {
   const [organizations, setOrganizations] = useState([])
 
   const {user, setUser} = useContext(AuthContext)
@@ -19,7 +21,14 @@ const AllOrgs = (props) => {
     <div>
       {organizations && (
         <div>
-          <h1 className={styles.allOrgsHeader}>Your Organizations</h1>
+          <div className={styles.headerCont}>
+            <h1 className={styles.allOrgsHeader}>Your Organizations</h1>
+            <IconContext.Provider
+              value={{size: '2rem', style: {marginTop: '0.7rem'}}}
+            >
+              <CgOrganisation />
+            </IconContext.Provider>
+          </div>
           <div className={styles.allOrgsCont}>
             {organizations.map((org, index) => (
               <Link
