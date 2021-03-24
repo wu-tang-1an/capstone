@@ -1,5 +1,12 @@
 const router = require('express').Router()
-const User = require('../db/models/user')
+const {
+  User,
+  Organization,
+  Project,
+  Column,
+  Task,
+  Comment,
+} = require('../db/models')
 module.exports = router
 
 router.post('/login', async (req, res, next) => {
@@ -12,7 +19,7 @@ router.post('/login', async (req, res, next) => {
       console.log('Incorrect password for user:', req.body.email)
       res.status(401).send('Wrong username and/or password')
     } else {
-      req.login(user, err => (err ? next(err) : res.json(user)))
+      req.login(user, (err) => (err ? next(err) : res.json(user)))
     }
   } catch (err) {
     next(err)
@@ -22,7 +29,7 @@ router.post('/login', async (req, res, next) => {
 router.post('/signup', async (req, res, next) => {
   try {
     const user = await User.create(req.body)
-    req.login(user, err => (err ? next(err) : res.json(user)))
+    req.login(user, (err) => (err ? next(err) : res.json(user)))
   } catch (err) {
     if (err.name === 'SequelizeUniqueConstraintError') {
       res.status(401).send('User already exists')
@@ -38,8 +45,42 @@ router.post('/logout', (req, res) => {
   res.redirect('/')
 })
 
-router.get('/me', (req, res) => {
-  res.json(req.user)
+router.get('/me', async (req, res, next) => {
+  try {
+    const userId = req.user.id
+
+    const user = await User.findByPk(userId, {
+      include: [
+        {
+          model: Organization,
+          include: [
+            {
+              model: Project,
+              include: [
+                {
+                  model: Column,
+                  include: [
+                    {
+                      model: Task,
+                      include: [
+                        {
+                          model: Comment,
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    })
+
+    res.json(user)
+  } catch (err) {
+    next(err)
+  }
 })
 
 router.use('/google', require('./google'))

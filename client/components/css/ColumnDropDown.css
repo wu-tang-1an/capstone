@@ -1,0 +1,15 @@
+.columnDropDownContainer {
+  padding: 0.5em;
+}
+
+.dropDownField {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5em 0;
+  cursor: pointer;
+}
+
+.fieldName:hover {
+  text-decoration: underline;
+}

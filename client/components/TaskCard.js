@@ -1,41 +1,32 @@
 import React, {useState, useContext} from 'react'
 import TaskCardDropDown from './TaskCardDropDown'
-import {ProjectContext} from './ProjectProvider'
-
-const onDragStart = (e, task) => {
-  console.log('dragging task: ', task)
-  e.dataTransfer.setData('text/plain', JSON.stringify(task))
-}
-
+import {TaskContext} from '../context/taskContext'
 import styles from './css/TaskCard.css'
 
-const TaskCard = ({description, taskId}) => {
+const TaskCard = () => {
   // local state management for drop down render
   const [isDropDownActive, setDropDownActive] = useState(false)
 
-  console.log('description--->', description)
-  console.log('taskId--->', taskId)
+  // get task and user
+  // type-checking necessary to avoid render issues
+  const {task} = useContext(TaskContext)
+  const {id} = task
+  const users = task.users || []
+  const user = (users && users[0]) || {}
 
-  // useContext pulls in all tasks from ProjectProvider
-  const {tasks, setTasks} = useContext(ProjectContext)
-
-  // thisTask selects the appropriate task data from all tasks
-  const thisTask = tasks.find((task) => task.id === taskId)
-
-  // deconstruct task data
-  const {id, createdBy, createdAt, status, user} = thisTask || {}
+  // returns firstName + lastName for task card "opened by _____"
+  const getFullName = () => `${user.firstName} ${user.lastName}`
 
   return (
-    <div draggable={true} onDragStart={(e) => onDragStart(e, thisTask)}>
+    <div>
       {isDropDownActive && <TaskCardDropDown taskId={id} />}
       <div className={styles.taskCardContainer}>
         <div className="material-icons">error_outline</div>
         <div className={styles.titleAndCreator}>
-          <div className={styles.title}>{description}</div>
+          <div className={styles.title}>{task.description}</div>
           <div
             className={styles.idAndCreatedBy}
-            /* join user here to access user data: name, imageUrl */
-          >{`#${id} opened by ${'USER_NAME_HERE'}`}</div>
+          >{`#${id} opened by ${getFullName()}`}</div>
         </div>
         <div className={styles.dotMenuAndAvatar}>
           <span
@@ -44,8 +35,7 @@ const TaskCard = ({description, taskId}) => {
           >
             more_horiz
           </span>
-          {/* join user here to access user data: name, imageUrl */}
-          <img src="USER_IMAGE_HERE" />
+          <img src={user.imageUrl} />
         </div>
       </div>
     </div>

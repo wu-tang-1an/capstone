@@ -6,9 +6,13 @@
 export {default as Navbar} from './navbar'
 export {default as UserHome} from './user-home'
 export {default as UpdateUser} from './UpdateUser'
-export {Login, Signup} from './AuthForm'
+export {default as AuthForm} from './AuthForm'
 export {default as ProjectView} from './ProjectView'
 export {default as SingleTaskExpanded} from './SingleTaskExpanded'
 export {default as AllOrgs} from './AllOrgs'
 export {default as Profile} from './Profile'
-export {default as SingleOrganization} from './SinleOrganization'
+
+export {default as SingleOrganization} from './SingleOrganization'
+
+// /* johnny's single organization "SinleOrganization" imported as SingleOrganization here */
+// export {default as SingleOrganization} from './SinleOrganization'

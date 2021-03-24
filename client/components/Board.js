@@ -1,31 +1,24 @@
 import React, {useContext} from 'react'
+import {ProjectContext} from '../context/projectContext'
+import ColumnProvider from '../context/columnContext'
 import Column from './Column'
-import AddButton from './AddButton'
+import AddColumnDropDown from './AddColumnDropDown'
 import styles from './css/Board.css'
-import {ProjectContext} from './ProjectProvider'
-import AddButtonColumn from './AddButtonColumn'
 
 const Board = () => {
-  // useContext pulls in db data for use by downstream components
-  const {tasks, setTasks, users, setUsers, columns, setColumns} = useContext(
-    ProjectContext
-  )
-
-  // get list of column ids to pass to column
-  // we'll use the columnId to pull the appropriate column
-  // IN to the column component with useContext()
-  const columnIds = columns.map((column) => column.id)
-  const columnNames = columns.map((column) => column.name)
+  // get columns from ProjectContext
+  const {project, columns} = useContext(ProjectContext)
 
   return (
     <div className="Board">
-      <h2>Organization Board</h2>
+      <h2>Project: {project.name}</h2>
       <div className={styles.boardContainer}>
         {columns.map((column) => (
-          <Column key={column.id} columnId={column.id} name={column.name} />
+          <ColumnProvider key={column.id} columnId={column.id}>
+            <Column />
+          </ColumnProvider>
         ))}
-        {/* <AddButtonColumn /> */}
-        <AddButton column />
+        <AddColumnDropDown />
       </div>
     </div>
   )

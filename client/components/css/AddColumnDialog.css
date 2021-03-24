@@ -1,0 +1,37 @@
+.addColumnDropDownContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5em 0;
+  width: 100%;
+}
+
+textarea {
+  outline: none;
+  margin: 0;
+  padding: 1em;
+  height: 80px;
+  width: 100%;
+  background-color: white;
+  border: transparent;
+  border-radius: 5px;
+  margin-bottom: 0.5em;
+}
+
+.btnContainer {
+  display: flex;
+  width: 100%;
+  align-items: baseline;
+  justify-content: space-around;
+}
+
+.btnContainer button {
+  width: 100%;
+  border-radius: 5px;
+}
+
+.addBtn {
+  background-color: rgb(95, 189, 95);
+  color: white;
+}

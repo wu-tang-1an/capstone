@@ -1,13 +1,17 @@
 const router = require('express').Router()
-const {Organization, Project} = require('../db/models')
-const {checkUser, checkAdmin} = require('./gatekeeper')
+const {Organization, Project, User} = require('../db/models')
+const {checkUser, checkAdmin} = require('./helper/gatekeeper')
+const {resNaN, resDbNotFound, resDeleted} = require('./helper/helper')
+const {STR_ORGANIZATIONS, STR_ORGANIZATION} = require('./helper/strings')
 module.exports = router
 
 // GET all organizations route '/api/organizations' (ADMIN ONLY)
 router.get('/', checkAdmin, async (req, res, next) => {
   try {
     const orgs = await Organization.findAll()
-    res.json(orgs)
+    if (!orgs) return resDbNotFound(STR_ORGANIZATIONS, res)
+
+    return res.json(orgs)
   } catch (error) {
     next(error)
   }
@@ -17,18 +21,14 @@ router.get('/', checkAdmin, async (req, res, next) => {
 router.get('/:orgId', checkUser, async (req, res, next) => {
   try {
     const {orgId} = req.params
+    if (isNaN(orgId)) return resNaN(orgId, res)
 
-    if (isNaN(orgId)) res.status(400).send(orgId + ' is not a number!')
-    else {
-      const org = await Organization.findByPk(orgId, {
-        include: [
-          {
-            model: Project,
-          },
-        ],
-      })
-      res.json(org)
-    }
+    const org = await Organization.findByPk(orgId, {
+      include: [{model: Project}, {model: User}],
+    })
+    if (!org) return resDbNotFound(STR_ORGANIZATION, res)
+
+    return res.json(org)
   } catch (error) {
     next(error)
   }
@@ -38,17 +38,13 @@ router.get('/:orgId', checkUser, async (req, res, next) => {
 router.get('/:orgId/users', checkUser, async (req, res, next) => {
   try {
     const {orgId} = req.params
+    if (isNaN(orgId)) return resNaN(orgId, res)
 
-    if (isNaN(orgId)) res.status(400).send(orgId + ' is not a number!')
-    else {
-      const org = await Organization.findByPk(orgId)
+    const org = await Organization.findByPk(orgId)
+    if (!org) return resDbNotFound(STR_ORGANIZATION, res)
 
-      // if organization doesn't exist
-      if (!org) res.status(404).send('Organization not found in database!')
-
-      const users = await org.getUsers()
-      res.json(users)
-    }
+    const users = await org.getUsers()
+    return res.json(users)
   } catch (error) {
     next(error)
   }
@@ -60,7 +56,7 @@ router.post('/', checkUser, async (req, res, next) => {
     const data = req.body
     const {dataValues} = await Organization.create(data)
 
-    res.json(dataValues)
+    return res.json(dataValues)
   } catch (error) {
     next(error)
   }
@@ -71,14 +67,16 @@ router.put('/:orgId', checkUser, async (req, res, next) => {
   try {
     const data = req.body
     const {orgId} = req.params
+    if (isNaN(orgId)) return resNaN(orgId, res)
 
-    const [updatedRows, updatedOrg] = await Organization.update(data, {
+    const [, updatedOrg] = await Organization.update(data, {
       plain: true,
       returning: true,
       where: {id: orgId},
-    }) // returns array: [updatedRows, {updatedProject}]
+    })
+    if (!updatedOrg) return resDbNotFound(STR_ORGANIZATION, res)
 
-    res.json(updatedOrg)
+    return res.json(updatedOrg)
   } catch (error) {
     next(error)
   }
@@ -88,12 +86,12 @@ router.put('/:orgId', checkUser, async (req, res, next) => {
 router.delete('/:orgId', checkUser, async (req, res, next) => {
   try {
     const {orgId} = req.params
+    if (isNaN(orgId)) return resNaN(orgId, res)
 
-    if (isNaN(orgId)) res.status(400).send(orgId + ' is not a number!')
+    const org = await Organization.destroy({where: {id: orgId}})
+    if (!org) return resDbNotFound(STR_ORGANIZATION, res)
 
-    await Organization.destroy({where: {id: orgId}})
-
-    res.status(204).end()
+    return resDeleted(STR_ORGANIZATION, orgId, res)
   } catch (error) {
     next(error)
   }

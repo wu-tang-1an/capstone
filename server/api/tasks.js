@@ -1,23 +1,33 @@
 const router = require('express').Router()
 const {Task, Column, User, Comment} = require('../db/models')
-const {checkUser, checkAdmin} = require('./gatekeeper')
+const {checkUser, checkAdmin} = require('./helper/gatekeeper')
+const {resNaN, resDbNotFound, resAssoc, resDeleted} = require('./helper/helper')
+const {STR_TASKS, STR_TASK, STR_COLUMN, STR_USER} = require('./helper/strings')
 module.exports = router
 
 // GET all tasks with users route '/api/tasks' (ADMIN ONLY)
 router.get('/', checkAdmin, async (req, res, next) => {
   try {
     const tasks = await Task.findAll({include: User})
-    res.json(tasks)
+    if (!tasks) return resDbNotFound(STR_TASKS, res)
+
+    return res.json(tasks)
   } catch (error) {
     next(error)
   }
 })
 
-// GET single task
-router.get('/:taskId', checkAdmin, async (req, res, next) => {
+// GET single task with (comments + users), (task + users) route '/api/tasks/:taskId' (AUTH USER ONLY)
+router.get('/:taskId', checkUser, async (req, res, next) => {
   try {
-    const task = await Task.findByPk(+req.params.taskId, {
+    const {taskId} = req.params
+    if (isNaN(taskId)) return resNaN(taskId, res)
+
+    const task = await Task.findByPk(taskId, {
       include: [
+        {
+          model: User,
+        },
         {
           model: Comment,
           include: [
@@ -28,14 +38,17 @@ router.get('/:taskId', checkAdmin, async (req, res, next) => {
         },
       ],
     })
-    res.json(task)
+    if (!task) return resDbNotFound(STR_TASK, res)
+
+    return res.json(task)
   } catch (error) {
     next(error)
   }
 })
 
-// POST create new task route '/api/tasks' (AUTH USER ONLY)
-/* router.post('/', checkUser, async (req, res, next) => {
+// POST create new task route '/api/tasks' (ADMIN ONLY)
+// creates a free floating task (unassociated)
+router.post('/', checkAdmin, async (req, res, next) => {
   try {
     const data = req.body
     const {dataValues} = await Task.create(data)
@@ -44,27 +57,22 @@ router.get('/:taskId', checkAdmin, async (req, res, next) => {
   } catch (error) {
     next(error)
   }
-}) */
+})
 
 // POST create new task with column route '/api/tasks/columns/:columnId' (AUTH USER ONLY)
 router.post('/columns/:columnId', checkUser, async (req, res, next) => {
   try {
     const data = req.body
     const {columnId} = req.params
-    console.log('req.body intask--->', req.body)
+    if (isNaN(columnId)) return resNaN(columnId, res)
 
-    if (isNaN(columnId)) res.status(400).send(columnId + ' is not a number!')
+    const column = await Column.findByPk(columnId)
+    if (!column) return resDbNotFound(STR_COLUMN, res)
 
     const task = await Task.create(data)
-    const column = await Column.findByPk(columnId)
-
-    console.log('TaskinServer--->', task)
-
-    if (!column) res.status(404).send('Column not found in database!')
-
     task.setColumn(column)
 
-    res.status(201).json(task.dataValues)
+    return res.status(201).json(task.dataValues)
   } catch (error) {
     next(error)
   }
@@ -75,17 +83,16 @@ router.put('/:taskId', checkUser, async (req, res, next) => {
   try {
     const data = req.body
     const {taskId} = req.params
+    if (isNaN(taskId)) return resNaN(taskId, res)
 
-    if (isNaN(taskId)) res.status(400).send(taskId + ' is not a number!')
-    else {
-      const [updatedRows, updatedTask] = await Task.update(data, {
-        plain: true,
-        returning: true,
-        where: {id: taskId},
-      })
+    const [, updatedTask] = await Task.update(data, {
+      plain: true,
+      returning: true,
+      where: {id: taskId},
+    })
+    if (!updatedTask) return resDbNotFound(STR_TASK, res)
 
-      res.json(updatedTask)
-    }
+    return res.json(updatedTask)
   } catch (error) {
     next(error)
   }
@@ -95,17 +102,18 @@ router.put('/:taskId', checkUser, async (req, res, next) => {
 router.put('/:taskId/users/:userId', checkUser, async (req, res, next) => {
   try {
     const {taskId, userId} = req.params
-
-    if (isNaN(taskId)) res.status(400).send(taskId + ' is not a number!')
-    if (isNaN(userId)) res.status(400).send(userId + ' is not a number!')
+    if (isNaN(taskId)) return resNaN(taskId, res)
+    if (isNaN(userId)) return resNaN(userId, res)
 
     const task = await Task.findByPk(taskId)
-    if (!task) res.status(404).send('Task not found in database!')
+    if (!task) return resDbNotFound(STR_TASK, res)
 
     const user = await User.findByPk(userId)
-    if (!user) res.status(404).send('Organization not found in database!')
+    if (!user) return resDbNotFound(STR_USER, res)
 
-    task.addUsers(user)
+    task.addUser(user)
+
+    return resAssoc(STR_TASK, STR_USER, taskId, userId, res)
   } catch (error) {
     next(error)
   }
@@ -115,17 +123,18 @@ router.put('/:taskId/users/:userId', checkUser, async (req, res, next) => {
 router.put('/:taskId/columns/:columnId', checkUser, async (req, res, next) => {
   try {
     const {taskId, columnId} = req.params
-
-    if (isNaN(taskId)) res.status(400).send(taskId + ' is not a number!')
-    if (isNaN(columnId)) res.status(400).send(columnId + ' is not a number!')
+    if (isNaN(taskId)) return resNaN(taskId, res)
+    if (isNaN(columnId)) return resNaN(columnId, res)
 
     const task = await Task.findByPk(taskId)
-    if (!task) res.status(404).send('Task not found in database!')
+    if (!task) return resDbNotFound(STR_TASK, res)
 
     const column = await Column.findByPk(columnId)
-    if (!column) res.status(404).send('Organization not found in database!')
+    if (!column) return resDbNotFound(STR_COLUMN, res)
 
-    task.setColumns(column)
+    task.setColumn(column)
+
+    return resAssoc(STR_TASK, STR_COLUMN, taskId, columnId, res)
   } catch (error) {
     next(error)
   }
@@ -135,12 +144,12 @@ router.put('/:taskId/columns/:columnId', checkUser, async (req, res, next) => {
 router.delete('/:taskId', checkUser, async (req, res, next) => {
   try {
     const {taskId} = req.params
+    if (isNaN(taskId)) return resNaN(taskId, res)
 
-    if (isNaN(taskId)) res.status(400).send(taskId + ' is not a number!')
+    const task = await Task.destroy({where: {id: taskId}})
+    if (!task) return resDbNotFound(STR_TASK, res)
 
-    await Task.destroy({where: {id: taskId}})
-
-    res.status(204).end()
+    return resDeleted(STR_TASK, taskId, res)
   } catch (error) {
     next(error)
   }
