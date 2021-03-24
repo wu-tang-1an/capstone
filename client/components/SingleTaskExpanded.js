@@ -5,17 +5,23 @@ import Comment from './Comment'
 import styles from './css/SingleTaskExpanded.css'
 
 const SingleTaskExpanded = ({closeModal}) => {
-  const [activeMarkdownEditor, setActiveMarkdownEditor] = useState(false)
   const {task} = useContext(TaskContext)
   const {name, issueType, description, comments} = task
+
+  const [taskName, setName] = useState(name)
+  const [taskIssueType, setIssueType] = useState(issueType)
+  const [taskDescription, setDescription] = useState(description)
+  const [activeMarkdownEditor, setActiveMarkdownEditor] = useState(false)
 
   return (
     <div>
       <div className={styles.singleTaskContainer}>
         <div className={styles.leftPanel}>
           <div className={styles.nameAndIssue}>
-            <span className={styles.taskName}>Task: {name}</span>
-            <span className={styles.issueType}>Issue type: {issueType}</span>
+            <span className={styles.taskName}>Task: {taskName}</span>
+            <span className={styles.issueType}>
+              Issue type: {taskIssueType}
+            </span>
           </div>
           <div>
             <div className={styles.containerLabel}>Description:</div>
@@ -25,7 +31,7 @@ const SingleTaskExpanded = ({closeModal}) => {
                 ref={(input) => input && input.focus()}
                 onBlur={() => setActiveMarkdownEditor(false)}
                 name="description"
-                value={description || ''}
+                value={taskDescription || ''}
                 onChange={(e) => setDescription(e.target.value)}
               ></textarea>
             ) : (
@@ -33,7 +39,7 @@ const SingleTaskExpanded = ({closeModal}) => {
                 className={styles.descriptionMarkdown}
                 onClick={() => setActiveMarkdownEditor(true)}
                 dangerouslySetInnerHTML={{
-                  __html: marked(description),
+                  __html: marked(taskDescription),
                 }}
               ></div>
             )}
