@@ -1,7 +1,11 @@
-import React, {useState} from 'react'
+import React, {useState, useContext} from 'react'
 import Modal from './Modal'
 import DeleteTaskModal from './DeleteTaskModal'
 import SingleTaskExpanded from './SingleTaskExpanded'
+import styles from './css/TaskCardDropDown.css'
+
+import axios from 'axios'
+import {ProjectContext} from '../context/projectContext'
 
 // fields are actions that user can take from dropdown menu
 const fields = [
@@ -10,13 +14,25 @@ const fields = [
   // more fields as necessary
 ]
 
-import styles from './css/TaskCardDropDown.css'
-const TaskCardDropDown = () => {
+const TaskCardDropDown = ({taskId}) => {
   // designate local state to handle modal visibility
   const [activeField, setActiveField] = useState('')
 
   // closeModal clears activeField
   const closeModal = () => setActiveField('')
+
+  // grab tasks, setTasks from column context
+  const {tasks, setTasks} = useContext(ProjectContext)
+
+  const deleteTask = async () => {
+    try {
+      await axios.delete(`/api/tasks/${taskId}`)
+      setTasks(tasks.filter((task) => task.id !== taskId))
+    } catch (err) {
+      console.error(err)
+    }
+    closeModal()
+  }
 
   return (
     <div>
@@ -36,7 +52,7 @@ const TaskCardDropDown = () => {
       <div className={styles.arrowDown}></div>
       {activeField === 'Delete' && (
         <Modal>
-          <DeleteTaskModal closeModal={closeModal} />
+          <DeleteTaskModal deleteTask={deleteTask} closeModal={closeModal} />
         </Modal>
       )}
       {activeField === 'Edit' && (

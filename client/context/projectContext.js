@@ -7,22 +7,29 @@ export default function ProjectProvider({projectId, children}) {
   // initialize project-level state
   const [project, setProject] = useState({})
   const [columns, setColumns] = useState([])
+  const [tasks, setTasks] = useState([])
+  const [comments, setComments] = useState([])
 
   // fetch project by projectId
   useEffect(() => {
+    let isMounted = true
     const fetchSingleProject = async () => {
       try {
         const {data} = await axios.get(`/api/projects/${projectId}`)
-        setProject(data || {})
+        setProject(data)
+        setColumns(data.columns)
+        setTasks(columns.map((column) => column.tasks).flat())
+        setComments(tasks.map((task) => task.comments).flat())
       } catch (err) {
         console.error(err)
       }
     }
     fetchSingleProject()
-  }, {})
 
-  // this check prevents endless rerenders due to setting columns after successfully fetching the current project
-  if (!columns.length && project.columns) setColumns(project.columns)
+    return () => {
+      isMounted = false
+    }
+  }, [])
 
   const providerValue = useMemo(() => {
     return {
@@ -30,6 +37,10 @@ export default function ProjectProvider({projectId, children}) {
       setProject,
       columns,
       setColumns,
+      tasks,
+      setTasks,
+      comments,
+      setComments,
     }
   }, [project, columns])
 

@@ -1,7 +1,6 @@
 import React, {useContext} from 'react'
 import {DragDropContext} from 'react-beautiful-dnd'
 import {ProjectContext} from '../context/projectContext'
-import ColumnProvider from '../context/columnContext'
 import Column from './Column'
 import AddColumnDropDown from './AddColumnDropDown'
 import styles from './css/Board.css'
@@ -56,9 +55,7 @@ const Board = () => {
       <div className={styles.boardContainer}>
         <DragDropContext onDragEnd={onDragEnd}>
           {columns.map((column) => (
-            <ColumnProvider key={column.id} columnId={column.id}>
-              <Column />
-            </ColumnProvider>
+            <Column key={column.id} column={column} />
           ))}
         </DragDropContext>
         <AddColumnDropDown />

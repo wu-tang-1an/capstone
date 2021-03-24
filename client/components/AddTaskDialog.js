@@ -1,17 +1,20 @@
 import React, {useState, useContext} from 'react'
 import styles from './css/AddTaskDialog.css'
 import {AuthContext} from '../context/authContext'
-import {ColumnContext} from '../context/columnContext'
+import {ProjectContext} from '../context/projectContext'
 import {addTaskToColumnDB} from '../context/axiosService'
 
 import axios from 'axios'
 
-const AddTaskDialog = ({cancel}) => {
+const AddTaskDialog = ({task, cancel}) => {
   // grab user from auth context
-  const {user, setUser} = useContext(AuthContext)
+  const {user} = useContext(AuthContext)
 
   // grab column and tasks, setTasks from column context
-  const {column, tasks, setTasks} = useContext(ColumnContext)
+  const {columns, tasks, setTasks} = useContext(ProjectContext)
+
+  // get this column
+  const thisColumn = columns.find((column) => column.id === task.columnId)
 
   // initialize local state for new task description
   const [description, setDescription] = useState('')
@@ -28,11 +31,14 @@ const AddTaskDialog = ({cancel}) => {
     }
 
     try {
-      const createdTask = await addTaskToColumnDB(newTask, column.id)
+      const createdTask = await addTaskToColumnDB(newTask, thisColumn.id)
 
       await axios.put(`/api/tasks/${createdTask.id}/users/${user.id}`)
 
       setTasks([...tasks, createdTask])
+
+      console.log(`tasks is: `, tasks)
+
       cancel()
     } catch (err) {
       console.error(err)

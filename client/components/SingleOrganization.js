@@ -16,6 +16,7 @@ const SingleOrganization = ({match}) => {
   // get single org with direct api call
   // no context/provider here since it's a direct route
   useEffect(() => {
+    let isMounted = true
     const fetchSingleOrg = async () => {
       try {
         const {data} = await axios.get(`/api/organizations/${organizationId}`)
@@ -26,6 +27,10 @@ const SingleOrganization = ({match}) => {
       }
     }
     fetchSingleOrg()
+
+    return () => {
+      isMounted = false
+    }
   }, [])
 
   // memoize to keep rerenders to a minimum
