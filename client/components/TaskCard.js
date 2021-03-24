@@ -7,9 +7,9 @@ import {TaskContext} from '../context/taskContext'
 import styles from './css/TaskCard.css'
 
 const Container = styled.div`
-  border-radius: 2px;
+  border-radius: 1px;
   padding: 1px;
-  margin-bottom: 8px;
+  margin-bottom: 1px;
 `
 
 const TaskCard = (props) => {
