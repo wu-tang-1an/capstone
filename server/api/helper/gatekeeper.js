@@ -1,4 +1,4 @@
-const {User} = require('../db/models')
+const {User} = require('../../db/models')
 
 const checkUser = async (req, res, next) => {
   // checks if someone is logged in
