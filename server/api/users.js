@@ -1,6 +1,8 @@
 const router = require('express').Router()
 const {User, Organization, Task, Comment} = require('../db/models')
-const {checkUser, checkAdmin} = require('./gatekeeper')
+const {checkUser, checkAdmin} = require('./helper/gatekeeper')
+const {resNaN, resDbNotFound, resAssoc, resDeleted} = require('./helper/helper')
+const {STR_USERS, STR_USER, STR_ORGANIZATION} = require('./helper/strings')
 module.exports = router
 
 // GET all users route '/api/users' (ADMIN ONLY)
@@ -12,37 +14,26 @@ router.get('/', checkAdmin, async (req, res, next) => {
       // send everything to anyone who asks!
       attributes: ['id', 'firstName', 'lastName', 'email'],
     })
-    res.json(users)
+    if (!users) return resDbNotFound(STR_USERS, res)
+
+    return res.json(users)
   } catch (error) {
     next(error)
   }
 })
 
-// GET single user route '/api/users/:userId' (AUTH USER ONLY)
+// GET single user with (tasks + comments), (user + comments) route '/api/users/:userId' (AUTH USER ONLY)
 router.get('/:userId', checkUser, async (req, res, next) => {
   try {
     const {userId} = req.params
+    if (isNaN(userId)) return resNaN(userId, res)
 
-    if (isNaN(userId)) res.status(400).send(userId + ' is not a number!')
-    else {
-      const user = await User.findByPk(userId, {
-        include: [
-          {
-            model: Task,
-            include: [
-              {
-                model: Comment,
-              },
-            ],
-          },
-        ],
-      })
+    const user = await User.findByPk(userId, {
+      include: [{model: Task, include: [Comment]}, Comment],
+    })
+    if (!user) return resDbNotFound(STR_USER, res)
 
-      // if user doesn't exist
-      if (!user) res.status(404).send('User not found in database!')
-
-      res.json(user)
-    }
+    return res.json(user)
   } catch (error) {
     next(error)
   }
@@ -52,17 +43,13 @@ router.get('/:userId', checkUser, async (req, res, next) => {
 router.get('/:userId/tasks', checkUser, async (req, res, next) => {
   try {
     const {userId} = req.params
+    if (isNaN(userId)) return resNaN(userId, res)
 
-    if (isNaN(userId)) res.status(400).send(userId + ' is not a number!')
-    else {
-      const user = await User.findByPk(userId)
+    const user = await User.findByPk(userId)
+    if (!user) return resDbNotFound(STR_USER, res)
 
-      // if user doesn't exist
-      if (!user) res.status(404).send('User not found in database!')
-
-      const tasks = await user.getTasks()
-      res.json(tasks)
-    }
+    const tasks = await user.getTasks()
+    return res.json(tasks)
   } catch (error) {
     next(error)
   }
@@ -72,17 +59,13 @@ router.get('/:userId/tasks', checkUser, async (req, res, next) => {
 router.get('/:userId/organizations', checkUser, async (req, res, next) => {
   try {
     const {userId} = req.params
+    if (isNaN(userId)) return resNaN(userId, res)
 
-    if (isNaN(userId)) res.status(400).send(userId + ' is not a number!')
-    else {
-      const user = await User.findByPk(userId)
+    const user = await User.findByPk(userId)
+    if (!user) return resDbNotFound(STR_USER, res)
 
-      // if user doesn't exist
-      if (!user) res.status(404).send('User not found in database!')
-
-      const orgs = await user.getOrganizations()
-      res.json(orgs)
-    }
+    const orgs = await user.getOrganizations()
+    return res.json(orgs)
   } catch (error) {
     next(error)
   }
@@ -94,7 +77,7 @@ router.post('/', async (req, res, next) => {
     const data = req.body
     const {dataValues} = await User.create(data)
 
-    res.status(201).json(dataValues)
+    return res.status(201).json(dataValues)
   } catch (error) {
     next(error)
   }
@@ -105,17 +88,16 @@ router.put('/:userId', checkUser, async (req, res, next) => {
   try {
     const data = req.body
     const {userId} = req.params
+    if (isNaN(userId)) return resNaN(userId, res)
 
-    if (isNaN(userId)) res.status(400).send(userId + ' is not a number!')
-    else {
-      const [updatedRows, updatedUser] = await User.update(data, {
-        plain: true,
-        returning: true,
-        where: {id: userId},
-      })
+    const [, updatedUser] = await User.update(data, {
+      plain: true,
+      returning: true,
+      where: {id: userId},
+    })
+    if (!updatedUser) return resDbNotFound(STR_USER, res)
 
-      res.json(updatedUser)
-    }
+    return res.json(updatedUser)
   } catch (error) {
     next(error)
   }
@@ -128,17 +110,18 @@ router.put(
   async (req, res, next) => {
     try {
       const {userId, orgId} = req.params
-
-      if (isNaN(userId)) res.status(400).send(userId + ' is not a number!')
-      if (isNaN(orgId)) res.status(400).send(orgId + ' is not a number!')
+      if (isNaN(userId)) return resNaN(userId, res)
+      if (isNaN(orgId)) return resNaN(orgId, res)
 
       const user = await User.findByPk(userId)
-      if (!user) res.status(404).send('User not found in database!')
+      if (!user) return resDbNotFound(STR_USER, res)
 
       const org = await Organization.findByPk(orgId)
-      if (!org) res.status(404).send('Organization not found in database!')
+      if (!org) return resDbNotFound(STR_ORGANIZATION, res)
 
-      user.addOrganizations(org)
+      user.addOrganization(org)
+
+      return resAssoc(STR_USER, STR_ORGANIZATION, userId, orgId, res)
     } catch (error) {
       next(error)
     }
@@ -149,12 +132,12 @@ router.put(
 router.delete('/:userId', checkAdmin, async (req, res, next) => {
   try {
     const {userId} = req.params
+    if (isNaN(userId)) return resNaN(userId, res)
 
-    if (isNaN(userId)) res.status(400).send(userId + ' is not a number!')
+    const user = await User.destroy({where: {id: userId}})
+    if (!user) return resDbNotFound(STR_USER, res)
 
-    await User.destroy({where: {id: userId}})
-
-    res.status(204).end()
+    return resDeleted(STR_USER, userId, res)
   } catch (error) {
     next(error)
   }
