@@ -1,12 +1,15 @@
 import React, {useState, useContext} from 'react'
+import {Droppable} from 'react-beautiful-dnd'
+import styled from 'styled-components'
 import TaskCard from './TaskCard'
 import AddTaskDialog from './AddTaskDialog'
 import ColumnDropDown from './ColumnDropDown'
-import TaskDropTargetWrapper from './TaskDropTargetWrapper'
 import TaskProvider from '../context/taskContext'
 import {ColumnContext} from '../context/columnContext'
 
 import styles from './css/Column.css'
+
+const TaskList = styled.div``
 
 const Column = () => {
   // local state management for drop down column render
@@ -15,6 +18,7 @@ const Column = () => {
 
   // useContext pull in all tasks from ProjectProvider
   const {column, setColumn, tasks, setTasks} = useContext(ColumnContext)
+  const strId = column.id.toString()
 
   return (
     <div>
@@ -41,18 +45,24 @@ const Column = () => {
             </div>
           </div>
         </div>
+
         <div className={styles.cardContainer}>
           {isAddTaskVisible && (
             <AddTaskDialog cancel={() => setIsAddTaskVisible(false)} />
           )}
-          {tasks.map((task) => (
-            <TaskProvider key={task.id} taskId={task.id}>
-              <TaskDropTargetWrapper taskId={task.id}>
-                <TaskCard />
-              </TaskDropTargetWrapper>
-            </TaskProvider>
-          ))}
-          {/* <AddButton columnId={columnId} /> */}
+          <Droppable droppableId={strId}>
+            {(provided) => (
+              <TaskProvider>
+                <TaskList ref={provided.innerRef} {...provided.droppableProps}>
+                  {tasks.map((task) => (
+                    <TaskCard key={task.id} taskId={task.id} />
+                  ))}
+                  {provided.placeholder}
+                </TaskList>
+              </TaskProvider>
+            )}
+            {/* <AddButton columnId={columnId} /> */}
+          </Droppable>
         </div>
       </div>
     </div>

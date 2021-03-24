@@ -1,9 +1,13 @@
 import React, {useState, useContext} from 'react'
+import {Draggable} from 'react-beautiful-dnd'
+import styled from 'styled-components'
 import TaskCardDropDown from './TaskCardDropDown'
 import {TaskContext} from '../context/taskContext'
 import styles from './css/TaskCard.css'
 
-const TaskCard = () => {
+const Container = styled.div``
+
+const TaskCard = (props) => {
   // local state management for drop down render
   const [isDropDownActive, setDropDownActive] = useState(false)
 
@@ -18,27 +22,37 @@ const TaskCard = () => {
   const getFullName = () => `${user.firstName} ${user.lastName}`
 
   return (
-    <div>
-      {isDropDownActive && <TaskCardDropDown taskId={id} />}
-      <div className={styles.taskCardContainer}>
-        <div className="material-icons">error_outline</div>
-        <div className={styles.titleAndCreator}>
-          <div className={styles.title}>{task.description}</div>
-          <div
-            className={styles.idAndCreatedBy}
-          >{`#${id} opened by ${getFullName()}`}</div>
-        </div>
-        <div className={styles.dotMenuAndAvatar}>
-          <span
-            className="material-icons"
-            onClick={() => setDropDownActive(!isDropDownActive)}
-          >
-            more_horiz
-          </span>
-          <img src={user.imageUrl} />
-        </div>
-      </div>
-    </div>
+    <Draggable draggableId={id} index={props.index}>
+      {(provided) => (
+        <Container
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+        >
+          <div>
+            {isDropDownActive && <TaskCardDropDown taskId={id} />}
+            <div className={styles.taskCardContainer}>
+              <div className="material-icons">error_outline</div>
+              <div className={styles.titleAndCreator}>
+                <div className={styles.title}>{task.description}</div>
+                <div
+                  className={styles.idAndCreatedBy}
+                >{`#${id} opened by ${getFullName()}`}</div>
+              </div>
+              <div className={styles.dotMenuAndAvatar}>
+                <span
+                  className="material-icons"
+                  onClick={() => setDropDownActive(!isDropDownActive)}
+                >
+                  more_horiz
+                </span>
+                <img src={user.imageUrl} />
+              </div>
+            </div>
+          </div>
+        </Container>
+      )}
+    </Draggable>
   )
 }
 
