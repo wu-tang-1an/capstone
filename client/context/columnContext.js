@@ -17,10 +17,10 @@ const ColumnProvider = ({children, columnId}) => {
       }
     }
     getColumn()
-  }, {})
+  }, [])
 
   // this check prevents endless rerenders due to setting columns after successfully fetching the current project
-  if (!tasks.length && column.tasks) setTasks(column.tasks)
+  if (!tasks.length && column.tasks && column.tasks[0]) setTasks(column.tasks)
 
   const providerValue = useMemo(() => {
     return {column, setColumn, tasks, setTasks}

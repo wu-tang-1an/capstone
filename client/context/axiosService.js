@@ -6,7 +6,9 @@ import history from '../history'
 // add a column
 export const addColumnDB = async (newColumn) => {
   try {
-    await axios.post(`/api/columns/`, newColumn)
+    const {data} = await axios.post(`/api/columns/`, newColumn)
+
+    return data
   } catch (err) {
     console.error(err)
   }
