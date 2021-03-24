@@ -4,7 +4,7 @@ import history from '../history'
 /* COLUMNS */
 
 // add a column
-const addColumnDB = async (newColumn) => {
+export const addColumnDB = async (newColumn) => {
   try {
     await axios.post(`/api/columns/`, newColumn)
   } catch (err) {
@@ -13,7 +13,7 @@ const addColumnDB = async (newColumn) => {
 }
 
 // delete a column and move its tasks to the previous column
-const deleteColumnDB = async (columnId) => {
+export const deleteColumnDB = async (columnId) => {
   try {
     await axios.delete(`/api/columns/${columnId}`)
   } catch (err) {
@@ -24,16 +24,18 @@ const deleteColumnDB = async (columnId) => {
 /* TASKS */
 
 // add task to a column
-const addTaskToColumnDB = async (newTask) => {
+export const addTaskToColumnDB = async (newTask, columnId) => {
   try {
-    await axios.post('/tasks/columns/:columnId', newTask)
+    const {data} = await axios.post(`/api/tasks/columns/${columnId}`, newTask)
+
+    return data
   } catch (err) {
     console.error(err)
   }
 }
 
 // delete task and cascade to its comments, user
-const deleteTaskDB = async (taskId) => {
+export const deleteTaskDB = async (taskId) => {
   try {
     await axios.delete(`/api/tasks/${taskId}`)
   } catch (err) {
@@ -44,7 +46,7 @@ const deleteTaskDB = async (taskId) => {
 /* COMMENTS */
 
 // add comment to a task
-const addCommentToTaskDB = async (newComment) => {
+export const addCommentToTaskDB = async (newComment) => {
   try {
     await axios.post(`/api/comments`, newComment)
   } catch (err) {
@@ -53,7 +55,7 @@ const addCommentToTaskDB = async (newComment) => {
 }
 
 // delete comment from a task
-const deleteCommentDB = async (commentId) => {
+export const deleteCommentDB = async (commentId) => {
   try {
     await axios.delete(`/api/comments/${commentId}`)
   } catch (err) {
@@ -66,7 +68,7 @@ const deleteCommentDB = async (commentId) => {
 /* LOGOUT */
 
 // log user out
-const logout = async () => {
+export const logout = async () => {
   try {
     await axios.post('/auth/logout')
     history.push('/login')
