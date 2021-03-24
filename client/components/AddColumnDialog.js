@@ -15,19 +15,24 @@ const AddColumnDialog = ({cancel}) => {
   const addColumn = async (e) => {
     e.preventDefault()
 
+    // get new column instance for addColumnDB call
     const newColumn = {
       name: name,
     }
 
     try {
+      // create new column
       const createdColumn = await addColumnDB(newColumn)
 
+      // associate new column with project
       await axios.put(
         `/api/columns/${createdColumn.id}/projects/${project.id}/`
       )
 
+      // set local column state
       setColumns([...columns, createdColumn])
 
+      // close dialog and dropdown
       cancel()
     } catch (err) {
       console.error(err)
