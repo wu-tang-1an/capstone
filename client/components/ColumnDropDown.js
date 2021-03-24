@@ -12,7 +12,7 @@ const fields = [
   // more fields as necessary
 ]
 
-const ColumnDropDown = ({columnId}) => {
+const ColumnDropDown = ({columnId, cancel}) => {
   // grab project, columns, columns setter from project context
   const {project, columns, setColumns} = useContext(ProjectContext)
 
@@ -54,6 +54,9 @@ const ColumnDropDown = ({columnId}) => {
           </div>
           <button type="button" onClick={deleteColumn}>
             Delete column
+          </button>
+          <button type="button" onClick={cancel}>
+            Cancel
           </button>
         </Modal>
       )}

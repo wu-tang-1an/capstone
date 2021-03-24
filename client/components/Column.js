@@ -16,9 +16,13 @@ const Column = () => {
   // useContext pull in all tasks from ProjectProvider
   const {column, setColumn, tasks, setTasks} = useContext(ColumnContext)
 
+  const cancel = () => setIsDropDownActive(false)
+
   return (
     <div>
-      {isDropDownActive && <ColumnDropDown columnId={column.id} />}
+      {isDropDownActive && (
+        <ColumnDropDown columnId={column.id} cancel={cancel} />
+      )}
       <div className={styles.columnContainer}>
         <div className={styles.badgeTitleDotMenu}>
           <div className={styles.badgeAndTitle}>
