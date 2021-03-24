@@ -10,8 +10,6 @@ const Board = () => {
   // get columns from ProjectContext
   const {project, columns} = useContext(ProjectContext)
 
-  console.log('columns--->', columns)
-
   const onDragEnd = (result) => {
     const {destination, source, draggableId} = result
   }
