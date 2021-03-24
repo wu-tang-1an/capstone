@@ -1,7 +1,15 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import styles from './css/AddColumnDialog.css'
+import {ProjectContext} from '../context/projectContext'
+import {ColumnContext} from '../context/columnContext'
 
 const AddColumnDialog = ({cancel}) => {
+  // grab project from project context
+  const {project, setProject} = useContext(ProjectContext)
+
+  // grab columns from column context
+  const {columns, setColumns} = useContext(ColumnContext)
+
   return (
     <div className={styles.addColumnDropDownContainer}>
       <textarea className={styles.description}></textarea>
