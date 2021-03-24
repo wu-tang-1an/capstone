@@ -7,11 +7,11 @@ import styles from './css/Board.css'
 
 const Board = () => {
   // get columns from ProjectContext
-  const {columns} = useContext(ProjectContext)
+  const {project, columns} = useContext(ProjectContext)
 
   return (
     <div className="Board">
-      <h2>Organization Board</h2>
+      <h2>Project: {project.name}</h2>
       <div className={styles.boardContainer}>
         {columns.map((column) => (
           <ColumnProvider key={column.id} columnId={column.id}>

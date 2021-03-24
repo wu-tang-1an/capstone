@@ -12,17 +12,9 @@ const AllOrgs = () => {
   // grab user from auth context
   const {user, setUser} = useContext(AuthContext)
 
-  // set organizations to user's orgs and track dependency to update as needed
-  useEffect(() => {
-    const setOrgs = () => {
-      setOrganizations(user.organizations)
-    }
-    setOrgs()
-  }, [organizations])
-
   return (
     <div>
-      {organizations && (
+      {user.organizations && (
         <div>
           <div className={styles.headerCont}>
             <h1 className={styles.allOrgsHeader}>Your Organizations</h1>
@@ -33,7 +25,7 @@ const AllOrgs = () => {
             </IconContext.Provider>
           </div>
           <div className={styles.allOrgsCont}>
-            {organizations.map((org, index) => (
+            {user.organizations.map((org, index) => (
               <Link
                 key={index}
                 className={styles.allOrgsAnchor}

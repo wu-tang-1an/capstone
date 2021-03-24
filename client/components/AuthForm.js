@@ -32,8 +32,8 @@ const AuthForm = ({authType}) => {
 
   // login method
   const authenticateUser = async (e, formName, userEmail, userPassword) => {
-    e.preventDefault()
     try {
+      e.preventDefault()
       const {data} = await axios.post(`/auth/${formName}`, {
         email: userEmail,
         password: userPassword,
@@ -47,7 +47,6 @@ const AuthForm = ({authType}) => {
 
   // form management method
   const handleChange = (e) => {
-    e.preventDefault()
     e.target.name === 'email'
       ? setEmail(e.target.value)
       : setPassword(e.target.value)

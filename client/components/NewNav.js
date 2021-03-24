@@ -9,7 +9,7 @@ import {CgOrganisation, CgProfile, CgLogOut} from 'react-icons/cg'
 import styles from './css/NewNav.css'
 
 const Nav = ({handleClick}) => {
-  const user = useContext(AuthContext)
+  const {user} = useContext(AuthContext)
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-top">
