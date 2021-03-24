@@ -13,6 +13,8 @@ import {AuthContext} from './context/authContext'
 const Routes = () => {
   const {user} = useContext(AuthContext)
 
+  console.log('user in Routes component: ', user)
+
   return (
     <div>
       {/* these routes are available before login */}
@@ -20,7 +22,7 @@ const Routes = () => {
         <Switch>
           <Route path="/login" render={() => <AuthForm authType="login" />} />
           <Route path="/signup" render={() => <AuthForm authType="signup" />} />
-          <Route path="*" component={AuthForm} />
+          <Route path="*" component={AuthForm} authType="login" />
         </Switch>
       )}
 

@@ -14,21 +14,19 @@ const AuthForm = ({authType}) => {
   const [authMethod, setAuthMethod] = useState('me')
 
   // setUser method from AuthProvider
-  const {user, setUser} = useContext(AuthContext)
-
-  console.log('user is, ', user)
+  const {setUser} = useContext(AuthContext)
 
   // local form field data depends on method
   const {name, displayName, error} =
-    authType === 'login'
+    authType === 'signup'
       ? {
-          name: 'login',
-          displayName: 'Login',
+          name: 'signup',
+          displayName: 'Sign Up',
           /* error: state.singleUser.error, */
         }
       : {
-          name: 'signup',
-          displayName: 'Sign Up',
+          name: 'login',
+          displayName: 'Log In',
           /* error: state.singleUser.error, */
         }
 
@@ -41,7 +39,7 @@ const AuthForm = ({authType}) => {
         password: userPassword,
       })
       setUser(data)
-      history.push('/organizations/')
+      history.push('/organizations')
     } catch (err) {
       console.error(err)
     }
