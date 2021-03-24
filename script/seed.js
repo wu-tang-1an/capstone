@@ -107,6 +107,7 @@ async function seed() {
   i = 0
   while (associableProjectIds.length) {
     await createdOrganizations[i].setProjects([associableProjectIds.shift()])
+    i++
   }
   console.log('Each organization has been associated with 1 project')
 
