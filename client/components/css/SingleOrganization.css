@@ -1,0 +1,15 @@
+.imgAndOrgName {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-around;
+}
+
+.imgAndOrgName img {
+  height: 200px;
+  width: auto;
+}
+
+.organizationName {
+  font: bold;
+  font-size: 36px;
+}
