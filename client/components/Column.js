@@ -23,7 +23,10 @@ const Column = ({column}) => {
       <div className={styles.columnContainer}>
         <div className={styles.badgeTitleDotMenu}>
           <div className={styles.badgeAndTitle}>
-            <div className={styles.columnBadge}> {tasks.length} </div>
+            <div className={styles.columnBadge}>
+              {' '}
+              {tasks && tasks.length ? tasks.length : 0}{' '}
+            </div>
             <div className={styles.columnTitle}> {column.name} </div>
           </div>
           <div className={styles.newTaskAndMoreOpts}>
@@ -43,12 +46,19 @@ const Column = ({column}) => {
           </div>
         </div>
         <div className={styles.cardContainer}>
-          {isAddTaskVisible && (
-            <AddTaskDialog cancel={() => setIsAddTaskVisible(false)} />
-          )}
-          {tasks.map((task) => (
-            <TaskCard key={task.id} task={task} />
-          ))}
+          {tasks &&
+            tasks.length &&
+            tasks.map((task, idx) => (
+              <div key={task.id}>
+                {isAddTaskVisible && idx === 0 && (
+                  <AddTaskDialog
+                    task={task}
+                    cancel={() => setIsAddTaskVisible(false)}
+                  />
+                )}
+                <TaskCard task={task} />
+              </div>
+            ))}
         </div>
       </div>
     </div>
