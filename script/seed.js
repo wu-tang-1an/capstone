@@ -109,6 +109,7 @@ async function seed() {
     await createdOrganizations[i].setProjects([associableProjectIds.shift()])
     i++
   }
+
   console.log('Each organization has been associated with 1 project')
 
   console.log(green('Database sucessfully seeded!'))

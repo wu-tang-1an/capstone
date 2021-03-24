@@ -2,6 +2,7 @@ import React, {useState, useContext} from 'react'
 import {Draggable} from 'react-beautiful-dnd'
 import styled from 'styled-components'
 import TaskCardDropDown from './TaskCardDropDown'
+import {AuthContext} from '../context/authContext'
 import {TaskContext} from '../context/taskContext'
 import styles from './css/TaskCard.css'
 
@@ -19,8 +20,9 @@ const TaskCard = (props) => {
   // type-checking necessary to avoid render issues
   const {task} = useContext(TaskContext)
   const {id} = task
-  const users = task.users || []
-  const user = (users && users[0]) || {}
+
+  // get user from auth context
+  const {user} = useContext(AuthContext)
 
   // returns firstName + lastName for task card "opened by _____"
   const getFullName = () => `${user.firstName} ${user.lastName}`
