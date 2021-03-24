@@ -15,6 +15,8 @@ const Column = ({column}) => {
   // grab column data
   const {tasks} = column
 
+  console.log('tasks in column are: ', tasks)
+
   return (
     <div>
       {isDropDownActive && (
@@ -49,15 +51,22 @@ const Column = ({column}) => {
           {tasks &&
             tasks.map((task, idx) => (
               <div key={task.id}>
-                {isAddTaskVisible && idx === 0 && (
+                {/* check falsey idx here to only display add task dialog once, at the top of the column */}
+                {isAddTaskVisible && !idx && (
                   <AddTaskDialog
-                    task={task}
+                    columnId={column.id}
                     cancel={() => setIsAddTaskVisible(false)}
                   />
                 )}
                 <TaskCard task={task} />
               </div>
             ))}
+          {!tasks.length && isAddTaskVisible && (
+            <AddTaskDialog
+              columnId={column.id}
+              cancel={() => setIsAddTaskVisible(false)}
+            />
+          )}
         </div>
       </div>
     </div>

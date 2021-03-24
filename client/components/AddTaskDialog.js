@@ -5,7 +5,7 @@ import {ProjectContext} from '../context/projectContext'
 import {addTaskToColumnDB} from '../context/axiosService'
 import axios from 'axios'
 
-const AddTaskDialog = ({task, cancel}) => {
+const AddTaskDialog = ({columnId, cancel}) => {
   // grab user from auth context
   const {user} = useContext(AuthContext)
 
@@ -13,7 +13,7 @@ const AddTaskDialog = ({task, cancel}) => {
   const {columns, tasks, setTasks} = useContext(ProjectContext)
 
   // get this column
-  const thisColumn = columns.find((column) => column.id === task.columnId)
+  const thisColumn = columns.find((column) => column.id === columnId)
 
   // initialize local state for new task description
   const [description, setDescription] = useState('')
