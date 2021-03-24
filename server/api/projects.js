@@ -1,13 +1,21 @@
 const router = require('express').Router()
-const {Project, User, Column} = require('../db/models')
-const {checkUser, checkAdmin} = require('./gatekeeper')
+const {Project, Column, Organization} = require('../db/models')
+const {checkUser, checkAdmin} = require('./helper/gatekeeper')
+const {resNaN, resDbNotFound, resAssoc, resDeleted} = require('./helper/helper')
+const {
+  STR_PROJECTS,
+  STR_PROJECT,
+  STR_ORGANIZATION,
+} = require('./helper/strings')
 module.exports = router
 
 // GET all projects route '/api/projects' (ADMIN ONLY)
 router.get('/', checkAdmin, async (req, res, next) => {
   try {
     const projects = await Project.findAll()
-    res.json(projects)
+    if (!projects) return resDbNotFound(STR_PROJECTS, res)
+
+    return res.json(projects)
   } catch (error) {
     next(error)
   }
@@ -17,30 +25,25 @@ router.get('/', checkAdmin, async (req, res, next) => {
 router.get('/:projectId', checkUser, async (req, res, next) => {
   try {
     const {projectId} = req.params
+    if (isNaN(projectId)) return resNaN(projectId, res)
 
-    if (isNaN(projectId)) res.status(400).send(projectId + ' is not a number!')
-    else {
-      const project = await Project.findByPk(projectId, {
-        include: [
-          {
-            model: Column,
-          },
-        ],
-      })
-      res.json(project)
-    }
+    const project = await Project.findByPk(projectId, {include: Column})
+    if (!project) return resDbNotFound(STR_PROJECT, res)
+
+    return res.json(project)
   } catch (error) {
     next(error)
   }
 })
 
 // POST create new project route '/api/projects/' (AUTH USER ONLY)
+// creates a free floating project (unassociated)
 router.post('/', checkUser, async (req, res, next) => {
   try {
     const data = req.body
     const {dataValues} = await Project.create(data)
 
-    res.json(dataValues)
+    return res.json(dataValues)
   } catch (error) {
     next(error)
   }
@@ -51,49 +54,56 @@ router.put('/:projectId', checkUser, async (req, res, next) => {
   try {
     const data = req.body
     const {projectId} = req.params
+    if (isNaN(projectId)) return resNaN(projectId, res)
 
-    const [updatedRows, updatedProject] = await Project.update(data, {
+    const [, updatedProject] = await Project.update(data, {
       plain: true,
       returning: true,
       where: {id: projectId},
-    }) // returns array: [updatedRows, {updatedProject}]
+    })
+    if (!updatedProject) return resDbNotFound(STR_PROJECT, res)
 
-    res.json(updatedProject)
+    return res.json(updatedProject)
   } catch (error) {
     next(error)
   }
 })
 
-// PUT add user to project route '/api/projects/:projectId/users/:userId' (AUTH USER ONLY)
-router.put('/:projectId/users/:userId', checkUser, async (req, res, next) => {
-  try {
-    const {projectId, userId} = req.params
+// PUT set project to org route '/api/projects/:projectId/organizations/:orgId' (AUTH USER ONLY)
+router.put(
+  '/:projectId/organizations/:orgId',
+  checkUser,
+  async (req, res, next) => {
+    try {
+      const {projectId, orgId} = req.params
+      if (isNaN(projectId)) return resNaN(projectId, res)
+      if (isNaN(orgId)) return resNaN(orgId, res)
 
-    if (isNaN(projectId)) res.status(400).send(projectId + ' is not a number!')
-    if (isNaN(userId)) res.status(400).send(userId + ' is not a number!')
+      const project = await Project.findByPk(projectId)
+      if (!project) return resDbNotFound(STR_PROJECT, res)
 
-    const project = await Project.findByPk(projectId)
-    if (!project) res.status(404).send('Project not found in database!')
+      const org = await Organization.findByPk(orgId)
+      if (!org) return resDbNotFound(STR_ORGANIZATION, res)
 
-    const user = await User.findByPk(userId)
-    if (!user) res.status(404).send('User not found in database!')
+      project.setOrganization(org)
 
-    project.addUsers(user)
-  } catch (error) {
-    next(error)
+      return resAssoc(STR_PROJECT, STR_ORGANIZATION, projectId, orgId, res)
+    } catch (error) {
+      next(error)
+    }
   }
-})
+)
 
 // DELETE project route '/api/projects/:projectId' (AUTH USER ONLY)
 router.delete('/:projectId', checkUser, async (req, res, next) => {
   try {
     const {projectId} = req.params
+    if (isNaN(projectId)) return resNaN(projectId, res)
 
-    if (isNaN(projectId)) res.status(400).send(projectId + ' is not a number!')
+    const project = await Project.destroy({where: {id: projectId}})
+    if (!project) return resDbNotFound(STR_PROJECT, res)
 
-    await Project.destroy({where: {id: projectId}})
-
-    res.status(204).end()
+    return resDeleted(STR_PROJECT, projectId, res)
   } catch (error) {
     next(error)
   }
