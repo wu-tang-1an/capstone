@@ -8,7 +8,7 @@ import styles from './css/Board.css'
 
 const Board = () => {
   // get columns from ProjectContext
-  const {project, columns, setColumns} = useContext(ProjectContext)
+  const {project, columns} = useContext(ProjectContext)
 
   // drop logic
   const onDragEnd = (result) => {
@@ -32,7 +32,7 @@ const Board = () => {
     console.log('column: ', column)
 
     const newTasks = Array.from(column.tasks)
-    const moveTask = newTasks.find((task) => task.id === +draggableId)
+    const moveTask = newTasks.find((tas) => tas.id === +draggableId)
 
     console.log('oldTasks: ', column.tasks)
     console.log('moveTask: ', moveTask)
@@ -48,12 +48,6 @@ const Board = () => {
     }
 
     console.log('newColumn: ', newColumn)
-
-    const newColumns = [...columns]
-
-    console.log('newColumns: ', newColumns)
-
-    setColumns([newColumn])
   }
 
   return (
