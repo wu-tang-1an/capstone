@@ -1,10 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import {Provider} from 'react-redux'
 import {Router} from 'react-router-dom'
 import {ToastContainer} from 'react-toastify'
 import history from './history'
-import store from './store'
 import App from './app'
 
 import 'react-toastify/dist/ReactToastify.css'
@@ -13,11 +11,9 @@ import 'react-toastify/dist/ReactToastify.css'
 import './socket'
 
 ReactDOM.render(
-  <Provider store={store}>
-    <Router history={history}>
-      <App />
-      <ToastContainer />
-    </Router>
-  </Provider>,
+  <Router history={history}>
+    <App />
+    <ToastContainer />
+  </Router>,
   document.getElementById('app')
 )

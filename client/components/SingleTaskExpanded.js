@@ -1,71 +1,52 @@
 import React, {useState, useContext} from 'react'
-import {ProjectContext} from './ProjectProvider'
+import {TaskContext} from '../context/taskContext'
 import marked from 'marked'
 import Comment from './Comment'
-
-const fakeCommentsDB = [
-  {
-    id: 1,
-    name: 'Albert',
-    imageUrl: 'https://i.imgur.com/ZoKHJRz.jpg',
-    createdAt: '20190614',
-    content: 'you got this!',
-  },
-  {
-    id: 2,
-    name: 'Felix',
-    imageUrl: 'https://i.imgur.com/TUsXHrj.jpg',
-    createdAt: '20210314',
-    content: 'keep on trucking!',
-  },
-  {
-    id: 3,
-    name: 'Sam',
-    imageUrl: 'https://i.imgur.com/7nMCKHE.jpg',
-    createdAt: '20201225',
-    content: 'markdown is awesome!',
-  },
-]
-
 import styles from './css/SingleTaskExpanded.css'
 
-const SingleTaskExpanded = ({taskId, closeModal}) => {
-  const {tasks, setTasks} = useContext(ProjectContext)
+const SingleTaskExpanded = ({closeModal}) => {
+  // grab task from task provider and destructure
+  const {task} = useContext(TaskContext)
+  const {name, issueType, description, comments} = task
 
-  const thisTask = tasks.find((task) => task.id === taskId)
-
-  const [name, setName] = useState(thisTask.name)
-  const [issueType, setIssueType] = useState(thisTask.issueType)
-  const [description, setDescription] = useState(thisTask.description)
+  // then declare state and initialize with task data
+  const [taskName, setName] = useState(name)
+  const [taskIssueType, setIssueType] = useState(issueType)
+  const [taskDescription, setDescription] = useState(description)
   const [activeMarkdownEditor, setActiveMarkdownEditor] = useState(false)
-
-  const comments = fakeCommentsDB
 
   return (
     <div>
       <div className={styles.singleTaskContainer}>
         <div className={styles.leftPanel}>
           <div className={styles.nameAndIssue}>
-            <span className={styles.taskName}>Task: {name}</span>
-            <span className={styles.issueType}>Issue type: {issueType}</span>
+            <span className={styles.taskName}>Task: {taskName}</span>
+            <span className={styles.issueType}>
+              Issue type: {taskIssueType}
+            </span>
           </div>
           <div>
             <div className={styles.containerLabel}>Description:</div>
-            {activeMarkdownEditor ? (
+
+            {/* when markdown editor has focus, it is a textarea */}
+            {activeMarkdownEditor && (
               <textarea
                 className={styles.descriptionMarkdown}
                 ref={(input) => input && input.focus()}
                 onBlur={() => setActiveMarkdownEditor(false)}
                 name="description"
-                value={description || ''}
+                value={taskDescription || ''}
                 onChange={(e) => setDescription(e.target.value)}
               ></textarea>
-            ) : (
+            )}
+
+            {/* when markdown editor does not have focus it is a div that renders its innerHTML as markdown */}
+            {!activeMarkdownEditor && (
               <div
                 className={styles.descriptionMarkdown}
                 onClick={() => setActiveMarkdownEditor(true)}
                 dangerouslySetInnerHTML={{
-                  __html: marked(description),
+                  __html: marked(taskDescription),
                 }}
               ></div>
             )}

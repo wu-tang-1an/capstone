@@ -24,7 +24,19 @@ router.get('/:taskId', checkUser, async (req, res, next) => {
     if (isNaN(taskId)) return resNaN(taskId, res)
 
     const task = await Task.findByPk(taskId, {
-      include: [{model: Comment, include: [User]}, User],
+      include: [
+        {
+          model: User,
+        },
+        {
+          model: Comment,
+          include: [
+            {
+              model: User,
+            },
+          ],
+        },
+      ],
     })
     if (!task) return resDbNotFound(STR_TASK, res)
 

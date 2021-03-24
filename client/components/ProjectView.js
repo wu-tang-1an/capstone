@@ -1,21 +1,18 @@
 import React from 'react'
+import {withRouter} from 'react-router'
+import ProjectProvider from '../context/projectContext'
 import Board from './Board'
 
-// import the top-level provider here
-// and *not* the deconstructed context itself!
-import ProjectProvider from './ProjectProvider'
+const ProjectView = ({match}) => {
+  const projectId = +match.params.projectId
 
-// fetch relevant data to all subviews in this component
-// provide userId from Routes component
-const ProjectView = ({userId}) => {
   return (
-    <ProjectProvider userId={userId}>
-      {/* topLevelViewContainer should be used for all top-level view components */}
-      <div className="topLevelViewContainer">
+    <div className="topLevelViewContainer">
+      <ProjectProvider projectId={projectId}>
         <Board />
-      </div>
-    </ProjectProvider>
+      </ProjectProvider>
+    </div>
   )
 }
 
-export default ProjectView
+export default withRouter(ProjectView)

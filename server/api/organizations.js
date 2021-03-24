@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {Organization, Project} = require('../db/models')
+const {Organization, Project, User} = require('../db/models')
 const {checkUser, checkAdmin} = require('./helper/gatekeeper')
 const {resNaN, resDbNotFound, resDeleted} = require('./helper/helper')
 const {STR_ORGANIZATIONS, STR_ORGANIZATION} = require('./helper/strings')
@@ -23,7 +23,9 @@ router.get('/:orgId', checkUser, async (req, res, next) => {
     const {orgId} = req.params
     if (isNaN(orgId)) return resNaN(orgId, res)
 
-    const org = await Organization.findByPk(orgId, {include: Project})
+    const org = await Organization.findByPk(orgId, {
+      include: [{model: Project}, {model: User}],
+    })
     if (!org) return resDbNotFound(STR_ORGANIZATION, res)
 
     return res.json(org)

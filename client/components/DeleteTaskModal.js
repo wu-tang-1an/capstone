@@ -1,15 +1,16 @@
 import React, {useContext} from 'react'
-import {ProjectContext} from './ProjectProvider'
+import {TaskContext} from '../context/taskContext'
 import styles from './css/DeleteTaskModal.css'
 
-const DeleteTaskModal = (props) => {
-  const {tasks, setTasks} = useContext(ProjectContext)
-
-  const {taskId, closeModal} = props
+const DeleteTaskModal = ({closeModal}) => {
+  const {task, setTask} = useContext(TaskContext)
 
   const deleteTask = (id) => {
-    const updatedTasks = tasks.filter((task) => task.id !== id)
-    setTasks(updatedTasks)
+    // backend
+    // make axios call with axios service file
+    // delete task
+    // frontend
+    // handled automatically by providers due to useEffect
   }
 
   return (

@@ -1,17 +1,28 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import {connect} from 'react-redux'
+import React, {useContext} from 'react'
 import {Link} from 'react-router-dom'
-import {logout} from '../store'
+import axios from 'axios'
+import history from '../history'
+import {AuthContext} from '../context/authContext'
 import {AiFillHome} from 'react-icons/ai'
 import {CgOrganisation, CgProfile, CgLogOut} from 'react-icons/cg'
-
 import styles from './css/NewNav.css'
 
-const Nav = ({handleClick, isLoggedIn}) => {
+const Nav = () => {
+  const {user, setUser} = useContext(AuthContext)
+
+  const logout = async () => {
+    try {
+      await axios.post('/auth/logout')
+      setUser({})
+      history.push('/login')
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-top">
-      {isLoggedIn ? (
+      {user.id ? (
         <div className="container-fluid">
           <Link className="navbar-brand" to="/">
             <h1 style={{fontFamily: "'Noto Sans KR', sans-serif"}}>Note-ary</h1>
@@ -66,7 +77,7 @@ const Nav = ({handleClick, isLoggedIn}) => {
                 <span className={styles.spanCont}>
                   <CgLogOut />
                 </span>
-                <Link className="nav-link" to="#" onClick={handleClick}>
+                <Link className="nav-link" to="#" onClick={logout}>
                   Logout
                 </Link>
               </div>
@@ -105,26 +116,4 @@ const Nav = ({handleClick, isLoggedIn}) => {
   )
 }
 
-const mapState = (state) => {
-  return {
-    isLoggedIn: !!state.singleUser.id,
-  }
-}
-
-const mapDispatch = (dispatch) => {
-  return {
-    handleClick() {
-      dispatch(logout())
-    },
-  }
-}
-
-export default connect(mapState, mapDispatch)(Nav)
-// export default Navbar
-/**
- * PROP TYPES
- */
-Nav.propTypes = {
-  handleClick: PropTypes.func.isRequired,
-  isLoggedIn: PropTypes.bool.isRequired,
-}
+export default Nav
