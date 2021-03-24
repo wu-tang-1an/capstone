@@ -1,4 +1,5 @@
 import React, {useState, useContext, useEffect} from 'react'
+import axios from 'axios'
 import {Link} from 'react-router-dom'
 import {AuthContext} from '../context/authContext'
 import {CgOrganisation} from 'react-icons/cg'
@@ -9,11 +10,24 @@ const AllOrgs = () => {
   // grab user from auth context
   const {user} = useContext(AuthContext)
 
-  const {organizations} = user || []
+  // initialize all orgs state
+  const [organizations, setOrganizations] = useState([])
+
+  useEffect(() => {
+    const fetchAllOrgs = async () => {
+      try {
+        const {data} = await axios.get(`/api/users/${user.id}/organizations`)
+        setOrganizations(data)
+      } catch (err) {
+        console.error(err)
+      }
+    }
+    fetchAllOrgs()
+  }, [])
 
   return (
     <div>
-      {user.organizations && (
+      {organizations && (
         <div>
           <div className={styles.headerCont}>
             <h1 className={styles.allOrgsHeader}>Your Organizations</h1>
