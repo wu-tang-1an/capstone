@@ -14,7 +14,7 @@ const TaskCard = (props) => {
   // get task and user
   // type-checking necessary to avoid render issues
   const {task} = useContext(TaskContext)
-  const {id} = task
+  const {id, uuid} = task
   const users = task.users || []
   const user = (users && users[0]) || {}
 
@@ -22,7 +22,7 @@ const TaskCard = (props) => {
   const getFullName = () => `${user.firstName} ${user.lastName}`
 
   return (
-    <Draggable draggableId={id} index={props.index}>
+    <Draggable draggableId="" index={props.index}>
       {(provided) => (
         <Container
           ref={provided.innerRef}

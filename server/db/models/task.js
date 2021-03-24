@@ -9,6 +9,10 @@ const Task = db.define('task', {
   completionDate: {
     type: Sequelize.STRING,
   },
+  uuid: {
+    type: Sequelize.UUID,
+    defaultValue: Sequelize.UUIDV4,
+  },
 })
 
 Task.prototype.getDescription = function () {

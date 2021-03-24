@@ -18,7 +18,6 @@ const Column = () => {
 
   // useContext pull in all tasks from ProjectProvider
   const {column, setColumn, tasks, setTasks} = useContext(ColumnContext)
-  const strId = column.id.toString()
 
   return (
     <div>
@@ -50,17 +49,20 @@ const Column = () => {
           {isAddTaskVisible && (
             <AddTaskDialog cancel={() => setIsAddTaskVisible(false)} />
           )}
-          <Droppable droppableId={strId}>
-            {(provided) => (
-              <TaskProvider>
-                <TaskList ref={provided.innerRef} {...provided.droppableProps}>
-                  {tasks.map((task) => (
-                    <TaskCard key={task.id} taskId={task.id} />
-                  ))}
-                  {provided.placeholder}
-                </TaskList>
-              </TaskProvider>
-            )}
+          <Droppable droppableId="">
+            {(provided) =>
+              tasks.map((task, index) => (
+                <TaskProvider key={task.id} taskId={task.id}>
+                  <TaskList
+                    ref={provided.innerRef}
+                    {...provided.droppableProps}
+                  >
+                    <TaskCard index={index} />
+                    {provided.placeholder}
+                  </TaskList>
+                </TaskProvider>
+              ))
+            }
             {/* <AddButton columnId={columnId} /> */}
           </Droppable>
         </div>
