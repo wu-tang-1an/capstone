@@ -7,7 +7,6 @@ const App = () => {
   return (
     <AuthProvider>
       <NewNav />
-      <br />
       <Routes />
     </AuthProvider>
   )

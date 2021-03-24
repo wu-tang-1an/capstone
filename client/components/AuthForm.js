@@ -11,7 +11,7 @@ const AuthForm = ({authType}) => {
 
   // local state of login/signup method
   // either 'me' or 'google'
-  const [authMethod, setAuthMethod] = useState('me')
+  const [authMethod, setAuthMethod] = useState('login')
 
   // setUser method from AuthProvider
   const {setUser} = useContext(AuthContext)
@@ -32,13 +32,23 @@ const AuthForm = ({authType}) => {
 
   // login method
   const authenticateUser = async (e, formName, userEmail, userPassword) => {
+    e.preventDefault()
+
+    // catch errors with user retrieval
+    let res
     try {
-      e.preventDefault()
-      const {data} = await axios.post(`/auth/${formName}`, {
+      res = await axios.post(`/auth/${formName}`, {
         email: userEmail,
         password: userPassword,
       })
-      setUser(data)
+    } catch (err) {
+      console.error(err)
+    }
+
+    // pull user out of response and set, redirection to all orgs view
+    const user = res.data
+    try {
+      setUser(user)
       history.push('/organizations')
     } catch (err) {
       console.error(err)

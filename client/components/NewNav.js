@@ -1,15 +1,24 @@
 import React, {useContext} from 'react'
 import {Link} from 'react-router-dom'
+import axios from 'axios'
+import history from '../history'
 import {AuthContext} from '../context/authContext'
-
-import {logout} from '../store'
 import {AiFillHome} from 'react-icons/ai'
 import {CgOrganisation, CgProfile, CgLogOut} from 'react-icons/cg'
-
 import styles from './css/NewNav.css'
 
-const Nav = ({handleClick}) => {
-  const {user} = useContext(AuthContext)
+const Nav = () => {
+  const {user, setUser} = useContext(AuthContext)
+
+  const logout = async () => {
+    try {
+      await axios.post('/auth/logout')
+      setUser({})
+      history.push('/login')
+    } catch (err) {
+      console.error(err)
+    }
+  }
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-top">
@@ -68,7 +77,7 @@ const Nav = ({handleClick}) => {
                 <span className={styles.spanCont}>
                   <CgLogOut />
                 </span>
-                <Link className="nav-link" to="#" onClick={handleClick}>
+                <Link className="nav-link" to="#" onClick={logout}>
                   Logout
                 </Link>
               </div>
