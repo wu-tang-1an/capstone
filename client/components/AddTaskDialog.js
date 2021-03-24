@@ -24,11 +24,14 @@ const AddTaskDialog = ({cancel}) => {
       description,
       completionDate: new Date().toISOString(),
       status: 'in-progress',
-      userId: user.id,
+      createdBy: user.firstName + ' ' + user.lastName,
     }
 
     try {
       const createdTask = await addTaskToColumnDB(newTask, column.id)
+
+      await axios.put(`/api/tasks/${createdTask.id}/users/${user.id}`)
+
       setTasks([...tasks, createdTask])
       cancel()
     } catch (err) {
