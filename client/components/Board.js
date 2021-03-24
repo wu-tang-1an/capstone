@@ -2,7 +2,7 @@ import React, {useContext} from 'react'
 import {ProjectContext} from '../context/projectContext'
 import ColumnProvider from '../context/columnContext'
 import Column from './Column'
-// import AddColumnDropDown from './AddColumnDropDown'
+import AddColumnDropDown from './AddColumnDropDown'
 import styles from './css/Board.css'
 
 const Board = () => {
@@ -18,7 +18,7 @@ const Board = () => {
             <Column />
           </ColumnProvider>
         ))}
-        {/* <AddColumnDropDown /> */}
+        <AddColumnDropDown />
       </div>
     </div>
   )
