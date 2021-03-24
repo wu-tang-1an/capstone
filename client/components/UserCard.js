@@ -11,9 +11,11 @@ const UserCard = ({user}) => {
 
   return (
     <div className={styles.userCardContainer}>
-      <div className={styles.name}>{combinedName}</div>
       <img className={styles.imageUrl} src={imageUrl} />
-      <div className={styles.status}>{role}</div>
+      <div className={styles.userCardInfo}>
+        <div className={styles.name}>{combinedName}</div>
+        <div className={styles.status}>{role}</div>
+      </div>
     </div>
   )
 }
