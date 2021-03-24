@@ -6,10 +6,13 @@ import {IconContext} from 'react-icons'
 import styles from './css/AllOrgs.css'
 
 const AllOrgs = () => {
+  // initialize state
   const [organizations, setOrganizations] = useState([])
 
+  // grab user from auth context
   const {user, setUser} = useContext(AuthContext)
 
+  // set organizations to user's orgs and track dependency to update as needed
   useEffect(() => {
     const setOrgs = () => {
       setOrganizations(user.organizations)
