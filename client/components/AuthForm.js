@@ -48,8 +48,8 @@ const AuthForm = ({authType}) => {
     // pull user out of response and set, redirection to all orgs view
     const user = res.data
     try {
-      setUser(user)
       history.push('/organizations')
+      setUser(user)
     } catch (err) {
       console.error(err)
     }
