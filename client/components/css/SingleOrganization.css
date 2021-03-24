@@ -30,3 +30,10 @@
   font: bold;
   font-size: 22px;
 }
+
+.memberList {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}

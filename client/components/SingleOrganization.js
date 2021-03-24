@@ -41,8 +41,6 @@ const SingleOrganization = ({match}) => {
   // destructure organization
   const {name, imageUrl, users} = organization
 
-  console.log(users)
-
   return (
     <div className="topLevelViewContainer">
       <div className={styles.organizationContainer}>

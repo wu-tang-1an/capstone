@@ -33,8 +33,6 @@ export default function ProjectProvider({projectId, children}) {
     }
   }, [project, columns])
 
-  console.log('provider value is : ', providerValue)
-
   return (
     <ProjectContext.Provider value={providerValue}>
       {children}

@@ -13,8 +13,6 @@ import {AuthContext} from './context/authContext'
 const Routes = () => {
   const {user} = useContext(AuthContext)
 
-  console.log('user in Routes component: ', user)
-
   return (
     <div>
       {/* these routes are available before login */}

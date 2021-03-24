@@ -13,14 +13,12 @@ export default function Profile() {
         let {data} = await axios.get('/api/users/1')
         setProfile(data)
       } catch (e) {
-        console.log(e)
+        console.error(e)
       }
     }
 
     fetchApi()
   }, {})
-
-  console.log('this is the profile ', profile)
 
   return (
     <div className={styles.profileMasterCont}>

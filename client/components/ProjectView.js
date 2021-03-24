@@ -4,8 +4,6 @@ import ProjectProvider from '../context/projectContext'
 import Board from './Board'
 
 const ProjectView = ({match}) => {
-  console.log('routeProps:match are: ', match)
-
   const projectId = +match.params.projectId
 
   return (
