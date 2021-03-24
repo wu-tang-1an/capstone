@@ -18,7 +18,9 @@
   height: min-content;
   width: 100%;
   padding: 0.5em;
-  border-bottom: 1px solid lightgrey;
+  border-bottom: 1px solid black;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .dropDownField:nth-child(n) {

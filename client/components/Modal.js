@@ -1,20 +1,16 @@
-import React, {useState} from 'react'
+import React from 'react'
 import styles from './css/Modal.css'
 
 const Modal = ({children}) => {
   return (
     <div>
+      {/* opaque full-page backdrop */}
       <div className={styles.modalBackdrop}></div>
+      {/* transparent full-page backdrop to situate modal content */}
       <div className={styles.transparentBlockContainer}>
+        {/* view "window" for modal */}
         <div className={styles.centeredModalBlock}>
-          <div className={styles.modalTitleAndCloseBtn}>
-            <div className={styles.modalTitle}>Delete Task</div>
-            <div className={styles.closeModalBtn}>
-              <span className="material-icons" /* onClick={handleCloseModal} */>
-                close
-              </span>
-            </div>
-          </div>
+          {/* modal child component rendered here */}
           <div className={styles.modalContent}>{children}</div>
         </div>
       </div>
@@ -23,5 +19,3 @@ const Modal = ({children}) => {
 }
 
 export default Modal
-
-// const [isModalVisible, setIsModalVisible] = useState(false)

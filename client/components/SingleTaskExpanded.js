@@ -1,13 +1,13 @@
 import React, {useState, useContext} from 'react'
+import {TaskContext} from '../context/taskContext'
 import marked from 'marked'
 import Comment from './Comment'
 import styles from './css/SingleTaskExpanded.css'
 
-const SingleTaskExpanded = ({taskId, closeModal}) => {
-  const [name, setName] = useState(thisTask.name)
-  const [issueType, setIssueType] = useState(thisTask.issueType)
-  const [description, setDescription] = useState(thisTask.description)
+const SingleTaskExpanded = ({closeModal}) => {
   const [activeMarkdownEditor, setActiveMarkdownEditor] = useState(false)
+  const {task} = useContext(TaskContext)
+  const {name, issueType, description, comments} = task
 
   return (
     <div>
