@@ -1,17 +1,22 @@
 import React, {useEffect, useState} from 'react'
+import {withRouter} from 'react-router'
 import styles from './css/SingleOrg.css'
 import axios from 'axios'
 
-function SingleOrg(props) {
+function SingleOrg({match}) {
   const [members, setMembers] = useState([])
   const [projects, setProjects] = useState([])
   const [organization, setOrganization] = useState({})
   const [amount, setAmount] = useState(0)
+
+  const {organizationId} = match.params
+
   useEffect(() => {
     async function fetchMembersApi() {
       try {
-        let {orgId} = props.match.params
-        let {data} = await axios.get(`/api/organizations/${orgId}/users`)
+        const {data} = await axios.get(
+          `/api/organizations/${organizationId}/users`
+        )
         setAmount(data.length)
         setMembers(data)
       } catch (e) {
@@ -21,8 +26,7 @@ function SingleOrg(props) {
 
     async function fetchProjectsApi() {
       try {
-        let {orgId} = props.match.params
-        let {data} = await axios.get(`/api/organizations/${orgId}`)
+        const {data} = await axios.get(`/api/organizations/${organizationId}`)
         setOrganization(data)
         setProjects(data.projects)
       } catch (e) {
@@ -96,4 +100,4 @@ function SingleOrg(props) {
   )
 }
 
-export default SingleOrg
+export default withRouter(SingleOrg)
