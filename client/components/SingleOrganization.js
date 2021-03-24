@@ -55,11 +55,7 @@ const SingleOrganization = ({match}) => {
         </div>
         <div className={styles.projectList}>
           {projects &&
-            projects.map((project) => (
-              <Link key={project.id} to={`/projects/${project.id}`}>
-                <ProjectCard project={project} />
-              </Link>
-            ))}
+            projects.map((project) => <ProjectCard project={project} />)}
         </div>
       </div>
     </div>

@@ -10,7 +10,7 @@
 }
 
 .userCardContainer:hover {
-  box-shadow: 0.8px 0.9px 3px var(--cardLink);
+  box-shadow: 0.8px 0.9px 3px rgb(63, 127, 201);
 }
 
 .userCardContainer img {
