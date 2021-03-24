@@ -10,14 +10,20 @@ const Board = () => {
   // get columns from ProjectContext
   const {project, columns} = useContext(ProjectContext)
 
+  console.log('columns--->', columns)
+
+  const onDragEnd = (result) => {
+    const {destination, source, draggableId} = result
+  }
+
   return (
-    <DragDropContext>
+    <DragDropContext onDragEnd={onDragEnd}>
       <div className="Board">
         <h2>Project: {project.name}</h2>
         <div className={styles.boardContainer}>
           {columns.map((column) => (
             <ColumnProvider key={column.id} columnId={column.id}>
-              <Column />
+              <Column columnId={column.id} />
             </ColumnProvider>
           ))}
           <AddColumnDropDown />
