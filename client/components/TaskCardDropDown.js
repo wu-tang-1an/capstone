@@ -1,8 +1,11 @@
-import React, {useState} from 'react'
+import React, {useState, useContext} from 'react'
 import Modal from './Modal'
 import DeleteTaskModal from './DeleteTaskModal'
 import SingleTaskExpanded from './SingleTaskExpanded'
 import styles from './css/TaskCardDropDown.css'
+
+import axios from 'axios'
+import {ColumnContext} from '../context/columnContext'
 
 // fields are actions that user can take from dropdown menu
 const fields = [
@@ -17,6 +20,19 @@ const TaskCardDropDown = ({taskId}) => {
 
   // closeModal clears activeField
   const closeModal = () => setActiveField('')
+
+  const {tasks, setTasks} = useContext(ColumnContext)
+
+  const deleteTask = async () => {
+    try {
+      await axios.delete(`/api/tasks/${taskId}`)
+    } catch (err) {
+      console.error(err)
+    }
+
+    setTasks(tasks.filter((task) => task.id !== taskId))
+    closeModal()
+  }
 
   return (
     <div>
@@ -36,7 +52,7 @@ const TaskCardDropDown = ({taskId}) => {
       <div className={styles.arrowDown}></div>
       {activeField === 'Delete' && (
         <Modal>
-          <DeleteTaskModal taskId={taskId} closeModal={closeModal} />
+          <DeleteTaskModal deleteTask={deleteTask} closeModal={closeModal} />
         </Modal>
       )}
       {activeField === 'Edit' && (

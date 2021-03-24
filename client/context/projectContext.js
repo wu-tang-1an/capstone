@@ -10,6 +10,7 @@ export default function ProjectProvider({projectId, children}) {
 
   // fetch project by projectId
   useEffect(() => {
+    let isMounted = true
     const fetchSingleProject = async () => {
       try {
         const {data} = await axios.get(`/api/projects/${projectId}`)
@@ -19,6 +20,10 @@ export default function ProjectProvider({projectId, children}) {
       }
     }
     fetchSingleProject()
+
+    return () => {
+      isMounted = false
+    }
   }, {})
 
   // this check prevents endless rerenders due to setting columns after successfully fetching the current project

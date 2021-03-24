@@ -10,6 +10,8 @@ export default function OrganizationProvider({organizationId, children}) {
 
   // fetch organization by organizationId
   useEffect(() => {
+    let isMounted = true
+
     const fetchSingleOrganization = async () => {
       try {
         const {data} = await axios.get(`/api/organizations/${organizationId}`)
@@ -19,7 +21,11 @@ export default function OrganizationProvider({organizationId, children}) {
       }
     }
     fetchSingleOrganization()
-  }, {})
+
+    return () => {
+      isMounted = false
+    }
+  }, [])
 
   // this check prevents endless rerenders due to setting projects after successfully fetching the current organization
   if (!projects.length && organization.projects)

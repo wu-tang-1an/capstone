@@ -9,6 +9,7 @@ export default function TaskProvider({taskId, children}) {
 
   // fetch task by taskId
   useEffect(() => {
+    let isMounted = true
     const fetchSingleTask = async () => {
       try {
         const {data} = await axios.get(`/api/tasks/${taskId}`)
@@ -18,7 +19,11 @@ export default function TaskProvider({taskId, children}) {
       }
     }
     fetchSingleTask()
-  }, {})
+
+    return () => {
+      isMounted = false
+    }
+  }, [])
 
   const providerValue = useMemo(() => {
     return {

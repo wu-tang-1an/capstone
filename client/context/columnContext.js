@@ -8,6 +8,11 @@ const ColumnProvider = ({children, columnId}) => {
   const [tasks, setTasks] = useState([])
 
   useEffect(() => {
+    // assign a flag to check if component is mounted
+    // this will prevent memory leak of updating state on an unmounted component
+    let isMounted = true
+
+    // fetch a column
     const getColumn = async () => {
       try {
         const {data} = await axios.get(`/api/columns/${columnId}`)
@@ -17,6 +22,11 @@ const ColumnProvider = ({children, columnId}) => {
       }
     }
     getColumn()
+
+    // return a cleanup function that sets isMounted = false
+    return () => {
+      isMounted = false
+    }
   }, [])
 
   // this check prevents endless rerenders due to setting columns after successfully fetching the current project

@@ -1,24 +1,18 @@
-import React, {useEffect, useState} from 'react'
-import axios from 'axios'
+import React, {useState, useContext} from 'react'
 import styles from './css/Profile.css'
 import {Link} from 'react-router-dom'
-import AllOrgs from './AllOrgs'
+
+import {AuthContext} from '../context/authContext'
 
 export default function Profile() {
+  // initialize profile state
   const [profile, setProfile] = useState({})
 
-  useEffect(() => {
-    async function fetchApi() {
-      try {
-        let {data} = await axios.get('/api/users/1')
-        setProfile(data)
-      } catch (e) {
-        console.error(e)
-      }
-    }
+  // grab user from auth context
+  const {user} = useContext(AuthContext)
 
-    fetchApi()
-  }, {})
+  // if check prevents infinite rerender
+  if (!profile.id) setProfile(user)
 
   return (
     <div className={styles.profileMasterCont}>

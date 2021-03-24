@@ -1,23 +1,7 @@
-import React, {useContext} from 'react'
+import React from 'react'
 import styles from './css/DeleteTaskModal.css'
-import axios from 'axios'
 
-import {ColumnContext} from '../context/columnContext'
-
-const DeleteTaskModal = ({taskId, closeModal}) => {
-  const {tasks, setTasks} = useContext(ColumnContext)
-
-  const deleteTask = async () => {
-    try {
-      await axios.delete(`/api/tasks/${taskId}`)
-    } catch (err) {
-      console.error(err)
-    }
-
-    setTasks(tasks.filter((task) => task.id !== taskId))
-    closeModal()
-  }
-
+const DeleteTaskModal = ({deleteTask, closeModal}) => {
   return (
     <div className={styles.modalContent}>
       <div className={styles.deleteMessage}>

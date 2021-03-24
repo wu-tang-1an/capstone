@@ -7,6 +7,7 @@ const AuthProvider = ({children}) => {
   const [user, setUser] = useState({})
 
   useEffect(() => {
+    let isMounted = true
     const getMe = async () => {
       try {
         const {data} = await axios.get('/auth/me')
@@ -16,7 +17,11 @@ const AuthProvider = ({children}) => {
       }
     }
     getMe()
-  }, {})
+
+    return () => {
+      isMounted = false
+    }
+  }, [])
 
   const providerValue = useMemo(() => {
     return {user, setUser}
