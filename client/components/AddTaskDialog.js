@@ -36,6 +36,9 @@ const AddTaskDialog = ({task, cancel}) => {
       await axios.put(`/api/tasks/${createdTask.id}/users/${user.id}`)
 
       setTasks([...tasks, createdTask])
+
+      console.log(`tasks is: `, tasks)
+
       cancel()
     } catch (err) {
       console.error(err)
