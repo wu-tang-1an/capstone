@@ -34,15 +34,21 @@ const AuthForm = ({authType}) => {
   const authenticateUser = async (e, formName, userEmail, userPassword) => {
     e.preventDefault()
 
-    // first, auth/login to establish req.user
-    // second, auth/me or auth/google to fetch user with associations
+    // catch errors with user retrieval
+    let res
     try {
-      await axios.post(`/auth/${formName}`, {
+      res = await axios.post(`/auth/${formName}`, {
         email: userEmail,
         password: userPassword,
       })
-      const {data} = await axios.get('/auth/me')
-      setUser(data || {})
+    } catch (err) {
+      console.error(err)
+    }
+
+    // pull user out of response and set, redirection to all orgs view
+    const user = res.data
+    try {
+      setUser(user)
       history.push('/organizations')
     } catch (err) {
       console.error(err)
