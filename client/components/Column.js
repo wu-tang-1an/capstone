@@ -61,7 +61,7 @@ const Column = ({column}) => {
                 <TaskCard task={task} />
               </div>
             ))}
-          {!tasks.length && isAddTaskVisible && (
+          {tasks && !tasks.length && isAddTaskVisible && (
             <AddTaskDialog
               columnId={column.id}
               cancel={() => setIsAddTaskVisible(false)}
