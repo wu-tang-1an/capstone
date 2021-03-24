@@ -14,7 +14,7 @@ const Comment = ({comment}) => {
   return (
     <div className={styles.commentContainer}>
       <div className={styles.nameAndAvatar}>
-        <img src={comment.imageUrl} />
+        <img src={imageUrl} />
         <div className={styles.name}>{firstName}</div>
         <div className={styles.timeAndDate}>
           {moment(createdAt, 'YYYYMMDD').fromNow()}
