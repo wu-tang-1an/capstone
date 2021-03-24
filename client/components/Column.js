@@ -4,6 +4,7 @@ import TaskCard from './TaskCard'
 import ColumnDropDown from './ColumnDropDown'
 import {fetchAllTasks, fetchUpdateTask} from '../store/tasks'
 import AddButton from './AddButton'
+import AddButtonTask from './AddButtonTask'
 import TaskDropTargetWrapper from './TaskDropTargetWrapper'
 import {ProjectContext} from './ProjectProvider'
 
@@ -42,10 +43,11 @@ const Column = ({name, columnId}) => {
         {' '}
         {theseTasks.map((task) => (
           <TaskDropTargetWrapper key={task.id} columnId={columnId}>
-            <TaskCard taskId={task.id} name={task.description} />{' '}
+            <TaskCard taskId={task.id} description={task.description} />{' '}
           </TaskDropTargetWrapper>
         ))}{' '}
-        <AddButton columnId={columnId} />{' '}
+        <AddButton columnId={columnId} />
+        {/* <AddButtonTask columnId={columnId} />{' '} */}
       </div>{' '}
     </div>
   )

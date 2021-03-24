@@ -15,9 +15,9 @@ export const addColumn = (name) => ({
   name,
 })
 
-export const addTask = (columnId, name) => ({
+export const addTask = (columnId, description) => ({
   type: ADD_TASK,
-  payload: {name, columnId},
+  payload: {description, columnId},
 })
 
 export const fetchAllColumns = () => {
@@ -40,17 +40,17 @@ export const fetchAddColumn = (name) => {
   }
 }
 
-export const fetchAddTask = (columnId, name) => {
-  console.log('fetchAddTaskName--->', name)
+export const fetchAddTask = (columnId, description) => {
+  console.log('fetchAddTaskDescription--->', description)
 
   return async (dispatch) => {
     let {data} = await axios.post(`/api/tasks/columns/${columnId}`, {
-      name,
+      description,
     })
 
     console.log('helloDataDEEEEEEE--->', data)
 
-    dispatch(addTask(data))
+    dispatch(addTask(data.description))
   }
 }
 
@@ -68,7 +68,7 @@ export default function columns(state = initialState, action) {
 
     case ADD_TASK:
       const newTask = {
-        name: action.payload.name,
+        description: action.payload.description,
       }
 
       const newState = state.map((column) => {

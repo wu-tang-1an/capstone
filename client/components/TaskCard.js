@@ -13,9 +13,6 @@ const TaskCard = ({description, taskId}) => {
   // local state management for drop down render
   const [isDropDownActive, setDropDownActive] = useState(false)
 
-  console.log('description--->', description)
-  console.log('taskId--->', taskId)
-
   // useContext pulls in all tasks from ProjectProvider
   const {tasks, setTasks} = useContext(ProjectContext)
 

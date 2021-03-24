@@ -1,7 +1,7 @@
 import React from 'react'
 import {Card, Icon, Button} from '@material-ui/core'
 import Textarea from 'react-textarea-autosize'
-import {fetchAddColumn, fetchAddTask} from '../store/columns'
+import {fetchAddTask} from '../store/columns'
 import {connect} from 'react-redux'
 
 const styles = {
@@ -21,10 +21,10 @@ const styles = {
   },
 }
 
-export class AddButton extends React.Component {
+export class AddButtonTask extends React.Component {
   state = {
     formOpen: false,
-    name: '',
+    description: '',
   }
 
   openForm = () => {
@@ -41,46 +41,32 @@ export class AddButton extends React.Component {
 
   handleInputChange = (e) => {
     this.setState({
-      name: e.target.value,
+      description: e.target.value,
     })
-  }
-
-  handleAddColumn = () => {
-    const {dispatch} = this.props
-    const {name} = this.state
-    console.log('name--->', name)
-
-    if (name) {
-      dispatch(fetchAddColumn(name)).then(() => {
-        this.setState({
-          name: '',
-        })
-      })
-    }
   }
 
   handleAddTask = () => {
     const {dispatch, columnId} = this.props
-    const {name} = this.state
-    console.log('name--->', name)
+    const {description} = this.state
+    console.log('description--->', description)
     console.log('columnId--->', columnId)
+    console.log('this.state--->', this.state)
+    console.log('this.propsinHandle--->', this.props)
 
     if (name) {
-      dispatch(fetchAddTask(columnId, name)).then(() => {
+      dispatch(fetchAddTask(columnId, description)).then(() => {
         this.setState({
-          name: '',
+          description: '',
         })
       })
     }
   }
 
   renderAddButton = () => {
-    const {column} = this.props
-
-    const buttonText = column ? 'Add Column' : 'Add Task'
-    const buttonTextOpacity = column ? 1 : 0.5
-    const buttonTextColor = column ? 'white' : 'inherit'
-    const buttonTextBackground = column ? 'rgba(0,0,0,.15)' : 'inherit'
+    const buttonText = 'Add Task'
+    const buttonTextOpacity = 0.5
+    const buttonTextColor = 'inherit'
+    const buttonTextBackground = 'inherit'
 
     return (
       <div
@@ -99,13 +85,10 @@ export class AddButton extends React.Component {
   }
 
   renderForm = () => {
-    const {column} = this.props
+    const placeholder = 'Enter a title for Task'
+    const buttonTitle = 'Add Task'
 
-    const placeholder = column
-      ? 'Enter a title for Column'
-      : 'Enter a title for Task'
-
-    const buttonTitle = column ? 'Add Column' : 'Add Task'
+    console.log('this.props--->', this.props)
 
     return (
       <div>
@@ -121,7 +104,7 @@ export class AddButton extends React.Component {
             placeholder={placeholder}
             autoFocus
             onBlur={this.closeForm}
-            value={this.state.name}
+            value={this.state.description}
             onChange={this.handleInputChange}
             style={{
               resize: 'none',
@@ -133,7 +116,7 @@ export class AddButton extends React.Component {
         </Card>
         <div style={styles.formButtonGroup}>
           <Button
-            onMouseDown={column ? this.handleAddColumn : this.handleAddTask}
+            onMouseDown={this.handleAddTask}
             variant="contained"
             style={{
               color: 'white',
@@ -163,9 +146,9 @@ export class AddButton extends React.Component {
 
 const mapState = (state) => {
   return {
-    columns: state.columns,
     tasks: state.tasks,
+    columns: state.columns,
   }
 }
 
-export default connect(mapState)(AddButton)
+export default connect(mapState)(AddButtonTask)

@@ -51,7 +51,6 @@ router.post('/columns/:columnId', checkUser, async (req, res, next) => {
   try {
     const data = req.body
     const {columnId} = req.params
-    console.log('req.body intask--->', req.body)
 
     if (isNaN(columnId)) res.status(400).send(columnId + ' is not a number!')
 
@@ -59,6 +58,7 @@ router.post('/columns/:columnId', checkUser, async (req, res, next) => {
     const column = await Column.findByPk(columnId)
 
     console.log('TaskinServer--->', task)
+    console.log('req.body intask--->', req.body)
 
     if (!column) res.status(404).send('Column not found in database!')
 
