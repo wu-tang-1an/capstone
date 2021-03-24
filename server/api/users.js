@@ -71,6 +71,21 @@ router.get('/:userId/organizations', checkUser, async (req, res, next) => {
   }
 })
 
+//GET a single user's comments
+router.get('/:userId/comments', async (req, res, next) => {
+  try {
+    const {userId} = req.params
+
+    let user = await User.findByPk(userId)
+
+    user = await user.getComments()
+    res.json(user)
+  } catch (e) {
+    console.log(e)
+    next(e)
+  }
+})
+
 // POST create new user route '/api/users'
 router.post('/', async (req, res, next) => {
   try {

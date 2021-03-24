@@ -46,6 +46,40 @@ router.get('/:taskId', checkUser, async (req, res, next) => {
   }
 })
 
+// get the comments for a specific task
+router.get('/:taskId/comments', async (req, res, next) => {
+  try {
+    const {taskId} = req.params
+
+    let task = await Task.findByPk(taskId)
+
+    task = await task.getComments()
+    res.json(task)
+  } catch (e) {
+    console.log(e)
+    next(e)
+  }
+})
+
+//POST a comment to a task
+router.post('/:taskId/comments', async (req, res, next) => {
+  try {
+    const {taskId} = req.params
+    const {userId, text} = req.body
+
+    let task = await Task.findByPk(taskId)
+
+    task = await task.createComment({
+      text: text,
+      userId: userId,
+    })
+    res.json(task)
+  } catch (e) {
+    console.log(e)
+    next(e)
+  }
+})
+
 // POST create new task route '/api/tasks' (ADMIN ONLY)
 // creates a free floating task (unassociated)
 router.post('/', checkAdmin, async (req, res, next) => {
