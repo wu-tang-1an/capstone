@@ -1,6 +1,6 @@
 import React, {useState, useContext} from 'react'
 import TaskCard from './TaskCard'
-import AddTaskDropDown from './AddTaskDropDown'
+import AddTaskDialog from './AddTaskDialog'
 import ColumnDropDown from './ColumnDropDown'
 import TaskDropTargetWrapper from './TaskDropTargetWrapper'
 import TaskProvider from '../context/taskContext'
@@ -43,7 +43,7 @@ const Column = () => {
         </div>
         <div className={styles.cardContainer}>
           {isAddTaskVisible && (
-            <AddTaskDropDown cancel={() => setIsAddTaskVisible(false)} />
+            <AddTaskDialog cancel={() => setIsAddTaskVisible(false)} />
           )}
           {tasks.map((task) => (
             <TaskProvider key={task.id} taskId={task.id}>

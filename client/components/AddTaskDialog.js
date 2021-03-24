@@ -1,7 +1,7 @@
 import React from 'react'
-import styles from './css/AddTaskDropDown.css'
+import styles from './css/AddTaskDialog.css'
 
-const AddTaskDropDown = ({cancel}) => {
+const AddTaskDialog = ({cancel, taskOrColumn}) => {
   return (
     <div className={styles.addTaskDropDownContainer}>
       <textarea className={styles.description}></textarea>
@@ -17,4 +17,4 @@ const AddTaskDropDown = ({cancel}) => {
   )
 }
 
-export default AddTaskDropDown
+export default AddTaskDialog
