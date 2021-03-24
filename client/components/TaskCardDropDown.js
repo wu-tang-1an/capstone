@@ -11,7 +11,7 @@ const fields = [
 ]
 
 import styles from './css/TaskCardDropDown.css'
-const TaskCardDropDown = ({taskId}) => {
+const TaskCardDropDown = () => {
   // designate local state to handle modal visibility
   const [activeField, setActiveField] = useState('')
 
@@ -28,7 +28,8 @@ const TaskCardDropDown = ({taskId}) => {
             className={styles.dropDownField}
             onClick={() => setActiveField(field.type)}
           >
-            {field.type}
+            <span className={styles.fieldName}>{field.type}</span>
+            <span className="arrow material-icons">keyboard_arrow_right</span>
           </div>
         ))}
       </div>

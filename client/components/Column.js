@@ -17,44 +17,43 @@ const Column = () => {
   const {column, setColumn, tasks, setTasks} = useContext(ColumnContext)
 
   return (
-    <div className={styles.columnContainer}>
-      <div className={styles.badgeTitleDotMenu}>
-        <div className={styles.badgeAndTitle}>
-          <div className={styles.columnBadge}> {tasks.length} </div>
-          <div className={styles.columnTitle}> {column.name} </div>
-        </div>
-
-        <div className={styles.newTaskAndMoreOpts}>
-          <div
-            className="material-icons"
-            onClick={() => setIsAddTaskVisible(!isAddTaskVisible)}
-          >
-            {' '}
-            add{' '}
+    <div>
+      {isDropDownActive && <ColumnDropDown />}
+      <div className={styles.columnContainer}>
+        <div className={styles.badgeTitleDotMenu}>
+          <div className={styles.badgeAndTitle}>
+            <div className={styles.columnBadge}> {tasks.length} </div>
+            <div className={styles.columnTitle}> {column.name} </div>
           </div>
-          <div
-            className="material-icons"
-            onClick={() => setIsDropDownActive(!isDropDownActive)}
-          >
-            more_horiz
+          <div className={styles.newTaskAndMoreOpts}>
+            <div
+              className="material-icons"
+              onClick={() => setIsAddTaskVisible(!isAddTaskVisible)}
+            >
+              {' '}
+              add{' '}
+            </div>
+            <div
+              className="material-icons"
+              onClick={() => setIsDropDownActive(!isDropDownActive)}
+            >
+              more_horiz
+            </div>
           </div>
         </div>
-
-        {isDropDownActive && <ColumnDropDown />}
-      </div>
-
-      <div className={styles.cardContainer}>
-        {isAddTaskVisible && (
-          <AddTaskDropDown cancel={() => setIsAddTaskVisible(false)} />
-        )}
-        {tasks.map((task) => (
-          <TaskProvider key={task.id} taskId={task.id}>
-            <TaskDropTargetWrapper taskId={task.id}>
-              <TaskCard />
-            </TaskDropTargetWrapper>
-          </TaskProvider>
-        ))}
-        {/* <AddButton columnId={columnId} /> */}
+        <div className={styles.cardContainer}>
+          {isAddTaskVisible && (
+            <AddTaskDropDown cancel={() => setIsAddTaskVisible(false)} />
+          )}
+          {tasks.map((task) => (
+            <TaskProvider key={task.id} taskId={task.id}>
+              <TaskDropTargetWrapper taskId={task.id}>
+                <TaskCard />
+              </TaskDropTargetWrapper>
+            </TaskProvider>
+          ))}
+          {/* <AddButton columnId={columnId} /> */}
+        </div>
       </div>
     </div>
   )

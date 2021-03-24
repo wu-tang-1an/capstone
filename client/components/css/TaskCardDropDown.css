@@ -15,16 +15,16 @@
 }
 
 .dropDownField {
-  height: min-content;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   width: 100%;
   padding: 0.5em;
-  border-bottom: 1px solid black;
-  text-decoration: underline;
   cursor: pointer;
 }
 
-.dropDownField:nth-child(n) {
-  border-bottom: none;
+.fieldName:hover {
+  text-decoration: underline;
 }
 
 .arrowDown {
