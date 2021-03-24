@@ -29,8 +29,8 @@ const UserTask = db.define('user_task')
 User.belongsToMany(Organization, {through: UserOrganization})
 Organization.belongsToMany(User, {through: UserOrganization})
 
-Task.belongsTo(User)
-User.hasMany(Task)
+Task.belongsToMany(User, {through: UserTask})
+User.belongsToMany(Task, {through: UserTask})
 
 Comment.belongsTo(User)
 User.hasMany(Comment)

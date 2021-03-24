@@ -69,11 +69,11 @@ async function seed() {
     green(`Seeded ${createdUserOrgs.length} user_organization records`)
   )
 
-  /*   // seed user task through table
+  // seed user task through table
   const createdUserTasks = await UserTask.bulkCreate(userTasks, {
     returning: true,
   })
-  console.log(green(`Seeded ${createdUserTasks.length} user_task records`)) */
+  console.log(green(`Seeded ${createdUserTasks.length} user_task records`))
 
   // associate non through table
   const associableTaskIds = [...createdTasks].map((task) => task.id)

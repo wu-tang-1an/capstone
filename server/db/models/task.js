@@ -9,6 +9,9 @@ const Task = db.define('task', {
   completionDate: {
     type: Sequelize.STRING,
   },
+  createdBy: {
+    type: Sequelize.STRING,
+  },
 })
 
 Task.prototype.getDescription = function () {
