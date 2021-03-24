@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import Modal from './Modal'
 import DeleteTaskModal from './DeleteTaskModal'
 import SingleTaskExpanded from './SingleTaskExpanded'
+import styles from './css/TaskCardDropDown.css'
 
 // fields are actions that user can take from dropdown menu
 const fields = [
@@ -10,8 +11,7 @@ const fields = [
   // more fields as necessary
 ]
 
-import styles from './css/TaskCardDropDown.css'
-const TaskCardDropDown = () => {
+const TaskCardDropDown = ({taskId}) => {
   // designate local state to handle modal visibility
   const [activeField, setActiveField] = useState('')
 
@@ -36,7 +36,7 @@ const TaskCardDropDown = () => {
       <div className={styles.arrowDown}></div>
       {activeField === 'Delete' && (
         <Modal>
-          <DeleteTaskModal closeModal={closeModal} />
+          <DeleteTaskModal taskId={taskId} closeModal={closeModal} />
         </Modal>
       )}
       {activeField === 'Edit' && (
