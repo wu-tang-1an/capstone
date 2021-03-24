@@ -18,7 +18,7 @@ const Column = () => {
 
   return (
     <div>
-      {isDropDownActive && <ColumnDropDown />}
+      {isDropDownActive && <ColumnDropDown columnId={column.id} />}
       <div className={styles.columnContainer}>
         <div className={styles.badgeTitleDotMenu}>
           <div className={styles.badgeAndTitle}>
