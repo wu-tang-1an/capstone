@@ -5,6 +5,7 @@ import SingleTaskExpanded from './SingleTaskExpanded'
 import styles from './css/TaskCardDropDown.css'
 
 import axios from 'axios'
+
 import {ColumnContext} from '../context/columnContext'
 
 // fields are actions that user can take from dropdown menu
@@ -21,16 +22,16 @@ const TaskCardDropDown = ({taskId}) => {
   // closeModal clears activeField
   const closeModal = () => setActiveField('')
 
+  // grab tasks, setTasks from column context
   const {tasks, setTasks} = useContext(ColumnContext)
 
   const deleteTask = async () => {
     try {
       await axios.delete(`/api/tasks/${taskId}`)
+      setTasks(tasks.filter((task) => task.id !== taskId))
     } catch (err) {
       console.error(err)
     }
-
-    setTasks(tasks.filter((task) => task.id !== taskId))
     closeModal()
   }
 
