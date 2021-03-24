@@ -45,42 +45,8 @@ router.post('/logout', (req, res) => {
   res.redirect('/')
 })
 
-router.get('/me', async (req, res, next) => {
-  try {
-    const userId = req.user.id
-
-    const user = await User.findByPk(userId, {
-      include: [
-        {
-          model: Organization,
-          include: [
-            {
-              model: Project,
-              include: [
-                {
-                  model: Column,
-                  include: [
-                    {
-                      model: Task,
-                      include: [
-                        {
-                          model: Comment,
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    })
-
-    res.json(user)
-  } catch (err) {
-    next(err)
-  }
+router.get('/me', (req, res) => {
+  res.json(req.user)
 })
 
 router.use('/google', require('./google'))
