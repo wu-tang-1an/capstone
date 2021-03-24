@@ -45,17 +45,25 @@ const SingleOrganization = ({match}) => {
 
   return (
     <div className="topLevelViewContainer">
-      <div className={styles.imgAndOrgName}>
-        <img src={imageUrl} />
-        <div className={styles.organizationName}>{name}</div>
-      </div>
-      <div className={styles.membersAndProjects}>
-        <div className={styles.memberList}>
-          {users && users.map((user) => <UserCard key={user.id} user={user} />)}
-        </div>
-        <div className={styles.projectList}>
-          {projects &&
-            projects.map((project) => <ProjectCard project={project} />)}
+      <div className={styles.organizationContainer}>
+        <img className={styles.organizationImg} src={imageUrl} />
+        <div className={styles.membersAndProjects}>
+          <div className={styles.membersContainer}>
+            <div className={styles.membersTitle}>Members:</div>
+            <div className={styles.memberList}>
+              {users &&
+                users.map((user) => <UserCard key={user.id} user={user} />)}
+            </div>
+          </div>
+          <div className={styles.projectsContainer}>
+            <div className={styles.projectsTitle}>Projects:</div>
+            <div className={styles.projectList}>
+              {projects &&
+                projects.map((project) => (
+                  <ProjectCard key={project.id} project={project} />
+                ))}
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -63,17 +71,3 @@ const SingleOrganization = ({match}) => {
 }
 
 export default SingleOrganization
-
-// const dummyJSX = (
-//   <div>
-//     Projects:
-//     {projects.map((project) => (
-//       <Link to={`/projects/${project.id}`} key={project.id}>
-//         <img src={project.imageUrl} />
-//         <div>{project.name}</div>
-//         <div>{project.status}</div>
-//         <div>{project.description}</div>
-//       </Link>
-//     ))}
-//   </div>
-// )

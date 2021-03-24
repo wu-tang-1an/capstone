@@ -1,15 +1,32 @@
-.imgAndOrgName {
+.organizationContainer {
   display: flex;
-  align-items: baseline;
-  justify-content: space-around;
+  flex-direction: column;
+  margin: 0 auto;
+  padding: 0;
 }
 
-.imgAndOrgName img {
+.organizationImg {
   height: 200px;
   width: auto;
+  margin: 0 auto;
 }
 
-.organizationName {
+.membersAndProjects {
+  display: flex;
+  justify-content: space-around;
+  width: 80vw;
+  margin: 0 auto;
+  padding: 1em;
+}
+
+.membersContainer,
+.projectsContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.membersTitle,
+.projectsTitle {
   font: bold;
-  font-size: 36px;
+  font-size: 22px;
 }

@@ -6,11 +6,10 @@ import {IconContext} from 'react-icons'
 import styles from './css/AllOrgs.css'
 
 const AllOrgs = () => {
-  // initialize state
-  const [organizations, setOrganizations] = useState([])
-
   // grab user from auth context
-  const {user, setUser} = useContext(AuthContext)
+  const {user} = useContext(AuthContext)
+
+  const {organizations} = user || []
 
   return (
     <div>
@@ -25,9 +24,9 @@ const AllOrgs = () => {
             </IconContext.Provider>
           </div>
           <div className={styles.allOrgsCont}>
-            {user.organizations.map((org, index) => (
+            {organizations.map((org) => (
               <Link
-                key={index}
+                key={org.id}
                 className={styles.allOrgsAnchor}
                 to={`/organizations/${org.id}`}
               >
