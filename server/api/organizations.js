@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {Organization, Project} = require('../db/models')
+const {Organization, Project, User} = require('../db/models')
 const {checkUser, checkAdmin} = require('./gatekeeper')
 module.exports = router
 
@@ -24,6 +24,9 @@ router.get('/:orgId', checkUser, async (req, res, next) => {
         include: [
           {
             model: Project,
+          },
+          {
+            model: User,
           },
         ],
       })
