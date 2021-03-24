@@ -1,0 +1,66 @@
+.commentContainer {
+  display: flex;
+  flex-direction: column;
+  max-height: 500px;
+  overflow: auto;
+  justify-content: center;
+  align-items: center;
+}
+
+.commentContainer::-webkit-scrollbar {
+  /* background-color: #0ae; */
+  width: 12px;
+}
+
+.commentContainer::-webkit-scrollbar-thumb {
+  background-color: blue;
+  border-radius: 10px;
+
+  width: 12px;
+}
+
+.commentContainer::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+.userCardContainer {
+  width: 380px;
+  height: 120px;
+  background-color: var(--cardBackground);
+  display: flex;
+  margin: 0.5em;
+  box-shadow: 0.8px 0.9px 3px rgb(187, 187, 187);
+  transition: box-shadow 0.1s ease-in-out;
+}
+
+.userCardContainer:hover {
+  box-shadow: 0.8px 0.9px 3px rgb(63, 127, 201);
+}
+
+.userCardContainer img {
+  height: 120px;
+  width: auto;
+  max-width: 180px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+
+.userCardInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.commentText {
+  text-align: center;
+  padding: 5px;
+}
+
+.test {
+  font-size: 3px;
+  display: block;
+}
