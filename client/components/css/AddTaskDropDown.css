@@ -20,11 +20,15 @@ textarea {
   display: flex;
   width: 100%;
   align-items: baseline;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 
 .btnContainer button {
-  padding: 1em;
+  width: 100%;
+  border-radius: 5px;
+}
+
+.addBtn {
+  background-color: rgb(95, 189, 95);
   color: white;
-  background-color: black;
 }
