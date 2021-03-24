@@ -3,7 +3,6 @@ import styles from './css/AddTaskDialog.css'
 import {AuthContext} from '../context/authContext'
 import {ProjectContext} from '../context/projectContext'
 import {addTaskToColumnDB} from '../context/axiosService'
-
 import axios from 'axios'
 
 const AddTaskDialog = ({task, cancel}) => {

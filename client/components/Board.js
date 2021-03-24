@@ -8,6 +8,8 @@ const Board = () => {
   // get columns from ProjectContext
   const {project, columns} = useContext(ProjectContext)
 
+  console.log('columns in board are: ', columns)
+
   return (
     <div className="Board">
       <h2>Project: {project.name}</h2>

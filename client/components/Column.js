@@ -47,7 +47,6 @@ const Column = ({column}) => {
         </div>
         <div className={styles.cardContainer}>
           {tasks &&
-            tasks.length &&
             tasks.map((task, idx) => (
               <div key={task.id}>
                 {isAddTaskVisible && idx === 0 && (
