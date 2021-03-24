@@ -1,22 +1,9 @@
-import React, {useState, useEffect, useMemo} from 'react'
-import axios from 'axios'
+import React, {useState, useMemo} from 'react'
 
 export const AuthContext = React.createContext()
 
 const AuthProvider = ({children}) => {
   const [user, setUser] = useState({})
-
-  useEffect(() => {
-    const getMe = async () => {
-      try {
-        const {data} = await axios.get('/auth/me')
-        setUser(data || {})
-      } catch (err) {
-        console.error(err)
-      }
-    }
-    getMe()
-  }, {})
 
   const providerValue = useMemo(() => {
     return {user, setUser}
