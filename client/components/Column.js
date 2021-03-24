@@ -20,54 +20,51 @@ const Column = () => {
   const {column, setColumn, tasks, setTasks} = useContext(ColumnContext)
 
   return (
-    <div>
-      {isDropDownActive && <ColumnDropDown />}
-      <div className={styles.columnContainer}>
-        <div className={styles.badgeTitleDotMenu}>
-          <div className={styles.badgeAndTitle}>
-            <div className={styles.columnBadge}> {tasks.length} </div>
-            <div className={styles.columnTitle}> {column.name} </div>
-          </div>
-          <div className={styles.newTaskAndMoreOpts}>
-            <div
-              className="material-icons"
-              onClick={() => setIsAddTaskVisible(!isAddTaskVisible)}
-            >
-              {' '}
-              add{' '}
-            </div>
-            <div
-              className="material-icons"
-              onClick={() => setIsDropDownActive(!isDropDownActive)}
-            >
-              more_horiz
-            </div>
-          </div>
-        </div>
-
-        <div className={styles.cardContainer}>
-          {isAddTaskVisible && (
-            <AddTaskDialog cancel={() => setIsAddTaskVisible(false)} />
-          )}
-          <Droppable droppableId="">
-            {(provided) =>
-              tasks.map((task, index) => (
-                <TaskProvider key={task.id} taskId={task.id}>
-                  <TaskList
-                    ref={provided.innerRef}
-                    {...provided.droppableProps}
+    <Droppable droppableId={String(column.id)}>
+      {(provided) => (
+        <TaskList ref={provided.innerRef} {...provided.droppableProps}>
+          <div>
+            {isDropDownActive && <ColumnDropDown />}
+            <div className={styles.columnContainer}>
+              <div className={styles.badgeTitleDotMenu}>
+                <div className={styles.badgeAndTitle}>
+                  <div className={styles.columnBadge}> {tasks.length} </div>
+                  <div className={styles.columnTitle}> {column.name} </div>
+                </div>
+                <div className={styles.newTaskAndMoreOpts}>
+                  <div
+                    className="material-icons"
+                    onClick={() => setIsAddTaskVisible(!isAddTaskVisible)}
                   >
-                    <TaskCard index={index} />
-                    {provided.placeholder}
-                  </TaskList>
-                </TaskProvider>
-              ))
-            }
-            {/* <AddButton columnId={columnId} /> */}
-          </Droppable>
-        </div>
-      </div>
-    </div>
+                    {' '}
+                    add{' '}
+                  </div>
+                  <div
+                    className="material-icons"
+                    onClick={() => setIsDropDownActive(!isDropDownActive)}
+                  >
+                    more_horiz
+                  </div>
+                </div>
+              </div>
+
+              <div className={styles.cardContainer}>
+                {isAddTaskVisible && (
+                  <AddTaskDialog cancel={() => setIsAddTaskVisible(false)} />
+                )}
+
+                {tasks.map((task, index) => (
+                  <TaskProvider key={task.id} taskId={task.id}>
+                    <TaskCard taskId={task.id} index={index} />
+                  </TaskProvider>
+                ))}
+              </div>
+            </div>
+          </div>
+          {provided.placeholder}
+        </TaskList>
+      )}
+    </Droppable>
   )
 }
 

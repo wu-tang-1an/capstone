@@ -5,7 +5,11 @@ import TaskCardDropDown from './TaskCardDropDown'
 import {TaskContext} from '../context/taskContext'
 import styles from './css/TaskCard.css'
 
-const Container = styled.div``
+const Container = styled.div`
+  border-radius: 2px;
+  padding: 1px;
+  margin-bottom: 8px;
+`
 
 const TaskCard = (props) => {
   // local state management for drop down render
@@ -14,7 +18,7 @@ const TaskCard = (props) => {
   // get task and user
   // type-checking necessary to avoid render issues
   const {task} = useContext(TaskContext)
-  const {id, uuid} = task
+  const {id} = task
   const users = task.users || []
   const user = (users && users[0]) || {}
 
@@ -22,7 +26,7 @@ const TaskCard = (props) => {
   const getFullName = () => `${user.firstName} ${user.lastName}`
 
   return (
-    <Draggable draggableId="" index={props.index}>
+    <Draggable draggableId={String(props.taskId)} index={props.index}>
       {(provided) => (
         <Container
           ref={provided.innerRef}

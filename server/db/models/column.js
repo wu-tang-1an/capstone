@@ -6,10 +6,6 @@ const Column = db.define('column', {
     type: Sequelize.STRING,
     // allowNull: false,
   },
-  uuid: {
-    type: Sequelize.UUID,
-    defaultValue: Sequelize.UUIDV4,
-  },
 })
 
 module.exports = Column
