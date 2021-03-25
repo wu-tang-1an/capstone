@@ -68,9 +68,6 @@ describe('Model Associations', () => {
     await newUser1.setTasks([newTask.id])
     await newUser1.save()
     const foundUser = await User.findByPk(1, {include: Task})
-
-    console.log(foundUser.tasks[0].dataValues)
-
     expect(foundUser.tasks[0].dataValues).to.deep.include(task)
   })
 
