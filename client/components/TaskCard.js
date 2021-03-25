@@ -13,7 +13,8 @@ const TaskCard = ({task}) => {
   const {id, description} = task
 
   // returns firstName + lastName for task card "opened by _____"
-  const getFullName = () => `${user.firstName} ${user.lastName}`
+  const getFullName = () =>
+    `${task.users[0].firstName} ${task.users[0].lastName}`
 
   return (
     <div>
