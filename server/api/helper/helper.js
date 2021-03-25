@@ -16,4 +16,10 @@ const resDeleted = (string, id, res) => {
   return res.status(204).send(string + ' ' + id + ' deleted')
 }
 
-module.exports = {resNaN, resDbNotFound, resAssoc, resDeleted}
+const resUnassoc = (string1, string2, id1, id2, res) => {
+  return res
+    .status(204)
+    .send(string1 + ' ' + id1 + ' unassociated with ' + string2 + ' ' + id2)
+}
+
+module.exports = {resNaN, resDbNotFound, resAssoc, resDeleted, resUnassoc}

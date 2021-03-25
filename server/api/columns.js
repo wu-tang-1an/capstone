@@ -1,7 +1,13 @@
 const router = require('express').Router()
 const {Column, Project, Task} = require('../db/models')
 const {checkUser, checkAdmin} = require('./helper/gatekeeper')
-const {resNaN, resDbNotFound, resDeleted, resAssoc} = require('./helper/helper')
+const {
+  resNaN,
+  resDbNotFound,
+  resDeleted,
+  resAssoc,
+  resUnassoc,
+} = require('./helper/helper')
 const {
   STR_COLUMNS,
   STR_COLUMN,
@@ -169,6 +175,27 @@ router.delete('/:columnId', checkUser, async (req, res, next) => {
     if (!column) return resDbNotFound(STR_COLUMN, res)
 
     return resDeleted(STR_COLUMN, columnId, res)
+  } catch (error) {
+    next(error)
+  }
+})
+
+// DELETE remove task from column route '/api/columns/:columnId/tasks/:taskId' (AUTH USER ONLY)
+router.delete('/:columnId/tasks/:taskId', checkUser, async (req, res, next) => {
+  try {
+    const {columnId, taskId} = req.params
+    if (isNaN(columnId)) return resNaN(columnId, res)
+    if (isNaN(taskId)) return resNaN(taskId, res)
+
+    const column = await Column.findByPk(columnId)
+    if (!column) return resDbNotFound(STR_COLUMN, res)
+
+    const task = await Task.findByPk(taskId)
+    if (!task) return resDbNotFound(STR_TASK, res)
+
+    column.removeTask(task)
+
+    return resUnassoc(STR_COLUMN, STR_TASK, columnId, taskId, res)
   } catch (error) {
     next(error)
   }

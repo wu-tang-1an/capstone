@@ -17,7 +17,7 @@ export default function ProjectProvider({projectId, children}) {
       try {
         const {data} = await axios.get(`/api/projects/${projectId}`)
         setProject(data)
-        setColumns(data.columns)
+        setColumns(data.columns.sort((a, b) => a.id - b.id))
         setTasks(columns.map((column) => column.tasks).flat())
         setComments(tasks.map((task) => task.comments).flat())
       } catch (err) {

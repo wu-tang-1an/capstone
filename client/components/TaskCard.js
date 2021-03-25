@@ -1,9 +1,17 @@
 import React, {useState, useContext} from 'react'
+import {Draggable} from 'react-beautiful-dnd'
+import styled from 'styled-components'
 import TaskCardDropDown from './TaskCardDropDown'
 import {AuthContext} from '../context/authContext'
 import styles from './css/TaskCard.css'
 
-const TaskCard = ({task}) => {
+const Container = styled.div`
+  border-radius: 1px;
+  padding: 1px;
+  margin-bottom: 1px;
+`
+
+const TaskCard = ({task, index}) => {
   // local state management for drop down render
   const [isDropDownActive, setDropDownActive] = useState(false)
 
@@ -17,32 +25,42 @@ const TaskCard = ({task}) => {
     `${task.users[0].firstName} ${task.users[0].lastName}`
 
   return (
-    <div>
-      {isDropDownActive && (
-        <TaskCardDropDown
-          task={task}
-          closeDropDown={() => setDropDownActive(false)}
-        />
+    <Draggable draggableId={String(task.id)} index={index}>
+      {(provided) => (
+        <Container
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+        >
+          <div>
+            {isDropDownActive && (
+              <TaskCardDropDown
+                task={task}
+                closeDropDown={() => setDropDownActive(false)}
+              />
+            )}
+            <div className={styles.taskCardContainer}>
+              <div className="material-icons">error_outline</div>
+              <div className={styles.titleAndCreator}>
+                <div className={styles.title}>{description}</div>
+                <div className={styles.idAndCreatedBy}>
+                  {/* {`#${id} opened by ${getFullName()}`} */}
+                </div>
+              </div>
+              <div className={styles.dotMenuAndAvatar}>
+                <span
+                  className="material-icons"
+                  onClick={() => setDropDownActive(!isDropDownActive)}
+                >
+                  more_horiz
+                </span>
+                <img src={user.imageUrl} />
+              </div>
+            </div>
+          </div>
+        </Container>
       )}
-      <div className={styles.taskCardContainer}>
-        <div className="material-icons">error_outline</div>
-        <div className={styles.titleAndCreator}>
-          <div className={styles.title}>{description}</div>
-          <div
-            className={styles.idAndCreatedBy}
-          >{`#${id} opened by ${getFullName()}`}</div>
-        </div>
-        <div className={styles.dotMenuAndAvatar}>
-          <span
-            className="material-icons"
-            onClick={() => setDropDownActive(!isDropDownActive)}
-          >
-            more_horiz
-          </span>
-          <img src={user.imageUrl} />
-        </div>
-      </div>
-    </div>
+    </Draggable>
   )
 }
 

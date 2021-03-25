@@ -1,10 +1,15 @@
 import React, {useState} from 'react'
+import {Droppable} from 'react-beautiful-dnd'
+import styled from 'styled-components'
 import TaskCard from './TaskCard'
 import AddTaskDialog from './AddTaskDialog'
 import ColumnDropDown from './ColumnDropDown'
+
 import styles from './css/Column.css'
 
-const Column = ({column}) => {
+const TaskList = styled.div``
+
+const DivHell = ({column}) => {
   // local state management for drop down column render
   const [isDropDownActive, setIsDropDownActive] = useState(false)
   const [isAddTaskVisible, setIsAddTaskVisible] = useState(false)
@@ -59,7 +64,7 @@ const Column = ({column}) => {
                     closeTaskDialog={closeTaskDialog}
                   />
                 )}
-                <TaskCard task={task} />
+                <TaskCard task={task} index={idx} />
               </div>
             ))}
           {isAddTaskVisible && (!tasks || !tasks.length) && (
@@ -71,6 +76,19 @@ const Column = ({column}) => {
         </div>
       </div>
     </div>
+  )
+}
+
+const Column = ({column}) => {
+  return (
+    <Droppable droppableId={String(column.id)}>
+      {(provided) => (
+        <TaskList ref={provided.innerRef} {...provided.droppableProps}>
+          <DivHell column={column} />
+          {provided.placeholder}
+        </TaskList>
+      )}
+    </Droppable>
   )
 }
 
