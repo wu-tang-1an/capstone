@@ -7,19 +7,16 @@ const app = require('../index')
 const Project = db.model('project')
 
 describe('Project routes', () => {
-  beforeEach(() => {
-    return db.sync({force: true})
-  })
+  const testProject = {
+    name: 'Test Project',
+    status: 'in-progress',
+    description: 'I am a test project!',
+  }
 
   describe('/api/projects/', () => {
-    const testProject = {
-      name: 'Test Project',
-      status: 'in progress',
-      description: 'I am a test project!',
-    }
-
-    beforeEach(() => {
-      return Project.create(testProject)
+    beforeEach(async () => {
+      await db.sync({force: true})
+      await Project.create(testProject)
     })
 
     it('GET /api/projects', async () => {
