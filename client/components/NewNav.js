@@ -25,7 +25,13 @@ const Nav = () => {
       {user.id ? (
         <div className="container-fluid">
           <Link className="navbar-brand" to="/">
-            <h1 style={{fontFamily: "'Noto Sans KR', sans-serif"}}>Note-ary</h1>
+            <div>
+              <img
+                className={styles.imagesLogo}
+                alt="logo"
+                src="/note-ary.png"
+              />
+            </div>
           </Link>
           <button
             className="navbar-toggler"
@@ -87,8 +93,11 @@ const Nav = () => {
       ) : (
         <div className="container-fluid">
           <Link className="navbar-brand" to="/">
-            <h1 style={{fontFamily: "'Noto Sans KR', sans-serif"}}>Note-ary</h1>
+            <div>
+              <img alt="logo" src="/note-ary.png" />
+            </div>
           </Link>
+
           <button
             className="navbar-toggler"
             type="button"
