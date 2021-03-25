@@ -7,15 +7,15 @@ const app = require('../index')
 const Column = db.model('column')
 
 describe('Column routes', () => {
-  beforeEach(() => {
-    return db.sync({force: true})
+  beforeEach(async () => {
+    await db.sync({force: true})
   })
 
   describe('/api/columns/', () => {
     const testColumn = 'Test Column'
 
-    beforeEach(() => {
-      return Column.create({
+    beforeEach(async () => {
+      await Column.create({
         name: testColumn,
       })
     })
