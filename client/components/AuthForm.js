@@ -9,10 +9,6 @@ const AuthForm = ({authType}) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  // local state of login/signup method
-  // either 'me' or 'google'
-  const [authMethod, setAuthMethod] = useState('login')
-
   // setUser method from AuthProvider
   const {setUser} = useContext(AuthContext)
 
