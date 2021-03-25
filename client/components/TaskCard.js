@@ -44,6 +44,7 @@ const TaskCard = ({task, index}) => {
               <div className={styles.titleAndCreator}>
                 <div className={styles.title}>{description}</div>
                 <div className={styles.idAndCreatedBy}>
+                  {`#${id}`}
                   {/* {`#${id} opened by ${getFullName()}`} */}
                 </div>
               </div>
