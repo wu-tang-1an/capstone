@@ -9,8 +9,11 @@ const Column = ({column}) => {
   const [isDropDownActive, setIsDropDownActive] = useState(false)
   const [isAddTaskVisible, setIsAddTaskVisible] = useState(false)
 
-  // close drop down method
-  const cancel = () => setIsDropDownActive(false)
+  // close column drop down method
+  const closeDropDown = () => setIsDropDownActive(false)
+
+  // close task dialog
+  const closeTaskDialog = () => setIsAddTaskVisible(false)
 
   // grab column data
   const {tasks} = column
@@ -18,7 +21,7 @@ const Column = ({column}) => {
   return (
     <div>
       {isDropDownActive && (
-        <ColumnDropDown columnId={column.id} cancel={cancel} />
+        <ColumnDropDown columnId={column.id} closeDropDown={closeDropDown} />
       )}
       <div className={styles.columnContainer}>
         <div className={styles.badgeTitleDotMenu}>
@@ -53,7 +56,7 @@ const Column = ({column}) => {
                 {isAddTaskVisible && !idx && (
                   <AddTaskDialog
                     columnId={column.id}
-                    cancel={() => setIsAddTaskVisible(false)}
+                    closeTaskDialog={closeTaskDialog}
                   />
                 )}
                 <TaskCard task={task} />
@@ -62,7 +65,7 @@ const Column = ({column}) => {
           {isAddTaskVisible && (!tasks || !tasks.length) && (
             <AddTaskDialog
               columnId={column.id}
-              cancel={() => setIsAddTaskVisible(false)}
+              closeTaskDialog={closeTaskDialog}
             />
           )}
         </div>

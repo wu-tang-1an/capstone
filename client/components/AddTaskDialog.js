@@ -5,7 +5,7 @@ import {ProjectContext} from '../context/projectContext'
 import {addTaskToColumnDB} from '../context/axiosService'
 import axios from 'axios'
 
-const AddTaskDialog = ({columnId, cancel}) => {
+const AddTaskDialog = ({columnId, closeTaskDialog}) => {
   // grab user from auth context
   const {user} = useContext(AuthContext)
 
@@ -47,8 +47,9 @@ const AddTaskDialog = ({columnId, cancel}) => {
       // then update the local state tasks record
       setTasks([...tasks, createdTask])
 
-      // finally close the add task dialog
-      cancel()
+      // do NOT close the task dialog -- this allows users
+      // to create multiple cards without having to click the +
+      // repeatedly!
     } catch (err) {
       console.error(err)
     }
@@ -68,8 +69,12 @@ const AddTaskDialog = ({columnId, cancel}) => {
         >
           Add task
         </button>
-        <button type="button" className={styles.cancelBtn} onClick={cancel}>
-          Cancel
+        <button
+          type="button"
+          className={styles.cancelBtn}
+          onClick={closeTaskDialog}
+        >
+          Close
         </button>
       </div>
     </div>
