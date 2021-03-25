@@ -64,7 +64,7 @@ const DivHell = ({column}) => {
                 <TaskCard task={task} index={idx} />
               </div>
             ))}
-          {isAddTaskVisible && !tasks && (
+          {isAddTaskVisible && (!tasks || !tasks.length) && (
             <AddTaskDialog
               columnId={column.id}
               cancel={() => setIsAddTaskVisible(false)}
