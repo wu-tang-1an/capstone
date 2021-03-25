@@ -32,7 +32,12 @@ const TaskCard = ({task, index}) => {
           {...provided.dragHandleProps}
         >
           <div>
-            {isDropDownActive && <TaskCardDropDown taskId={id} />}
+            {isDropDownActive && (
+              <TaskCardDropDown
+                task={task}
+                closeDropDown={() => setDropDownActive(false)}
+              />
+            )}
             <div className={styles.taskCardContainer}>
               <div className="material-icons">error_outline</div>
               <div className={styles.titleAndCreator}>

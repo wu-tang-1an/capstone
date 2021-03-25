@@ -14,7 +14,7 @@ const fields = [
   // more fields as necessary
 ]
 
-const TaskCardDropDown = ({taskId}) => {
+const TaskCardDropDown = ({task, closeDropDown}) => {
   // designate local state to handle modal visibility
   const [activeField, setActiveField] = useState('')
 
@@ -22,12 +22,21 @@ const TaskCardDropDown = ({taskId}) => {
   const closeModal = () => setActiveField('')
 
   // grab tasks, setTasks from column context
-  const {tasks, setTasks} = useContext(ProjectContext)
+  const {columns, setColumns, tasks, setTasks} = useContext(ProjectContext)
 
   const deleteTask = async () => {
     try {
-      await axios.delete(`/api/tasks/${taskId}`)
-      setTasks(tasks.filter((task) => task.id !== taskId))
+      await axios.delete(`/api/tasks/${task.id}`)
+
+      const {data} = await axios.get(`/api/columns/${task.columnId}`)
+
+      // the next two calls look inefficient but are absolutely necessary due to an unknown render issue that prevents us from setting tasks directly without first rendering the new column
+
+      setColumns(
+        columns.map((column) => (column.id === data.id ? data : column))
+      )
+
+      setTasks(tasks.filter((currTask) => currTask.id !== task.id))
     } catch (err) {
       console.error(err)
     }
@@ -57,7 +66,11 @@ const TaskCardDropDown = ({taskId}) => {
       )}
       {activeField === 'Edit' && (
         <Modal>
-          <SingleTaskExpanded closeModal={closeModal} />
+          <SingleTaskExpanded
+            task={task}
+            closeModal={closeModal}
+            closeDropDown={closeDropDown}
+          />
         </Modal>
       )}
     </div>

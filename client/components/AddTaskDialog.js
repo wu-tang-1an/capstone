@@ -3,23 +3,22 @@ import styles from './css/AddTaskDialog.css'
 import {AuthContext} from '../context/authContext'
 import {ProjectContext} from '../context/projectContext'
 import {addTaskToColumnDB} from '../context/axiosService'
-
 import axios from 'axios'
 
-const AddTaskDialog = ({task, cancel}) => {
+const AddTaskDialog = ({columnId, cancel}) => {
   // grab user from auth context
   const {user} = useContext(AuthContext)
 
   // grab column and tasks, setTasks from column context
-  const {columns, tasks, setTasks} = useContext(ProjectContext)
+  const {columns, setColumns, tasks, setTasks} = useContext(ProjectContext)
 
   // get this column
-  const thisColumn = columns.find((column) => column.id === task.columnId)
+  const thisColumn = columns.find((column) => column.id === columnId)
 
   // initialize local state for new task description
   const [description, setDescription] = useState('')
 
-  // add task method updates db and closes the dialog
+  // add task method updates db/local state before closing dialog
   const addTask = async (e) => {
     e.preventDefault()
 
@@ -31,14 +30,24 @@ const AddTaskDialog = ({task, cancel}) => {
     }
 
     try {
+      // create new task
       const createdTask = await addTaskToColumnDB(newTask, thisColumn.id)
 
+      // associate the new task with the user who created it
       await axios.put(`/api/tasks/${createdTask.id}/users/${user.id}`)
 
+      // fetch the column that holds the new task
+      const {data} = await axios.get(`/api/columns/${thisColumn.id}`)
+
+      // first update the column on local state
+      setColumns(
+        columns.map((column) => (column.id === data.id ? data : column))
+      )
+
+      // then update the local state tasks record
       setTasks([...tasks, createdTask])
 
-      console.log(`tasks is: `, tasks)
-
+      // finally close the add task dialog
       cancel()
     } catch (err) {
       console.error(err)

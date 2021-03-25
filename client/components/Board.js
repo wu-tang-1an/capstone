@@ -6,7 +6,6 @@ import AddColumnDropDown from './AddColumnDropDown'
 import styles from './css/Board.css'
 
 const Board = () => {
-  // get columns from ProjectContext
   const {project, columns} = useContext(ProjectContext)
 
   // drop logic

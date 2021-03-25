@@ -1,13 +1,13 @@
-import React, {useState, useContext} from 'react'
-import {TaskContext} from '../context/taskContext'
+import React, {useState} from 'react'
 import marked from 'marked'
 import Comment from './Comment'
 import styles from './css/SingleTaskExpanded.css'
 
-const SingleTaskExpanded = ({closeModal}) => {
-  // grab task from task provider and destructure
-  const {task} = useContext(TaskContext)
-  const {name, issueType, description, comments} = task
+const SingleTaskExpanded = ({task, closeModal, closeDropDown}) => {
+  const {name, issueType, description} = task || {}
+
+  // destructure comments separately to type check
+  const comments = task && task.comments ? task.comments : []
 
   // then declare state and initialize with task data
   const [taskName, setName] = useState(name)
@@ -74,7 +74,14 @@ const SingleTaskExpanded = ({closeModal}) => {
             </button>
           </div>
           <div className={styles.backToProjectView}>
-            <a href="#" className={styles.spanContainer} onClick={closeModal}>
+            <a
+              href="#"
+              className={styles.spanContainer}
+              onClick={() => {
+                closeDropDown()
+                closeModal()
+              }}
+            >
               <span className="material-icons">keyboard_arrow_left</span>
               <span>Back to project</span>
             </a>

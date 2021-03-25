@@ -42,7 +42,7 @@ export default function ProjectProvider({projectId, children}) {
       comments,
       setComments,
     }
-  }, [project, columns])
+  }, [project, columns, tasks, comments])
 
   return (
     <ProjectContext.Provider value={providerValue}>
