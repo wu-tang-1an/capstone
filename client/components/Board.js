@@ -6,7 +6,7 @@ import AddColumnDropDown from './AddColumnDropDown'
 import styles from './css/Board.css'
 
 const Board = () => {
-  const {project, columns} = useContext(ProjectContext)
+  const {project, columns, setColumns} = useContext(ProjectContext)
 
   // drop logic
   const onDragEnd = (result) => {
@@ -24,15 +24,17 @@ const Board = () => {
     )
       return
 
-    const column = columns.find((col) => col.id === +source.droppableId)
+    // index of column dropped into
+    const columnIdx = columns.findIndex((col) => col.id === +source.droppableId)
 
     console.log('columns: ', columns)
-    console.log('column: ', column)
+    console.log('columnIdx: ', columnIdx)
 
-    const newTasks = Array.from(column.tasks)
+    // copy array of tasks
+    const newTasks = Array.from(columns[columnIdx].tasks)
     const moveTask = newTasks.find((tas) => tas.id === +draggableId)
 
-    console.log('oldTasks: ', column.tasks)
+    console.log('oldTasks: ', columns[columnIdx].tasks)
     console.log('moveTask: ', moveTask)
 
     newTasks.splice(source.index, 1)
@@ -41,11 +43,17 @@ const Board = () => {
     console.log('newTasks: ', newTasks)
 
     const newColumn = {
-      ...column,
+      ...columns[columnIdx],
       tasks: newTasks,
     }
 
+    const newColumns = Array.from(columns)
+    newColumns[columnIdx] = newColumn
+
     console.log('newColumn: ', newColumn)
+    console.log('newColumns: ', newColumns)
+
+    setColumns(newColumns)
   }
 
   return (
