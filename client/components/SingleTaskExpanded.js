@@ -1,12 +1,9 @@
-import React, {useState, useContext} from 'react'
-import {TaskContext} from '../context/taskContext'
+import React, {useState} from 'react'
 import marked from 'marked'
 import Comment from './Comment'
 import styles from './css/SingleTaskExpanded.css'
 
-const SingleTaskExpanded = ({closeModal}) => {
-  // grab task from task provider and destructure
-  const {task} = useContext(TaskContext)
+const SingleTaskExpanded = ({task, closeModal}) => {
   const {name, issueType, description, comments} = task
 
   // then declare state and initialize with task data

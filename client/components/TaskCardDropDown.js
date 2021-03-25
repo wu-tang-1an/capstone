@@ -14,7 +14,7 @@ const fields = [
   // more fields as necessary
 ]
 
-const TaskCardDropDown = ({taskId}) => {
+const TaskCardDropDown = ({task}) => {
   // designate local state to handle modal visibility
   const [activeField, setActiveField] = useState('')
 
@@ -26,8 +26,8 @@ const TaskCardDropDown = ({taskId}) => {
 
   const deleteTask = async () => {
     try {
-      await axios.delete(`/api/tasks/${taskId}`)
-      setTasks(tasks.filter((task) => task.id !== taskId))
+      await axios.delete(`/api/tasks/${task.id}`)
+      setTasks(tasks.filter((currTask) => currTask.id !== task.id))
     } catch (err) {
       console.error(err)
     }
@@ -57,7 +57,7 @@ const TaskCardDropDown = ({taskId}) => {
       )}
       {activeField === 'Edit' && (
         <Modal>
-          <SingleTaskExpanded closeModal={closeModal} />
+          <SingleTaskExpanded task={task} closeModal={closeModal} />
         </Modal>
       )}
     </div>

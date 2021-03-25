@@ -1,12 +1,14 @@
-import React from 'react'
+import React, {useContext} from 'react'
+import {AuthContext} from '../context/authContext'
 import moment from 'moment'
-
-// animate open/close comment edit field
 import styles from './css/Comment.css'
+
 const Comment = ({comment}) => {
   // grab comment text and user who commented from comment
   // passed in directly by SingleTaskExpanded
-  const {createdAt, text, user} = comment
+  const {createdAt, text} = comment
+
+  const {user} = useContext(AuthContext)
 
   // grab user first name and avatar
   const {firstName, imageUrl} = user
