@@ -20,8 +20,6 @@ const TaskCard = ({task, index}) => {
 
   const {id, description, users} = task
 
-  // const users = task.users || [{firstName: '', lastName: ''}]
-
   // returns firstName + lastName for task card "opened by _____"
   const getFullName = () => `${users[0].firstName} ${users[0].lastName}`
 
