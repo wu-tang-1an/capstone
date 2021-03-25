@@ -66,7 +66,7 @@ const Board = () => {
     const destTasks =
       source.droppableId === destination.droppableId
         ? sourTasks
-        : Array.from(columns[destColIdx].tasks)
+        : Array.from(columns[destColIdx].tasks || [])
 
     // add task to destination tasks array
     destTasks.splice(destination.index, 0, moveTask)
