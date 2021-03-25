@@ -18,6 +18,25 @@ const ColumnDropDown = ({columnId, closeDropDown}) => {
 
   // initialize local state to track current field, which is the type of operation the user wants to perform
   const [currentField, setCurrentField] = useState('')
+  const [name, setName] = useState(
+    columns.find((column) => column.id === columnId).name
+  )
+
+  // editColumn method renames column and persists to db, local state
+  const editColumn = async () => {
+    try {
+      // update column
+      const {data} = await axios.put(`/api/columns/${columnId}`, {
+        name: name,
+      })
+
+      setColumns(
+        columns.map((column) => (column.id === data.id ? data : column))
+      )
+    } catch (err) {
+      console.error(err)
+    }
+  }
 
   // deleteColumn method deletes column from db and local state
   const deleteColumn = async () => {
@@ -54,6 +73,23 @@ const ColumnDropDown = ({columnId, closeDropDown}) => {
           </div>
           <button type="button" onClick={deleteColumn}>
             Delete column
+          </button>
+          <button type="button" onClick={closeDropDown}>
+            Close
+          </button>
+        </Modal>
+      )}
+      {currentField === 'Edit column name' && (
+        <Modal>
+          <input type="text" onChange={(e) => setName(e.target.value)} />
+          <button
+            type="button"
+            onClick={() => {
+              editColumn()
+              closeDropDown()
+            }}
+          >
+            Save
           </button>
           <button type="button" onClick={closeDropDown}>
             Close

@@ -95,10 +95,27 @@ router.put('/:columnId', checkUser, async (req, res, next) => {
     const {columnId} = req.params
     if (isNaN(columnId)) return resNaN(columnId, res)
 
+    console.log('data is: ', data)
+
     const [, updatedColumn] = await Column.update(data, {
       plain: true,
       returning: true,
       where: {id: columnId},
+      include: [
+        {
+          model: Task,
+          include: [
+            {
+              model: Comment,
+              include: [
+                {
+                  model: User,
+                },
+              ],
+            },
+          ],
+        },
+      ],
     })
     if (!updatedColumn) return resDbNotFound(STR_COLUMN, res)
 
