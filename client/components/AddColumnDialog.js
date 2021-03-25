@@ -4,7 +4,7 @@ import {ProjectContext} from '../context/projectContext'
 import {addColumnDB} from '../context/axiosService'
 import axios from 'axios'
 
-const AddColumnDialog = ({cancel}) => {
+const AddColumnDialog = ({closeModal}) => {
   // grab project and its columns and setters from project context
   const {project, columns, setColumns} = useContext(ProjectContext)
 
@@ -32,8 +32,9 @@ const AddColumnDialog = ({cancel}) => {
       // set local column state
       setColumns([...columns, createdColumn])
 
-      // close dialog and dropdown
-      cancel()
+      // do NOT close dialog
+      // allows user to create multiple columns without
+      // having to repeatedly click the + button
     } catch (err) {
       console.error(err)
     }
@@ -49,8 +50,8 @@ const AddColumnDialog = ({cancel}) => {
         <button type="button" className={styles.addBtn} onClick={addColumn}>
           Add column
         </button>
-        <button type="button" className={styles.cancelBtn} onClick={cancel}>
-          Cancel
+        <button type="button" className={styles.cancelBtn} onClick={closeModal}>
+          Close
         </button>
       </div>
     </div>
