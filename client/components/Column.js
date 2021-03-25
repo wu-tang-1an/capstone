@@ -9,7 +9,7 @@ import styles from './css/Column.css'
 
 const TaskList = styled.div``
 
-const Column = ({column}) => {
+const DivHell = ({column}) => {
   // local state management for drop down column render
   const [isDropDownActive, setIsDropDownActive] = useState(false)
   const [isAddTaskVisible, setIsAddTaskVisible] = useState(false)
@@ -21,55 +21,67 @@ const Column = ({column}) => {
   const {tasks} = column
 
   return (
+    <div>
+      {isDropDownActive && (
+        <ColumnDropDown columnId={column.id} cancel={cancel} />
+      )}
+      <div className={styles.columnContainer}>
+        <div className={styles.badgeTitleDotMenu}>
+          <div className={styles.badgeAndTitle}>
+            <div className={styles.columnBadge}>
+              {' '}
+              {tasks && tasks.length ? tasks.length : 0}{' '}
+            </div>
+            <div className={styles.columnTitle}> {column.name} </div>
+          </div>
+          <div className={styles.newTaskAndMoreOpts}>
+            <div
+              className="material-icons"
+              onClick={() => setIsAddTaskVisible(!isAddTaskVisible)}
+            >
+              {' '}
+              add{' '}
+            </div>
+            <div
+              className="material-icons"
+              onClick={() => setIsDropDownActive(!isDropDownActive)}
+            >
+              more_horiz
+            </div>
+          </div>
+        </div>
+        <div className={styles.cardContainer}>
+          {tasks &&
+            tasks.map((task, idx) => (
+              <div key={task.id}>
+                {/* check falsey idx here to only display add task dialog once, at the top of the column */}
+                {isAddTaskVisible && !idx && (
+                  <AddTaskDialog
+                    columnId={column.id}
+                    cancel={() => setIsAddTaskVisible(false)}
+                  />
+                )}
+                <TaskCard task={task} index={idx} />
+              </div>
+            ))}
+          {isAddTaskVisible && !tasks && (
+            <AddTaskDialog
+              columnId={column.id}
+              cancel={() => setIsAddTaskVisible(false)}
+            />
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+const Column = ({column}) => {
+  return (
     <Droppable droppableId={String(column.id)}>
       {(provided) => (
         <TaskList ref={provided.innerRef} {...provided.droppableProps}>
-          <div>
-            {isDropDownActive && (
-              <ColumnDropDown columnId={column.id} cancel={cancel} />
-            )}
-            <div className={styles.columnContainer}>
-              <div className={styles.badgeTitleDotMenu}>
-                <div className={styles.badgeAndTitle}>
-                  <div className={styles.columnBadge}>
-                    {' '}
-                    {tasks && tasks.length ? tasks.length : 0}{' '}
-                  </div>
-                  <div className={styles.columnTitle}> {column.name} </div>
-                </div>
-                <div className={styles.newTaskAndMoreOpts}>
-                  <div
-                    className="material-icons"
-                    onClick={() => setIsAddTaskVisible(!isAddTaskVisible)}
-                  >
-                    {' '}
-                    add{' '}
-                  </div>
-                  <div
-                    className="material-icons"
-                    onClick={() => setIsDropDownActive(!isDropDownActive)}
-                  >
-                    more_horiz
-                  </div>
-                </div>
-              </div>
-              <div className={styles.cardContainer}>
-                {tasks &&
-                  tasks.length &&
-                  tasks.map((task, idx) => (
-                    <div key={task.id}>
-                      {isAddTaskVisible && idx === 0 && (
-                        <AddTaskDialog
-                          task={task}
-                          cancel={() => setIsAddTaskVisible(false)}
-                        />
-                      )}
-                      <TaskCard task={task} index={idx} />
-                    </div>
-                  ))}
-              </div>
-            </div>
-          </div>
+          <DivHell column={column} />
           {provided.placeholder}
         </TaskList>
       )}
