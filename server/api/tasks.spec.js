@@ -8,48 +8,49 @@ const Task = db.model('task')
 const User = db.model('user')
 
 describe('Task routes', () => {
-  beforeEach(() => {
-    return db.sync({force: true})
-  })
+  const testTask = {
+    name: 'Test Organization',
+    createdBy: 'Test Man',
+    description: 'I am a test task!',
+    status: 'in-progress',
+    completionDate: new Date().toISOString(),
+  }
 
   describe('/api/tasks/', () => {
-    const testTask = {
-      name: 'Test Organization',
-      createdBy: 'Test Man',
-      description: 'I am a test task!',
-      status: 'in-progress',
-      completionDate: new Date(),
-    }
-
-    beforeEach(() => {
-      return Task.create(testTask)
+    beforeEach(async () => {
+      await db.sync({force: true})
+      await Task.create(testTask)
     })
 
-    it('GET /api/tasks', async () => {
-      const testMan = {
-        firstName: 'Test',
-        lastName: 'Man',
-        email: 'testman@email.com',
-      }
+    const testMan = {
+      firstName: 'Test',
+      lastName: 'Man',
+      email: 'testman@email.com',
+    }
 
-      const userTest = await User.create(testMan)
-      const taskTest = await Task.findByPk(1)
-
-      await taskTest.addUsers(userTest)
-
+    it.only('GET /api/tasks', async () => {
       try {
+        const userTest = await User.create(testMan)
+        const foundTask = await Task.findByPk(1, {include: [User]})
+        await foundTask.setUsers([userTest.id])
+        await foundTask.save()
+
         await request(app)
           .get('/api/tasks')
           .expect(200)
           .then((res) => {
+            console.log('res.body', res.body[0])
+
+            console.log(res.body[0].name)
+
             expect(res.body).to.be.an('array')
-            expect(res.body[0].name).to.be.equal(testTask.name)
-            expect(res.body[0].createdBy).to.be.equal(testTask.createdBy)
-            expect(res.body[0].description).to.be.equal(testTask.description)
-            expect(res.body[0].status).to.be.equal(testTask.status)
-            expect(new Date(res.body[0].completionDate)).to.include(
-              testTask.completionDate
-            )
+            expect(res.body[0].name).to.be.equal(foundTask.name)
+            expect(res.body[0].createdBy).to.be.equal(foundTask.createdBy)
+            expect(res.body[0].description).to.be.equal(foundTask.description)
+            expect(res.body[0].status).to.be.equal(foundTask.status)
+            expect(
+              new Date(res.body[0].completionDate).toISOString()
+            ).to.include(foundTask.completionDate)
             expect(res.body[0].users[0]).to.deep.include(testMan)
           })
       } catch (error) {
