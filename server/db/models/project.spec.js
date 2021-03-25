@@ -12,14 +12,14 @@ describe('Project Model', () => {
     try {
       const project = await Project.create({
         name: 'super cool project',
-        status: 'in progress',
+        status: 'in-progress',
         description: 'this project is super cool!',
         imageUrl: 'http://www.image.com',
       })
       const foundProject = await Project.findByPk(1)
       expect(foundProject.dataValues).to.deep.include({
         name: 'super cool project',
-        status: 'in progress',
+        status: 'in-progress',
         description: 'this project is super cool!',
         imageUrl: 'http://www.image.com',
       })
@@ -32,7 +32,7 @@ describe('Project Model', () => {
     try {
       const project = await Project.create({
         name: 'super cool project',
-        status: 'in progress',
+        status: 'in-progress',
         description: 'this project is super cool!',
       })
       const foundProject = await Project.findByPk(1)

@@ -39,10 +39,6 @@ describe('Task routes', () => {
           .get('/api/tasks')
           .expect(200)
           .then((res) => {
-            console.log('res.body', res.body[0])
-
-            console.log(res.body[0].name)
-
             expect(res.body).to.be.an('array')
             expect(res.body[0].name).to.be.equal(foundTask.name)
             expect(res.body[0].createdBy).to.be.equal(foundTask.createdBy)
