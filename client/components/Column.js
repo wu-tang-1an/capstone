@@ -15,8 +15,6 @@ const Column = ({column}) => {
   // grab column data
   const {tasks} = column
 
-  console.log('tasks in column are: ', tasks)
-
   return (
     <div>
       {isDropDownActive && (
