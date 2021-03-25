@@ -4,7 +4,10 @@ import Comment from './Comment'
 import styles from './css/SingleTaskExpanded.css'
 
 const SingleTaskExpanded = ({task, closeModal, closeDropDown}) => {
-  const {name, issueType, description, comments} = task
+  const {name, issueType, description} = task || {}
+
+  // destructure comments separately to type check
+  const comments = task && task.comments ? task.comments : []
 
   // then declare state and initialize with task data
   const [taskName, setName] = useState(name)
