@@ -5,6 +5,8 @@ import styles from './css/AddColumnDropDown.css'
 const AddColumnDropDown = () => {
   const [isDialogActive, setIsDialogActive] = useState(false)
 
+  const closeModal = () => setIsDialogActive(false)
+
   return (
     <div className={styles.addColumnDropDownContainer}>
       {!isDialogActive && (
@@ -13,9 +15,7 @@ const AddColumnDropDown = () => {
           <span className={styles.description}>Add a column</span>
         </div>
       )}
-      {isDialogActive && (
-        <AddColumnDialog cancel={() => setIsDialogActive(false)} />
-      )}
+      {isDialogActive && <AddColumnDialog closeModal={closeModal} />}
     </div>
   )
 }
