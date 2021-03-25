@@ -1,7 +1,11 @@
-import React, {useState} from 'react'
+import React, {useState, useContext} from 'react'
 import Modal from './Modal'
 import DeleteTaskModal from './DeleteTaskModal'
 import SingleTaskExpanded from './SingleTaskExpanded'
+import styles from './css/TaskCardDropDown.css'
+
+import axios from 'axios'
+import {ProjectContext} from '../context/projectContext'
 
 // fields are actions that user can take from dropdown menu
 const fields = [
@@ -10,13 +14,34 @@ const fields = [
   // more fields as necessary
 ]
 
-import styles from './css/TaskCardDropDown.css'
-const TaskCardDropDown = () => {
+const TaskCardDropDown = ({task, closeDropDown}) => {
   // designate local state to handle modal visibility
   const [activeField, setActiveField] = useState('')
 
   // closeModal clears activeField
   const closeModal = () => setActiveField('')
+
+  // grab tasks, setTasks from column context
+  const {columns, setColumns, tasks, setTasks} = useContext(ProjectContext)
+
+  const deleteTask = async () => {
+    try {
+      await axios.delete(`/api/tasks/${task.id}`)
+
+      const {data} = await axios.get(`/api/columns/${task.columnId}`)
+
+      // the next two calls look inefficient but are absolutely necessary due to an unknown render issue that prevents us from setting tasks directly without first rendering the new column
+
+      setColumns(
+        columns.map((column) => (column.id === data.id ? data : column))
+      )
+
+      setTasks(tasks.filter((currTask) => currTask.id !== task.id))
+    } catch (err) {
+      console.error(err)
+    }
+    closeModal()
+  }
 
   return (
     <div>
@@ -36,12 +61,16 @@ const TaskCardDropDown = () => {
       <div className={styles.arrowDown}></div>
       {activeField === 'Delete' && (
         <Modal>
-          <DeleteTaskModal closeModal={closeModal} />
+          <DeleteTaskModal deleteTask={deleteTask} closeModal={closeModal} />
         </Modal>
       )}
       {activeField === 'Edit' && (
         <Modal>
-          <SingleTaskExpanded closeModal={closeModal} />
+          <SingleTaskExpanded
+            task={task}
+            closeModal={closeModal}
+            closeDropDown={closeDropDown}
+          />
         </Modal>
       )}
     </div>

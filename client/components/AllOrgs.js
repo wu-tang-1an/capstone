@@ -14,6 +14,7 @@ const AllOrgs = () => {
   const [organizations, setOrganizations] = useState([])
 
   useEffect(() => {
+    let isMounted = true
     const fetchAllOrgs = async () => {
       try {
         const {data} = await axios.get(`/api/users/${user.id}/organizations`)
@@ -23,6 +24,10 @@ const AllOrgs = () => {
       }
     }
     fetchAllOrgs()
+
+    return () => {
+      isMounted = false
+    }
   }, [])
 
   return (
