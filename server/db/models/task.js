@@ -14,14 +14,6 @@ const Task = db.define('task', {
   },
 })
 
-Task.prototype.getDescription = function () {
-  return this.description
-}
-
-Task.prototype.getDate = function () {
-  return this.completionDate
-}
-
 Task.prototype.getTimeLeft = function () {
   const today = new Date(moment().format('L'))
   let result = this.completionDate - today

@@ -1,38 +1,31 @@
 /* global describe beforeEach it */
-
 const moment = require('moment')
 const {expect} = require('chai')
 const db = require('../index')
 const Task = db.model('task')
 
 describe('Task model', () => {
-  beforeEach(() => {
-    return db.sync({force: true})
+  const date = new Date().toISOString()
+
+  const task = {
+    name: 'FINISH THE PROJECT',
+    createdBy: 'Johnny Vazquez',
+    description: 'It is very hard',
+    status: 'review',
+    completionDate: date,
+  }
+
+  beforeEach(async () => {
+    await db.sync({force: true})
+    await Task.create(task)
   })
 
   describe('instanceMethods', () => {
-    describe('getMethods', () => {
-      let project
+    describe('getMethods', async () => {
+      const foundTask = await Task.findByPk(1)
 
-      beforeEach(async () => {
-        project = await Task.create({
-          name: 'FINISH THE PROJECT',
-          createdBy: 'Johnny Vazquez',
-          description: 'It is very hard',
-          status: 'review',
-          completionDate: '03/20/2021',
-        })
-      })
-
-      it('returns the description of the task', () => {
-        expect(project.getDescription()).to.be.equal('It is very hard')
-      })
-
-      it('returns the name of the task', () => {
-        expect(project.getName()).to.be.equal('FINISH THE PROJECT')
-      })
-      it('returns the time due of the task', () => {
-        expect(project.getDate()).to.deep.include(1)
+      it.only('returns the time due of the task', () => {
+        expect(foundTask.getDate()).to.deep.include(date)
       })
     })
   })

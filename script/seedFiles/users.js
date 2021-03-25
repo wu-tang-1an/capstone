@@ -23,7 +23,7 @@ module.exports = [
   {
     firstName: 'Johnny',
     lastName: 'Vazquez',
-    email: 'johnny@email.com',
+    email: 'johnny@mail.com',
     password: '123',
     status: 'admin',
   },
