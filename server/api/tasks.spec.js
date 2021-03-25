@@ -28,7 +28,7 @@ describe('Task routes', () => {
       email: 'testman@email.com',
     }
 
-    it.only('GET /api/tasks', async () => {
+    it('GET /api/tasks', async () => {
       try {
         const userTest = await User.create(testMan)
         const foundTask = await Task.findByPk(1, {include: [User]})
