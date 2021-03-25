@@ -1,8 +1,8 @@
 language: node_js
 node_js:
-- 14
+  - 14
 services:
-- postgresql
+  - postgresql
 addons:
   postgresql: '9.6'
 dist: xenial
@@ -11,12 +11,15 @@ notifications:
     on_success: change
     on_failure: always
 install:
-- npm ci
+  - npm ci
 before_script:
-- psql -c 'create database "note-ary-test";' -U postgres
+  - psql -c 'create database "note-ary-test";' -U postgres
 script:
-- npm test
-- npm run build-client
+  - npm test
+  - npm run build-client
 deploy:
+  skip_cleanup: true # prevents travis from deleting the build
+  provider: heroku
+  app: note-ary # see README
   api_key:
-    secure: rQ9AOK3hdc9Ghgr0hT9fQKz4NFFR76Rr58dWY7pTaXzrwdHVBczNYYx/F0A6hHcNkqHkQgD8lWcIWYvPvgmZ10OEBd9t929tP0uiNNyZgWR5KlNnOEC1WvuHoSRYP5giyEs0OZoaj1ZcbkJj1PuFb6/H9qsomszv2D9g7+Nuo5v0A+O8MrmAU+0td9rWQyKRGgVLXPNUnsG9NpmI9Pi2dIafZ3qpP3aX7ftdX+tlooYSRdEpWSnBalTXrRK4+Xq7t3cu6dEme2fUbpI+l8CO639ZOdIh3lmgo5uuR37htqdg3xbQQZjogpWnFvaiP8tujmXqMN9QnVbMAmnMZ2p+9gPdiTHv2WzOAc4g6JXlJeg8umz0gdruijGTaeFXD9dsgu/KCnYKN8r+Bb5w2lYTPBU6SNBuZedLd/y3bziZ2+vce9kzWhP49Q7fqsBOca7E+A9KtHH4x0eFeOh8D3/nZ78mYMU+jlr3RHdP4v2/6FJMK4AjiBITxAW42FaqiSbySBbZMrRFCqJW5bziSWuEOZhLk+jYZYjfJ4O2jodVS8qSjQf+VmiDz9jOmAdLwbFZ7DDcrt8L1PZf5vx3JrXnnUrsrkrVdSiusNiy3bou4rcNQEvTdQKOg7jKqFnMm6KFo5YqfJ7Qu36A/eNcFdMLXOFS672qVlUW0v1AESQXz/k=
+    secure: nxOIeDY6i9nLaY38SRcR8xkEMHzOqIVKZMAJ3HDGIj+kP7jfWJZrXcT5w+G2Grgcqrw3KAeE4BzLcyPHPUknGoAxFrRLgA3a8L/G9HCU/l3xtUvoaTjWppNjlJagHo/ZCmw4GLjjDKlsvxJxwZeWl3RGK8uiOXtpwGjXCzIyBn7uTq/uzyPn3tDLCYK60i5CnvfPB1FJu1ysYDb8At0q16464RCeg00cG525cPQCZ+eB1hy5nwZZ9Z6Ti5Qzg75oliLzrtPmpoLQBA4VTOHz7TnkHJVih3pBQR41gmQhReorAN7St6L3FF1fhr/Ok05BIbsKPjAwyP9NJfh/1LodF/7cXWvR1gVXM64GQzFXBLfn5ITP4NZEkTH9w4Uvv9Tr11nTMVZ/vMBejPBhyWDu22R848suQ7YivLkwzi3/PmTCE0GjVD9aPf25/0ojwgLOPSmdWPfpDK3INOR1d2rNhnWFIATyd0mwnItxugEB5GP/LTQQcv++oaCc0qrKKi4KgJ18rfJY9uwpghNQsK3+J9p0W1N3LVNxkDuSolSBFy34LrJk4btaQoGDJBfJnGVQo3ZYfY9ofVffefZ20YAQHMcZbTIpFzvGxPewhdK3Y6pmUpp6NgaSk6qBOLxc6TgU9GLhD6jWlvFyrFIfn85OCgE328Xdpd00uaC8PLrULsE=
