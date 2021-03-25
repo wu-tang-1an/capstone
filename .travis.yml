@@ -1,27 +1,22 @@
 language: node_js
 node_js:
-  - 14 # uses version 14
+- 14
 services:
-  - postgresql # starts up postgres
+- postgresql
 addons:
-  postgresql: '9.6' # recent postgres version on Travis
-dist: xenial # uses xenial environment
+  postgresql: '9.6'
+dist: xenial
 notifications:
   email:
-    on_success: change # default: change (only when going from broken to fixed)
-    on_failure: always # default: always (which is annoying, as it should be)
+    on_success: change
+    on_failure: always
 install:
-  - npm ci # faster, goes only from package-lock
+- npm ci
 before_script:
-  - psql -c 'create database "note-ary-test";' -U postgres # remember to change this name if you change it elsewhere (e.g. package.json)
+- psql -c 'create database "note-ary-test";' -U postgres
 script:
-  - npm test # test the code
-  - npm run build-client # make the bundle
-# before_deploy:
-#   - rm -rf node_modules # omit from the tarball, since we skip cleanup
-# deploy:
-#   skip_cleanup: true # prevents travis from deleting the build
-#   provider: heroku
-#   app: YOUR-HEROKU-APP-NAME-HERE # see README
-#   api_key:
-#     secure: YOUR-***ENCRYPTED***-API-KEY-HERE # see README
+- npm test
+- npm run build-client
+deploy:
+  api_key:
+    secure: rQ9AOK3hdc9Ghgr0hT9fQKz4NFFR76Rr58dWY7pTaXzrwdHVBczNYYx/F0A6hHcNkqHkQgD8lWcIWYvPvgmZ10OEBd9t929tP0uiNNyZgWR5KlNnOEC1WvuHoSRYP5giyEs0OZoaj1ZcbkJj1PuFb6/H9qsomszv2D9g7+Nuo5v0A+O8MrmAU+0td9rWQyKRGgVLXPNUnsG9NpmI9Pi2dIafZ3qpP3aX7ftdX+tlooYSRdEpWSnBalTXrRK4+Xq7t3cu6dEme2fUbpI+l8CO639ZOdIh3lmgo5uuR37htqdg3xbQQZjogpWnFvaiP8tujmXqMN9QnVbMAmnMZ2p+9gPdiTHv2WzOAc4g6JXlJeg8umz0gdruijGTaeFXD9dsgu/KCnYKN8r+Bb5w2lYTPBU6SNBuZedLd/y3bziZ2+vce9kzWhP49Q7fqsBOca7E+A9KtHH4x0eFeOh8D3/nZ78mYMU+jlr3RHdP4v2/6FJMK4AjiBITxAW42FaqiSbySBbZMrRFCqJW5bziSWuEOZhLk+jYZYjfJ4O2jodVS8qSjQf+VmiDz9jOmAdLwbFZ7DDcrt8L1PZf5vx3JrXnnUrsrkrVdSiusNiy3bou4rcNQEvTdQKOg7jKqFnMm6KFo5YqfJ7Qu36A/eNcFdMLXOFS672qVlUW0v1AESQXz/k=
