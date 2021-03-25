@@ -13,11 +13,9 @@ describe('Model Associations', () => {
   afterEach(() => db.sync({force: true}))
 
   const task = {
-    name: 'create site',
     createdBy: 'albert',
     description: 'a description of how i will create this site',
-    status: 'in-progress',
-    completionDate: new Date(),
+    completionDate: new Date().toISOString(),
   }
   const user1 = {
     firstName: 'alice',
@@ -37,7 +35,7 @@ describe('Model Associations', () => {
   }
   const project = {
     name: 'cool new site',
-    status: 'in progress',
+    status: 'in-progress',
     description: 'here is a description of our new site',
     imageUrl: 'http://www.image.com',
   }
@@ -70,7 +68,10 @@ describe('Model Associations', () => {
     await newUser1.setTasks([newTask.id])
     await newUser1.save()
     const foundUser = await User.findByPk(1, {include: Task})
-    expect(foundUser.tasks[0]).to.deep.include(task)
+
+    console.log(foundUser.tasks[0].dataValues)
+
+    expect(foundUser.tasks[0].dataValues).to.deep.include(task)
   })
 
   it('Each Project belongs to one Organization, each Organization has many Project', async () => {
