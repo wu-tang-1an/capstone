@@ -26,7 +26,11 @@ const Nav = () => {
         <div className="container-fluid">
           <Link className="navbar-brand" to="/">
             <div>
-              <img alt="logo" src="../../public/note-ary.png" />
+              <img
+                className={styles.imagesLogo}
+                alt="logo"
+                src="/note-ary.png"
+              />
             </div>
           </Link>
           <button
@@ -90,7 +94,7 @@ const Nav = () => {
         <div className="container-fluid">
           <Link className="navbar-brand" to="/">
             <div>
-              <img alt="logo" src="../../public/note-ary.png" />
+              <img alt="logo" src="/note-ary.png" />
             </div>
           </Link>
 
