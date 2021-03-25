@@ -8,7 +8,7 @@ const Organization = db.model('organization')
 const Column = db.model('column')
 const Project = db.model('project')
 
-describe.only('Model Associations', () => {
+describe('Model Associations', () => {
   beforeEach(() => db.sync({force: true}))
   afterEach(() => db.sync({force: true}))
 
