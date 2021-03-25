@@ -1,5 +1,12 @@
 const router = require('express').Router()
-const {Project, Column, Organization, Task, Comment} = require('../db/models')
+const {
+  Project,
+  Column,
+  Organization,
+  Task,
+  Comment,
+  User,
+} = require('../db/models')
 const {checkUser, checkAdmin} = require('./helper/gatekeeper')
 const {resNaN, resDbNotFound, resAssoc, resDeleted} = require('./helper/helper')
 const {
@@ -28,19 +35,23 @@ router.get('/:projectId', checkUser, async (req, res, next) => {
     if (isNaN(projectId)) return resNaN(projectId, res)
 
     const project = await Project.findByPk(projectId, {
-      include: {
-        model: Column,
-        include: [
-          {
-            model: Task,
-            include: [
-              {
-                model: Comment,
-              },
-            ],
-          },
-        ],
-      },
+      include: [
+        {
+          model: Column,
+          include: [
+            {
+              model: Task,
+              include: [
+                {
+                  model: Comment,
+                  include: [User],
+                },
+                User,
+              ],
+            },
+          ],
+        },
+      ],
     })
     if (!project) return resDbNotFound(STR_PROJECT, res)
 

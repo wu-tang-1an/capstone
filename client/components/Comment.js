@@ -11,7 +11,7 @@ const Comment = ({comment}) => {
   const {user} = useContext(AuthContext)
 
   // grab user first name and avatar
-  const {firstName, imageUrl} = user
+  const {firstName, imageUrl} = comment.user
 
   return (
     <div className={styles.commentContainer}>
