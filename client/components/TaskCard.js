@@ -17,7 +17,12 @@ const TaskCard = ({task}) => {
 
   return (
     <div>
-      {isDropDownActive && <TaskCardDropDown task={task} />}
+      {isDropDownActive && (
+        <TaskCardDropDown
+          task={task}
+          closeDropDown={() => setDropDownActive(false)}
+        />
+      )}
       <div className={styles.taskCardContainer}>
         <div className="material-icons">error_outline</div>
         <div className={styles.titleAndCreator}>

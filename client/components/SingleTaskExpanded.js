@@ -3,7 +3,7 @@ import marked from 'marked'
 import Comment from './Comment'
 import styles from './css/SingleTaskExpanded.css'
 
-const SingleTaskExpanded = ({task, closeModal}) => {
+const SingleTaskExpanded = ({task, closeModal, closeDropDown}) => {
   const {name, issueType, description, comments} = task
 
   // then declare state and initialize with task data
@@ -71,7 +71,14 @@ const SingleTaskExpanded = ({task, closeModal}) => {
             </button>
           </div>
           <div className={styles.backToProjectView}>
-            <a href="#" className={styles.spanContainer} onClick={closeModal}>
+            <a
+              href="#"
+              className={styles.spanContainer}
+              onClick={() => {
+                closeDropDown()
+                closeModal()
+              }}
+            >
               <span className="material-icons">keyboard_arrow_left</span>
               <span>Back to project</span>
             </a>

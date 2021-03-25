@@ -18,7 +18,7 @@ const AddTaskDialog = ({columnId, cancel}) => {
   // initialize local state for new task description
   const [description, setDescription] = useState('')
 
-  // add task method updates db and closes the dialog
+  // add task method updates db/local state before closing dialog
   const addTask = async (e) => {
     e.preventDefault()
 
@@ -30,22 +30,24 @@ const AddTaskDialog = ({columnId, cancel}) => {
     }
 
     try {
+      // create new task
       const createdTask = await addTaskToColumnDB(newTask, thisColumn.id)
 
+      // associate the new task with the user who created it
       await axios.put(`/api/tasks/${createdTask.id}/users/${user.id}`)
 
+      // fetch the column that holds the new task
       const {data} = await axios.get(`/api/columns/${thisColumn.id}`)
 
-      console.log('updatedColumn is: ', data)
-
-      // the next two calls look inefficient but are absolutely necessary due to an unknown render issue that prevents us from setting tasks directly without first rendering the new column
-
+      // first update the column on local state
       setColumns(
         columns.map((column) => (column.id === data.id ? data : column))
       )
 
+      // then update the local state tasks record
       setTasks([...tasks, createdTask])
 
+      // finally close the add task dialog
       cancel()
     } catch (err) {
       console.error(err)
