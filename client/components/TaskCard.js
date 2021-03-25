@@ -18,11 +18,12 @@ const TaskCard = ({task, index}) => {
   // get user from auth context
   const {user} = useContext(AuthContext)
 
-  const {id, description} = task
+  const {id, description, users} = task
+
+  // const users = task.users || [{firstName: '', lastName: ''}]
 
   // returns firstName + lastName for task card "opened by _____"
-  const getFullName = () =>
-    `${task.users[0].firstName} ${task.users[0].lastName}`
+  const getFullName = () => `${users[0].firstName} ${users[0].lastName}`
 
   return (
     <Draggable draggableId={String(task.id)} index={index}>
@@ -44,8 +45,7 @@ const TaskCard = ({task, index}) => {
               <div className={styles.titleAndCreator}>
                 <div className={styles.title}>{description}</div>
                 <div className={styles.idAndCreatedBy}>
-                  {`#${id}`}
-                  {/* {`#${id} opened by ${getFullName()}`} */}
+                  {`#${id} opened by ${getFullName()}`}
                 </div>
               </div>
               <div className={styles.dotMenuAndAvatar}>
