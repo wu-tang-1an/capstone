@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {Column, Project, Task} = require('../db/models')
+const {Column, Project, Task, User, Comment} = require('../db/models')
 const {checkUser, checkAdmin} = require('./helper/gatekeeper')
 const {
   resNaN,
@@ -34,7 +34,20 @@ router.get('/:columnId', checkUser, async (req, res, next) => {
     const {columnId} = req.params
     if (isNaN(columnId)) return resNaN(columnId, res)
 
-    const column = await Column.findByPk(columnId, {include: Task})
+    const column = await Column.findByPk(columnId, {
+      include: [
+        {
+          model: Task,
+          include: [
+            {
+              model: Comment,
+              include: [User],
+            },
+            User,
+          ],
+        },
+      ],
+    })
     if (!column) return resDbNotFound(STR_COLUMN, res)
 
     return res.json(column)
