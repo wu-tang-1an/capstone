@@ -1,5 +1,6 @@
 import React, {useContext} from 'react'
 import {ProjectContext} from '../context/projectContext'
+import {TaskContext} from '../context/taskContext'
 import ColumnProvider from '../context/columnContext'
 import Column from './Column'
 import AddColumnDropDown from './AddColumnDropDown'
@@ -10,12 +11,29 @@ const Board = () => {
   // get columns from ProjectContext
   const {project, columns} = useContext(ProjectContext)
 
-  const onDragEnd = (result) => {
-    const {destination, source, draggableId} = result
+  console.log('columns--->', columns)
+
+  const columnsCopy = [...columns]
+  console.log('columnsCopy--->', columnsCopy)
+
+  const handleDragEnd = ({destination, source}) => {
+    console.log('source from--->', source)
+    console.log('destination to--->', destination)
+
+    if (!destination) {
+      console.log('not dropped!!!!')
+    }
+
+    if (
+      destination.index === source.index &&
+      destination.droppableId === source.droppableId
+    ) {
+      console.log('dropped in same place!!!!')
+    }
   }
 
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
+    <DragDropContext onDragEnd={handleDragEnd}>
       <div className="Board">
         <h2>Project: {project.name}</h2>
         <div className={styles.boardContainer}>

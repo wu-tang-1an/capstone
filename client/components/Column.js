@@ -16,10 +16,16 @@ const Column = ({columnId}) => {
   // useContext pull in all tasks from ProjectProvider
   const {column, setColumn, tasks, setTasks} = useContext(ColumnContext)
 
+  // console.log('column--->', column)
+
   return (
-    <Droppable droppableId={String(columnId)}>
+    <Droppable droppableId={columnId.toString()}>
       {(provided) => (
-        <div {...provided.dropableProps} ref={provided.innerRef}>
+        <div
+          className="Column"
+          {...provided.dropableProps}
+          ref={provided.innerRef}
+        >
           {isDropDownActive && <ColumnDropDown />}
           <div className={styles.columnContainer}>
             <div className={styles.badgeTitleDotMenu}>
