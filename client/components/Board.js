@@ -24,33 +24,62 @@ const Board = () => {
     )
       return
 
+    // index of column dragged from
+    const sourColIdx = columns.findIndex(
+      (col) => col.id === +source.droppableId
+    )
+
     // index of column dropped into
-    const columnIdx = columns.findIndex((col) => col.id === +source.droppableId)
+    const destColIdx = columns.findIndex(
+      (col) => col.id === +destination.droppableId
+    )
 
     console.log('columns: ', columns)
-    console.log('columnIdx: ', columnIdx)
+    console.log('sourColIdx: ', sourColIdx)
+    console.log('destColIdx: ', destColIdx)
 
-    // copy array of tasks
-    const newTasks = Array.from(columns[columnIdx].tasks)
-    const moveTask = newTasks.find((tas) => tas.id === +draggableId)
+    // copy array of tasks from source
+    const sourTasks = Array.from(columns[sourColIdx].tasks)
 
-    console.log('oldTasks: ', columns[columnIdx].tasks)
+    const moveTask = sourTasks.find((tas) => tas.id === +draggableId)
+
+    console.log('oldSourTasks: ', columns[sourColIdx].tasks)
+    console.log('oldDestTasks: ', columns[destColIdx].tasks)
     console.log('moveTask: ', moveTask)
 
-    newTasks.splice(source.index, 1)
-    newTasks.splice(destination.index, 0, moveTask)
+    // remove task from source tasks array
+    sourTasks.splice(source.index, 1)
 
-    console.log('newTasks: ', newTasks)
+    // copy array of tasks from destination
+    const destTasks =
+      source.droppableId === destination.droppableId
+        ? sourTasks
+        : Array.from(columns[destColIdx].tasks)
 
-    const newColumn = {
-      ...columns[columnIdx],
-      tasks: newTasks,
+    // add task to destination tasks array
+    destTasks.splice(destination.index, 0, moveTask)
+
+    console.log('sourTasks: ', sourTasks)
+    console.log('destTasks: ', destTasks)
+
+    // create new source column with updated tasks array
+    const sourColumn = {
+      ...columns[sourColIdx],
+      tasks: sourTasks,
+    }
+
+    // create new destination column with our updated tasks array
+    const destColumn = {
+      ...columns[destColIdx],
+      tasks: destTasks,
     }
 
     const newColumns = Array.from(columns)
-    newColumns[columnIdx] = newColumn
+    newColumns[sourColIdx] = sourColumn
+    newColumns[destColIdx] = destColumn
 
-    console.log('newColumn: ', newColumn)
+    console.log('sourColumn: ', sourColumn)
+    console.log('destColumn: ', destColumn)
     console.log('newColumns: ', newColumns)
 
     setColumns(newColumns)
