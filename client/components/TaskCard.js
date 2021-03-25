@@ -43,9 +43,9 @@ const TaskCard = ({task, index}) => {
               <div className="material-icons">error_outline</div>
               <div className={styles.titleAndCreator}>
                 <div className={styles.title}>{description}</div>
-                <div
-                  className={styles.idAndCreatedBy}
-                >{`#${id} opened by ${getFullName()}`}</div>
+                <div className={styles.idAndCreatedBy}>
+                  {/* {`#${id} opened by ${getFullName()}`} */}
+                </div>
               </div>
               <div className={styles.dotMenuAndAvatar}>
                 <span
