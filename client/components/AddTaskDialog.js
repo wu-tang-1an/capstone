@@ -10,7 +10,7 @@ const AddTaskDialog = ({columnId, cancel}) => {
   const {user} = useContext(AuthContext)
 
   // grab column and tasks, setTasks from column context
-  const {columns, tasks, setTasks} = useContext(ProjectContext)
+  const {columns, setColumns, tasks, setTasks} = useContext(ProjectContext)
 
   // get this column
   const thisColumn = columns.find((column) => column.id === columnId)
@@ -34,9 +34,17 @@ const AddTaskDialog = ({columnId, cancel}) => {
 
       await axios.put(`/api/tasks/${createdTask.id}/users/${user.id}`)
 
-      setTasks([...tasks, createdTask])
+      const {data} = await axios.get(`/api/columns/${thisColumn.id}`)
 
-      console.log(`tasks is: `, tasks)
+      console.log('updatedColumn is: ', data)
+
+      // the next two calls look inefficient but are absolutely necessary due to an unknown render issue that prevents us from setting tasks directly without first rendering the new column
+
+      setColumns(
+        columns.map((column) => (column.id === data.id ? data : column))
+      )
+
+      setTasks([...tasks, createdTask])
 
       cancel()
     } catch (err) {
