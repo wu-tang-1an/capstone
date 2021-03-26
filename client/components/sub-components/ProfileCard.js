@@ -9,6 +9,7 @@ export default function ProfileCard() {
   const {user} = useContext(AuthContext)
 
   useEffect(() => {
+    let isMounted = true
     async function fetchApi() {
       try {
         let {data} = await axios.get(`/api/users/${user.id}`)
@@ -17,8 +18,10 @@ export default function ProfileCard() {
         console.error(e)
       }
     }
-
     fetchApi()
+    return () => {
+      isMounted = false
+    }
   }, {})
 
   return (

@@ -10,6 +10,7 @@ const Comments = () => {
   const [comments, setComments] = useState([])
 
   useEffect(() => {
+    let isMounted = true
     async function fetchComments() {
       try {
         let {data} = await axios.get(`/api/users/${user.id}/comments`)
@@ -18,18 +19,20 @@ const Comments = () => {
         console.log(e)
       }
     }
-
     fetchComments()
+    return () => {
+      isMounted = false
+    }
   }, [])
   console.log('these are the comments ', comments)
   return (
     <div>
       <h1>Your Comments</h1>
       <div className={styles.commentContainer}>
-        {comments.map((comment, index) => {
+        {comments.map((comment) => {
           const date = new Date(comment.updatedAt).toDateString()
           return (
-            <div key={index} className={styles.userCardContainer}>
+            <div key={comment.id} className={styles.userCardContainer}>
               <div className={styles.userCardInfo}>
                 <p className={styles.commentText}>{comment.text}</p>
                 <div className={styles.text}>

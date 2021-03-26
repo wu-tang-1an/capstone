@@ -34,7 +34,6 @@ const Routes = () => {
           />
           <Route path="/projects/:projectId" component={ProjectView} />
           <Route path="/profiles/users/:userId" component={Profile} />
-          <Route path="*" component={Profile} />
         </Switch>
       )}
     </div>
