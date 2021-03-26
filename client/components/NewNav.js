@@ -1,14 +1,45 @@
 import React, {useContext} from 'react'
+import {AuthContext} from '../context/authContext'
 import {Link} from 'react-router-dom'
 import axios from 'axios'
 import history from '../history'
-import {AuthContext} from '../context/authContext'
-import {AiFillHome} from 'react-icons/ai'
-import {CgOrganisation, CgProfile, CgLogOut} from 'react-icons/cg'
 import styles from './css/NewNav.css'
 
+const NavLink = ({name, linkPath, iconText}) => {
+  return (
+    <Link to={linkPath} className={styles.navLinkContainer}>
+      <span className="material-icons">{iconText}</span>
+      <span className={styles.navLinkName}>{name}</span>
+    </Link>
+  )
+}
+
 const Nav = () => {
-  const {user, setUser} = useContext(AuthContext)
+  const {setUser} = useContext(AuthContext)
+
+  const links = [
+    // home will be a splash page with
+    // links to create a project / org, templates
+    // news feed, chat feed, etc.
+    {
+      id: 1,
+      name: 'Home',
+      linkPath: '/',
+      iconText: 'home',
+    },
+    {
+      id: 2,
+      name: 'Organizations',
+      linkPath: '/organizations',
+      iconText: 'corporate_fare',
+    },
+    {
+      id: 3,
+      name: 'Profile',
+      linkPath: '/profile',
+      iconText: 'person_outline',
+    },
+  ]
 
   const logout = async () => {
     try {
@@ -21,106 +52,17 @@ const Nav = () => {
   }
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-top">
-      {user.id ? (
-        <div className="container-fluid">
-          <Link className="navbar-brand" to="/">
-            <div>
-              <img
-                className={styles.imagesLogo}
-                alt="logo"
-                src="/note-ary.png"
-              />
-            </div>
-          </Link>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNavAltMarkup"
-            aria-controls="navbarNavAltMarkup"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon" />
-          </button>
-          <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div className="navbar-nav">
-              <div className={styles.linkCont}>
-                <span className={styles.spanCont}>
-                  <AiFillHome />
-                </span>
-
-                <Link
-                  className="nav-link active"
-                  aria-current="page"
-                  to="/home"
-                >
-                  Home
-                </Link>
-              </div>
-
-              <div className={styles.linkCont}>
-                <span className={styles.spanCont}>
-                  <CgOrganisation />
-                </span>
-                <Link className="nav-link" to="/organizations">
-                  Organizations
-                </Link>
-              </div>
-
-              <div className={styles.linkCont}>
-                <span className={styles.spanCont}>
-                  <CgProfile />
-                </span>
-
-                <Link className="nav-link" to="/profile">
-                  Profile
-                </Link>
-              </div>
-
-              <div className={styles.linkCont}>
-                <span className={styles.spanCont}>
-                  <CgLogOut />
-                </span>
-                <Link className="nav-link" to="#" onClick={logout}>
-                  Logout
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      ) : (
-        <div className="container-fluid">
-          <Link className="navbar-brand" to="/">
-            <div>
-              <img alt="logo" src="/note-ary.png" />
-            </div>
-          </Link>
-
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNavAltMarkup"
-            aria-controls="navbarNavAltMarkup"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon" />
-          </button>
-          <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div className="navbar-nav">
-              <Link className="nav-link" to="/login">
-                Login
-              </Link>
-              <Link className="nav-link" to="/signup">
-                Signup
-              </Link>
-            </div>
-          </div>
-        </div>
-      )}
+    <nav>
+      <img src="/note-ary.png" className={styles.logo} />
+      <div className={styles.navLinks}>
+        {links.map((link) => (
+          <NavLink key={link.id} {...link} />
+        ))}
+        <a href="#" className={styles.navLinkContainer} onClick={logout}>
+          <span className="material-icons">logout</span>
+          <span className={styles.navLinkName}>Logout</span>
+        </a>
+      </div>
     </nav>
   )
 }

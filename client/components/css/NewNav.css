@@ -1,12 +1,26 @@
-.linkCont {
+nav {
   display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5em;
 }
 
-.spanCont {
-  padding: 6px;
+.navLinks {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
 }
 
-.imagesLogo {
+.navLinkContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  padding: 0 1em;
+}
+
+.logo {
   height: 3em;
-  width: 3em;
+  width: auto;
 }
