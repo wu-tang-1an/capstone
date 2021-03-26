@@ -23,6 +23,19 @@ export const deleteColumnDB = async (columnId) => {
   }
 }
 
+// update columns after drop
+export const dropUpdateDb = async (sourColId, destColId, taskId) => {
+  try {
+    // update source column
+    await axios.delete(`/api/columns/${sourColId}/tasks/${taskId}`)
+
+    // update destination column
+    await axios.put(`/api/columns/${destColId}/tasks/${taskId}`)
+  } catch (err) {
+    console.log(err)
+  }
+}
+
 /* TASKS */
 
 // add task to a column
