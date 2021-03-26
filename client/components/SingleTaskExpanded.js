@@ -3,7 +3,7 @@ import marked from 'marked'
 import Comment from './Comment'
 import styles from './css/SingleTaskExpanded.css'
 
-const SingleTaskExpanded = ({task, closeModal, closeDropDown}) => {
+const SingleTaskExpanded = ({task, closeModal}) => {
   const {name, issueType, description} = task || {}
 
   // destructure comments separately to type check
@@ -78,7 +78,6 @@ const SingleTaskExpanded = ({task, closeModal, closeDropDown}) => {
               href="#"
               className={styles.spanContainer}
               onClick={() => {
-                closeDropDown()
                 closeModal()
               }}
             >

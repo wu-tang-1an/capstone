@@ -1,8 +1,10 @@
-import React, {useState, useContext} from 'react'
+import React, {useContext} from 'react'
 import {Draggable} from 'react-beautiful-dnd'
 import styled from 'styled-components'
 import TaskCardDropDown from './TaskCardDropDown'
 import {AuthContext} from '../context/authContext'
+import {ColumnContext} from '../context/columnContext'
+import {TaskContext} from '../context/taskContext'
 import styles from './css/TaskCard.css'
 
 const Container = styled.div`
@@ -13,7 +15,17 @@ const Container = styled.div`
 
 const TaskCard = ({task, index}) => {
   // local state management for drop down render
-  const [isDropDownActive, setDropDownActive] = useState(false)
+  const {activeTask, setActiveTask} = useContext(ColumnContext)
+
+  // local state management for selecting a particular dropdown
+  // important! this prevents opening EVERY dropdown dialog
+  // for all tasks in a column
+  const {
+    dropDownTargetId,
+    setDropDownTargetId,
+    isTaskDropDownVisible,
+    setTaskDropDownVisible,
+  } = useContext(TaskContext)
 
   // get user from auth context
   const {user} = useContext(AuthContext)
@@ -37,10 +49,12 @@ const TaskCard = ({task, index}) => {
           {...provided.dragHandleProps}
         >
           <div>
-            {isDropDownActive && (
+            {isTaskDropDownVisible && (
               <TaskCardDropDown
                 task={task}
-                closeDropDown={() => setDropDownActive(false)}
+                closeDropDown={() =>
+                  setTaskDropDownVisible(!isTaskDropDownVisible)
+                }
               />
             )}
             <div className={styles.taskCardContainer}>
@@ -54,7 +68,10 @@ const TaskCard = ({task, index}) => {
               <div className={styles.dotMenuAndAvatar}>
                 <span
                   className="material-icons"
-                  onClick={() => setDropDownActive(!isDropDownActive)}
+                  onClick={() => {
+                    setDropDownTargetId(task.id)
+                    setTaskDropDownVisible(!isTaskDropDownVisible)
+                  }}
                 >
                   more_horiz
                 </span>

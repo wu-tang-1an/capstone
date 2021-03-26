@@ -1,5 +1,7 @@
 import React, {useState} from 'react'
 import {Droppable} from 'react-beautiful-dnd'
+import ColumnProvider from '../context/columnContext'
+import TaskProvider from '../context/taskContext'
 import styled from 'styled-components'
 import TaskCard from './TaskCard'
 import AddTaskDialog from './AddTaskDialog'
@@ -66,7 +68,9 @@ const DivHell = ({column}) => {
                     closeTaskDialog={closeTaskDialog}
                   />
                 )}
-                <TaskCard task={task} index={idx} />
+                <TaskProvider>
+                  <TaskCard task={task} index={idx} />
+                </TaskProvider>
               </div>
             ))}
           {isAddTaskVisible && (!tasks || !tasks.length) && (
@@ -83,14 +87,16 @@ const DivHell = ({column}) => {
 
 const Column = ({column}) => {
   return (
-    <Droppable droppableId={String(column.id)}>
-      {(provided) => (
-        <TaskList ref={provided.innerRef} {...provided.droppableProps}>
-          <DivHell column={column} />
-          {provided.placeholder}
-        </TaskList>
-      )}
-    </Droppable>
+    <ColumnProvider>
+      <Droppable droppableId={String(column.id)}>
+        {(provided) => (
+          <TaskList ref={provided.innerRef} {...provided.droppableProps}>
+            <DivHell column={column} />
+            {provided.placeholder}
+          </TaskList>
+        )}
+      </Droppable>
+    </ColumnProvider>
   )
 }
 
