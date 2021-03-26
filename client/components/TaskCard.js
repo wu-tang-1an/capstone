@@ -5,6 +5,7 @@ import TaskCardDropDown from './TaskCardDropDown'
 import {AuthContext} from '../context/authContext'
 import {ColumnContext} from '../context/columnContext'
 import {TaskContext} from '../context/taskContext'
+import {DropDownContext} from '../context/dropDownContext'
 import styles from './css/TaskCard.css'
 
 const Container = styled.div`
@@ -26,6 +27,11 @@ const TaskCard = ({task, index}) => {
     isTaskDropDownVisible,
     setTaskDropDownVisible,
   } = useContext(TaskContext)
+
+  // handles task drop down close
+  const {areClosedAllDropDown, setClosedAllDropDown} = useContext(
+    DropDownContext
+  )
 
   // get user from auth context
   const {user} = useContext(AuthContext)
@@ -52,7 +58,7 @@ const TaskCard = ({task, index}) => {
             {isTaskDropDownVisible && (
               <TaskCardDropDown
                 task={task}
-                closeDropDown={() => setTaskDropDownVisible(false)}
+                closeDropDown={() => setClosedAllDropDown(true)}
               />
             )}
             <div className={styles.taskCardContainer}>
@@ -68,8 +74,7 @@ const TaskCard = ({task, index}) => {
                   className="material-icons"
                   onClick={() => {
                     setDropDownTargetId(task.id)
-                    if (task.id === dropDownTargetId)
-                      setTaskDropDownVisible(true)
+                    setTaskDropDownVisible(!isTaskDropDownVisible)
                   }}
                 >
                   more_horiz
