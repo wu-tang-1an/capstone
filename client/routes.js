@@ -8,6 +8,7 @@ import {
   Profile,
   Home,
   Loading,
+  NewUpdateUser,
 } from './components'
 
 import {AuthContext} from './context/authContext'
@@ -39,6 +40,7 @@ const Routes = () => {
           />
           <Route path="/projects/:projectId" component={ProjectView} />
           <Route path="/profile" component={Profile} />
+          <Route path="/updateProfile" component={NewUpdateUser} />
         </Switch>
       )}
     </div>

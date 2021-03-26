@@ -4,7 +4,12 @@ import axios from 'axios'
 export const AuthContext = React.createContext()
 
 const AuthProvider = ({children}) => {
-  const [user, setUser] = useState({})
+  const [user, setUser] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+  })
 
   useEffect(() => {
     let isMounted = true
