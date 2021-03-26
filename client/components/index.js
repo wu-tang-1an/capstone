@@ -6,7 +6,7 @@
 export {default as Loading} from './Loading'
 export {default as Nav} from './Nav'
 export {default as Home} from './Home'
-export {default as UpdateUser} from './UpdateUser'
+export {default as NewUpdateUser} from './NewUpdateUser'
 export {default as AuthForm} from './AuthForm'
 export {default as ProjectView} from './ProjectView'
 export {default as SingleTaskExpanded} from './SingleTaskExpanded'

@@ -24,6 +24,30 @@ export default function ProfileCard() {
     }
   }, {})
 
+  if (
+    profile.firstName === 'Add First Name' &&
+    profile.lastName === 'Add Last Name'
+  ) {
+    return (
+      <div className={styles.profileMasterCont}>
+        <div className={styles.profileContainer}>
+          <div className={styles.profileImgCont}>
+            <img className={styles.profileImg} src={profile.imageUrl} />
+          </div>
+          <div className={styles.nameCont}>
+            <h1>Please Update Profile</h1>
+          </div>
+          <div className={styles.emailCont}>
+            <h3>{profile.email}</h3>
+          </div>
+
+          <div className={styles.updateProfileCont}>
+            <Link to="/updateProfile">Update Profile</Link>
+          </div>
+        </div>
+      </div>
+    )
+  }
   return (
     <div className={styles.profileMasterCont}>
       <div className={styles.profileContainer}>
