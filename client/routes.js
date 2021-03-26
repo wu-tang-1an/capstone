@@ -1,5 +1,5 @@
 import React, {useContext} from 'react'
-import {Route, Switch} from 'react-router-dom'
+import {Route, Switch, Redirect} from 'react-router-dom'
 import {
   AuthForm,
   ProjectView,
@@ -24,6 +24,7 @@ const Routes = () => {
       {/* these routes are available before login */}
       {user && !user.id && (
         <Switch>
+          <Route exact path="/" render={() => <AuthForm authType="login" />} />
           <Route path="/login" render={() => <AuthForm authType="login" />} />
           <Route path="/signup" render={() => <AuthForm authType="signup" />} />
         </Switch>
@@ -32,6 +33,7 @@ const Routes = () => {
       {/* these routes are available after login */}
       {user.id && (
         <Switch>
+          <Route exact path="/" component={Home} />
           <Route path="/home" component={Home} />
           <Route exact path="/organizations" component={AllOrgs} />
           <Route
