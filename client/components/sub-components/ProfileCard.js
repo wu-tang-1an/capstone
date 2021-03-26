@@ -62,10 +62,7 @@ export default function ProfileCard() {
         </div>
 
         <div className={styles.updateProfileCont}>
-          <Link to="/updateProfile">
-            Update Profile
-            <Route exact path="/updateProfile" component={NewUpdateUser} />
-          </Link>
+          <Link to="/updateProfile">Update Profile</Link>
         </div>
       </div>
     </div>

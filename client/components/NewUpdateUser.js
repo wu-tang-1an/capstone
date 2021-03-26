@@ -28,6 +28,8 @@ const NewUpdateUser = () => {
 
       // then update local state
       setUser(data)
+
+      // redirect to user profile
     } catch (err) {
       console.error(err)
     }
