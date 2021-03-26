@@ -1,8 +1,16 @@
 .directoryBarContainer {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   width: auto;
   height: min-content;
   flex-wrap: nowrap;
+}
+
+.directoryBarContainer a:hover {
+  text-decoration: underline;
+}
+
+.divider {
+  margin: 0 0.5em;
 }

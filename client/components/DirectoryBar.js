@@ -8,7 +8,7 @@ const DirectoryBar = ({project, organization}) => {
       <Link to={`/organizations/${organization.id}`}>
         <span>{organization.name}</span>
       </Link>
-      <span>/</span>
+      <span className={styles.divider}>/</span>
       <Link to={`/projects/${project.id}`}>
         <span>{project.name}</span>
       </Link>
