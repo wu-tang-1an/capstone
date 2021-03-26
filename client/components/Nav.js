@@ -24,7 +24,7 @@ const Nav = () => {
     {
       id: 1,
       name: 'Home',
-      linkPath: '/',
+      linkPath: '/home',
       iconText: 'home',
     },
     {
@@ -68,7 +68,10 @@ const Nav = () => {
 
   return (
     <nav>
-      <img src="/note-ary.png" className={styles.logo} />
+      <div className={styles.logo}>
+        <span className="material-icons">note_alt</span>
+        <span>note-ary</span>
+      </div>
       <div className={styles.navLinks}>
         {!user.id &&
           loggedOutLinks.map((link) => <NavLink key={link.id} {...link} />)}

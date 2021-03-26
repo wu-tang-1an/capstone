@@ -18,6 +18,7 @@ nav {
   justify-content: center;
   flex-wrap: nowrap;
   padding: 0 1em;
+  font-size: 14px;
 }
 
 .logo {
