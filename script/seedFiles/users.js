@@ -5,6 +5,7 @@ module.exports = [
     email: 'daniel@mail.com',
     password: '123',
     status: 'admin',
+    imageUrl: 'https://unsplash.it/100/100',
   },
   {
     firstName: 'David',
@@ -12,6 +13,7 @@ module.exports = [
     email: 'dahn@mail.com',
     password: '123',
     status: 'admin',
+    imageUrl: 'https://unsplash.it/101/101',
   },
   {
     firstName: 'Gene',
@@ -19,6 +21,7 @@ module.exports = [
     email: 'gkaufman@mail.com',
     password: '123',
     status: 'admin',
+    imageUrl: 'https://unsplash.it/102/102',
   },
   {
     firstName: 'Johnny',
@@ -26,5 +29,6 @@ module.exports = [
     email: 'johnny@mail.com',
     password: '123',
     status: 'admin',
+    imageUrl: 'https://unsplash.it/103/103',
   },
 ]

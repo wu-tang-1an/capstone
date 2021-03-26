@@ -1,5 +1,6 @@
 import React, {useState, useContext} from 'react'
 import Modal from './Modal'
+import {ColumnContext} from '../context/columnContext'
 import DeleteTaskModal from './DeleteTaskModal'
 import SingleTaskExpanded from './SingleTaskExpanded'
 import styles from './css/TaskCardDropDown.css'
@@ -14,12 +15,22 @@ const fields = [
   // more fields as necessary
 ]
 
-const TaskCardDropDown = ({task, closeDropDown}) => {
+const TaskCardDropDown = ({task}) => {
   // designate local state to handle modal visibility
   const [activeField, setActiveField] = useState('')
 
   // closeModal clears activeField
+  // used by DeleteTask modal
   const closeModal = () => setActiveField('')
+
+  // grab ColumnProvider value to set visibility and task
+  // for SingleTaskExpanded
+  const {
+    activeTask,
+    setActiveTask,
+    isSingleTaskVisible,
+    setSingleTaskVisible,
+  } = useContext(ColumnContext)
 
   // grab tasks, setTasks from column context
   const {columns, setColumns, tasks, setTasks} = useContext(ProjectContext)
@@ -43,6 +54,17 @@ const TaskCardDropDown = ({task, closeDropDown}) => {
     closeModal()
   }
 
+  // handle drop down selections
+  const handleSelectOption = (option) => {
+    // handle 'Delete' selection
+    if (option === 'Delete') return setActiveField(option)
+
+    // otherwise, handle 'Edit' selection
+    setActiveTask(task)
+    setActiveField(option)
+    setSingleTaskVisible(true)
+  }
+
   return (
     <div>
       <div className={styles.taskCardDropDownContainer}>
@@ -51,7 +73,7 @@ const TaskCardDropDown = ({task, closeDropDown}) => {
           <div
             key={field.id}
             className={styles.dropDownField}
-            onClick={() => setActiveField(field.type)}
+            onClick={() => handleSelectOption(field.type)}
           >
             <span className={styles.fieldName}>{field.type}</span>
             <span className="arrow material-icons">keyboard_arrow_right</span>
@@ -62,15 +84,6 @@ const TaskCardDropDown = ({task, closeDropDown}) => {
       {activeField === 'Delete' && (
         <Modal>
           <DeleteTaskModal deleteTask={deleteTask} closeModal={closeModal} />
-        </Modal>
-      )}
-      {activeField === 'Edit' && (
-        <Modal>
-          <SingleTaskExpanded
-            task={task}
-            closeModal={closeModal}
-            closeDropDown={closeDropDown}
-          />
         </Modal>
       )}
     </div>
