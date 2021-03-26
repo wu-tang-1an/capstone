@@ -1,29 +1,52 @@
 const router = require('express').Router()
 const {User, Task, Comment} = require('../db/models')
+const {checkUser, checkAdmin} = require('./helper/gatekeeper')
+const {
+  resNaN,
+  resDbNotFound,
+  resDeleted,
+  resAssoc,
+  resUnassoc,
+} = require('./helper/helper')
+const {STR_COMMENTS, STR_COMMENT} = require('./helper/strings')
 
-//will get all the comments from all taskd
-router.get('/', async (req, res, next) => {
+// GET all comments route '/api/comments' (ADMIN ONLY)
+router.get('/', checkAdmin, async (req, res, next) => {
   try {
-    const comments = await Comment.findAll()
+    const comments = await Comment.findAll({
+      include: [
+        {
+          model: User,
+        },
+        {
+          model: Task,
+        },
+      ],
+    })
+    if (!comments) return resDbNotFound(STR_COMMENTS, res)
 
-    res.json(comments)
-  } catch (e) {
-    console.log(e)
-    next(e)
+    return res.json(comments)
+  } catch (error) {
+    console.log(error)
+    next(error)
   }
 })
 
-//DELETE comment based on commentId
-router.delete('/:commentId', async (req, res, next) => {
+//DELETE single comment route '/api/comments/:commentId' (AUTH USER ONLY)
+router.delete('/:commentId', checkUser, async (req, res, next) => {
   try {
     const {commentId} = req.params
+    if (isNaN(commentId)) return resNaN(commentId, res)
+
     const comment = await Comment.findByPk(commentId)
+    if (!comment) return resDbNotFound(STR_COMMENT, res)
 
     await comment.destroy()
-    res.status(202).send('Comment was deleted!')
-  } catch (e) {
-    console.log(e)
-    next(e)
+
+    return resDeleted(STR_COMMENT, commentId, res)
+  } catch (error) {
+    console.log(error)
+    next(error)
   }
 })
 

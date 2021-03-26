@@ -43,11 +43,15 @@ router.get('/:projectId', checkUser, async (req, res, next) => {
               model: Task,
               include: [
                 {
-                  model: Comment,
-                  include: [User],
+                  model: User,
                 },
                 {
-                  model: User,
+                  model: Comment,
+                  include: [
+                    {
+                      model: User,
+                    },
+                  ],
                 },
               ],
             },

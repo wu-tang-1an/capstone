@@ -13,6 +13,7 @@ const {
   STR_COLUMN,
   STR_PROJECT,
   STR_TASK,
+  STR_TASKS,
 } = require('./helper/strings')
 module.exports = router
 
@@ -114,7 +115,7 @@ router.put('/:columnId', checkUser, async (req, res, next) => {
 
     // to update name without losing task refs,
     // we have to perform the update in separate requests
-    const thisColumn = await Column.findByPk(+req.params.columnId, {
+    const thisColumn = await Column.findByPk(columnId, {
       include: [
         {
           model: Task,
@@ -134,39 +135,15 @@ router.put('/:columnId', checkUser, async (req, res, next) => {
         },
       ],
     })
-
     if (!thisColumn) return resDbNotFound(STR_COLUMN, res)
 
     // reassign the column name and persist to db
-    // then fetch and return
+    // then reload and return
     thisColumn.name = name
     await thisColumn.save()
+    await thisColumn.reload()
 
-    const foundColumn = await Column.findByPk(thisColumn.id, {
-      plain: true,
-      returning: true,
-      where: {id: columnId},
-      include: [
-        {
-          model: Task,
-          include: [
-            {
-              model: User,
-            },
-            {
-              model: Comment,
-              include: [
-                {
-                  model: User,
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    })
-
-    return res.json(foundColumn)
+    return res.json(thisColumn)
   } catch (error) {
     next(error)
   }
@@ -230,18 +207,18 @@ router.delete('/:columnId', checkUser, async (req, res, next) => {
         columnId: columnId,
       },
     })
+    if (!columnTasks) return resDbNotFound(STR_TASKS, res)
 
     // destroy column tasks before destroying column
     // this removes tasks from db rather than simply
     // removing the association of a task to a column
-    columnTasks.forEach(
-      async (task) =>
-        await Task.destroy({
-          where: {
-            id: task.id,
-          },
-        })
-    )
+    columnTasks.forEach(async (task) => {
+      await Task.destroy({
+        where: {
+          id: task.id,
+        },
+      })
+    })
 
     // then destroy column
     const column = await Column.destroy({
