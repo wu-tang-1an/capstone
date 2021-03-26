@@ -1,4 +1,5 @@
 import React, {useContext, useState} from 'react'
+import history from '../history'
 import {AuthContext} from '../context/authContext'
 import axios from 'axios'
 
@@ -30,6 +31,7 @@ const NewUpdateUser = () => {
       setUser(data)
 
       // redirect to user profile
+      history.push('/profile')
     } catch (err) {
       console.error(err)
     }
