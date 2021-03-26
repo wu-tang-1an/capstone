@@ -1,19 +1,36 @@
-import React, {useContext, useEffect} from 'react'
-//import styled from 'styled-components'
+import React, {useContext, useState} from 'react'
 import {AuthContext} from '../context/authContext'
+import axios from 'axios'
 
 const NewUpdateUser = () => {
   // get user from auth context
   const {user, setUser} = useContext(AuthContext)
 
-  console.log('user--->', user)
+  // initialize local state for the form
+  const [firstName, setFirstName] = useState(user.firstName || '')
+  const [lastName, setLastName] = useState(user.lastName || '')
+  const [email, setEmail] = useState(user.email || '')
+  const [password, setPassword] = useState(user.password || '')
 
-  function handleChange(event) {
-    setUser(([event.target.name] = event.target.value))
-  }
+  async function handleSubmit(e) {
+    e.preventDefault()
 
-  function handleSubmit() {
-    /////get mapdispatchtoprops
+    let updateInfo = {
+      firstName,
+      lastName,
+      email,
+      password,
+    }
+
+    try {
+      // persist new user info to db
+      const {data} = await axios.put(`/api/users/${user.id}`, updateInfo)
+
+      // then update local state
+      setUser(data)
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   return (
@@ -27,8 +44,8 @@ const NewUpdateUser = () => {
               <input
                 type="text"
                 name="firstName"
-                value={user.firstName}
-                onChange={handleChange}
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
               />
             </label>
           </div>
@@ -39,8 +56,8 @@ const NewUpdateUser = () => {
               <input
                 type="text"
                 name="lastName"
-                value={user.lastName}
-                onChange={handleChange}
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
               />
             </label>
           </div>
@@ -51,8 +68,8 @@ const NewUpdateUser = () => {
               <input
                 type="text"
                 name="email"
-                value={user.email}
-                onChange={handleChange}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </label>
           </div>
@@ -60,7 +77,12 @@ const NewUpdateUser = () => {
           <div>
             <label>
               Password:
-              <input name="password" type="password" onChange={handleChange} />
+              <input
+                name="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
             </label>
           </div>
 
