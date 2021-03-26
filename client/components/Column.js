@@ -2,7 +2,6 @@ import React, {useState} from 'react'
 import {Droppable} from 'react-beautiful-dnd'
 import ColumnProvider from '../context/columnContext'
 import TaskProvider from '../context/taskContext'
-import DropDownProvider from '../context/dropDownContext'
 import styled from 'styled-components'
 import TaskCard from './TaskCard'
 import AddTaskDialog from './AddTaskDialog'
@@ -88,18 +87,16 @@ const DivHell = ({column}) => {
 
 const Column = ({column}) => {
   return (
-    <DropDownProvider>
-      <ColumnProvider>
-        <Droppable droppableId={String(column.id)}>
-          {(provided) => (
-            <TaskList ref={provided.innerRef} {...provided.droppableProps}>
-              <DivHell column={column} />
-              {provided.placeholder}
-            </TaskList>
-          )}
-        </Droppable>
-      </ColumnProvider>
-    </DropDownProvider>
+    <ColumnProvider>
+      <Droppable droppableId={String(column.id)}>
+        {(provided) => (
+          <TaskList ref={provided.innerRef} {...provided.droppableProps}>
+            <DivHell column={column} />
+            {provided.placeholder}
+          </TaskList>
+        )}
+      </Droppable>
+    </ColumnProvider>
   )
 }
 

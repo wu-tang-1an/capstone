@@ -15,7 +15,7 @@ const fields = [
   // more fields as necessary
 ]
 
-const TaskCardDropDown = ({task, closeDropDown}) => {
+const TaskCardDropDown = ({task}) => {
   // designate local state to handle modal visibility
   const [activeField, setActiveField] = useState('')
 
