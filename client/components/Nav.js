@@ -3,7 +3,7 @@ import {AuthContext} from '../context/authContext'
 import {Link} from 'react-router-dom'
 import axios from 'axios'
 import history from '../history'
-import styles from './css/NewNav.css'
+import styles from './css/Nav.css'
 
 const NavLink = ({name, linkPath, iconText}) => {
   return (
@@ -15,9 +15,9 @@ const NavLink = ({name, linkPath, iconText}) => {
 }
 
 const Nav = () => {
-  const {setUser} = useContext(AuthContext)
+  const {user, setUser} = useContext(AuthContext)
 
-  const links = [
+  const loggedInLinks = [
     // home will be a splash page with
     // links to create a project / org, templates
     // news feed, chat feed, etc.
@@ -41,6 +41,21 @@ const Nav = () => {
     },
   ]
 
+  const loggedOutLinks = [
+    {
+      id: 4,
+      name: 'Login',
+      linkPath: '/login',
+      iconText: 'login',
+    },
+    {
+      id: 5,
+      name: 'Signup',
+      linkPath: '/signup',
+      iconText: 'person_add',
+    },
+  ]
+
   const logout = async () => {
     try {
       await axios.post('/auth/logout')
@@ -55,13 +70,16 @@ const Nav = () => {
     <nav>
       <img src="/note-ary.png" className={styles.logo} />
       <div className={styles.navLinks}>
-        {links.map((link) => (
-          <NavLink key={link.id} {...link} />
-        ))}
-        <a href="#" className={styles.navLinkContainer} onClick={logout}>
-          <span className="material-icons">logout</span>
-          <span className={styles.navLinkName}>Logout</span>
-        </a>
+        {!user.id &&
+          loggedOutLinks.map((link) => <NavLink key={link.id} {...link} />)}
+        {user.id &&
+          loggedInLinks.map((link) => <NavLink key={link.id} {...link} />)}
+        {user.id && (
+          <a href="#" className={styles.navLinkContainer} onClick={logout}>
+            <span className="material-icons">logout</span>
+            <span className={styles.navLinkName}>Logout</span>
+          </a>
+        )}
       </div>
     </nav>
   )
