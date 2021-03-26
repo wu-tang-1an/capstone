@@ -46,7 +46,9 @@ router.get('/:projectId', checkUser, async (req, res, next) => {
                   model: Comment,
                   include: [User],
                 },
-                User,
+                {
+                  model: User,
+                },
               ],
             },
           ],

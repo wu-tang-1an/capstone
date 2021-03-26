@@ -18,10 +18,15 @@ const TaskCard = ({task, index}) => {
   // get user from auth context
   const {user} = useContext(AuthContext)
 
-  const {id, description, users} = task
+  const {id, description} = task
+
+  const {users} = task || []
 
   // returns firstName + lastName for task card "opened by _____"
-  const getFullName = () => `${users[0].firstName} ${users[0].lastName}`
+  const getFullName = () => {
+    if (!users || (users && !users.length)) return ''
+    return `${users[0].firstName} ${users[0].lastName}`
+  }
 
   return (
     <Draggable draggableId={String(task.id)} index={index}>

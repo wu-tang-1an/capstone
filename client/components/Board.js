@@ -99,6 +99,8 @@ const Board = () => {
     updateDb(sourColumn.id, destColumn.id, moveTask.id)
   }
 
+  console.log(`columns are: `, columns)
+
   return (
     <div className="Board">
       <h2>Project: {project.name}</h2>

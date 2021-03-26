@@ -19,7 +19,24 @@ module.exports = router
 // GET all columns route '/api/columns' (ADMIN ONLY)
 router.get('/', checkAdmin, async (req, res, next) => {
   try {
-    const columns = await Column.findAll()
+    const columns = await Column.findAll({
+      include: [
+        {
+          model: Task,
+          include: [
+            {model: User},
+            {
+              model: Comment,
+              include: [
+                {
+                  model: User,
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    })
     if (!columns) return resDbNotFound(STR_COLUMNS, res)
 
     return res.json(columns)
@@ -43,7 +60,7 @@ router.get('/:columnId', checkUser, async (req, res, next) => {
               model: Comment,
               include: [User],
             },
-            User,
+            {model: User},
           ],
         },
       ],
@@ -91,18 +108,65 @@ router.post('/projects/:projectId', checkUser, async (req, res, next) => {
 // PUT edit column route '/api/columns/:columnId' (AUTH USER ONLY)
 router.put('/:columnId', checkUser, async (req, res, next) => {
   try {
-    const data = req.body
+    const {name} = req.body
     const {columnId} = req.params
     if (isNaN(columnId)) return resNaN(columnId, res)
 
-    const [, updatedColumn] = await Column.update(data, {
+    // to update name without losing task refs,
+    // we have to perform the update in separate requests
+    const thisColumn = await Column.findByPk(+req.params.columnId, {
+      include: [
+        {
+          model: Task,
+          include: [
+            {
+              model: User,
+            },
+            {
+              model: Comment,
+              include: [
+                {
+                  model: User,
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    })
+
+    if (!thisColumn) return resDbNotFound(STR_COLUMN, res)
+
+    // reassign the column name and persist to db
+    // then fetch and return
+    thisColumn.name = name
+    await thisColumn.save()
+
+    const foundColumn = await Column.findByPk(thisColumn.id, {
       plain: true,
       returning: true,
       where: {id: columnId},
+      include: [
+        {
+          model: Task,
+          include: [
+            {
+              model: User,
+            },
+            {
+              model: Comment,
+              include: [
+                {
+                  model: User,
+                },
+              ],
+            },
+          ],
+        },
+      ],
     })
-    if (!updatedColumn) return resDbNotFound(STR_COLUMN, res)
 
-    return res.json(updatedColumn)
+    return res.json(foundColumn)
   } catch (error) {
     next(error)
   }

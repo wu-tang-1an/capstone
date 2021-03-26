@@ -23,6 +23,8 @@ const DivHell = ({column}) => {
   // grab column data
   const {tasks} = column
 
+  console.log('tasks is: ', tasks)
+
   return (
     <div>
       {isDropDownActive && (
