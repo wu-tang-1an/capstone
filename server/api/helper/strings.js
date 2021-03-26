@@ -13,6 +13,9 @@ const strings = {
 
   STR_USERS: 'Users',
   STR_USER: 'User',
+
+  STR_COMMENTS: 'Comments',
+  STR_COMMENT: 'Comment',
 }
 
 module.exports = strings
