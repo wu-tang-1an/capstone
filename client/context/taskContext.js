@@ -1,36 +1,21 @@
-import React, {useState, useEffect, useMemo} from 'react'
-import axios from 'axios'
+import React, {useState} from 'react'
 
 export const TaskContext = React.createContext()
 
-export default function TaskProvider({taskId, children}) {
-  // initialize task-level state
-  const [task, setTask] = useState({})
+export default function TaskProvider({children}) {
+  // hold dropDownTargetId to selectively open drop downs
+  // in project view, for a given task
+  // important! this context keeps drop down menus from
+  // opening on EVERY task in a column
+  const [dropDownTargetId, setDropDownTargetId] = useState(0)
+  const [isTaskDropDownVisible, setTaskDropDownVisible] = useState(false)
 
-  // fetch task by taskId
-  useEffect(() => {
-    let isMounted = true
-    const fetchSingleTask = async () => {
-      try {
-        const {data} = await axios.get(`/api/tasks/${taskId}`)
-        setTask(data)
-      } catch (err) {
-        console.error(err)
-      }
-    }
-    fetchSingleTask()
-
-    return () => {
-      isMounted = false
-    }
-  }, [])
-
-  const providerValue = useMemo(() => {
-    return {
-      task,
-      setTask,
-    }
-  }, [task])
+  const providerValue = {
+    dropDownTargetId,
+    setDropDownTargetId,
+    isTaskDropDownVisible,
+    setTaskDropDownVisible,
+  }
 
   return (
     <TaskContext.Provider value={providerValue}>
