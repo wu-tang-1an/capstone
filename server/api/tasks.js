@@ -8,7 +8,7 @@ module.exports = router
 // GET all tasks with users route '/api/tasks' (ADMIN ONLY)
 router.get('/', checkAdmin, async (req, res, next) => {
   try {
-    const tasks = await Task.findAll({include: User})
+    const tasks = await Task.findAll({include: [{model: User}]})
     if (!tasks) return resDbNotFound(STR_TASKS, res)
 
     return res.json(tasks)
