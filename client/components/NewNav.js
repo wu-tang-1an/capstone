@@ -50,7 +50,6 @@ const Nav = () => {
                 <span className={styles.spanCont}>
                   <AiFillHome />
                 </span>
-
                 <Link
                   className="nav-link active"
                   aria-current="page"
@@ -94,7 +93,11 @@ const Nav = () => {
         <div className="container-fluid">
           <Link className="navbar-brand" to="/">
             <div>
-              <img alt="logo" src="/note-ary.png" />
+              <img
+                className={styles.imagesLogo}
+                alt="logo"
+                src="/note-ary.png"
+              />
             </div>
           </Link>
 
