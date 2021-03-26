@@ -1,9 +1,8 @@
 import React, {useEffect, useState, useContext} from 'react'
 import axios from 'axios'
 import styles from '../css/Profile.css'
-import {Link, Route} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import {AuthContext} from '../../context/authContext'
-import NewUpdateUser from '../NewUpdateUser'
 
 export default function ProfileCard() {
   const [profile, setProfile] = useState({})
@@ -43,10 +42,7 @@ export default function ProfileCard() {
           </div>
 
           <div className={styles.updateProfileCont}>
-            <Link to="/updateProfile">
-              Update Profile
-              <Route exact path="/updateProfile" component={NewUpdateUser} />
-            </Link>
+            <Link to="/updateProfile">Update Profile</Link>
           </div>
         </div>
       </div>

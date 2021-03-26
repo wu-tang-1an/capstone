@@ -12,7 +12,9 @@ const NewUpdateUser = () => {
     setUser(([event.target.name] = event.target.value))
   }
 
-  function handleSubmit() {}
+  function handleSubmit() {
+    /////get mapdispatchtoprops
+  }
 
   return (
     <div>
