@@ -1,18 +1,10 @@
 import React, {useContext} from 'react'
 import {DragDropContext} from 'react-beautiful-dnd'
-import axios from 'axios'
 import {ProjectContext} from '../context/projectContext'
+import {dropUpdateDb} from '../context/axiosService'
 import Column from './Column'
 import AddColumnDropDown from './AddColumnDropDown'
 import styles from './css/Board.css'
-
-const updateDb = async (sourColId, destColId, taskId) => {
-  // update source column
-  const res1 = await axios.delete(`/api/columns/${sourColId}/tasks/${taskId}`)
-
-  // update destination column
-  const res2 = await axios.put(`/api/columns/${destColId}/tasks/${taskId}`)
-}
 
 const Board = () => {
   const {project, columns, setColumns} = useContext(ProjectContext)
@@ -74,7 +66,7 @@ const Board = () => {
 
     setColumns(newColumns)
 
-    updateDb(sourColumn.id, destColumn.id, moveTask.id)
+    dropUpdateDb(sourColumn.id, destColumn.id, moveTask.id)
   }
 
   return (
