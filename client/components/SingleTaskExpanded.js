@@ -8,6 +8,7 @@ import AddCommentDialog from './AddCommentDialog'
 import axios from 'axios'
 import {
   fetchTaskDB,
+  getCommentDB,
   addCommentToTaskDB,
   updateCommentDB,
   deleteCommentDB,
@@ -82,12 +83,11 @@ const SingleTaskExpanded = ({task, closeModal}) => {
       // associate the new comment with the user who created it
       await axios.put(`/api/comments/${createdComment.id}/users/${userId}`)
 
+      // refetch comment
+      const associatedComment = await getCommentDB(createdComment.id)
+
       // update local comments state
-      setTaskComments(
-        taskComments.map((comment) =>
-          comment.id === createdComment.id ? createdComment : comment
-        )
-      )
+      setTaskComments([...taskComments, associatedComment])
 
       // do NOT close the comment dialog -- allows the user to type multiple comments without having to repeatedly click to open the text field!
     } catch (err) {
