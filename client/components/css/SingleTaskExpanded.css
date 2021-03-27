@@ -2,10 +2,12 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  justify-content: center;
+  justify-content: flex-start;
   background-color: #ccc;
   padding: 1em;
   border-radius: 5px;
+  max-height: 80vh;
+  overflow-y: scroll;
 }
 
 .infoBar {

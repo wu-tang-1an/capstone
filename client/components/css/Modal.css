@@ -30,6 +30,7 @@
   flex-direction: column;
   background-color: transparent;
   border-radius: 5px;
+  margin: auto 0;
   z-index: 3;
 }
 
