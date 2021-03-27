@@ -3,7 +3,7 @@ import {AuthContext} from '../context/authContext'
 import moment from 'moment'
 import styles from './css/Comment.css'
 
-const Comment = ({comment, deleteComment}) => {
+const Comment = ({comment, editComment, deleteComment}) => {
   // grab comment text and user who commented from comment
   // passed in directly by SingleTaskExpanded
   const {id, createdAt, text} = comment
@@ -45,7 +45,10 @@ const Comment = ({comment, deleteComment}) => {
             value={content}
             ref={(input) => input && input.focus()}
             onChange={(e) => setContent(e.target.value)}
-            onBlur={() => setActiveEdit(!isActiveEdit)}
+            onBlur={() => {
+              editComment(id, {text: content})
+              setActiveEdit(!isActiveEdit)
+            }}
           />
         )}
       </div>

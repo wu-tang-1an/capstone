@@ -100,6 +100,15 @@ export const addCommentToTaskDB = async (newComment) => {
   }
 }
 
+export const updateCommentDB = async (commentId, updateInfo) => {
+  try {
+    const {data} = await axios.put(`/api/comments/${commentId}`, updateInfo)
+    return data
+  } catch (err) {
+    console.error(err)
+  }
+}
+
 // delete comment from a task
 export const deleteCommentDB = async (commentId) => {
   try {

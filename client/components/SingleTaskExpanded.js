@@ -4,7 +4,11 @@ import marked from 'marked'
 import moment from 'moment'
 import Comment from './Comment'
 import ImportantBadge from './ImportantBadge'
-import {fetchTaskDB, deleteCommentDB} from '../context/axiosService'
+import {
+  fetchTaskDB,
+  updateCommentDB,
+  deleteCommentDB,
+} from '../context/axiosService'
 import styles from './css/SingleTaskExpanded.css'
 
 const SingleTaskExpanded = ({task, closeModal}) => {
@@ -46,6 +50,19 @@ const SingleTaskExpanded = ({task, closeModal}) => {
   const deleteComment = async (commentId) => {
     await deleteCommentDB(commentId)
     setTaskComments(taskComments.filter((comment) => comment.id !== commentId))
+  }
+
+  // editComment updates comment in db, local state
+  const editComment = async (commentId, updateInfo) => {
+    const updatedComment = await updateCommentDB(commentId, updateInfo)
+
+    console.log('updatedComment is:', updatedComment)
+
+    setTaskComments(
+      taskComments.map((comment) =>
+        comment.id === updatedComment.id ? updatedComment : comment
+      )
+    )
   }
 
   return (
@@ -130,6 +147,7 @@ const SingleTaskExpanded = ({task, closeModal}) => {
                   key={comment.id}
                   comment={comment}
                   deleteComment={deleteComment}
+                  editComment={editComment}
                 />
               ))}
             </div>
