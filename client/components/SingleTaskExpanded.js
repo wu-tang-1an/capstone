@@ -5,13 +5,15 @@ import ImportantBadge from './ImportantBadge'
 import styles from './css/SingleTaskExpanded.css'
 
 const SingleTaskExpanded = ({task, closeModal}) => {
-  const {id, description, createdBy, isActiveBadge, updatedAt} = task || {}
+  const {id, name, description, createdBy, isActiveBadge, updatedAt} =
+    task || {}
 
   // destructure comments separately to type check
   const comments = task && task.comments ? task.comments : []
 
   // then declare state and initialize with task data
   const [creator, setCreator] = useState(createdBy)
+  const [taskName, setTaskName] = useState(name)
   const [taskDescription, setDescription] = useState(description)
   const [activeMarkdownEditor, setActiveMarkdownEditor] = useState(false)
 
