@@ -4,8 +4,11 @@ import marked from 'marked'
 import moment from 'moment'
 import Comment from './Comment'
 import ImportantBadge from './ImportantBadge'
+import AddCommentDialog from './AddCommentDialog'
+import axios from 'axios'
 import {
   fetchTaskDB,
+  addCommentToTaskDB,
   updateCommentDB,
   deleteCommentDB,
 } from '../context/axiosService'
@@ -44,6 +47,7 @@ const SingleTaskExpanded = ({task, closeModal}) => {
   const [taskName, setTaskName] = useState(name || '')
   const [taskDescription, setDescription] = useState(description || '')
   const [activeMarkdownEditor, setActiveMarkdownEditor] = useState(false)
+  const [isAddCommentActive, setAddCommentActive] = useState(false)
 
   // deleteComment removes comment from db
   // local state will reload on single task view
@@ -67,6 +71,28 @@ const SingleTaskExpanded = ({task, closeModal}) => {
     )
 
     return updatedComment
+  }
+
+  // addComment adds comment in db, local state
+  const addComment = async (newComment, userId) => {
+    try {
+      // create new comment
+      const createdComment = await addCommentToTaskDB(newComment, task.id)
+
+      // associate the new comment with the user who created it
+      await axios.put(`/api/comments/${createdComment.id}/users/${userId}`)
+
+      // update local comments state
+      setTaskComments(
+        taskComments.map((comment) =>
+          comment.id === createdComment.id ? createdComment : comment
+        )
+      )
+
+      // do NOT close the comment dialog -- allows the user to type multiple comments without having to repeatedly click to open the text field!
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   return (
@@ -154,6 +180,22 @@ const SingleTaskExpanded = ({task, closeModal}) => {
                   editComment={editComment}
                 />
               ))}
+              {!isAddCommentActive && (
+                <button
+                  type="button"
+                  onClick={() => setAddCommentActive(!isAddCommentActive)}
+                >
+                  Add a comment
+                </button>
+              )}
+              {isAddCommentActive && (
+                <AddCommentDialog
+                  addComment={addComment}
+                  closeCommentDialog={() =>
+                    setAddCommentActive(!isAddCommentActive)
+                  }
+                />
+              )}
             </div>
           </div>
         </div>

@@ -120,7 +120,7 @@ router.put('/:commentId/users/:userId', checkUser, async (req, res, next) => {
     const user = await User.findByPk(userId)
     if (!user) return resDbNotFound(STR_USER, res)
 
-    comment.addUser(user)
+    comment.setUser(user)
 
     return resAssoc(STR_COMMENT, STR_USER, commentId, userId, res)
   } catch (error) {

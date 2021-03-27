@@ -103,9 +103,9 @@ export const getCommentDB = async (commentId) => {
 }
 
 // add comment to a task
-export const addCommentToTaskDB = async (newComment) => {
+export const addCommentToTaskDB = async (newComment, taskId) => {
   try {
-    const {data} = await axios.post(`/api/comments`, newComment)
+    const {data} = await axios.post(`/api/comments/tasks/${taskId}`, newComment)
     return data
   } catch (err) {
     console.error(err)
