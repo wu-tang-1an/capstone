@@ -50,6 +50,12 @@ section {
   font-weight: bold;
 }
 
+.title *:first-child {
+  font-weight: normal;
+  margin-right: 0.2em;
+  font-size: 0.9em;
+}
+
 .idAndCreatedBy {
   opacity: 0.6;
   font-size: 12px;

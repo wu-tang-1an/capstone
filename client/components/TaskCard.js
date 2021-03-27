@@ -1,6 +1,7 @@
 import React, {useContext, useState} from 'react'
 import {Draggable} from 'react-beautiful-dnd'
 import styled from 'styled-components'
+import moment from 'moment'
 import TaskCardDropDown from './TaskCardDropDown'
 import {AuthContext} from '../context/authContext'
 import {ColumnContext} from '../context/columnContext'
@@ -33,7 +34,7 @@ const TaskCard = ({task, index}) => {
 
   // get user from auth context, unpack task, and get task's users
   const {user} = useContext(AuthContext)
-  const {id, name} = task
+  const {id, name, createdAt} = task
   const {users} = task || []
 
   // initilaize local state to track task card badge activation
@@ -110,9 +111,14 @@ const TaskCard = ({task, index}) => {
                   <ImportantBadge isActiveBadge={isActiveBadge} />
                 </span>
                 <div className={styles.titleAndCreator}>
-                  <div className={styles.title}>{name}</div>
+                  <div className={styles.title}>
+                    <span>{`#${id}`}</span>
+                    <span>{name}</span>
+                  </div>
                   <div className={styles.idAndCreatedBy}>
-                    {`#${id} opened by ${getFullName()}`}
+                    {`opened by ${getFullName()} on ${moment(createdAt).format(
+                      'l'
+                    )}`}
                   </div>
                 </div>
               </div>
