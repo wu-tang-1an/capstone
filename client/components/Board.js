@@ -74,9 +74,6 @@ const Board = () => {
     newColumns[sourColIdx] = sourColumn
     newColumns[destColIdx] = destColumn
 
-    console.log('sourTasks: ', sourTasks)
-    console.log('destTasks: ', destTasks)
-
     setColumns(newColumns)
 
     dropUpdateDb(
