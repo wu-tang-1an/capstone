@@ -43,7 +43,7 @@ const SingleTaskExpanded = ({task, closeModal}) => {
                 closeModal()
               }}
             >
-              <span className="material-icons">keyboard_arrow_left</span>
+              <i className="material-icons">keyboard_arrow_left</i>
               <span>Back to project</span>
             </a>
           </div>

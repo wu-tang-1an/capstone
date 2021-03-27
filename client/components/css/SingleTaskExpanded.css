@@ -55,7 +55,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: flex-start;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .backToProjectView .spanContainer {
@@ -66,6 +66,10 @@
 
 .backToProjectView a {
   text-decoration: none;
+}
+
+.spanContainer i {
+  font-size: 16px;
 }
 
 .mainPanel {
@@ -123,6 +127,7 @@ textarea:focus {
   font-size: 12px;
   width: 100%;
   text-align: right;
+  opacity: 0.6;
 }
 
 .markdownLink a {
