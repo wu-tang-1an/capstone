@@ -15,15 +15,28 @@ const Comment = ({comment}) => {
 
   return (
     <div className={styles.commentContainer}>
-      <div className={styles.nameAndAvatar}>
-        <img src={imageUrl} />
-        <div className={styles.name}>{firstName}</div>
+      <div className={styles.nameAvatarDate}>
+        <div className={styles.nameAndAvatar}>
+          <img src={imageUrl} />
+          <span className={styles.name}>{firstName}</span>
+        </div>
         <div className={styles.timeAndDate}>
           {moment(createdAt, 'YYYYMMDD').fromNow()}
         </div>
       </div>
-      <div>
-        <div className={styles.commentContent}>{text}</div>
+      <div className={styles.contentAndEditDelete}>
+        <div>
+          <div className={styles.content}>{text}</div>
+        </div>
+        <div className={styles.editDelete}>
+          {/* onClick -> make comment editable, bring up save/close btns */}
+          <span>Edit</span>
+
+          <span className={styles.pipeDivide}>|</span>
+
+          {/* onClick -> fire delete comment */}
+          <span>Delete</span>
+        </div>
       </div>
     </div>
   )

@@ -1,24 +1,47 @@
 /* temporarily hidden */
 .commentContainer {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   justify-content: space-between;
-  height: 120px;
-  overflow-y: scroll;
-  width: 100%;
+  height: min-content;
+  width: auto;
   border-bottom: 1px solid lightgrey;
-  padding: 0.5em;
+  margin: 20px 0 10px 0;
+}
+
+.nameAvatarDate {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
 }
 
 .nameAndAvatar {
   display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  height: 100%;
-  width: auto;
+  align-items: center;
+  justify-content: flex-start;
+  width: min-content;
+  font-size: 0.9em;
+}
+
+.name {
+  margin-left: 0.3em;
 }
 
 .nameAndAvatar img {
-  height: 60px;
-  width: 60px;
+  height: 22px;
+  width: 22px;
+  border-radius: 50%;
+}
+
+.timeAndDate {
+  opacity: 0.6;
+  font-size: 12px;
+}
+
+.contentAndEditDelete {
+}
+
+.content {
+  font-size: 14px;
 }

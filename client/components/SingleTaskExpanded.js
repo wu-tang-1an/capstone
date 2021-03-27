@@ -27,10 +27,10 @@ const SingleTaskExpanded = ({task, closeModal}) => {
               <span className={styles.inlineBadge}>
                 <ImportantBadge isActiveBadge={isActiveBadge} />
               </span>
-              <span className={styles.taskId}>#</span>
+              <span className={styles.taskId}>{`#${id}`}</span>
               <span className={styles.taskName}>{taskName}</span>
             </div>
-            <span className={styles.creator}>Opened by </span>
+            <span className={styles.creator}>{`Opened by ${createdBy}`}</span>
             <span className={styles.lastEdited}>{`Last edit: ${moment(
               updatedAt
             ).fromNow()}`}</span>
@@ -80,7 +80,7 @@ const SingleTaskExpanded = ({task, closeModal}) => {
                 ></div>
               </div>
             )}
-            <span className={styles.markdownLink}>
+            <div className={styles.markdownLink}>
               (new to markdown?
               <a
                 href="https://www.markdownguide.org/getting-started/"
@@ -90,7 +90,7 @@ const SingleTaskExpanded = ({task, closeModal}) => {
                 {' click here for an overview'}
               </a>
               )
-            </span>
+            </div>
           </div>
           <div>
             <div className={styles.containerLabel}>Comments:</div>

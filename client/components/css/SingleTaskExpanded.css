@@ -93,7 +93,8 @@
   margin-left: 0.5em;
 }
 
-.descriptionMarkdown {
+.descriptionMarkdown,
+.commentsContainer {
   height: 200px;
   width: 400px;
   background-color: white;
@@ -118,6 +119,8 @@ textarea:focus {
 
 .markdownLink {
   font-size: 12px;
+  width: 100%;
+  text-align: right;
 }
 
 .markdownLink a {
@@ -127,7 +130,6 @@ textarea:focus {
 .commentsContainer {
   height: 200px;
   width: 400px;
-  border: 1px solid black;
   overflow-y: scroll;
   background-color: white;
 }
