@@ -43,6 +43,7 @@ const Comment = ({comment}) => {
           <textarea
             className={styles.editCommentTextarea}
             value={content}
+            ref={(input) => input && input.focus()}
             onChange={(e) => setContent(e.target.value)}
             onBlur={() => setActiveEdit(!isActiveEdit)}
           />

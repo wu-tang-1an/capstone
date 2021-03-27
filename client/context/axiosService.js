@@ -93,7 +93,8 @@ export const addCommentToTaskDB = async (newComment) => {
 // delete comment from a task
 export const deleteCommentDB = async (commentId) => {
   try {
-    await axios.delete(`/api/comments/${commentId}`)
+    const {data} = await axios.delete(`/api/comments/${commentId}`)
+    return data
   } catch (err) {
     console.error(err)
   }
