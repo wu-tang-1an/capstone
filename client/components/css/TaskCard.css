@@ -1,6 +1,7 @@
 /* ---- TaskCard ---- */
 
-.taskCardContainer {
+.taskCardContainer,
+.taskCardContainerActive {
   display: flex;
   height: min-content;
   align-items: center;
@@ -10,6 +11,10 @@
   background-color: #fff;
   border-radius: 5px;
   margin: 0.5em 0;
+}
+
+.taskCardContainerActive {
+  border: 1px solid red;
 }
 
 .titleAndCreator {

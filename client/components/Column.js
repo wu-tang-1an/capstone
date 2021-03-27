@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import React, {useState} from 'react'
 import {Droppable} from 'react-beautiful-dnd'
 import ColumnProvider from '../context/columnContext'
@@ -6,7 +7,6 @@ import styled from 'styled-components'
 import TaskCard from './TaskCard'
 import AddTaskDialog from './AddTaskDialog'
 import ColumnDropDown from './ColumnDropDown'
-
 import styles from './css/Column.css'
 
 const TaskList = styled.div``
@@ -22,10 +22,8 @@ const DivHell = ({column}) => {
   // close task dialog
   const closeTaskDialog = () => setIsAddTaskVisible(false)
 
-  // grab column data
-  const {tasks} = column
-
-  console.log('tasks is: ', tasks)
+  // grab tasks from column
+  const {tasks} = column || []
 
   return (
     <div>
@@ -36,8 +34,7 @@ const DivHell = ({column}) => {
         <div className={styles.badgeTitleDotMenu}>
           <div className={styles.badgeAndTitle}>
             <div className={styles.columnBadge}>
-              {' '}
-              {tasks && tasks.length ? tasks.length : 0}{' '}
+              {tasks && tasks.length ? tasks.length : 0}
             </div>
             <div className={styles.columnTitle}> {column.name} </div>
           </div>
@@ -46,8 +43,7 @@ const DivHell = ({column}) => {
               className="material-icons"
               onClick={() => setIsAddTaskVisible(!isAddTaskVisible)}
             >
-              {' '}
-              add{' '}
+              add
             </div>
             <div
               className="material-icons"

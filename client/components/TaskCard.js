@@ -1,10 +1,13 @@
-import React, {useContext} from 'react'
+import React, {useContext, useState} from 'react'
 import {Draggable} from 'react-beautiful-dnd'
 import styled from 'styled-components'
 import TaskCardDropDown from './TaskCardDropDown'
 import {AuthContext} from '../context/authContext'
 import {ColumnContext} from '../context/columnContext'
 import {TaskContext} from '../context/taskContext'
+import {ProjectContext} from '../context/projectContext'
+import {updateTaskDB, getColumnsDB} from '../context/axiosService'
+import ImportantBadge from './ImportantBadge'
 import styles from './css/TaskCard.css'
 
 const Container = styled.div`
@@ -27,17 +30,43 @@ const TaskCard = ({task, index}) => {
     setTaskDropDownVisible,
   } = useContext(TaskContext)
 
-  // get user from auth context
+  // get user from auth context, unpack task, and get task's users
   const {user} = useContext(AuthContext)
-
   const {id, description} = task
-
   const {users} = task || []
+
+  // initilaize local state to track task card badge activation
+  const [isActiveBadge, setActiveBadge] = useState(task.isActive)
+
+  // grab setColumns method to update columns on project context
+  const {columns, setColumns, project} = useContext(ProjectContext)
 
   // returns firstName + lastName for task card "opened by _____"
   const getFullName = () => {
     if (!users || (users && !users.length)) return ''
     return `${users[0].firstName} ${users[0].lastName}`
+  }
+
+  const activateTaskBadge = async () => {
+    const updatedTask = updateTaskDB({isActive: !isActiveBadge}, task.id)
+
+    // important! we set columns on project context
+    // so that local task state persists across
+    // drag and drop -- to do that, we need to
+    // first store the current column ORDER
+    // and rearrange our fetched columns from the db
+    const currentColumnOrder = columns.map((col) => col.id)
+
+    const fetchedColumns = await getColumnsDB(project.id)
+
+    const updatedColumns = currentColumnOrder.map((orderedId) =>
+      fetchedColumns.find((col) => col.id === orderedId)
+    )
+
+    setColumns(updatedColumns)
+
+    // then, toggle active badge
+    setActiveBadge(!isActiveBadge)
   }
 
   return (
@@ -57,8 +86,16 @@ const TaskCard = ({task, index}) => {
                 }
               />
             )}
-            <div className={styles.taskCardContainer}>
-              <div className="material-icons">error_outline</div>
+            <div
+              className={
+                isActiveBadge
+                  ? styles.taskCardContainerActive
+                  : styles.taskCardContainer
+              }
+            >
+              <span onClick={() => activateTaskBadge()}>
+                <ImportantBadge isActiveBadge={isActiveBadge} />
+              </span>
               <div className={styles.titleAndCreator}>
                 <div className={styles.title}>{description}</div>
                 <div className={styles.idAndCreatedBy}>

@@ -1,0 +1,13 @@
+.importantBadgeContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.badgeOn {
+  color: red;
+}
+
+.badgeOff {
+  color: 'inherit';
+}
