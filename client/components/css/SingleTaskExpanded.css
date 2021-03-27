@@ -101,7 +101,7 @@
 
 .descriptionMarkdown,
 .commentsContainer {
-  height: 200px;
+  height: min-content;
   width: 400px;
   background-color: white;
   border-radius: 5px;
@@ -132,11 +132,4 @@ textarea:focus {
 
 .markdownLink a {
   color: blue;
-}
-
-.commentsContainer {
-  height: 200px;
-  width: 400px;
-  overflow-y: scroll;
-  background-color: white;
 }
