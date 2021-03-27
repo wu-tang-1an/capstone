@@ -1,5 +1,9 @@
 /* ---- TaskCard ---- */
 
+section {
+  width: 100%;
+}
+
 .innerContainer,
 .innerContainerActive {
   display: flex;
@@ -18,29 +22,49 @@
   border: 1px solid red;
 }
 
+.dotMenu {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+}
+
 .taskCardContainer,
 .taskCardContainerActive {
   display: flex;
   height: min-content;
-  align-items: center;
-  justify-content: space-between;
+  align-items: flex-start;
+  justify-content: flex-start;
   width: 100%;
+  margin-top: -1em;
 }
 
 .titleAndCreator {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  margin: 0 0 0.5em 1em;
 }
 
-.dotMenuAndAvatar {
+.title {
+  font-weight: bold;
+}
+
+.idAndCreatedBy {
+  opacity: 0.6;
+  font-size: 12px;
+  line-height: 1.2em;
+}
+
+.commentsBadgeAndAvatars {
   display: flex;
-  flex-direction: column;
-  width: 15%;
+  align-items: flex-end;
+  justify-content: space-between;
+  width: 100%;
 }
 
-.dotMenuAndAvatar img {
-  height: auto;
-  width: 100%;
+.commentsBadgeAndAvatars img {
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
 }

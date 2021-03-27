@@ -78,6 +78,14 @@ const TaskCard = ({task, index}) => {
           {...provided.draggableProps}
           {...provided.dragHandleProps}
         >
+          {isTaskDropDownVisible && (
+            <TaskCardDropDown
+              task={task}
+              closeDropDown={() =>
+                setTaskDropDownVisible(!isTaskDropDownVisible)
+              }
+            />
+          )}
           <div
             className={
               isActiveBadge
@@ -86,14 +94,17 @@ const TaskCard = ({task, index}) => {
             }
           >
             <section>
-              {isTaskDropDownVisible && (
-                <TaskCardDropDown
-                  task={task}
-                  closeDropDown={() =>
+              <div className={styles.dotMenu}>
+                <i
+                  className="material-icons"
+                  onClick={() => {
+                    setDropDownTargetId(task.id)
                     setTaskDropDownVisible(!isTaskDropDownVisible)
-                  }
-                />
-              )}
+                  }}
+                >
+                  more_horiz
+                </i>
+              </div>
               <div className={styles.taskCardContainer}>
                 <span onClick={() => activateTaskBadge()}>
                   <ImportantBadge isActiveBadge={isActiveBadge} />
@@ -101,29 +112,18 @@ const TaskCard = ({task, index}) => {
                 <div className={styles.titleAndCreator}>
                   <div className={styles.title}>{name}</div>
                   <div className={styles.idAndCreatedBy}>
-                    {`# opened by ${getFullName()}`}
+                    {`#${id} opened by ${getFullName()}`}
                   </div>
-                </div>
-                <div className={styles.dotMenuAndAvatar}>
-                  <span
-                    className="material-icons"
-                    onClick={() => {
-                      setDropDownTargetId(task.id)
-                      setTaskDropDownVisible(!isTaskDropDownVisible)
-                    }}
-                  >
-                    more_horiz
-                  </span>
-                  <img src={user.imageUrl} />
                 </div>
               </div>
             </section>
-            <section>
+            <section className={styles.commentsBadgeAndAvatars}>
               <NumberOfCommentsBadge
                 numberOfComments={
                   task && task.comments ? task.comments.length : 0
                 }
               />
+              <img src={user.imageUrl} />
             </section>
           </div>
         </Container>
