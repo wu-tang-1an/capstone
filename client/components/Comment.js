@@ -1,4 +1,4 @@
-import React, {useContext} from 'react'
+import React, {useContext, useState} from 'react'
 import {AuthContext} from '../context/authContext'
 import moment from 'moment'
 import styles from './css/Comment.css'
@@ -13,31 +13,50 @@ const Comment = ({comment}) => {
   // grab user first name and avatar
   const {firstName, imageUrl} = comment.user
 
+  // initialize local state to track comment content
+  const [content, setContent] = useState(text)
+  const [isActiveEdit, setActiveEdit] = useState(false)
+
   return (
     <div className={styles.commentContainer}>
-      <div className={styles.nameAvatarDate}>
-        <div className={styles.nameAndAvatar}>
+      <div className={styles.userInfoAndContent}>
+        <div className={styles.avatarNameTime}>
           <img src={imageUrl} />
-          <span className={styles.name}>{firstName}</span>
+          <div className={styles.nameAndTime}>
+            <span className={styles.name}>{firstName}</span>
+            <span className={styles.timePosted}>
+              {moment(createdAt, 'YYYYMMDD').fromNow()}
+            </span>
+          </div>
         </div>
-        <div className={styles.timeAndDate}>
-          {moment(createdAt, 'YYYYMMDD').fromNow()}
-        </div>
+        {!isActiveEdit && (
+          <div
+            className={styles.content}
+            onClick={() => {
+              if (comment.userId === user.id) setActiveEdit(!isActiveEdit)
+            }}
+          >
+            {text}
+          </div>
+        )}
+        {isActiveEdit && (
+          <textarea
+            className={styles.editCommentTextarea}
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            onBlur={() => setActiveEdit(!isActiveEdit)}
+          />
+        )}
       </div>
-      <div className={styles.contentAndEditDelete}>
-        <div>
-          <div className={styles.content}>{text}</div>
-        </div>
+
+      {/* only render edit-delete for user's own comments */}
+      {comment.userId === user.id && (
         <div className={styles.editDelete}>
-          {/* onClick -> make comment editable, bring up save/close btns */}
-          <span>Edit</span>
-
+          <span className={styles.edit}>click comment to edit</span>
           <span className={styles.pipeDivide}>|</span>
-
-          {/* onClick -> fire delete comment */}
-          <span>Delete</span>
+          <span className={styles.deleteLink}>delete comment</span>
         </div>
-      </div>
+      )}
     </div>
   )
 }

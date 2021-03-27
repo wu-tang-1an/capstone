@@ -1,47 +1,84 @@
 /* temporarily hidden */
 .commentContainer {
   display: flex;
-  align-items: baseline;
+  flex-direction: column;
   justify-content: space-between;
   height: min-content;
   width: auto;
+  padding: 1em 0;
   border-bottom: 1px solid lightgrey;
-  margin: 20px 0 10px 0;
 }
 
-.nameAvatarDate {
+.userInfoAndContent {
   display: flex;
-  flex-direction: column;
+  align-items: flex-start;
   justify-content: space-between;
+  width: 100%;
+}
+
+.avatarNameTime {
+  display: flex;
+  justify-content: center;
   align-items: flex-start;
 }
 
-.nameAndAvatar {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  width: min-content;
-  font-size: 0.9em;
-}
-
-.name {
-  margin-left: 0.3em;
-}
-
-.nameAndAvatar img {
-  height: 22px;
-  width: 22px;
+.avatarNameTime img {
+  height: 36px;
+  width: 36px;
   border-radius: 50%;
 }
 
-.timeAndDate {
-  opacity: 0.6;
-  font-size: 12px;
+.nameAndTime {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  margin-left: 0.3em;
 }
 
-.contentAndEditDelete {
+.name {
+  font-size: 0.9em;
+}
+
+.timePosted {
+  opacity: 0.6;
+  font-size: 11px;
 }
 
 .content {
-  font-size: 14px;
+  font-size: 16px;
+  max-width: 300px;
+}
+
+.editCommentTextarea,
+.editCommentTextarea:focus {
+  width: 300px;
+  height: auto;
+  resize: none;
+  border: 1px solid lightgrey;
+  padding: 0.3em;
+}
+
+.editDelete {
+  font-size: 12px;
+  display: none;
+  align-items: baseline;
+  justify-content: flex-end;
+}
+
+.commentContainer:hover .editDelete {
+  display: flex;
+}
+
+.edit {
+  opacity: 0.6;
+}
+
+.deleteLink {
+  color: blue;
+  cursor: pointer;
+}
+
+.pipeDivide {
+  margin: 0 0.3em;
 }
