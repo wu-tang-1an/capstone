@@ -21,25 +21,41 @@ const SingleTaskExpanded = ({task, closeModal}) => {
   return (
     <div>
       <div className={styles.singleTaskContainer}>
-        <div className={styles.nameAndCreator}>
-          <div className={styles.badgeNameId}>
-            <span className={styles.inlineBadge}>
-              <ImportantBadge isActiveBadge={isActiveBadge} />
-            </span>
-            <span className={styles.taskName}>{taskName}</span>
-            <span className={styles.taskId}>{`# ${id}`}</span>
+        <div className={styles.infoBar}>
+          <div className={styles.nameAndCreator}>
+            <div className={styles.badgeNameId}>
+              <span className={styles.inlineBadge}>
+                <ImportantBadge isActiveBadge={isActiveBadge} />
+              </span>
+              <span className={styles.taskId}>#</span>
+              <span className={styles.taskName}>{taskName}</span>
+            </div>
+            <span className={styles.creator}>Opened by </span>
+            <span className={styles.lastEdited}>{`Last edit: ${moment(
+              updatedAt
+            ).fromNow()}`}</span>
           </div>
-          <span className={styles.creator}>{`Opened by ${creator}`}</span>
-          <span className={styles.lastEdited}>{`Last edit: ${moment(
-            updatedAt
-          ).fromNow()}`}</span>
+          <div className={styles.backToProjectView}>
+            <a
+              href="#"
+              className={styles.spanContainer}
+              onClick={() => {
+                closeModal()
+              }}
+            >
+              <span className="material-icons">keyboard_arrow_left</span>
+              <span>Back to project</span>
+            </a>
+          </div>
         </div>
 
         <div className={styles.mainPanel}>
           <div className={styles.descriptionContainer}>
             <div className={styles.containerLabel}>
               <span>Task description</span>
-              <span className={styles.smol}>click below to edit</span>
+              <span className={styles.smol}>
+                click below to edit | markdown enabled
+              </span>
             </div>
             {/* when markdown editor has focus, it is a textarea */}
             {activeMarkdownEditor && (
@@ -83,32 +99,6 @@ const SingleTaskExpanded = ({task, closeModal}) => {
                 <Comment key={comment.id} comment={comment} />
               ))}
             </div>
-          </div>
-          <div className={styles.updateAndDeleteBtns}>
-            <button
-              type="button"
-              name="update" /* onClick={handleUpdateTask} */
-            >
-              Update Task
-            </button>
-            <button
-              type="button"
-              name="delete" /* onClick={handleDeleteTask} */
-            >
-              Delete Task
-            </button>
-          </div>
-          <div className={styles.backToProjectView}>
-            <a
-              href="#"
-              className={styles.spanContainer}
-              onClick={() => {
-                closeModal()
-              }}
-            >
-              <span className="material-icons">keyboard_arrow_left</span>
-              <span>Back to project</span>
-            </a>
           </div>
         </div>
       </div>

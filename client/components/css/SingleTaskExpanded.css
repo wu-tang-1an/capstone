@@ -8,8 +8,16 @@
   border-radius: 5px;
 }
 
-.nameAndCreator {
+.infoBar {
   display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.nameAndCreator {
+  display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
@@ -26,6 +34,11 @@
   display: inline-flex;
 }
 
+.taskId {
+  opacity: 0.6;
+  margin-left: 0.2em;
+}
+
 .taskName {
   font-weight: bold;
   margin: 0 0.5em;
@@ -34,6 +47,23 @@
 .creator,
 .lastEdited {
   font-size: 0.8em;
+}
+
+.backToProjectView {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: 12px;
+}
+
+.backToProjectView .spanContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.backToProjectView a {
+  text-decoration: none;
 }
 
 .mainPanel {
@@ -100,50 +130,4 @@ textarea:focus {
   border: 1px solid black;
   overflow-y: scroll;
   background-color: white;
-}
-
-.updateAndDeleteBtns {
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  width: 100%;
-  margin: 1em 0;
-}
-
-.rightPanel {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  height: 100%;
-  padding: 0.5em;
-  margin-left: 0.5em;
-}
-
-.rightPanel * {
-  height: 100px;
-  width: 100%;
-  background-color: white;
-  margin: 0.3em;
-  color: black;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.backToProjectView {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-}
-
-.backToProjectView .spanContainer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.backToProjectView a {
-  text-decoration: none;
 }
