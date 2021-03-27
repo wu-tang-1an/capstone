@@ -74,6 +74,22 @@ router.get('/:columnId', checkUser, async (req, res, next) => {
   }
 })
 
+// GET single column's tasks route '/api/columns/:columnId/tasks' (AUTH USER ONLY)
+router.get('/:columnId/tasks', checkUser, async (req, res, next) => {
+  try {
+    const {columnId} = req.params
+    if (isNaN(columnId)) return resNaN(columnId, res)
+
+    const column = await Column.findByPk(columnId)
+    if (!column) return resDbNotFound(STR_COLUMN, res)
+
+    const tasks = await column.getTasks()
+    return res.json(tasks)
+  } catch (error) {
+    next(error)
+  }
+})
+
 // POST create new column route '/api/columns/' (ADMIN ONLY)
 // creates a free floating column (unassociated)
 router.post('/', checkAdmin, async (req, res, next) => {
