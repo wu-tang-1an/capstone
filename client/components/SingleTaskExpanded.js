@@ -15,12 +15,16 @@ const SingleTaskExpanded = ({task, closeModal}) => {
   // destructure comments separately to type check
   const comments = task && task.comments ? task.comments : []
 
+  // initialize taskComments above useEffect to track dependency
+  const [taskComments, setTaskComments] = useState([])
+
   // fetch task
   useEffect(() => {
     let isMounted = true
     const getTask = async () => {
       try {
         task = await fetchTaskDB(task.id)
+        setTaskComments(task.comments)
       } catch (err) {
         console.error(err)
       }
@@ -29,13 +33,12 @@ const SingleTaskExpanded = ({task, closeModal}) => {
     return () => {
       isMounted = false
     }
-  }, [comments])
+  }, [task])
 
   // then declare state and initialize with task data
   const [creator, setCreator] = useState(createdBy || '')
   const [taskName, setTaskName] = useState(name || '')
   const [taskDescription, setDescription] = useState(description || '')
-  const [taskComments, setTaskComments] = useState(comments)
   const [activeMarkdownEditor, setActiveMarkdownEditor] = useState(false)
 
   // deleteComment removes comment from db
