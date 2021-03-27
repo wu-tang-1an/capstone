@@ -1,9 +1,38 @@
 .singleTaskContainer {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
   justify-content: center;
   background-color: #ccc;
   padding: 0.5em;
+}
+
+.nameAndCreator {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.badgeNameId {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: flex-start;
+}
+
+.inlineBadge {
+  display: inline-flex;
+}
+
+.taskName {
+  font-weight: bold;
+  margin: 0 0.5em;
+}
+
+.panels {
+  display: flex;
+  flex-direction: row;
 }
 
 .leftPanel {
@@ -12,17 +41,6 @@
   align-items: center;
   justify-content: space-between;
   padding: 0.5em;
-}
-
-.nameAndCreator {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.3em;
-  color: black;
-  height: 2em;
-  width: 100%;
-  margin: 1em 0;
 }
 
 .descriptionMarkdown {
