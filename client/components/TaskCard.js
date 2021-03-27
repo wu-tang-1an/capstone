@@ -8,6 +8,7 @@ import {TaskContext} from '../context/taskContext'
 import {ProjectContext} from '../context/projectContext'
 import {updateTaskDB, getColumnsDB} from '../context/axiosService'
 import ImportantBadge from './ImportantBadge'
+import NumberOfCommentsBadge from './NumberOfCommentsBadge'
 import styles from './css/TaskCard.css'
 
 const Container = styled.div`
@@ -115,6 +116,11 @@ const TaskCard = ({task, index}) => {
                 <img src={user.imageUrl} />
               </div>
             </div>
+            <NumberOfCommentsBadge
+              numberOfComments={
+                task && task.comments ? task.comments.length : 0
+              }
+            />
           </div>
         </Container>
       )}
