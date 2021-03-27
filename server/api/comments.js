@@ -8,7 +8,12 @@ const {
   resAssoc,
   resUnassoc,
 } = require('./helper/helper')
-const {STR_COMMENTS, STR_COMMENT} = require('./helper/strings')
+const {
+  STR_COMMENTS,
+  STR_COMMENT,
+  STR_TASK,
+  STR_USER,
+} = require('./helper/strings')
 
 // GET all comments route '/api/comments' (ADMIN ONLY)
 router.get('/', checkAdmin, async (req, res, next) => {
@@ -80,6 +85,46 @@ router.put('/:commentId', checkUser, async (req, res, next) => {
     return res.json(thisComment)
   } catch (err) {
     next(err)
+  }
+})
+
+// POST add comment '/api/comments/tasks/:taskId' (AUTH USER ONLY)
+router.post('/tasks/:taskId', checkUser, async (req, res, next) => {
+  try {
+    const data = req.body
+    const {taskId} = req.params
+    if (isNaN(taskId)) return resNaN(taskId, res)
+
+    const task = await Task.findByPk(taskId)
+    if (!task) return resDbNotFound(STR_TASK, res)
+
+    const comment = await Comment.create(data)
+    comment.setTask(task)
+
+    return res.status(201).json(comment.dataValues)
+  } catch (err) {
+    console.error(err)
+  }
+})
+
+// PUT add user to comment route '/api/comments/:commentId/users/:userId' (AUTH USER ONLY)
+router.put('/:commentId/users/:userId', checkUser, async (req, res, next) => {
+  try {
+    const {commentId, userId} = req.params
+    if (isNaN(commentId)) return resNaN(commentId, res)
+    if (isNaN(userId)) return resNaN(userId, res)
+
+    const comment = await Comment.findByPk(commentId)
+    if (!comment) return resDbNotFound(STR_COMMENT, res)
+
+    const user = await User.findByPk(userId)
+    if (!user) return resDbNotFound(STR_USER, res)
+
+    comment.addUser(user)
+
+    return resAssoc(STR_COMMENT, STR_USER, commentId, userId, res)
+  } catch (error) {
+    next(error)
   }
 })
 
