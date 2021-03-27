@@ -78,7 +78,13 @@ const TaskCard = ({task, index}) => {
           {...provided.draggableProps}
           {...provided.dragHandleProps}
         >
-          <div className={styles.innerContainer}>
+          <div
+            className={
+              isActiveBadge
+                ? styles.innerContainerActive
+                : styles.innerContainer
+            }
+          >
             <section>
               {isTaskDropDownVisible && (
                 <TaskCardDropDown
@@ -88,13 +94,7 @@ const TaskCard = ({task, index}) => {
                   }
                 />
               )}
-              <div
-                className={
-                  isActiveBadge
-                    ? styles.taskCardContainerActive
-                    : styles.taskCardContainer
-                }
-              >
+              <div className={styles.taskCardContainer}>
                 <span onClick={() => activateTaskBadge()}>
                   <ImportantBadge isActiveBadge={isActiveBadge} />
                 </span>
