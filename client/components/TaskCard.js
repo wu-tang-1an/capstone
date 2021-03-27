@@ -32,7 +32,7 @@ const TaskCard = ({task, index}) => {
 
   // get user from auth context, unpack task, and get task's users
   const {user} = useContext(AuthContext)
-  const {id, description} = task
+  const {id, name} = task
   const {users} = task || []
 
   // initilaize local state to track task card badge activation
@@ -97,7 +97,7 @@ const TaskCard = ({task, index}) => {
                 <ImportantBadge isActiveBadge={isActiveBadge} />
               </span>
               <div className={styles.titleAndCreator}>
-                <div className={styles.title}>{description}</div>
+                <div className={styles.title}>{name}</div>
                 <div className={styles.idAndCreatedBy}>
                   {`#${id} opened by ${getFullName()}`}
                 </div>
