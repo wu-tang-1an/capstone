@@ -36,7 +36,7 @@ const TaskCard = ({task, index}) => {
   const {users} = task || []
 
   // initilaize local state to track task card badge activation
-  const [isActiveBadge, setActiveBadge] = useState(task.isActive)
+  const [isActiveBadge, setActiveBadge] = useState(task.isActiveBadge)
 
   // grab setColumns method to update columns on project context
   const {columns, setColumns, project} = useContext(ProjectContext)
@@ -48,7 +48,7 @@ const TaskCard = ({task, index}) => {
   }
 
   const activateTaskBadge = async () => {
-    const updatedTask = updateTaskDB({isActive: !isActiveBadge}, task.id)
+    const updatedTask = updateTaskDB({isActiveBadge: !isActiveBadge}, task.id)
 
     // important! we set columns on project context
     // so that local task state persists across

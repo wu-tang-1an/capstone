@@ -4,7 +4,7 @@ import Comment from './Comment'
 import styles from './css/SingleTaskExpanded.css'
 
 const SingleTaskExpanded = ({task, closeModal}) => {
-  const {description, createdBy, isActive, updatedAt} = task || {}
+  const {description, createdBy, isActiveBadge, updatedAt} = task || {}
 
   // destructure comments separately to type check
   const comments = task && task.comments ? task.comments : []
@@ -18,9 +18,9 @@ const SingleTaskExpanded = ({task, closeModal}) => {
     <div>
       <div className={styles.singleTaskContainer}>
         <div className={styles.leftPanel}>
-          <div className={styles.nameAndIssue}>
+          <div className={styles.nameAndCreator}>
             <span className={styles.taskName}>Task: {description}</span>
-            <span className={styles.issueType}>Created by: {createdBy}</span>
+            <span className={styles.creator}>Created by: {creator}</span>
           </div>
           <div>
             <div className={styles.containerLabel}>Description:</div>

@@ -12,7 +12,7 @@ const Task = db.define('task', {
   createdBy: {
     type: Sequelize.STRING,
   },
-  isActive: {
+  isActiveBadge: {
     type: Sequelize.BOOLEAN,
     defaultValue: false,
   },

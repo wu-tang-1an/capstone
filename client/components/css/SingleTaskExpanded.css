@@ -14,7 +14,7 @@
   padding: 0.5em;
 }
 
-.nameAndIssue {
+.nameAndCreator {
   display: flex;
   align-items: center;
   justify-content: space-between;
