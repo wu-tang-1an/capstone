@@ -9,6 +9,9 @@ const Comment = db.define('comment', {
       notEmpty: true,
     },
   },
+  editTimeStamp: {
+    type: Sequelize.DATE,
+  },
 })
 
 module.exports = Comment

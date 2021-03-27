@@ -91,6 +91,17 @@ export const deleteTaskDB = async (taskId) => {
 
 /* COMMENTS */
 
+// get a single comment
+export const getCommentDB = async (commentId) => {
+  try {
+    const {data} = await axios.get(`/api/comments/${commentId}`)
+    console.log('foundComment is: ', data)
+    return data
+  } catch (err) {
+    console.error(err)
+  }
+}
+
 // add comment to a task
 export const addCommentToTaskDB = async (newComment) => {
   try {

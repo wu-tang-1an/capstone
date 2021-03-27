@@ -28,7 +28,7 @@ const SingleTaskExpanded = ({task, closeModal}) => {
     const getTask = async () => {
       try {
         task = await fetchTaskDB(task.id)
-        setTaskComments(task.comments)
+        setTaskComments(comments)
       } catch (err) {
         console.error(err)
       }
@@ -56,6 +56,8 @@ const SingleTaskExpanded = ({task, closeModal}) => {
   const editComment = async (commentId, updateInfo) => {
     const updatedComment = await updateCommentDB(commentId, updateInfo)
 
+    console.log(moment(updatedComment.updatedAt, 'YYYYMMDD').fromNow())
+
     console.log('updatedComment is:', updatedComment)
 
     setTaskComments(
@@ -63,6 +65,8 @@ const SingleTaskExpanded = ({task, closeModal}) => {
         comment.id === updatedComment.id ? updatedComment : comment
       )
     )
+
+    return updatedComment
   }
 
   return (

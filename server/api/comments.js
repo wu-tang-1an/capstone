@@ -32,10 +32,32 @@ router.get('/', checkAdmin, async (req, res, next) => {
   }
 })
 
+// GET single comment route '/api/comments/:commentId'
+// this route needs to be open access -- no gatekeeper!
+router.get('/:commentId', async (req, res, next) => {
+  try {
+    const {commentId} = req.params
+    if (isNaN(commentId)) return resNaN(commentId, res)
+
+    const foundComment = await Comment.findByPk(+commentId, {
+      include: [
+        {
+          model: User,
+        },
+      ],
+    })
+    if (!foundComment) return resDbNotFound(STR_COMMENT, res)
+
+    res.json(foundComment)
+  } catch (err) {
+    next(err)
+  }
+})
+
 // PUT single comment route '/api/comments/:commentId' (AUTH USER ONLY)
 router.put('/:commentId', checkUser, async (req, res, next) => {
   try {
-    const {text} = req.body
+    const {text, editTimeStamp} = req.body
     const {commentId} = req.params
     if (isNaN(commentId)) return resNaN(commentId, res)
 
@@ -51,6 +73,7 @@ router.put('/:commentId', checkUser, async (req, res, next) => {
     // reassign comment and persist to db
     // then reload and return
     thisComment.text = text
+    thisComment.editTimeStamp = editTimeStamp
     await thisComment.save()
     await thisComment.reload()
 
