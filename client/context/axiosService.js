@@ -24,13 +24,41 @@ export const deleteColumnDB = async (columnId) => {
 }
 
 // update columns after drop
-export const dropUpdateDb = async (sourColId, destColId, taskId) => {
+export const dropUpdateDb = async (
+  sourColId,
+  destColId,
+  sourFETasks,
+  destFETasks,
+  taskId
+) => {
   try {
-    // update source column
+    // remove task from source column
     await axios.delete(`/api/columns/${sourColId}/tasks/${taskId}`)
 
-    // update destination column
+    // add task to destination column
     await axios.put(`/api/columns/${destColId}/tasks/${taskId}`)
+
+    // update source column task indexes by getting tasks in a column from
+    // the database, and then for each task in the database for a column,
+    // update its index from the frontend reordering of the tasks array
+    const sourDbTasks = await axios.get(`/api/columns/${sourColId}/tasks`)
+
+    sourDbTasks.data.forEach(async (task) => {
+      const sourTask = sourFETasks.find((tas) => tas.id === task.id)
+      task.index = sourTask.index
+      await axios.put(`/api/tasks/${task.id}`, task)
+    })
+
+    // update dest column task indexes by getting tasks in a column from
+    // the database, and then for each task in the database for a column,
+    // update its index from the frontend reordering of the tasks array
+    const destDbTasks = await axios.get(`/api/columns/${destColId}/tasks`)
+
+    destDbTasks.data.forEach(async (task) => {
+      const destTask = destFETasks.find((tas) => tas.id === task.id)
+      task.index = destTask.index
+      await axios.put(`/api/tasks/${task.id}`, task)
+    })
   } catch (err) {
     console.log(err)
   }
