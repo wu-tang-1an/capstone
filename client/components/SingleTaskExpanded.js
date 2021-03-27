@@ -4,14 +4,13 @@ import Comment from './Comment'
 import styles from './css/SingleTaskExpanded.css'
 
 const SingleTaskExpanded = ({task, closeModal}) => {
-  const {name, issueType, description} = task || {}
+  const {description, createdBy, isActive, updatedAt} = task || {}
 
   // destructure comments separately to type check
   const comments = task && task.comments ? task.comments : []
 
   // then declare state and initialize with task data
-  const [taskName, setName] = useState(name)
-  const [taskIssueType, setIssueType] = useState(issueType)
+  const [creator, setCreator] = useState(createdBy)
   const [taskDescription, setDescription] = useState(description)
   const [activeMarkdownEditor, setActiveMarkdownEditor] = useState(false)
 
@@ -20,10 +19,8 @@ const SingleTaskExpanded = ({task, closeModal}) => {
       <div className={styles.singleTaskContainer}>
         <div className={styles.leftPanel}>
           <div className={styles.nameAndIssue}>
-            <span className={styles.taskName}>Task: {taskName}</span>
-            <span className={styles.issueType}>
-              Issue type: {taskIssueType}
-            </span>
+            <span className={styles.taskName}>Task: {description}</span>
+            <span className={styles.issueType}>Created by: {createdBy}</span>
           </div>
           <div>
             <div className={styles.containerLabel}>Description:</div>
