@@ -3,6 +3,16 @@ import history from '../history'
 
 /* COLUMNS */
 
+// get all columns for a project
+export const getColumnsDB = async (projectId) => {
+  try {
+    const {data} = await axios.get(`/api/projects/${projectId}`)
+    return data.columns
+  } catch (err) {
+    console.error(err)
+  }
+}
+
 // add a column
 export const addColumnDB = async (newColumn) => {
   try {
@@ -42,6 +52,17 @@ export const dropUpdateDb = async (sourColId, destColId, taskId) => {
 export const addTaskToColumnDB = async (newTask, columnId) => {
   try {
     const {data} = await axios.post(`/api/tasks/columns/${columnId}`, newTask)
+
+    return data
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+// update task
+export const updateTaskDB = async (updateInfo, taskId) => {
+  try {
+    const {data} = await axios.put(`/api/tasks/${taskId}`, updateInfo)
 
     return data
   } catch (err) {
