@@ -3,10 +3,10 @@ import {AuthContext} from '../context/authContext'
 import moment from 'moment'
 import styles from './css/Comment.css'
 
-const Comment = ({comment}) => {
+const Comment = ({comment, deleteComment}) => {
   // grab comment text and user who commented from comment
   // passed in directly by SingleTaskExpanded
-  const {createdAt, text} = comment
+  const {id, createdAt, text} = comment
 
   const {user} = useContext(AuthContext)
 
@@ -55,7 +55,9 @@ const Comment = ({comment}) => {
         <div className={styles.editDelete}>
           <span className={styles.edit}>click comment to edit</span>
           <span className={styles.pipeDivide}>|</span>
-          <span className={styles.deleteLink}>delete comment</span>
+          <span className={styles.deleteLink} onClick={() => deleteComment(id)}>
+            delete comment
+          </span>
         </div>
       )}
     </div>

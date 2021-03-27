@@ -48,6 +48,16 @@ export const dropUpdateDb = async (sourColId, destColId, taskId) => {
 
 /* TASKS */
 
+// fetch a single task
+export const fetchTaskDB = async (taskId) => {
+  try {
+    const {data} = await axios.get(`/api/tasks/${taskId}`)
+    return data
+  } catch (err) {
+    console.error(err)
+  }
+}
+
 // add task to a column
 export const addTaskToColumnDB = async (newTask, columnId) => {
   try {
@@ -113,7 +123,3 @@ export const logout = async () => {
     console.error(err)
   }
 }
-
-/* SIGNUP */
-
-// create user account and bounce them back to login page

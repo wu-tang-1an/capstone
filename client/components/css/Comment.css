@@ -6,6 +6,9 @@
   height: min-content;
   width: 100%;
   padding: 1em 0;
+}
+
+.commentContainer:not(:last-child) {
   border-bottom: 1px solid lightgrey;
 }
 

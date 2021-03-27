@@ -1,22 +1,49 @@
-import React, {useState} from 'react'
+/* eslint-disable complexity */
+import React, {useState, useEffect} from 'react'
 import marked from 'marked'
 import moment from 'moment'
 import Comment from './Comment'
 import ImportantBadge from './ImportantBadge'
+import {fetchTaskDB, deleteCommentDB} from '../context/axiosService'
 import styles from './css/SingleTaskExpanded.css'
 
 const SingleTaskExpanded = ({task, closeModal}) => {
+  // destructure task
   const {id, name, description, createdBy, isActiveBadge, updatedAt} =
     task || {}
 
   // destructure comments separately to type check
   const comments = task && task.comments ? task.comments : []
 
+  // fetch task
+  useEffect(() => {
+    let isMounted = true
+    const getTask = async () => {
+      try {
+        task = await fetchTaskDB(task.id)
+      } catch (err) {
+        console.error(err)
+      }
+    }
+    getTask()
+    return () => {
+      isMounted = false
+    }
+  }, [comments])
+
   // then declare state and initialize with task data
-  const [creator, setCreator] = useState(createdBy)
-  const [taskName, setTaskName] = useState(name)
-  const [taskDescription, setDescription] = useState(description)
+  const [creator, setCreator] = useState(createdBy || '')
+  const [taskName, setTaskName] = useState(name || '')
+  const [taskDescription, setDescription] = useState(description || '')
+  const [taskComments, setTaskComments] = useState(comments)
   const [activeMarkdownEditor, setActiveMarkdownEditor] = useState(false)
+
+  // deleteComment removes comment from db
+  // local state will reload on single task view
+  const deleteComment = async (commentId) => {
+    await deleteCommentDB(commentId)
+    setTaskComments(taskComments.filter((comment) => comment.id !== commentId))
+  }
 
   return (
     <div>
@@ -30,7 +57,7 @@ const SingleTaskExpanded = ({task, closeModal}) => {
               <span className={styles.taskId}>{`#${id}`}</span>
               <span className={styles.taskName}>{taskName}</span>
             </div>
-            <span className={styles.creator}>{`Opened by ${createdBy}`}</span>
+            <span className={styles.creator}>{`Opened by ${creator}`}</span>
             <span className={styles.lastEdited}>{`Last edit: ${moment(
               updatedAt
             ).fromNow()}`}</span>
@@ -95,8 +122,12 @@ const SingleTaskExpanded = ({task, closeModal}) => {
           <div>
             <div className={styles.containerLabel}>Comments:</div>
             <div className={styles.commentsContainer}>
-              {comments.map((comment) => (
-                <Comment key={comment.id} comment={comment} />
+              {taskComments.map((comment) => (
+                <Comment
+                  key={comment.id}
+                  comment={comment}
+                  deleteComment={deleteComment}
+                />
               ))}
             </div>
           </div>
