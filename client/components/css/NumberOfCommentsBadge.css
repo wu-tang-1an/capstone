@@ -2,9 +2,6 @@
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  position: relative;
-  top: -2.2em;
-  left: -7.7em;
 }
 
 .numberOfCommentsContainer span {

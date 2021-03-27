@@ -78,49 +78,53 @@ const TaskCard = ({task, index}) => {
           {...provided.draggableProps}
           {...provided.dragHandleProps}
         >
-          <div>
-            {isTaskDropDownVisible && (
-              <TaskCardDropDown
-                task={task}
-                closeDropDown={() =>
-                  setTaskDropDownVisible(!isTaskDropDownVisible)
+          <div className={styles.innerContainer}>
+            <section>
+              {isTaskDropDownVisible && (
+                <TaskCardDropDown
+                  task={task}
+                  closeDropDown={() =>
+                    setTaskDropDownVisible(!isTaskDropDownVisible)
+                  }
+                />
+              )}
+              <div
+                className={
+                  isActiveBadge
+                    ? styles.taskCardContainerActive
+                    : styles.taskCardContainer
                 }
-              />
-            )}
-            <div
-              className={
-                isActiveBadge
-                  ? styles.taskCardContainerActive
-                  : styles.taskCardContainer
-              }
-            >
-              <span onClick={() => activateTaskBadge()}>
-                <ImportantBadge isActiveBadge={isActiveBadge} />
-              </span>
-              <div className={styles.titleAndCreator}>
-                <div className={styles.title}>{name}</div>
-                <div className={styles.idAndCreatedBy}>
-                  {`#${id} opened by ${getFullName()}`}
+              >
+                <span onClick={() => activateTaskBadge()}>
+                  <ImportantBadge isActiveBadge={isActiveBadge} />
+                </span>
+                <div className={styles.titleAndCreator}>
+                  <div className={styles.title}>{name}</div>
+                  <div className={styles.idAndCreatedBy}>
+                    {`# opened by ${getFullName()}`}
+                  </div>
+                </div>
+                <div className={styles.dotMenuAndAvatar}>
+                  <span
+                    className="material-icons"
+                    onClick={() => {
+                      setDropDownTargetId(task.id)
+                      setTaskDropDownVisible(!isTaskDropDownVisible)
+                    }}
+                  >
+                    more_horiz
+                  </span>
+                  <img src={user.imageUrl} />
                 </div>
               </div>
-              <div className={styles.dotMenuAndAvatar}>
-                <span
-                  className="material-icons"
-                  onClick={() => {
-                    setDropDownTargetId(task.id)
-                    setTaskDropDownVisible(!isTaskDropDownVisible)
-                  }}
-                >
-                  more_horiz
-                </span>
-                <img src={user.imageUrl} />
-              </div>
-            </div>
-            <NumberOfCommentsBadge
-              numberOfComments={
-                task && task.comments ? task.comments.length : 0
-              }
-            />
+            </section>
+            <section>
+              <NumberOfCommentsBadge
+                numberOfComments={
+                  task && task.comments ? task.comments.length : 0
+                }
+              />
+            </section>
           </div>
         </Container>
       )}
