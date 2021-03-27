@@ -39,9 +39,7 @@ const SingleTaskExpanded = ({task, closeModal}) => {
           <div className={styles.descriptionContainer}>
             <div className={styles.containerLabel}>
               <span>Task description</span>
-              <span className={styles.smol}>
-                <i className="material-icons">mode</i>click to edit
-              </span>
+              <span className={styles.smol}>click below to edit</span>
             </div>
             {/* when markdown editor has focus, it is a textarea */}
             {activeMarkdownEditor && (
@@ -56,13 +54,15 @@ const SingleTaskExpanded = ({task, closeModal}) => {
             )}
             {/* when markdown editor does not have focus it is a div that renders its innerHTML as markdown */}
             {!activeMarkdownEditor && (
-              <div
-                className={styles.descriptionMarkdown}
-                onClick={() => setActiveMarkdownEditor(true)}
-                dangerouslySetInnerHTML={{
-                  __html: marked(taskDescription),
-                }}
-              ></div>
+              <div className={styles.inactiveMarkdownContainer}>
+                <div
+                  className={styles.descriptionMarkdown}
+                  onClick={() => setActiveMarkdownEditor(true)}
+                  dangerouslySetInnerHTML={{
+                    __html: marked(taskDescription),
+                  }}
+                ></div>
+              </div>
             )}
             <span className={styles.markdownLink}>
               (new to markdown?

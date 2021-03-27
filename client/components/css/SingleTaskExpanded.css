@@ -54,19 +54,13 @@
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  margin: 1em 0 0.2em 0;
-}
-
-.markdownLink {
-  font-size: 12px;
-}
-
-.markdownLink a {
-  color: blue;
+  margin-top: 1em;
 }
 
 .smol {
   font-size: 12px;
+  opacity: 0.6;
+  margin-left: 0.5em;
 }
 
 .descriptionMarkdown {
@@ -76,6 +70,10 @@
   border-radius: 5px;
   padding: 1em;
   margin: 0.5em 0;
+}
+
+.descriptionMarkdown:hover {
+  cursor: auto;
 }
 
 textarea {
@@ -88,8 +86,12 @@ textarea:focus {
   resize: none;
 }
 
-.descriptionMarkdown:hover {
-  cursor: auto;
+.markdownLink {
+  font-size: 12px;
+}
+
+.markdownLink a {
+  color: blue;
 }
 
 .commentsContainer {
