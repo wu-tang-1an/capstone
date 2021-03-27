@@ -1,34 +1,13 @@
-import React, {useContext, useState, useEffect} from 'react'
+import React, {useContext} from 'react'
 import {DragDropContext} from 'react-beautiful-dnd'
 import {ProjectContext} from '../context/projectContext'
 import {dropUpdateDb} from '../context/axiosService'
 import Column from './Column'
 import AddColumnDropDown from './AddColumnDropDown'
-import DirectoryBar from './DirectoryBar'
-import axios from 'axios'
 import styles from './css/Board.css'
 
 const Board = () => {
   const {project, columns, setColumns} = useContext(ProjectContext)
-  const [organization, setOrganization] = useState({})
-
-  useEffect(() => {
-    let isMounted = true
-    const fetchOrg = async () => {
-      try {
-        const {data} = await axios.get(
-          `/api/organizations/${project.organizationId}`
-        )
-        setOrganization(data)
-      } catch (err) {
-        console.error(err)
-      }
-    }
-    if (project && project.organizationId) fetchOrg()
-    return () => {
-      isMounted = false
-    }
-  }, [project])
 
   // drop logic
   const onDragEnd = (result) => {
@@ -92,7 +71,6 @@ const Board = () => {
 
   return (
     <div>
-      <DirectoryBar project={project} organization={organization} />
       <div className={styles.boardContainer}>
         <DragDropContext onDragEnd={onDragEnd}>
           {columns.map((column) => (
