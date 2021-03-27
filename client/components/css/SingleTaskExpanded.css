@@ -4,7 +4,8 @@
   align-items: flex-start;
   justify-content: center;
   background-color: #ccc;
-  padding: 0.5em;
+  padding: 1em;
+  border-radius: 5px;
 }
 
 .nameAndCreator {
@@ -30,28 +31,55 @@
   margin: 0 0.5em;
 }
 
-.panels {
-  display: flex;
-  flex-direction: row;
+.creator,
+.lastEdited {
+  font-size: 0.8em;
 }
 
-.leftPanel {
+.mainPanel {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: 0.5em;
+}
+
+.descriptionContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.containerLabel {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin: 1em 0 0.2em 0;
+}
+
+.markdownLink {
+  font-size: 12px;
+}
+
+.markdownLink a {
+  color: blue;
+}
+
+.smol {
+  font-size: 12px;
 }
 
 .descriptionMarkdown {
   height: 200px;
   width: 400px;
-  border: 1px solid black;
+  background-color: white;
+  border-radius: 5px;
+  padding: 1em;
+  margin: 0.5em 0;
 }
 
 textarea {
   outline: none;
-  margin: 0;
   padding: 1em;
 }
 
@@ -60,8 +88,8 @@ textarea:focus {
   resize: none;
 }
 
-.containerLabel {
-  margin: 1em 0 0.2em 0;
+.descriptionMarkdown:hover {
+  cursor: auto;
 }
 
 .commentsContainer {
