@@ -169,22 +169,27 @@ const SingleTaskExpanded = ({task, closeModal}) => {
         <div>
           <div className={styles.containerLabel}>Comments</div>
           <div className={styles.commentsContainer}>
-            {taskComments.map((comment) => (
-              <Comment
-                key={comment.id}
-                comment={comment}
-                deleteComment={deleteComment}
-                editComment={editComment}
-              />
-            ))}
+            {/* sort taskComments by editTimeStamp to put in descending chronological order */}
+            {taskComments
+              .sort((a, b) => (a.editTimeStamp < b.editTimeStamp ? -1 : 1))
+              .map((comment) => (
+                <Comment
+                  key={comment.id}
+                  comment={comment}
+                  deleteComment={deleteComment}
+                  editComment={editComment}
+                />
+              ))}
             {!isAddCommentActive && (
-              <button
-                type="button"
-                className={styles.addCommentBtn}
-                onClick={() => setAddCommentActive(!isAddCommentActive)}
-              >
-                Add a comment
-              </button>
+              <div className={styles.btnContainer}>
+                <button
+                  type="button"
+                  className={styles.addCommentBtn}
+                  onClick={() => setAddCommentActive(!isAddCommentActive)}
+                >
+                  Add a comment
+                </button>
+              </div>
             )}
             {isAddCommentActive && (
               <AddCommentDialog
