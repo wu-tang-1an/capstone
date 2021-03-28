@@ -118,7 +118,7 @@ const SingleTaskExpanded = ({task, closeModal}) => {
             <span className={styles.inlineBadge}>
               <ImportantBadge isActiveBadge={isActiveBadge} />
             </span>
-            <span className={styles.taskId}>#</span>
+            <span className={styles.taskId}>{`#${id}`}</span>
             {!isActiveNameEdit && (
               <span
                 className={styles.taskName}

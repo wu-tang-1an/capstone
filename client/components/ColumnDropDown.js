@@ -7,7 +7,6 @@ import styles from './css/ColumnDropDown.css'
 // fields are actions that user can take from dropdown menu
 const fields = [
   {id: 1, content: 'Edit column name'},
-  {id: 2, content: 'Manage automation'},
   {id: 3, content: 'Delete column'},
   // more fields as necessary
 ]
