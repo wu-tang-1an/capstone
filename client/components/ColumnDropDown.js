@@ -67,16 +67,30 @@ const ColumnDropDown = ({columnId, closeDropDown}) => {
       {/* delete modal */}
       {currentField === 'Delete column' && (
         <Modal>
-          <div>
-            This action will delete the selected column, press "Delete column"
-            to continue
+          <div className={styles.modalContent}>
+            <div className={styles.deleteMessage}>
+              <strong>Warning!</strong> This action will delete the selected
+              column and <strong>all cards associated with it.</strong>
+              <br /> Press <span>Delete column</span> to continue, or cancel to
+              go back.
+            </div>
+            <div className={styles.modalBtnsContainer}>
+              <button
+                type="button"
+                className={styles.deleteBtn}
+                onClick={deleteColumn}
+              >
+                Delete Column
+              </button>
+              <button
+                type="button"
+                className={styles.cancelBtn}
+                onClick={closeDropDown}
+              >
+                Cancel
+              </button>
+            </div>
           </div>
-          <button type="button" onClick={deleteColumn}>
-            Delete column
-          </button>
-          <button type="button" onClick={closeDropDown}>
-            Close
-          </button>
         </Modal>
       )}
       {currentField === 'Edit column name' && (

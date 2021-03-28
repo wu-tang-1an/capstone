@@ -29,6 +29,15 @@
   border: transparent;
 }
 
+.deleteMessage {
+  text-align: center;
+  line-height: 1.4em;
+}
+
+.deleteMessage span {
+  color: red;
+}
+
 .deleteBtn {
   background-color: red;
   color: white;
