@@ -71,3 +71,26 @@
   background-color: rgb(172, 172, 172);
   color: white;
 }
+
+.editBtn {
+  color: white;
+  background-color: rgb(37, 134, 214);
+}
+
+.editBtn:hover {
+  background-color: rgb(35, 118, 187);
+}
+
+.newColumnName {
+  padding: 0.5em 0;
+  font-size: 16px;
+  text-align: left;
+  width: 100%;
+}
+
+.columnNameInput {
+  width: 400px;
+  border: 1px solid lightgrey;
+  border-radius: 5px;
+  padding: 0.3em 0.6em;
+}

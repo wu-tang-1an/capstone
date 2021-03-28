@@ -19,8 +19,6 @@ const Container = styled.div`
 `
 
 const TaskCard = ({task, index}) => {
-  console.log('task is: ', task)
-
   // local state management for drop down render
   const {activeTask, setActiveTask} = useContext(ColumnContext)
 

@@ -95,19 +95,33 @@ const ColumnDropDown = ({columnId, closeDropDown}) => {
       )}
       {currentField === 'Edit column name' && (
         <Modal>
-          <input type="text" onChange={(e) => setName(e.target.value)} />
-          <button
-            type="button"
-            onClick={() => {
-              editColumn()
-              closeDropDown()
-            }}
-          >
-            Save
-          </button>
-          <button type="button" onClick={closeDropDown}>
-            Close
-          </button>
+          <div className={styles.modalContent}>
+            <div className={styles.newColumnName}>New column name</div>
+            <input
+              type="text"
+              className={styles.columnNameInput}
+              onChange={(e) => setName(e.target.value)}
+            />
+            <div className={styles.modalBtnsContainer}>
+              <button
+                type="button"
+                className={styles.editBtn}
+                onClick={() => {
+                  editColumn()
+                  closeDropDown()
+                }}
+              >
+                Save
+              </button>
+              <button
+                type="button"
+                className={styles.cancelBtn}
+                onClick={closeDropDown}
+              >
+                Close
+              </button>
+            </div>
+          </div>
         </Modal>
       )}
     </div>
