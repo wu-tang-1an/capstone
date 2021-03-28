@@ -1,10 +1,11 @@
 /* eslint-disable complexity */
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import marked from 'marked'
 import moment from 'moment'
 import Comment from './Comment'
 import ImportantBadge from './ImportantBadge'
 import AddCommentDialog from './AddCommentDialog'
+import {ProjectContext} from '../context/projectContext'
 import axios from 'axios'
 import {
   fetchTaskDB,
@@ -50,11 +51,14 @@ const SingleTaskExpanded = ({task, closeModal}) => {
   const [activeMarkdownEditor, setActiveMarkdownEditor] = useState(false)
   const [isAddCommentActive, setAddCommentActive] = useState(false)
 
+  const {taskChanged, setTaskChanged} = useContext(ProjectContext)
+
   // deleteComment removes comment from db
   // local state will reload on single task view
   const deleteComment = async (commentId) => {
     await deleteCommentDB(commentId)
     setTaskComments(taskComments.filter((comment) => comment.id !== commentId))
+    setTaskChanged(!taskChanged)
   }
 
   // editComment updates comment in db, local state
@@ -65,7 +69,7 @@ const SingleTaskExpanded = ({task, closeModal}) => {
         comment.id === updatedComment.id ? updatedComment : comment
       )
     )
-
+    setTaskChanged(!taskChanged)
     return updatedComment
   }
 

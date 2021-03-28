@@ -9,6 +9,7 @@ export default function ProjectProvider({projectId, children}) {
   const [columns, setColumns] = useState([])
   const [tasks, setTasks] = useState([])
   const [comments, setComments] = useState([])
+  const [taskChanged, setTaskChanged] = useState(false)
 
   // fetch project by projectId
   useEffect(() => {
@@ -29,7 +30,7 @@ export default function ProjectProvider({projectId, children}) {
     return () => {
       isMounted = false
     }
-  }, [])
+  }, [taskChanged])
 
   const providerValue = useMemo(() => {
     return {
@@ -41,6 +42,8 @@ export default function ProjectProvider({projectId, children}) {
       setTasks,
       comments,
       setComments,
+      taskChanged,
+      setTaskChanged,
     }
   }, [project, columns, tasks, comments])
 
