@@ -7,7 +7,7 @@ import {AuthContext} from '../context/authContext'
 import {ColumnContext} from '../context/columnContext'
 import {TaskContext} from '../context/taskContext'
 import {ProjectContext} from '../context/projectContext'
-import {updateTaskDB, getColumnsDB} from '../context/axiosService'
+import {updateTaskDB} from '../context/axiosService'
 import ImportantBadge from './ImportantBadge'
 import NumberOfCommentsBadge from './NumberOfCommentsBadge'
 import styles from './css/TaskCard.css'
@@ -43,7 +43,7 @@ const TaskCard = ({task, index}) => {
   const [isActiveBadge, setActiveBadge] = useState(task.isActiveBadge)
 
   // grab setColumns method to update columns on project context
-  const {columns, setColumns, project} = useContext(ProjectContext)
+  const {refreshProjectBoard} = useContext(ProjectContext)
 
   // returns firstName + lastName for task card "opened by _____"
   const getFullName = () => {
@@ -52,22 +52,11 @@ const TaskCard = ({task, index}) => {
   }
 
   const activateTaskBadge = async () => {
-    const updatedTask = updateTaskDB({isActiveBadge: !isActiveBadge}, task.id)
+    // PUT the new active badge status in db
+    await updateTaskDB({isActiveBadge: !isActiveBadge}, task.id)
 
-    // important! we set columns on project context
-    // so that local task state persists across
-    // drag and drop -- to do that, we need to
-    // first store the current column ORDER
-    // and rearrange our fetched columns from the db
-    const currentColumnOrder = columns.map((col) => col.id)
-
-    const fetchedColumns = await getColumnsDB(project.id)
-
-    const updatedColumns = currentColumnOrder.map((orderedId) =>
-      fetchedColumns.find((col) => col.id === orderedId)
-    )
-
-    setColumns(updatedColumns)
+    // helper refreshes project board data
+    await refreshProjectBoard()
 
     // then, toggle active badge
     setActiveBadge(!isActiveBadge)

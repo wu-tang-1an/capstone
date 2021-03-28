@@ -9,6 +9,7 @@ import {ProjectContext} from '../context/projectContext'
 import axios from 'axios'
 import {
   fetchTaskDB,
+  updateTaskDB,
   getCommentDB,
   addCommentToTaskDB,
   updateCommentDB,
@@ -24,7 +25,7 @@ const SingleTaskExpanded = ({task, closeModal}) => {
   // destructure comments separately to type check
   const comments = task && task.comments ? task.comments : []
 
-  // initialize taskComments above useEffect to track dependency
+  // initialize taskComments to track local state for CRUD ops on comments
   const [taskComments, setTaskComments] = useState([])
 
   // fetch task
@@ -51,7 +52,9 @@ const SingleTaskExpanded = ({task, closeModal}) => {
   const [activeMarkdownEditor, setActiveMarkdownEditor] = useState(false)
   const [isAddCommentActive, setAddCommentActive] = useState(false)
 
-  const {taskChanged, setTaskChanged} = useContext(ProjectContext)
+  const {taskChanged, setTaskChanged, refreshProjectBoard} = useContext(
+    ProjectContext
+  )
 
   // deleteComment removes comment from db
   // local state will reload on single task view
@@ -127,16 +130,23 @@ const SingleTaskExpanded = ({task, closeModal}) => {
         <div className={styles.descriptionContainer}>
           <div className={styles.containerLabel}>
             <span>Task description</span>
-            <span className={styles.smol}>
-              click below to edit | markdown enabled
-            </span>
+            <span className={styles.smol}>click below to edit</span>
           </div>
           {/* when markdown editor has focus, it is a textarea */}
           {activeMarkdownEditor && (
             <textarea
               className={styles.descriptionMarkdown}
               ref={(input) => input && input.focus()}
-              onBlur={() => setActiveMarkdownEditor(false)}
+              onBlur={async () => {
+                // PUT task db
+                const updateInfo = {
+                  name: taskName,
+                  description: taskDescription,
+                }
+                await updateTaskDB(updateInfo, id)
+                await refreshProjectBoard()
+                setActiveMarkdownEditor(false)
+              }}
               name="description"
               value={taskDescription || ''}
               onChange={(e) => setDescription(e.target.value)}
