@@ -8,10 +8,10 @@ const DeleteTaskModal = ({deleteTask, closeModal}) => {
         This action will remove any cards associated with the column.
       </div>
       <div className={styles.modalBtnsContainer}>
-        <button type="button" name="deleteBtn" onClick={deleteTask}>
+        <button type="button" className={styles.deleteBtn} onClick={deleteTask}>
           Delete Task
         </button>
-        <button type="button" name="cancelBtn" onClick={closeModal}>
+        <button type="button" className={styles.cancelBtn} onClick={closeModal}>
           Cancel
         </button>
       </div>
