@@ -169,6 +169,14 @@ const SingleTaskExpanded = ({task, closeModal}) => {
         <div>
           <div className={styles.containerLabel}>Comments</div>
           <div className={styles.commentsContainer}>
+            {!taskComments.length && (
+              <div className={styles.noCommentMessage}>
+                <span>
+                  Be the first to comment on
+                  <strong>{task.name}</strong>
+                </span>
+              </div>
+            )}
             {/* sort taskComments by editTimeStamp to put in descending chronological order */}
             {taskComments
               .sort((a, b) => (a.editTimeStamp < b.editTimeStamp ? -1 : 1))
