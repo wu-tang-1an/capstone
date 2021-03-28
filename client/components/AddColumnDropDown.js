@@ -10,12 +10,19 @@ const AddColumnDropDown = () => {
   return (
     <div className={styles.addColumnDropDownContainer}>
       {!isDialogActive && (
-        <div className={styles.content} onClick={() => setIsDialogActive(true)}>
+        <div
+          className={styles.addIconAndName}
+          onClick={() => setIsDialogActive(true)}
+        >
           <span className="material-icons">add</span>
-          <span className={styles.description}>Add a column</span>
+          <span className={styles.name}>Add a column</span>
         </div>
       )}
-      {isDialogActive && <AddColumnDialog closeModal={closeModal} />}
+      {isDialogActive && (
+        <div className={styles.content}>
+          <AddColumnDialog closeModal={closeModal} />
+        </div>
+      )}
     </div>
   )
 }

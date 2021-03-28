@@ -14,6 +14,15 @@
   padding: 0.5em;
 }
 
-.content {
+.addIconAndName {
   display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: min-content;
+  padding: 0.3em 0;
+}
+
+.content {
+  width: 100%;
 }

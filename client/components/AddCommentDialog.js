@@ -1,5 +1,5 @@
 import React, {useState, useContext} from 'react'
-import styles from './css/AddTaskDialog.css'
+import styles from './css/AddDialogShared.css'
 import {AuthContext} from '../context/authContext'
 
 const AddCommentDialog = ({addComment, closeCommentDialog}) => {

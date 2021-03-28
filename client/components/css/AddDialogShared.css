@@ -1,4 +1,6 @@
-.addTaskDropDownContainer {
+/* ---- general shared css for add dialog components ---- */
+
+.addDropDownContainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -16,21 +18,34 @@ textarea {
   border: transparent;
   border-radius: 5px;
   margin-bottom: 0.5em;
+  resize: none;
 }
 
 .btnContainer {
   display: flex;
   width: 100%;
   align-items: baseline;
-  justify-content: space-around;
+  justify-content: space-between;
 }
 
 .btnContainer button {
-  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 49.5%;
   border-radius: 5px;
+  border: transparent;
 }
 
 .addBtn {
   background-color: rgb(95, 189, 95);
   color: white;
+}
+
+.addBtn:hover {
+  background-color: rgb(77, 155, 77);
+}
+
+.cancelBtn:hover {
+  background-color: white;
 }

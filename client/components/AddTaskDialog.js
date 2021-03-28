@@ -1,5 +1,5 @@
 import React, {useState, useContext} from 'react'
-import styles from './css/AddTaskDialog.css'
+import styles from './css/AddDialogShared.css'
 import {AuthContext} from '../context/authContext'
 import {ProjectContext} from '../context/projectContext'
 import {addTaskToColumnDB} from '../context/axiosService'
@@ -56,7 +56,7 @@ const AddTaskDialog = ({columnId, closeTaskDialog}) => {
   }
 
   return (
-    <div className={styles.addTaskDropDownContainer}>
+    <div className={styles.addDropDownContainer}>
       <textarea
         className={styles.description}
         onChange={(e) => setDescription(e.target.value)}
