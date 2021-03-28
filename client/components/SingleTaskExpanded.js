@@ -60,11 +60,6 @@ const SingleTaskExpanded = ({task, closeModal}) => {
   // editComment updates comment in db, local state
   const editComment = async (commentId, updateInfo) => {
     const updatedComment = await updateCommentDB(commentId, updateInfo)
-
-    console.log(moment(updatedComment.updatedAt, 'YYYYMMDD').fromNow())
-
-    console.log('updatedComment is:', updatedComment)
-
     setTaskComments(
       taskComments.map((comment) =>
         comment.id === updatedComment.id ? updatedComment : comment

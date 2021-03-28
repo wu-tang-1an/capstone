@@ -42,7 +42,7 @@ export const dropUpdateDb = async (sourColId, destColId, taskId) => {
     // update destination column
     await axios.put(`/api/columns/${destColId}/tasks/${taskId}`)
   } catch (err) {
-    console.log(err)
+    console.error(err)
   }
 }
 
@@ -95,7 +95,6 @@ export const deleteTaskDB = async (taskId) => {
 export const getCommentDB = async (commentId) => {
   try {
     const {data} = await axios.get(`/api/comments/${commentId}`)
-    console.log('foundComment is: ', data)
     return data
   } catch (err) {
     console.error(err)

@@ -31,8 +31,6 @@ export default function ProjectProvider({projectId, children}) {
     }
   }, [])
 
-  console.log('columns in provider are: ', columns)
-
   const providerValue = useMemo(() => {
     return {
       project,
