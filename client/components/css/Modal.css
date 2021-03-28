@@ -33,7 +33,3 @@
   margin: auto 0;
   z-index: 3;
 }
-
-.centeredModalBlock * {
-  z-index: 4;
-}

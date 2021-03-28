@@ -96,110 +96,107 @@ const SingleTaskExpanded = ({task, closeModal}) => {
   }
 
   return (
-    <div>
-      <div className={styles.singleTaskContainer}>
-        <div className={styles.infoBar}>
-          <div className={styles.nameAndCreator}>
-            <div className={styles.badgeNameId}>
-              <span className={styles.inlineBadge}>
-                <ImportantBadge isActiveBadge={isActiveBadge} />
-              </span>
-              <span className={styles.taskId}>{`#${id}`}</span>
-              <span className={styles.taskName}>{taskName}</span>
-            </div>
-            <span className={styles.creator}>{`Opened by ${creator}`}</span>
-            <span className={styles.lastEdited}>{`Last edit: ${moment(
-              updatedAt
-            ).fromNow()}`}</span>
-          </div>
-          <div className={styles.backToProjectView}>
-            <a
-              href="#"
-              className={styles.spanContainer}
-              onClick={() => {
-                closeModal()
-              }}
-            >
-              <i className="material-icons">keyboard_arrow_left</i>
-              <span>Back to project</span>
-            </a>
-          </div>
+    <div className={styles.singleTaskContainer}>
+      <section className={styles.fixedHeader}>
+        <div className={styles.backToProjectView}>
+          <a
+            href="#"
+            className={styles.spanContainer}
+            onClick={() => {
+              closeModal()
+            }}
+          >
+            <span>Back to project</span>
+          </a>
         </div>
-
-        <div className={styles.mainPanel}>
-          <div className={styles.descriptionContainer}>
-            <div className={styles.containerLabel}>
-              <span>Task description</span>
-              <span className={styles.smol}>
-                click below to edit | markdown enabled
-              </span>
-            </div>
-            {/* when markdown editor has focus, it is a textarea */}
-            {activeMarkdownEditor && (
-              <textarea
+        <div className={styles.nameAndCreator}>
+          <div className={styles.badgeNameId}>
+            <span className={styles.inlineBadge}>
+              <ImportantBadge isActiveBadge={isActiveBadge} />
+            </span>
+            <span className={styles.taskId}>#</span>
+            <span className={styles.taskName}>{taskName}</span>
+          </div>
+          <span className={styles.creator}>Opened by </span>
+          <span className={styles.lastEdited}>{`Last edit: ${moment(
+            updatedAt
+          ).fromNow()}`}</span>
+        </div>
+      </section>
+      <section className={styles.mainPanel}>
+        <div className={styles.descriptionContainer}>
+          <div className={styles.containerLabel}>
+            <span>Task description</span>
+            <span className={styles.smol}>
+              click below to edit | markdown enabled
+            </span>
+          </div>
+          {/* when markdown editor has focus, it is a textarea */}
+          {activeMarkdownEditor && (
+            <textarea
+              className={styles.descriptionMarkdown}
+              ref={(input) => input && input.focus()}
+              onBlur={() => setActiveMarkdownEditor(false)}
+              name="description"
+              value={taskDescription || ''}
+              onChange={(e) => setDescription(e.target.value)}
+            ></textarea>
+          )}
+          {/* when markdown editor does not have focus it is a div that renders its innerHTML as markdown */}
+          {!activeMarkdownEditor && (
+            <div className={styles.inactiveMarkdownContainer}>
+              <div
                 className={styles.descriptionMarkdown}
-                ref={(input) => input && input.focus()}
-                onBlur={() => setActiveMarkdownEditor(false)}
-                name="description"
-                value={taskDescription || ''}
-                onChange={(e) => setDescription(e.target.value)}
-              ></textarea>
-            )}
-            {/* when markdown editor does not have focus it is a div that renders its innerHTML as markdown */}
-            {!activeMarkdownEditor && (
-              <div className={styles.inactiveMarkdownContainer}>
-                <div
-                  className={styles.descriptionMarkdown}
-                  onClick={() => setActiveMarkdownEditor(true)}
-                  dangerouslySetInnerHTML={{
-                    __html: marked(taskDescription),
-                  }}
-                ></div>
-              </div>
-            )}
-            <div className={styles.markdownLink}>
-              (new to markdown?
-              <a
-                href="https://www.markdownguide.org/getting-started/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {' click here for an overview'}
-              </a>
-              )
+                onClick={() => setActiveMarkdownEditor(true)}
+                dangerouslySetInnerHTML={{
+                  __html: marked(taskDescription),
+                }}
+              ></div>
             </div>
-          </div>
-          <div>
-            <div className={styles.containerLabel}>Comments:</div>
-            <div className={styles.commentsContainer}>
-              {taskComments.map((comment) => (
-                <Comment
-                  key={comment.id}
-                  comment={comment}
-                  deleteComment={deleteComment}
-                  editComment={editComment}
-                />
-              ))}
-              {!isAddCommentActive && (
-                <button
-                  type="button"
-                  onClick={() => setAddCommentActive(!isAddCommentActive)}
-                >
-                  Add a comment
-                </button>
-              )}
-              {isAddCommentActive && (
-                <AddCommentDialog
-                  addComment={addComment}
-                  closeCommentDialog={() =>
-                    setAddCommentActive(!isAddCommentActive)
-                  }
-                />
-              )}
-            </div>
+          )}
+          <div className={styles.markdownLink}>
+            (new to markdown?
+            <a
+              href="https://www.markdownguide.org/getting-started/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {' click here for an overview'}
+            </a>
+            )
           </div>
         </div>
-      </div>
+        <div>
+          <div className={styles.containerLabel}>Comments</div>
+          <div className={styles.commentsContainer}>
+            {taskComments.map((comment) => (
+              <Comment
+                key={comment.id}
+                comment={comment}
+                deleteComment={deleteComment}
+                editComment={editComment}
+              />
+            ))}
+            {!isAddCommentActive && (
+              <button
+                type="button"
+                className={styles.addCommentBtn}
+                onClick={() => setAddCommentActive(!isAddCommentActive)}
+              >
+                Add a comment
+              </button>
+            )}
+            {isAddCommentActive && (
+              <AddCommentDialog
+                addComment={addComment}
+                closeCommentDialog={() =>
+                  setAddCommentActive(!isAddCommentActive)
+                }
+              />
+            )}
+          </div>
+        </div>
+      </section>
     </div>
   )
 }
