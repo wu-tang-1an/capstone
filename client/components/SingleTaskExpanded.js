@@ -51,6 +51,7 @@ const SingleTaskExpanded = ({task, closeModal}) => {
   const [taskDescription, setDescription] = useState(description || '')
   const [activeMarkdownEditor, setActiveMarkdownEditor] = useState(false)
   const [isAddCommentActive, setAddCommentActive] = useState(false)
+  const [isActiveNameEdit, setActiveNameEdit] = useState(false)
 
   const {taskChanged, setTaskChanged, refreshProjectBoard} = useContext(
     ProjectContext
@@ -118,9 +119,33 @@ const SingleTaskExpanded = ({task, closeModal}) => {
               <ImportantBadge isActiveBadge={isActiveBadge} />
             </span>
             <span className={styles.taskId}>#</span>
-            <span className={styles.taskName}>{taskName}</span>
+            {!isActiveNameEdit && (
+              <span
+                className={styles.taskName}
+                onClick={() => setActiveNameEdit(true)}
+              >
+                {taskName}
+              </span>
+            )}
+            {isActiveNameEdit && (
+              <textarea
+                className={styles.editName}
+                ref={(input) => input && input.focus()}
+                defaultValue={name}
+                onChange={(e) => setTaskName(e.target.value)}
+                onBlur={async () => {
+                  const updateInfo = {
+                    name: taskName,
+                    description: taskDescription,
+                  }
+                  await updateTaskDB(updateInfo, task.id)
+                  await refreshProjectBoard()
+                  setActiveNameEdit(false)
+                }}
+              ></textarea>
+            )}
           </div>
-          <span className={styles.creator}>Opened by </span>
+          <span className={styles.creator}>Opened by {createdBy}</span>
           <span className={styles.lastEdited}>{`Last edit: ${moment(
             updatedAt
           ).fromNow()}`}</span>

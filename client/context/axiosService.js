@@ -24,7 +24,7 @@ export const addColumnDB = async (newColumn) => {
   }
 }
 
-// delete a column and move its tasks to the previous column
+// delete a column and its associated tasks
 export const deleteColumnDB = async (columnId) => {
   try {
     await axios.delete(`/api/columns/${columnId}`)

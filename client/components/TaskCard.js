@@ -42,7 +42,7 @@ const TaskCard = ({task, index}) => {
   // initilaize local state to track task card badge activation
   const [isActiveBadge, setActiveBadge] = useState(task.isActiveBadge)
 
-  // grab setColumns method to update columns on project context
+  // grab helper to refresh data on project board after changes
   const {refreshProjectBoard} = useContext(ProjectContext)
 
   // returns firstName + lastName for task card "opened by _____"
