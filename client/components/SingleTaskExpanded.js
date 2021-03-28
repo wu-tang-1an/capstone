@@ -89,6 +89,7 @@ const SingleTaskExpanded = ({task, closeModal}) => {
       setTaskComments([...taskComments, associatedComment])
 
       // do NOT close the comment dialog -- allows the user to type multiple comments without having to repeatedly click to open the text field!
+      setTaskChanged(!taskChanged)
     } catch (err) {
       console.error(err)
     }
@@ -172,7 +173,7 @@ const SingleTaskExpanded = ({task, closeModal}) => {
               <div className={styles.noCommentMessage}>
                 <span>
                   Be the first to comment on
-                  <strong>{task.name}</strong>
+                  <strong>{` ${task.name}`}</strong>
                 </span>
               </div>
             )}
