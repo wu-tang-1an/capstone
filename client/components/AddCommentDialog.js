@@ -1,8 +1,14 @@
-import React, {useState, useContext} from 'react'
+import React, {useState, useContext, useEffect, useRef} from 'react'
 import styles from './css/AddDialogShared.css'
 import {AuthContext} from '../context/authContext'
 
 const AddCommentDialog = ({addComment, closeCommentDialog}) => {
+  // set a ref on the outermost container of the dialog to scroll into view on open
+  const containerRef = useRef(null)
+  useEffect(() => {
+    containerRef.current.scrollIntoView()
+  })
+
   // grab user from auth context
   const {user} = useContext(AuthContext)
 
@@ -22,7 +28,7 @@ const AddCommentDialog = ({addComment, closeCommentDialog}) => {
   }
 
   return (
-    <div className={styles.addCommentDropDownContainer}>
+    <div className={styles.addCommentDropDownContainer} ref={containerRef}>
       <textarea
         className={styles.description}
         onChange={(e) => setContent(e.target.value)}

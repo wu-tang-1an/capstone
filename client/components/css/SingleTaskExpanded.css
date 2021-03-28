@@ -15,6 +15,10 @@
   margin-top: 1em;
 }
 
+.addCommentBtn:hover {
+  background-color: rgb(77, 155, 77);
+}
+
 .singleTaskContainer {
   display: flex;
   flex-direction: column;
