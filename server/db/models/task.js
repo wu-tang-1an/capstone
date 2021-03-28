@@ -8,6 +8,7 @@ const Task = db.define('task', {
   },
   description: {
     type: Sequelize.TEXT,
+    defaultValue: 'This field is <strong>Markdown-enabled</strong>',
   },
   completionDate: {
     type: Sequelize.STRING,

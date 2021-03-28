@@ -19,7 +19,7 @@ import styles from './css/SingleTaskExpanded.css'
 
 const SingleTaskExpanded = ({task, closeModal}) => {
   // destructure task
-  const {id, name, description, createdBy, isActiveBadge, updatedAt} =
+  const {id, name, description, createdBy, editTimeStamp, isActiveBadge} =
     task || {}
 
   // destructure comments separately to type check
@@ -46,9 +46,9 @@ const SingleTaskExpanded = ({task, closeModal}) => {
   }, [task])
 
   // then declare state and initialize with task data
-  const [creator, setCreator] = useState(createdBy || '')
   const [taskName, setTaskName] = useState(name || '')
   const [taskDescription, setDescription] = useState(description || '')
+  const [lastEdit, setLastEdit] = useState(editTimeStamp)
   const [activeMarkdownEditor, setActiveMarkdownEditor] = useState(false)
   const [isAddCommentActive, setAddCommentActive] = useState(false)
   const [isActiveNameEdit, setActiveNameEdit] = useState(false)
@@ -134,20 +134,25 @@ const SingleTaskExpanded = ({task, closeModal}) => {
                 defaultValue={name}
                 onChange={(e) => setTaskName(e.target.value)}
                 onBlur={async () => {
+                  // get a new timeStamp for the edit
+                  const newTimeStamp = new Date()
+                  // PUT the new task in the db
                   const updateInfo = {
                     name: taskName,
                     description: taskDescription,
+                    editTimeStamp: newTimeStamp,
                   }
                   await updateTaskDB(updateInfo, task.id)
                   await refreshProjectBoard()
                   setActiveNameEdit(false)
+                  setLastEdit(newTimeStamp)
                 }}
               ></textarea>
             )}
           </div>
           <span className={styles.creator}>Opened by {createdBy}</span>
           <span className={styles.lastEdited}>{`Last edit: ${moment(
-            updatedAt
+            lastEdit
           ).fromNow()}`}</span>
         </div>
       </section>
@@ -163,14 +168,18 @@ const SingleTaskExpanded = ({task, closeModal}) => {
               className={styles.descriptionMarkdown}
               ref={(input) => input && input.focus()}
               onBlur={async () => {
+                // get a new timeStamp for the edit
+                const newTimeStamp = new Date()
                 // PUT task db
                 const updateInfo = {
                   name: taskName,
                   description: taskDescription,
+                  editTimeStamp: newTimeStamp,
                 }
                 await updateTaskDB(updateInfo, id)
                 await refreshProjectBoard()
                 setActiveMarkdownEditor(false)
+                setLastEdit(newTimeStamp)
               }}
               name="description"
               value={taskDescription || ''}
