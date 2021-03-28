@@ -139,20 +139,20 @@ const SingleTaskExpanded = ({task, closeModal}) => {
                   // PUT the new task in the db
                   const updateInfo = {
                     name: taskName,
-                    description: taskDescription,
                     editTimeStamp: newTimeStamp,
                   }
-                  await updateTaskDB(updateInfo, task.id)
+                  const updatedTask = await updateTaskDB(updateInfo, task.id)
                   await refreshProjectBoard()
                   setActiveNameEdit(false)
-                  setLastEdit(newTimeStamp)
+                  setLastEdit(updatedTask.editTimeStamp)
                 }}
               ></textarea>
             )}
           </div>
           <span className={styles.creator}>Opened by {createdBy}</span>
           <span className={styles.lastEdited}>{`Last edit: ${moment(
-            lastEdit
+            new Date(Date.parse(lastEdit)),
+            'YYYYMMDD'
           ).fromNow()}`}</span>
         </div>
       </section>
@@ -172,14 +172,13 @@ const SingleTaskExpanded = ({task, closeModal}) => {
                 const newTimeStamp = new Date()
                 // PUT task db
                 const updateInfo = {
-                  name: taskName,
                   description: taskDescription,
                   editTimeStamp: newTimeStamp,
                 }
-                await updateTaskDB(updateInfo, id)
+                const updatedTask = await updateTaskDB(updateInfo, id)
                 await refreshProjectBoard()
                 setActiveMarkdownEditor(false)
-                setLastEdit(newTimeStamp)
+                setLastEdit(updatedTask.editTimeStamp)
               }}
               name="description"
               value={taskDescription || ''}

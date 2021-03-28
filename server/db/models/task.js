@@ -16,6 +16,9 @@ const Task = db.define('task', {
   createdBy: {
     type: Sequelize.STRING,
   },
+  editTimeStamp: {
+    type: Sequelize.DATE,
+  },
   isActiveBadge: {
     type: Sequelize.BOOLEAN,
     defaultValue: false,
