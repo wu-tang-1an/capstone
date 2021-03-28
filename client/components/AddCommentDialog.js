@@ -32,6 +32,7 @@ const AddCommentDialog = ({addComment, closeCommentDialog}) => {
       <textarea
         className={styles.description}
         onChange={(e) => setContent(e.target.value)}
+        style={{border: '1px solid lightgrey', marginTop: '1em'}}
       ></textarea>
       <div className={styles.btnContainer}>
         <button
