@@ -40,9 +40,9 @@ const Board = () => {
     sourTasks.splice(source.index, 1)
 
     // assign tasks index in the array to the tasks index property
-    sourTasks.forEach((tas, index) => {
-      tas.index = index
-    })
+    for (let i = source.index; i < sourTasks.length; ++i) {
+      sourTasks[i].index = i
+    }
 
     // copy array of tasks from destination
     const destTasks =
@@ -54,9 +54,9 @@ const Board = () => {
     destTasks.splice(destination.index, 0, moveTask)
 
     // assign tasks index in the array to the tasks index property
-    destTasks.forEach((tas, index) => {
-      tas.index = index
-    })
+    for (let i = destination.index; i < destTasks.length; ++i) {
+      destTasks[i].index = i
+    }
 
     // create new source column with updated tasks array
     const sourColumn = {
