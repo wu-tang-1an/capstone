@@ -15,6 +15,9 @@ const AddTaskDialog = ({columnId, closeTaskDialog}) => {
   // get this column
   const thisColumn = columns.find((column) => column.id === columnId)
 
+  // get this tasks
+  const thisTasks = thisColumn.tasks || []
+
   // initialize local state for new task name
   const [name, setName] = useState('')
 
@@ -25,8 +28,9 @@ const AddTaskDialog = ({columnId, closeTaskDialog}) => {
     const newTask = {
       name,
       completionDate: new Date().toISOString(),
-      status: 'in-progress',
+      editTimeStamp: new Date(),
       createdBy: user.firstName + ' ' + user.lastName,
+      index: thisTasks.length ? thisTasks.length : 0,
     }
 
     try {
