@@ -133,7 +133,7 @@ const SingleTaskExpanded = ({task, closeModal}) => {
               <textarea
                 className={styles.editName}
                 ref={(input) => input && input.focus()}
-                defaultValue={name}
+                defaultValue={taskName}
                 onChange={(e) => setTaskName(e.target.value)}
                 onBlur={async () => {
                   // get a new timeStamp for the edit
@@ -145,6 +145,7 @@ const SingleTaskExpanded = ({task, closeModal}) => {
                   }
                   const updatedTask = await updateTaskDB(updateInfo, task.id)
                   await refreshProjectBoard()
+                  setTaskName(updatedTask.name)
                   setActiveNameEdit(false)
                   setLastEdit(updatedTask.editTimeStamp)
                 }}
