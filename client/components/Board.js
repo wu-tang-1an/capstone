@@ -39,6 +39,11 @@ const Board = () => {
     // remove task from source tasks array
     sourTasks.splice(source.index, 1)
 
+    // assign tasks index in the array to the tasks index property
+    for (let i = source.index; i < sourTasks.length; ++i) {
+      sourTasks[i].index = i
+    }
+
     // copy array of tasks from destination
     const destTasks =
       source.droppableId === destination.droppableId
@@ -47,6 +52,11 @@ const Board = () => {
 
     // add task to destination tasks array
     destTasks.splice(destination.index, 0, moveTask)
+
+    // assign tasks index in the array to the tasks index property
+    for (let i = destination.index; i < destTasks.length; ++i) {
+      destTasks[i].index = i
+    }
 
     // create new source column with updated tasks array
     const sourColumn = {
@@ -66,7 +76,13 @@ const Board = () => {
 
     setColumns(newColumns)
 
-    dropUpdateDb(sourColumn.id, destColumn.id, moveTask.id)
+    dropUpdateDb(
+      sourColumn.id,
+      destColumn.id,
+      sourTasks,
+      destTasks,
+      moveTask.id
+    )
   }
 
   return (

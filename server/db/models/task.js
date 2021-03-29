@@ -12,6 +12,9 @@ const Task = db.define('task', {
   createdBy: {
     type: Sequelize.STRING,
   },
+  index: {
+    type: Sequelize.INTEGER,
+  },
 })
 
 Task.prototype.getTimeLeft = function () {

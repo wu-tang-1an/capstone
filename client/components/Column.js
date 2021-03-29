@@ -22,7 +22,7 @@ const DivHell = ({column}) => {
   const closeTaskDialog = () => setIsAddTaskVisible(false)
 
   // grab column data
-  const {tasks} = column
+  const tasks = column.tasks.sort((a, b) => a.index - b.index)
 
   console.log('tasks is: ', tasks)
 
