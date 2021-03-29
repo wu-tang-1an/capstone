@@ -6,4 +6,8 @@ socket.on('connect', () => {
   console.log('Connected!')
 })
 
+socket.on('refresh-project-board', ({ignore}) => {
+  console.log('view updated! ignore: ', ignore)
+})
+
 export default socket

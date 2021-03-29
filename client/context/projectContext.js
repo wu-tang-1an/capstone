@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useMemo} from 'react'
 import {getColumnsDB} from './axiosService'
 import axios from 'axios'
+import socket from '../socket'
 
 export const ProjectContext = React.createContext()
 
@@ -39,6 +40,7 @@ export default function ProjectProvider({projectId, children}) {
     // drag and drop -- to do that, we need to
     // first store the current column ORDER
     // and rearrange our fetched columns from the db
+
     const currentColumnOrder = columns.map((col) => col.id)
 
     const fetchedColumns = await getColumnsDB(project.id)
