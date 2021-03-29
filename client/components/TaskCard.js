@@ -59,13 +59,13 @@ const TaskCard = ({task, index}) => {
       task.id
     )
 
-    // helper refreshes project board data
-    await refreshProjectBoard()
-
     // then, toggle active badge
     setActiveBadge(!isActiveBadge)
 
     socket.emit('edit-task', {ignore: socket.id, updatedTask})
+
+    // helper refreshes project board data
+    await refreshProjectBoard()
   }
 
   // receives project board-level updates on name, badge-status
@@ -79,7 +79,7 @@ const TaskCard = ({task, index}) => {
     return () => {
       isMounted = false
     }
-  }, [task])
+  })
 
   return (
     <Draggable draggableId={String(task.id)} index={index}>
