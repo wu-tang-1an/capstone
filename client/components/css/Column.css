@@ -5,10 +5,18 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  width: 355px;
+
+  /* css */
+  width: 365px;
+  max-width: 370px;
+  min-width: 365px;
+
+  /* to test */
+
+  /* width: 355px; */
   margin: 0 0.3em;
   height: 510px;
-  background-color: lightgrey;
+  background-color: lightgray;
   padding: 0.5em;
   border-radius: 5px;
 }
@@ -48,6 +56,29 @@
 
 .cardContainer {
   height: 490px;
-  width: 100%;
-  overflow-y: scroll;
+
+  width: 345px;
+  min-width: 345px;
+  max-width: 345px;
+
+  padding: 0.4em;
+  overflow: auto;
+}
+
+.card {
+  min-width: 325px;
+  max-width: 35px;
+}
+.cardContainer::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 20px;
+}
+
+.cardContainer::-webkit-scrollbar {
+  width: 6px;
+}
+
+.cardContainer::-webkit-scrollbar-thumb {
+  background-color: #d6dee1;
+  border-radius: 20px;
 }
