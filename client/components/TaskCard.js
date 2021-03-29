@@ -10,6 +10,7 @@ import {ProjectContext} from '../context/projectContext'
 import {updateTaskDB} from '../context/axiosService'
 import ImportantBadge from './ImportantBadge'
 import NumberOfCommentsBadge from './NumberOfCommentsBadge'
+import socket from '../socket'
 import styles from './css/TaskCard.css'
 
 const Container = styled.div`
@@ -51,13 +52,18 @@ const TaskCard = ({task, index}) => {
 
   const activateTaskBadge = async () => {
     // PUT the new active badge status in db
-    await updateTaskDB({isActiveBadge: !isActiveBadge}, task.id)
+    const updatedTask = await updateTaskDB(
+      {isActiveBadge: !isActiveBadge},
+      task.id
+    )
 
     // helper refreshes project board data
     await refreshProjectBoard()
 
     // then, toggle active badge
     setActiveBadge(!isActiveBadge)
+
+    socket.emit('edit-task', {ignore: socket.id, updatedTask})
   }
 
   return (

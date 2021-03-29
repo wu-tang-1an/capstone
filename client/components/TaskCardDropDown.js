@@ -2,7 +2,6 @@ import React, {useState, useContext} from 'react'
 import Modal from './Modal'
 import {ColumnContext} from '../context/columnContext'
 import DeleteTaskModal from './DeleteTaskModal'
-import SingleTaskExpanded from './SingleTaskExpanded'
 import socket from '../socket'
 import styles from './css/TaskCardDropDown.css'
 

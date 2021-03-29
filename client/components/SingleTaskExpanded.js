@@ -15,6 +15,7 @@ import {
   updateCommentDB,
   deleteCommentDB,
 } from '../context/axiosService'
+import socket from '../socket'
 import styles from './css/SingleTaskExpanded.css'
 
 const SingleTaskExpanded = ({task, closeModal}) => {
@@ -63,6 +64,7 @@ const SingleTaskExpanded = ({task, closeModal}) => {
     await deleteCommentDB(commentId)
     setTaskComments(taskComments.filter((comment) => comment.id !== commentId))
     setTaskChanged(!taskChanged)
+    socket.emit('delete-comment', {ignore: socket.id})
   }
 
   // editComment updates comment in db, local state
@@ -74,6 +76,7 @@ const SingleTaskExpanded = ({task, closeModal}) => {
       )
     )
     setTaskChanged(!taskChanged)
+    socket.emit('edit-comment', {ignore: socket.id})
     return updatedComment
   }
 
@@ -94,6 +97,11 @@ const SingleTaskExpanded = ({task, closeModal}) => {
 
       // do NOT close the comment dialog -- allows the user to type multiple comments without having to repeatedly click to open the text field!
       setTaskChanged(!taskChanged)
+
+      socket.emit('add-comment', {
+        ignore: socket.id,
+        newComment: associatedComment,
+      })
     } catch (err) {
       console.error(err)
     }
@@ -148,6 +156,7 @@ const SingleTaskExpanded = ({task, closeModal}) => {
                   setTaskName(updatedTask.name)
                   setActiveNameEdit(false)
                   setLastEdit(updatedTask.editTimeStamp)
+                  socket.emit('edit-task', {ignore: socket.id, updatedTask})
                 }}
               ></textarea>
             )}
@@ -182,6 +191,7 @@ const SingleTaskExpanded = ({task, closeModal}) => {
                 await refreshProjectBoard()
                 setActiveMarkdownEditor(false)
                 setLastEdit(updatedTask.editTimeStamp)
+                socket.emit('edit-task', {ignore: socket.id, updatedTask})
               }}
               name="description"
               value={taskDescription || ''}

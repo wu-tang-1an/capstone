@@ -35,5 +35,24 @@ module.exports = (io) => {
       console.log('received task delete')
       io.emit('task-was-deleted', {ignore})
     })
+
+    socket.on('edit-task', ({ignore, updatedTask}) => {
+      console.log('received task edit')
+      io.emit('task-was-edited', {ignore, updatedTask})
+    })
+
+    // comments ???
+    /*
+
+    socket.on('add-comment', ({ignore}) => {
+      console.log('received comment add')
+      io.emit('comment-was-added', {ignore})
+    })
+
+    socket.on('edit-comment', ({ignore}) => {
+      console.log('received comment edit')
+      io.emit('comment-was-edited', {ignore})
+    })
+    */
   })
 }

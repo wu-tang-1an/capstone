@@ -128,6 +128,37 @@ const Board = () => {
     setTaskChanged(!taskChanged)
   })
 
+  // task edits require some update work
+  socket.on('task-was-edited', ({ignore, updatedTask}) => {
+    if (socket.id === ignore) return
+
+    const updatedColumns = columns.map((column) => {
+      // get an array of taskIds for each column's tasks
+      const taskIds = column.tasks ? column.tasks.map((task) => task.id) : []
+
+      // if this column doesn't include the updated task, return the column
+      if (!taskIds.includes(updatedTask.id)) return column
+
+      // otherwise, replace the task with the updatedTask received over socket connection
+      const updatedTasks = column.tasks.map((task) =>
+        task.id === updatedTask.id ? updatedTask : task
+      )
+
+      // replace the column's task array with the updated tasks and return
+      column.tasks = updatedTasks
+      return column
+    })
+
+    // after received updated columns, set them
+    setColumns(updatedColumns)
+  })
+
+  // comments ???
+  /* socket.on('comment-was-edited', ({ignore}) => {
+    if (socket.id === ignore) return
+    setTaskChanged(!taskChanged)
+  }) */
+
   return (
     <div>
       <div className={styles.boardContainer}>
