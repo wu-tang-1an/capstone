@@ -1,6 +1,7 @@
 import React from 'react'
 import Modal from './Modal'
 import {deleteProjectDb, getOrgDb} from '../context/axiosService'
+
 import styles from './css/DeleteTaskModal.css'
 
 const DeleteProjectModal = ({
@@ -17,7 +18,7 @@ const DeleteProjectModal = ({
     const data = getOrgDb(organization.id)
 
     // update projects state
-    setProjects(data.projects)
+    setProjects(data.projects || [])
 
     closeModal()
   }
