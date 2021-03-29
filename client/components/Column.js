@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import React, {useState} from 'react'
 import {Droppable} from 'react-beautiful-dnd'
 import ColumnProvider from '../context/columnContext'
@@ -22,9 +23,8 @@ const DivHell = ({column}) => {
   const closeTaskDialog = () => setIsAddTaskVisible(false)
 
   // grab column data
-  const tasks = column.tasks.sort((a, b) => a.index - b.index)
-
-  console.log('tasks is: ', tasks)
+  const tasks =
+    column && column.tasks ? column.tasks.sort((a, b) => a.index - b.index) : []
 
   return (
     <div>
@@ -35,8 +35,7 @@ const DivHell = ({column}) => {
         <div className={styles.badgeTitleDotMenu}>
           <div className={styles.badgeAndTitle}>
             <div className={styles.columnBadge}>
-              {' '}
-              {tasks && tasks.length ? tasks.length : 0}{' '}
+              {tasks && tasks.length ? tasks.length : 0}
             </div>
             <div className={styles.columnTitle}> {column.name} </div>
           </div>
@@ -45,8 +44,7 @@ const DivHell = ({column}) => {
               className="material-icons"
               onClick={() => setIsAddTaskVisible(!isAddTaskVisible)}
             >
-              {' '}
-              add{' '}
+              add
             </div>
             <div
               className="material-icons"

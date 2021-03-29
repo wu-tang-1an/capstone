@@ -1,5 +1,5 @@
 import React, {useState, useContext} from 'react'
-import styles from './css/AddTaskDialog.css'
+import styles from './css/AddDialogShared.css'
 import {AuthContext} from '../context/authContext'
 import {ProjectContext} from '../context/projectContext'
 import {addTaskToColumnDB} from '../context/axiosService'
@@ -15,15 +15,15 @@ const AddTaskDialog = ({columnId, closeTaskDialog}) => {
   // get this column
   const thisColumn = columns.find((column) => column.id === columnId)
 
-  // initialize local state for new task description
-  const [description, setDescription] = useState('')
+  // initialize local state for new task name
+  const [name, setName] = useState('')
 
   // add task method updates db/local state before closing dialog
   const addTask = async (e) => {
     e.preventDefault()
 
     const newTask = {
-      description,
+      name,
       completionDate: new Date().toISOString(),
       status: 'in-progress',
       createdBy: user.firstName + ' ' + user.lastName,
@@ -56,16 +56,16 @@ const AddTaskDialog = ({columnId, closeTaskDialog}) => {
   }
 
   return (
-    <div className={styles.addTaskDropDownContainer}>
+    <div className={styles.addDropDownContainer}>
       <textarea
-        className={styles.description}
-        onChange={(e) => setDescription(e.target.value)}
+        className={styles.name}
+        onChange={(e) => setName(e.target.value)}
       ></textarea>
       <div className={styles.btnContainer}>
         <button
           type="button"
           className={styles.addBtn}
-          onClick={(e) => addTask(e, description)}
+          onClick={(e) => addTask(e, name)}
         >
           Add task
         </button>

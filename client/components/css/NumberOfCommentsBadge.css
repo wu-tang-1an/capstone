@@ -1,0 +1,22 @@
+.numberOfCommentsContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.numberOfCommentsContainer span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  background-color: rgb(233, 232, 232);
+  padding: 0.4em 0.6em;
+  border-radius: 5px;
+  font-size: 12px;
+  opacity: 0.6;
+}
+
+.numberOfCommentsContainer i {
+  margin-right: 0.2em;
+  font-size: 18px;
+}

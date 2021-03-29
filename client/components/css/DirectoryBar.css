@@ -1,0 +1,18 @@
+.directoryBarContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: auto;
+  height: min-content;
+  flex-wrap: nowrap;
+  font-size: 18px;
+  padding: 0 0 1em 0.3em;
+}
+
+.directoryBarContainer a:hover {
+  text-decoration: underline;
+}
+
+.divider {
+  margin: 0 0.5em;
+}

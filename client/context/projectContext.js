@@ -1,4 +1,5 @@
 import React, {useState, useEffect, useMemo} from 'react'
+import {getColumnsDB} from './axiosService'
 import axios from 'axios'
 
 export const ProjectContext = React.createContext()
@@ -9,6 +10,7 @@ export default function ProjectProvider({projectId, children}) {
   const [columns, setColumns] = useState([])
   const [tasks, setTasks] = useState([])
   const [comments, setComments] = useState([])
+  const [taskChanged, setTaskChanged] = useState(false)
 
   // fetch project by projectId
   useEffect(() => {
@@ -29,9 +31,24 @@ export default function ProjectProvider({projectId, children}) {
     return () => {
       isMounted = false
     }
-  }, [])
+  }, [taskChanged])
 
-  console.log('columns in provider are: ', columns)
+  const refreshProjectBoard = async () => {
+    // important! we set columns on project context
+    // so that local task state persists across
+    // drag and drop -- to do that, we need to
+    // first store the current column ORDER
+    // and rearrange our fetched columns from the db
+    const currentColumnOrder = columns.map((col) => col.id)
+
+    const fetchedColumns = await getColumnsDB(project.id)
+
+    const updatedColumns = currentColumnOrder.map((orderedId) =>
+      fetchedColumns.find((col) => col.id === orderedId)
+    )
+
+    setColumns(updatedColumns)
+  }
 
   const providerValue = useMemo(() => {
     return {
@@ -43,6 +60,9 @@ export default function ProjectProvider({projectId, children}) {
       setTasks,
       comments,
       setComments,
+      taskChanged,
+      setTaskChanged,
+      refreshProjectBoard,
     }
   }, [project, columns, tasks, comments])
 

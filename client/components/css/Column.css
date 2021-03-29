@@ -5,11 +5,12 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  width: 320px;
+  width: 355px;
   margin: 0 0.3em;
-  height: 100vh;
+  height: 510px;
   background-color: lightgrey;
   padding: 0.5em;
+  border-radius: 5px;
 }
 
 .badgeTitleDotMenu {
@@ -28,8 +29,8 @@
 }
 
 .columnBadge {
-  font-size: 18px;
-  padding: 0.3em;
+  font-size: 14px;
+  padding: 2px 4px;
   background-color: #fff;
   border-radius: 5px;
   margin-right: 0.5em;
@@ -37,12 +38,16 @@
 
 .newTaskAndMoreOpts {
   display: inline-flex;
-  width: 25%;
   align-items: center;
-  justify-content: right;
-  margin-right: 0.3em;
+  justify-content: flex-end;
 }
 
 .newTaskAndMoreOpts *:hover {
   cursor: pointer;
+}
+
+.cardContainer {
+  height: 490px;
+  width: 100%;
+  overflow-y: scroll;
 }

@@ -87,7 +87,6 @@ const Board = () => {
 
   return (
     <div>
-      <h2>Project: {project.name}</h2>
       <div className={styles.boardContainer}>
         <DragDropContext onDragEnd={onDragEnd}>
           {columns.map((column) => (

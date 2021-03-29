@@ -2,8 +2,7 @@
 
 .boardContainer {
   display: flex;
-  height: 100%;
+  justify-content: flex-start;
   width: 100%;
-  align-items: flex-start;
-  justify-content: center;
+  overflow-x: scroll;
 }

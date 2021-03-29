@@ -1,5 +1,5 @@
 import React, {useState, useContext} from 'react'
-import styles from './css/AddColumnDialog.css'
+import styles from './css/AddDialogShared.css'
 import {ProjectContext} from '../context/projectContext'
 import {addColumnDB} from '../context/axiosService'
 import axios from 'axios'
@@ -41,7 +41,7 @@ const AddColumnDialog = ({closeModal}) => {
   }
 
   return (
-    <div className={styles.addColumnDropDownContainer}>
+    <div className={styles.addDropDownContainer}>
       <textarea
         className={styles.description}
         onChange={(e) => setName(e.target.value)}

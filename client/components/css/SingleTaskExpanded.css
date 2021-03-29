@@ -1,39 +1,184 @@
+.btnContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.addCommentBtn {
+  border: transparent;
+  border-radius: 5px;
+  background-color: rgb(95, 189, 95);
+  color: white;
+  font-size: 14px;
+  padding: 0.5em 0.8em;
+  margin-top: 1em;
+}
+
+.addCommentBtn:hover {
+  background-color: rgb(77, 155, 77);
+}
+
 .singleTaskContainer {
+  display: flex;
+  flex-direction: column;
+  background-color: #ccc;
+  padding: 0 1em 1em 1em;
+  border-radius: 5px;
+  max-height: 80vh;
+  overflow-y: scroll;
+}
+
+.fixedHeader {
+  position: sticky;
+  top: 0;
+  padding: 1em 0;
+  background-color: #ccc;
+  z-index: 999;
+}
+
+.infoBar {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.nameAndCreator {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  margin-top: -1em;
+}
+
+.badgeNameId {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: flex-start;
+}
+
+.inlineBadge {
+  display: inline-flex;
+}
+
+.taskId {
+  opacity: 0.6;
+  margin-left: 0.2em;
+}
+
+.nameAndEditIcon {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.taskName {
+  font-weight: bold;
+  padding: 0.3em 0.4em;
+  width: max-content;
+  max-width: 250px;
+  height: min-content;
+}
+
+.taskName i {
+  visibility: hidden;
+  font-size: 18px;
+  opacity: 0.6;
+  width: min-content;
+}
+
+.taskName:hover i {
+  visibility: visible;
+}
+
+.editName {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: 3em;
+  width: auto;
+  margin-left: 0.5em;
+  padding: 0 0.3em;
+}
+
+.creator,
+.lastEdited {
+  font-size: 0.8em;
+}
+
+.backToProjectView {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  font-size: 14px;
+  position: sticky;
+  top: -1em;
+  width: 100%;
+}
+
+.backToProjectView .spanContainer {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #ccc;
-  padding: 0.5em;
+  background-color: white;
+  padding: 0.3em 0.6em;
+  border-radius: 5px;
 }
 
-.leftPanel {
+.backToProjectView a {
+  text-decoration: none;
+}
+
+.spanContainer i {
+  font-size: 16px;
+}
+
+.mainPanel {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: 0.5em;
 }
 
-.nameAndIssue {
+.descriptionContainer {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.3em;
-  color: black;
-  height: 2em;
-  width: 100%;
-  margin: 1em 0;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
 }
 
-.descriptionMarkdown {
-  height: 200px;
+.containerLabel {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-top: 1em;
+}
+
+.smol {
+  font-size: 12px;
+  opacity: 0.6;
+  margin-left: 0.5em;
+}
+
+.descriptionMarkdown,
+.commentsContainer {
+  height: min-content;
   width: 400px;
-  border: 1px solid black;
+  background-color: white;
+  border-radius: 5px;
+  padding: 1em;
+  margin: 0.5em 0;
+}
+
+.descriptionMarkdown:hover {
+  cursor: auto;
 }
 
 textarea {
   outline: none;
-  margin: 0;
   padding: 1em;
 }
 
@@ -42,60 +187,24 @@ textarea:focus {
   resize: none;
 }
 
-.containerLabel {
-  margin: 1em 0 0.2em 0;
-}
-
-.commentsContainer {
-  height: 200px;
-  width: 400px;
-  border: 1px solid black;
-  overflow-y: scroll;
-  background-color: white;
-}
-
-.updateAndDeleteBtns {
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
+.markdownLink {
+  font-size: 12px;
   width: 100%;
-  margin: 1em 0;
+  text-align: right;
+  opacity: 0.6;
 }
 
-.rightPanel {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  height: 100%;
-  padding: 0.5em;
-  margin-left: 0.5em;
+.markdownLink a {
+  color: blue;
 }
 
-.rightPanel * {
-  height: 100px;
-  width: 100%;
-  background-color: white;
-  margin: 0.3em;
-  color: black;
+.noCommentMessage {
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.backToProjectView {
   width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-}
-
-.backToProjectView .spanContainer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.backToProjectView a {
-  text-decoration: none;
+  height: 4em;
+  padding: 1em;
+  border: 1px solid lightgrey;
+  border-radius: 5px;
 }

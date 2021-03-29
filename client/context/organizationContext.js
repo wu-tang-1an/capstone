@@ -40,8 +40,6 @@ export default function OrganizationProvider({organizationId, children}) {
     }
   }, [organization, projects])
 
-  console.log('provider value is : ', providerValue)
-
   return (
     <OrganizationContext.Provider value={providerValue}>
       {children}

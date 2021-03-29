@@ -3,6 +3,16 @@ import history from '../history'
 
 /* COLUMNS */
 
+// get all columns for a project
+export const getColumnsDB = async (projectId) => {
+  try {
+    const {data} = await axios.get(`/api/projects/${projectId}`)
+    return data.columns
+  } catch (err) {
+    console.error(err)
+  }
+}
+
 // add a column
 export const addColumnDB = async (newColumn) => {
   try {
@@ -14,7 +24,7 @@ export const addColumnDB = async (newColumn) => {
   }
 }
 
-// delete a column and move its tasks to the previous column
+// delete a column and its associated tasks
 export const deleteColumnDB = async (columnId) => {
   try {
     await axios.delete(`/api/columns/${columnId}`)
@@ -60,16 +70,37 @@ export const dropUpdateDb = async (
       await axios.put(`/api/tasks/${task.id}`, task)
     })
   } catch (err) {
-    console.log(err)
+    console.error(err)
   }
 }
 
 /* TASKS */
 
+// fetch a single task
+export const fetchTaskDB = async (taskId) => {
+  try {
+    const {data} = await axios.get(`/api/tasks/${taskId}`)
+    return data
+  } catch (err) {
+    console.error(err)
+  }
+}
+
 // add task to a column
 export const addTaskToColumnDB = async (newTask, columnId) => {
   try {
     const {data} = await axios.post(`/api/tasks/columns/${columnId}`, newTask)
+
+    return data
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+// update task
+export const updateTaskDB = async (updateInfo, taskId) => {
+  try {
+    const {data} = await axios.put(`/api/tasks/${taskId}`, updateInfo)
 
     return data
   } catch (err) {
@@ -88,10 +119,30 @@ export const deleteTaskDB = async (taskId) => {
 
 /* COMMENTS */
 
-// add comment to a task
-export const addCommentToTaskDB = async (newComment) => {
+// get a single comment
+export const getCommentDB = async (commentId) => {
   try {
-    await axios.post(`/api/comments`, newComment)
+    const {data} = await axios.get(`/api/comments/${commentId}`)
+    return data
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+// add comment to a task
+export const addCommentToTaskDB = async (newComment, taskId) => {
+  try {
+    const {data} = await axios.post(`/api/comments/tasks/${taskId}`, newComment)
+    return data
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+export const updateCommentDB = async (commentId, updateInfo) => {
+  try {
+    const {data} = await axios.put(`/api/comments/${commentId}`, updateInfo)
+    return data
   } catch (err) {
     console.error(err)
   }
@@ -100,7 +151,8 @@ export const addCommentToTaskDB = async (newComment) => {
 // delete comment from a task
 export const deleteCommentDB = async (commentId) => {
   try {
-    await axios.delete(`/api/comments/${commentId}`)
+    const {data} = await axios.delete(`/api/comments/${commentId}`)
+    return data
   } catch (err) {
     console.error(err)
   }
@@ -119,7 +171,3 @@ export const logout = async () => {
     console.error(err)
   }
 }
-
-/* SIGNUP */
-
-// create user account and bounce them back to login page

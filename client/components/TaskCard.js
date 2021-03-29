@@ -1,10 +1,15 @@
-import React, {useContext} from 'react'
+import React, {useContext, useState} from 'react'
 import {Draggable} from 'react-beautiful-dnd'
 import styled from 'styled-components'
+import moment from 'moment'
 import TaskCardDropDown from './TaskCardDropDown'
 import {AuthContext} from '../context/authContext'
 import {ColumnContext} from '../context/columnContext'
 import {TaskContext} from '../context/taskContext'
+import {ProjectContext} from '../context/projectContext'
+import {updateTaskDB} from '../context/axiosService'
+import ImportantBadge from './ImportantBadge'
+import NumberOfCommentsBadge from './NumberOfCommentsBadge'
 import styles from './css/TaskCard.css'
 
 const Container = styled.div`
@@ -27,17 +32,32 @@ const TaskCard = ({task, index}) => {
     setTaskDropDownVisible,
   } = useContext(TaskContext)
 
-  // get user from auth context
+  // get user from auth context, unpack task, and get task's users
   const {user} = useContext(AuthContext)
-
-  const {id, description} = task
-
+  const {id, name, createdAt} = task
   const {users} = task || []
+
+  // initilaize local state to track task card badge activation
+  const [isActiveBadge, setActiveBadge] = useState(task.isActiveBadge)
+
+  // grab helper to refresh data on project board after changes
+  const {refreshProjectBoard} = useContext(ProjectContext)
 
   // returns firstName + lastName for task card "opened by _____"
   const getFullName = () => {
     if (!users || (users && !users.length)) return ''
     return `${users[0].firstName} ${users[0].lastName}`
+  }
+
+  const activateTaskBadge = async () => {
+    // PUT the new active badge status in db
+    await updateTaskDB({isActiveBadge: !isActiveBadge}, task.id)
+
+    // helper refreshes project board data
+    await refreshProjectBoard()
+
+    // then, toggle active badge
+    setActiveBadge(!isActiveBadge)
   }
 
   return (
@@ -48,25 +68,24 @@ const TaskCard = ({task, index}) => {
           {...provided.draggableProps}
           {...provided.dragHandleProps}
         >
-          <div>
-            {isTaskDropDownVisible && (
-              <TaskCardDropDown
-                task={task}
-                closeDropDown={() =>
-                  setTaskDropDownVisible(!isTaskDropDownVisible)
-                }
-              />
-            )}
-            <div className={styles.taskCardContainer}>
-              <div className="material-icons">error_outline</div>
-              <div className={styles.titleAndCreator}>
-                <div className={styles.title}>{description}</div>
-                <div className={styles.idAndCreatedBy}>
-                  {`#${id} opened by ${getFullName()}`}
-                </div>
-              </div>
-              <div className={styles.dotMenuAndAvatar}>
-                <span
+          {isTaskDropDownVisible && (
+            <TaskCardDropDown
+              task={task}
+              closeDropDown={() =>
+                setTaskDropDownVisible(!isTaskDropDownVisible)
+              }
+            />
+          )}
+          <div
+            className={
+              isActiveBadge
+                ? styles.innerContainerActive
+                : styles.innerContainer
+            }
+          >
+            <section>
+              <div className={styles.dotMenu}>
+                <i
                   className="material-icons"
                   onClick={() => {
                     setDropDownTargetId(task.id)
@@ -74,10 +93,33 @@ const TaskCard = ({task, index}) => {
                   }}
                 >
                   more_horiz
-                </span>
-                <img src={user.imageUrl} />
+                </i>
               </div>
-            </div>
+              <div className={styles.taskCardContainer}>
+                <span onClick={() => activateTaskBadge()}>
+                  <ImportantBadge isActiveBadge={isActiveBadge} />
+                </span>
+                <div className={styles.titleAndCreator}>
+                  <div className={styles.title}>
+                    <span>{`#${id}`}</span>
+                    <span>{name}</span>
+                  </div>
+                  <div className={styles.idAndCreatedBy}>
+                    {`opened by ${getFullName()} on ${moment(createdAt).format(
+                      'l'
+                    )}`}
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section className={styles.commentsBadgeAndAvatars}>
+              <NumberOfCommentsBadge
+                numberOfComments={
+                  task && task.comments ? task.comments.length : 0
+                }
+              />
+              <img src={user.imageUrl} />
+            </section>
           </div>
         </Container>
       )}

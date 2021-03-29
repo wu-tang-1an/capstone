@@ -8,11 +8,8 @@ const Modal = ({children}) => {
       <div className={styles.modalBackdrop}></div>
       {/* transparent full-page backdrop to situate modal content */}
       <div className={styles.transparentBlockContainer}>
-        {/* view "window" for modal */}
-        <div className={styles.centeredModalBlock}>
-          {/* modal child component rendered here */}
-          <div className={styles.modalContent}>{children}</div>
-        </div>
+        {/* view "window" for modal children */}
+        <div className={styles.centeredModalBlock}>{children}</div>
       </div>
     </div>
   )

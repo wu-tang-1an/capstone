@@ -13,3 +13,84 @@
 .fieldName:hover {
   text-decoration: underline;
 }
+
+.modalContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  padding: 2em 1em;
+  border-radius: 5px;
+  background-color: white;
+}
+
+.deleteMessage {
+  margin: 0 auto;
+  line-height: 1.2em;
+  font-size: 16px;
+}
+
+.modalBtnsContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: min-content;
+  margin-top: 1em;
+}
+
+.modalBtnsContainer button {
+  width: 49.5%;
+  border-radius: 5px;
+  border: transparent;
+}
+
+.deleteMessage {
+  text-align: center;
+  line-height: 1.4em;
+}
+
+.deleteMessage span {
+  color: red;
+}
+
+.deleteBtn {
+  background-color: red;
+  color: white;
+}
+
+.deleteBtn:hover {
+  background-color: rgb(223, 19, 19);
+}
+
+.cancelBtn {
+  background-color: lightgrey;
+}
+
+.cancelBtn:hover {
+  background-color: rgb(172, 172, 172);
+  color: white;
+}
+
+.editBtn {
+  color: white;
+  background-color: rgb(37, 134, 214);
+}
+
+.editBtn:hover {
+  background-color: rgb(35, 118, 187);
+}
+
+.newColumnName {
+  padding: 0.5em 0;
+  font-size: 16px;
+  text-align: left;
+  width: 100%;
+}
+
+.columnNameInput {
+  width: 400px;
+  border: 1px solid lightgrey;
+  border-radius: 5px;
+  padding: 0.3em 0.6em;
+}
