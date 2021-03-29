@@ -8,9 +8,14 @@ import socket from '../socket'
 import styles from './css/Board.css'
 
 const Board = () => {
-  const {project, columns, setColumns, refreshProjectBoard} = useContext(
-    ProjectContext
-  )
+  const {
+    project,
+    columns,
+    setColumns,
+    refreshProjectBoard,
+    taskChanged,
+    setTaskChanged,
+  } = useContext(ProjectContext)
 
   // drop logic
   const onDragEnd = (result) => {
@@ -89,13 +94,25 @@ const Board = () => {
 
     // broadcast drag and drop changes
     // send a payload with ignore
-    socket.emit('update', {ignore: socket.id, newColumns})
+    socket.emit('move-task', {ignore: socket.id, newColumns})
   }
 
-  socket.on('task-dnd', ({ignore, newColumns}) => {
+  // socket logic
+  socket.on('task-was-moved', ({ignore, newColumns}) => {
     // only refresh when other user actions occur
     if (socket.id === ignore) return
+    // set columns rather than trigger rerender
+    // otherwise card doesn't get its new index
+    // and card moves glitch
     setColumns(newColumns)
+  })
+  socket.on('column-was-added', ({ignore}) => {
+    if (socket.id === ignore) return
+    setTaskChanged(!taskChanged)
+  })
+  socket.on('column-was-deleted', ({ignore}) => {
+    if (socket.id === ignore) return
+    setTaskChanged(!taskChanged)
   })
 
   return (
