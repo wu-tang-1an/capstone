@@ -57,7 +57,7 @@ const DivHell = ({column}) => {
         <div className={styles.cardContainer}>
           {tasks &&
             tasks.map((task, idx) => (
-              <div key={task.id}>
+              <div key={task.id} className={styles.card}>
                 {/* check falsey idx here to only display add task dialog once, at the top of the column */}
                 {isAddTaskVisible && !idx && (
                   <AddTaskDialog

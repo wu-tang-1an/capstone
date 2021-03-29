@@ -4,10 +4,13 @@ import {ProjectContext} from '../context/projectContext'
 import {dropUpdateDb} from '../context/axiosService'
 import Column from './Column'
 import AddColumnDropDown from './AddColumnDropDown'
+import socket from '../socket'
 import styles from './css/Board.css'
 
 const Board = () => {
-  const {project, columns, setColumns} = useContext(ProjectContext)
+  const {project, columns, setColumns, refreshProjectBoard} = useContext(
+    ProjectContext
+  )
 
   // drop logic
   const onDragEnd = (result) => {
@@ -83,7 +86,17 @@ const Board = () => {
       destTasks,
       moveTask.id
     )
+
+    // broadcast drag and drop changes
+    // send a payload with ignore
+    socket.emit('update', {ignore: socket.id, newColumns})
   }
+
+  socket.on('task-dnd', ({ignore, newColumns}) => {
+    // only refresh when other user actions occur
+    if (socket.id === ignore) return
+    setColumns(newColumns)
+  })
 
   return (
     <div>
