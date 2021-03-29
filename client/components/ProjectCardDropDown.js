@@ -1,5 +1,4 @@
 import React, {useState} from 'react'
-import axios from 'axios'
 import Modal from './Modal'
 import styles from './css/TaskCardDropDown.css'
 import DeleteProjectModal from './DeleteProjectModal'
