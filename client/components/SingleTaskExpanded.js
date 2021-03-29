@@ -108,28 +108,36 @@ const SingleTaskExpanded = ({task, closeModal}) => {
   }
 
   // socket comment logic for realtime local updates
-  socket.on('comment-was-added', ({ignore, newComment}) => {
-    if (socket.id === ignore) return
-    setTaskComments(
-      [...taskComments, newComment].sort((a, b) =>
-        a.editTimeStamp < b.editTimeStamp ? -1 : 1
+  useEffect(() => {
+    let isMounted = true
+    socket.on('comment-was-added', ({ignore, newComment}) => {
+      if (socket.id === ignore) return
+      setTaskComments(
+        [...taskComments, newComment].sort((a, b) =>
+          a.editTimeStamp < b.editTimeStamp ? -1 : 1
+        )
       )
-    )
-    setTaskChanged(!taskChanged)
-  })
-  socket.on('comment-was-deleted', ({ignore, commentId}) => {
-    if (socket.id === ignore) return
-    setTaskComments(taskComments.filter((comment) => comment.id !== commentId))
-    setTaskChanged(!taskChanged)
-  })
-  socket.on('comment-was-edited', ({ignore, updatedComment}) => {
-    if (socket.id === ignore) return
-    setTaskComments(
-      taskComments.map((comment) =>
-        comment.id === updatedComment.id ? updatedComment : comment
+      setTaskChanged(!taskChanged)
+    })
+    socket.on('comment-was-deleted', ({ignore, commentId}) => {
+      if (socket.id === ignore) return
+      setTaskComments(
+        taskComments.filter((comment) => comment.id !== commentId)
       )
-    )
-    setTaskChanged(!taskChanged)
+      setTaskChanged(!taskChanged)
+    })
+    socket.on('comment-was-edited', ({ignore, updatedComment}) => {
+      if (socket.id === ignore) return
+      setTaskComments(
+        taskComments.map((comment) =>
+          comment.id === updatedComment.id ? updatedComment : comment
+        )
+      )
+      setTaskChanged(!taskChanged)
+    })
+    return () => {
+      isMounted = false
+    }
   })
 
   return (
