@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom'
 import ProjectCard from './ProjectCard'
 import UserCard from './UserCard'
 import styles from './css/SingleOrganization.css'
+import ProjectDropDown from './ProjectDropDown'
 
 const SingleOrganization = ({match}) => {
   // grab orgId from match
@@ -66,7 +67,10 @@ const SingleOrganization = ({match}) => {
             <div className={styles.projectList}>
               {projects &&
                 projects.map((project) => (
-                  <ProjectCard key={project.id} project={project} />
+                  <div key={project.id}>
+                    <ProjectDropDown project={project} />
+                    <ProjectCard project={project} />
+                  </div>
                 ))}
             </div>
           </div>
