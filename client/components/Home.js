@@ -7,6 +7,20 @@ const Home = () => {
 
   console.log('user is: ', user)
 
+  if (
+    user.firstName === 'Add First Name' &&
+    user.lastName === 'Add Last Name'
+  ) {
+    return (
+      <div className={styles.homeContainer}>
+        <div className={styles.welcome}>
+          <span>Welcome!</span>
+        </div>
+        <div className={styles.myFeed}></div>
+        {/* chat component here */}
+      </div>
+    )
+  }
   return (
     <div className={styles.homeContainer}>
       <div className={styles.welcome}>
