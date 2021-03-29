@@ -2,11 +2,18 @@ import React, {useState, useContext} from 'react'
 import styles from './css/AddDialogShared.css'
 import {ProjectContext} from '../context/projectContext'
 import {addColumnDB} from '../context/axiosService'
+import socket from '../socket'
 import axios from 'axios'
 
 const AddColumnDialog = ({closeModal}) => {
   // grab project and its columns and setters from project context
-  const {project, columns, setColumns} = useContext(ProjectContext)
+  const {
+    project,
+    columns,
+    setColumns,
+    taskChanged,
+    setTaskChanged,
+  } = useContext(ProjectContext)
 
   // initialize local state for new column name
   const [name, setName] = useState('')
@@ -38,6 +45,8 @@ const AddColumnDialog = ({closeModal}) => {
     } catch (err) {
       console.error(err)
     }
+
+    socket.emit('add-column', {ignore: socket.id})
   }
 
   return (
