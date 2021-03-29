@@ -1,8 +1,7 @@
 import React, {useState} from 'react'
-import Modal from './Modal'
 import styles from './css/TaskCardDropDown.css'
 import DeleteProjectModal from './DeleteProjectModal'
-import {deleteProjectDb, getOrgDb} from '../context/axiosService'
+// import {deleteProjectDb, getOrgDb} from '../context/axiosService'
 
 const fields = [
   {id: 1, type: 'Edit'},
@@ -45,19 +44,6 @@ const DropDownContainer = ({
 
   const closeModal = () => setActiveField('')
 
-  const deleteProject = () => {
-    // delete project from db
-    deleteProjectDb(project.id)
-
-    // get new organization info from db
-    const data = getOrgDb(organization.id)
-
-    // update projects state
-    setProjects(data.projects)
-
-    closeModal()
-  }
-
   const handleSelectOption = (option) => {
     // handle 'Delete' selection
     if (option === 'Delete') return setActiveField(option)
@@ -83,12 +69,12 @@ const DropDownContainer = ({
       </div>
       <div className={styles.arrowDown}></div>
       {activeField === 'Delete' && (
-        <Modal>
-          <DeleteProjectModal
-            deleteProject={deleteProject}
-            closeModal={closeModal}
-          />
-        </Modal>
+        <DeleteProjectModal
+          project={project}
+          organization={organization}
+          setProjects={setProjects}
+          closeModal={closeModal}
+        />
       )}
     </div>
   )
