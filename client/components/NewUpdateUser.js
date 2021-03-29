@@ -1,6 +1,7 @@
 import React, {useContext, useState} from 'react'
 import history from '../history'
 import {AuthContext} from '../context/authContext'
+import styles from '../components/css/NewUpdateUser.css'
 import axios from 'axios'
 
 const NewUpdateUser = () => {
@@ -39,59 +40,63 @@ const NewUpdateUser = () => {
 
   return (
     <div>
-      <h1>Update Profile</h1>
-      <div>
-        <form onSubmit={handleSubmit}>
+      <div className={styles.NewUpdateUserContainer}>
+        <h1>Update Profile</h1>
+        <div className={styles.NewUpdateUserContainerRight}>
           <div>
-            <label>
-              First Name:
-              <input
-                type="text"
-                name="firstName"
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-              />
-            </label>
-          </div>
+            <form className={styles.flexCol} onSubmit={handleSubmit}>
+              <div className={styles.formGroup}>
+                <label className={styles.formLabel}>First Name</label>
+                <input
+                  className={styles.formControl}
+                  type="text"
+                  name="firstName"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                />
+              </div>
 
-          <div>
-            <label>
-              Last Name:
-              <input
-                type="text"
-                name="lastName"
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
-              />
-            </label>
-          </div>
+              <div className={styles.formGroup}>
+                <label className={styles.formLabel}>Last Name </label>
+                <input
+                  className={styles.formControl}
+                  type="text"
+                  name="lastName"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                />
+              </div>
 
-          <div>
-            <label>
-              Email:
-              <input
-                type="text"
-                name="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </label>
-          </div>
+              <div className={styles.formGroup}>
+                <label className={styles.formLabel}>Email </label>
+                <input
+                  className={styles.formControl}
+                  type="text"
+                  name="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
 
-          <div>
-            <label>
-              Password:
-              <input
-                name="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </label>
-          </div>
+              <div className={styles.formGroup}>
+                <label className={styles.formLabel}>Password </label>
+                <input
+                  className={styles.formControl}
+                  name="password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
 
-          <input type="submit" value="Submit" />
-        </form>
+              <input
+                className={styles.formControl}
+                type="submit"
+                value="Submit"
+              />
+            </form>
+          </div>
+        </div>
       </div>
     </div>
   )
