@@ -1,7 +1,8 @@
 import React, {useState} from 'react'
-import styles from './css/TaskCardDropDown.css'
 import DeleteProjectModal from './DeleteProjectModal'
 import EditProjectModal from './EditProjectModal'
+
+import styles from './css/TaskCardDropDown.css'
 
 const fields = [
   {id: 1, type: 'Edit'},
@@ -44,14 +45,6 @@ const DropDownContainer = ({
 
   const closeModal = () => setActiveField('')
 
-  const handleSelectOption = (option) => {
-    // handle 'Delete' selection
-    if (option === 'Delete') return setActiveField(option)
-
-    // otherwise, handle 'Edit' selection
-    setActiveField(option)
-  }
-
   return (
     <div>
       <div className={styles.taskCardDropDownContainer}>
@@ -60,7 +53,7 @@ const DropDownContainer = ({
           <div
             key={field.id}
             className={styles.dropDownField}
-            onClick={() => handleSelectOption(field.type)}
+            onClick={() => setActiveField(field.type)}
           >
             <span className={styles.fieldName}>{field.type}</span>
             <span className="arrow material-icons">keyboard_arrow_right</span>
