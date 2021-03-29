@@ -6,7 +6,7 @@ import history from '../history'
 // get a single org
 export const getOrgDb = async (orgId) => {
   try {
-    const {data} = await axios.get(`/api/prganizations/${orgId}`)
+    const {data} = await axios.get(`/api/organizations/${orgId}`)
     return data
   } catch (err) {
     console.error(err)
