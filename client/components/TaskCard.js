@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react'
+import React, {useContext, useState, useEffect} from 'react'
 import {Draggable} from 'react-beautiful-dnd'
 import styled from 'styled-components'
 import moment from 'moment'
@@ -42,7 +42,9 @@ const TaskCard = ({task, index}) => {
   const [isActiveBadge, setActiveBadge] = useState(task.isActiveBadge)
 
   // grab helper to refresh data on project board after changes
-  const {refreshProjectBoard} = useContext(ProjectContext)
+  const {refreshProjectBoard, taskChanged, setTaskChanged} = useContext(
+    ProjectContext
+  )
 
   // returns firstName + lastName for task card "opened by _____"
   const getFullName = () => {
@@ -68,10 +70,16 @@ const TaskCard = ({task, index}) => {
 
   // receives project board-level updates on name, badge-status
   // and number of comments
-  socket.on('task-was-edited', ({ignore, updatedTask}) => {
-    if (socket.id === ignore) return
-    setActiveTask(updatedTask)
-  })
+  useEffect(() => {
+    let isMounted = true
+    socket.on('task-was-edited', ({ignore, updatedTask}) => {
+      if (socket.id === ignore) return
+      setTaskChanged(!taskChanged)
+    })
+    return () => {
+      isMounted = false
+    }
+  }, [task])
 
   return (
     <Draggable draggableId={String(task.id)} index={index}>

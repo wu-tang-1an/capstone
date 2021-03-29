@@ -41,7 +41,8 @@ const TaskCardDropDown = ({task}) => {
 
       const {data} = await axios.get(`/api/columns/${task.columnId}`)
 
-      // the next two calls look inefficient but are absolutely necessary due to an unknown render issue that prevents us from setting tasks directly without first rendering the new column
+      // the next two calls look inefficient but are absolutely necessary
+      // to avoid memory leaks, we set columns before resetting tasks
 
       setColumns(
         columns.map((column) => (column.id === data.id ? data : column))

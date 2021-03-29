@@ -189,6 +189,7 @@ const SingleTaskExpanded = ({task, closeModal}) => {
                   setTaskName(updatedTask.name)
                   setActiveNameEdit(false)
                   setLastEdit(updatedTask.editTimeStamp)
+                  socket.emit('edit-task', {ignore: socket.id, updatedTask})
                 }}
               ></textarea>
             )}
@@ -223,6 +224,7 @@ const SingleTaskExpanded = ({task, closeModal}) => {
                 await refreshProjectBoard()
                 setActiveMarkdownEditor(false)
                 setLastEdit(updatedTask.editTimeStamp)
+                socket.emit('edit-task', {ignore: socket.id, updatedTask})
               }}
               name="description"
               value={taskDescription || ''}
