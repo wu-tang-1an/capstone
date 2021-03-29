@@ -3,6 +3,7 @@ import axios from 'axios'
 import Modal from './Modal'
 import styles from './css/TaskCardDropDown.css'
 import DeleteProjectModal from './DeleteProjectModal'
+import {deleteProjectDb, getOrgDb} from '../context/axiosService'
 
 const fields = [
   {id: 1, type: 'Edit'},
@@ -10,7 +11,7 @@ const fields = [
   // more fields as necessary
 ]
 
-const ProjectCardDropDown = ({project, setOrganization}) => {
+const ProjectCardDropDown = ({project, organization, setProjects}) => {
   const [isDropDownActive, setIsDropDownActive] = useState(false)
 
   const closeDropDown = () => setIsDropDownActive(false)
@@ -20,7 +21,8 @@ const ProjectCardDropDown = ({project, setOrganization}) => {
       {isDropDownActive && (
         <DropDownContainer
           project={project}
-          setOrganization={setOrganization}
+          organization={organization}
+          setProjects={setProjects}
           closeDropDown={closeDropDown}
         />
       )}
@@ -34,21 +36,26 @@ const ProjectCardDropDown = ({project, setOrganization}) => {
   )
 }
 
-const DropDownContainer = ({project, setOrganization, closeDropDown}) => {
+const DropDownContainer = ({
+  project,
+  organization,
+  setProjects,
+  closeDropDown,
+}) => {
   const [activeField, setActiveField] = useState('')
 
   const closeModal = () => setActiveField('')
 
-  const deleteProject = async () => {
-    try {
-      // delete project from db
-      await axios.delete(`/api/projects/${project.id}`)
+  const deleteProject = () => {
+    // delete project from db
+    deleteProjectDb(project.id)
 
-      // const {data} = await axios.get(`/api/`)
-      // setOrganization(data)
-    } catch (err) {
-      console.error(err)
-    }
+    // get new organization info from db
+    const data = getOrgDb(organization.id)
+
+    // update projects state
+    setProjects(data.projects)
+
     closeModal()
   }
 

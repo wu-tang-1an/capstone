@@ -3,13 +3,14 @@ import {Link} from 'react-router-dom'
 import ProjectCardDropDown from './ProjectCardDropDown'
 import styles from './css/ProjectCard.css'
 
-const ProjectCard = ({project, setOrganization}) => {
+const ProjectCard = ({project, organization, setProjects}) => {
   const {id, name, description, imageUrl, status} = project
   return (
     <div>
       <ProjectCardDropDown
         project={project}
-        setOrganization={setOrganization}
+        organization={organization}
+        setProjects={setProjects}
       />
       <Link key={id} to={`/projects/${id}`}>
         <div className={styles.projectCardContainer}>

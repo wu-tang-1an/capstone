@@ -69,7 +69,8 @@ const SingleOrganization = ({match}) => {
                   <div key={project.id}>
                     <ProjectCard
                       project={project}
-                      setOrganization={setOrganization}
+                      organization={organization}
+                      setProjects={setProjects}
                     />
                   </div>
                 ))}
