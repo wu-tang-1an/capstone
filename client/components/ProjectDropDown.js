@@ -4,11 +4,19 @@ import styles from './css/ColumnDropDown.css'
 
 const ProjectDropDown = ({project}) => {
   const [isDropDownActive, setIsDropDownActive] = useState(false)
+  const [isAddProjectVisible, setIsAddProjectVisible] = useState(false)
 
   const closeDropDown = () => setIsDropDownActive(false)
+  const closeProjectDialog = () => setIsAddProjectVisible(false)
 
   return (
     <div>
+      <div
+        className="material-icons"
+        onClick={() => setIsAddProjectVisible(!isAddProjectVisible)}
+      >
+        add
+      </div>
       <div
         className="material-icons"
         onClick={() => setIsDropDownActive(!isDropDownActive)}
