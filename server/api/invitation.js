@@ -47,4 +47,15 @@ router.post('/', async (req, res, next) => {
   }
 })
 
+router.delete('/:inviteId', async (req, res, next) => {
+  try {
+    const {inviteId} = req.params
+    let invite = await Invitation.findByPk(inviteId)
+    await invite.destroy()
+    res.send('Invite Deleted!').status(202)
+  } catch (e) {
+    console.log(e)
+  }
+})
+
 module.exports = router

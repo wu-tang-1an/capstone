@@ -29,12 +29,22 @@ const Invitations = () => {
     return () => {
       isMounted = false
     }
-  }, [])
+  }, [user.organizations])
 
-  async function acceptInvite(userId, orgId) {
-    console.log('we hit hereeeeee')
+  async function acceptInvite(userId, orgId, inviteId) {
     try {
       await axios.put(`/api/users/${userId}/organizations/${orgId}`, {})
+      await axios.delete(`/api/invitations/${inviteId}`)
+      setInvitations(invites.filter((invite) => invite.id !== inviteId))
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  async function declineInvite(inviteId) {
+    try {
+      await axios.delete(`/api/invitations/${inviteId}`)
+      setInvitations(invites.filter((invite) => invite.id !== inviteId))
     } catch (error) {
       console.log(error)
     }
@@ -67,12 +77,19 @@ const Invitations = () => {
                     type="submit"
                     onClick={(e) => {
                       e.preventDefault()
-                      acceptInvite(user.id, invite.orgId)
+                      acceptInvite(user.id, invite.orgId, invite.id)
                     }}
                   >
                     Accept
                   </button>
-                  <button className={styles.decline} type="submit">
+                  <button
+                    className={styles.decline}
+                    type="submit"
+                    onClick={(e) => {
+                      e.preventDefault()
+                      declineInvite(invite.id)
+                    }}
+                  >
                     Decline
                   </button>
                 </div>
