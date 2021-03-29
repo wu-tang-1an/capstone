@@ -5,12 +5,18 @@ import {dropUpdateDb} from '../context/axiosService'
 import Column from './Column'
 import AddColumnDropDown from './AddColumnDropDown'
 import socket from '../socket'
+import {notify} from './helper/toast'
 import styles from './css/Board.css'
 
 const Board = () => {
-  const {project, columns, setColumns, refreshProjectBoard} = useContext(
-    ProjectContext
-  )
+  const {
+    project,
+    columns,
+    setColumns,
+    refreshProjectBoard,
+    taskChanged,
+    setTaskChanged,
+  } = useContext(ProjectContext)
 
   // drop logic
   const onDragEnd = (result) => {
@@ -89,13 +95,70 @@ const Board = () => {
 
     // broadcast drag and drop changes
     // send a payload with ignore
-    socket.emit('update', {ignore: socket.id, newColumns})
+    socket.emit('move-task', {ignore: socket.id, newColumns})
   }
 
-  socket.on('task-dnd', ({ignore, newColumns}) => {
+  // socket logic
+  socket.on('task-was-moved', ({ignore, newColumns}) => {
     // only refresh when other user actions occur
     if (socket.id === ignore) return
+    // set columns rather than trigger rerender
+    // otherwise card doesn't get its new index
+    // and card moves glitch
     setColumns(newColumns)
+  })
+  socket.on('column-was-added', ({ignore}) => {
+    if (socket.id === ignore) return
+    setTaskChanged(!taskChanged)
+  })
+  socket.on('column-was-deleted', ({ignore}) => {
+    if (socket.id === ignore) return
+    setTaskChanged(!taskChanged)
+  })
+  socket.on('column-name-was-edited', ({ignore}) => {
+    if (socket.id === ignore) return
+    setTaskChanged(!taskChanged)
+  })
+  socket.on('task-was-added', ({ignore}) => {
+    if (socket.id === ignore) return
+    setTaskChanged(!taskChanged)
+  })
+  socket.on('task-was-deleted', ({ignore}) => {
+    if (socket.id === ignore) return
+    setTaskChanged(!taskChanged)
+  })
+  socket.on('comment-was-added', ({ignore}) => {
+    if (socket.id === ignore) return
+    setTaskChanged(!taskChanged)
+  })
+  socket.on('comment-was-deleted', ({ignore}) => {
+    if (socket.id === ignore) return
+    setTaskChanged(!taskChanged)
+  })
+
+  // task edits require some update work
+  socket.on('task-was-edited', ({ignore, updatedTask}) => {
+    if (socket.id === ignore) return
+
+    const updatedColumns = columns.map((column) => {
+      // get an array of taskIds for each column's tasks
+      const taskIds = column.tasks ? column.tasks.map((task) => task.id) : []
+
+      // if this column doesn't include the updated task, return the column
+      if (!taskIds.includes(updatedTask.id)) return column
+
+      // otherwise, replace the task with the updatedTask received over socket connection
+      const updatedTasks = column.tasks.map((task) =>
+        task.id === updatedTask.id ? updatedTask : task
+      )
+
+      // replace the column's task array with the updated tasks and return
+      column.tasks = updatedTasks
+      return column
+    })
+
+    // after received updated columns, set them
+    setColumns(updatedColumns)
   })
 
   return (

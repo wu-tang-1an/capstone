@@ -1,7 +1,35 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import styles from './css/DeleteTaskModal.css'
 
-const DeleteTaskModal = ({deleteTask, closeModal}) => {
+import socket from '../socket'
+
+import axios from 'axios'
+import {ProjectContext} from '../context/projectContext'
+
+const DeleteTaskModal = ({task, closeModal}) => {
+  // grab tasks, setTasks from column context
+  const {columns, setColumns, tasks, setTasks} = useContext(ProjectContext)
+
+  const deleteTask = async () => {
+    try {
+      await axios.delete(`/api/tasks/${task.id}`)
+
+      const {data} = await axios.get(`/api/columns/${task.columnId}`)
+
+      // the next two calls look inefficient but are absolutely necessary
+      // to avoid memory leaks, we set columns before resetting tasks
+
+      setColumns(
+        columns.map((column) => (column.id === data.id ? data : column))
+      )
+
+      setTasks(tasks.filter((currTask) => currTask.id !== task.id))
+    } catch (err) {
+      console.error(err)
+    }
+    socket.emit('delete-task', {ignore: socket.id})
+  }
+
   return (
     <div className={styles.modalContent}>
       <div className={styles.deleteMessage}>
