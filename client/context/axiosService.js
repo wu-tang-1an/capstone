@@ -1,5 +1,23 @@
 import axios from 'axios'
+import React, {useContext} from 'react'
 import history from '../history'
+import {AuthContext} from '../context/authContext'
+
+/* ORGANIZATION*/
+
+export const addOrganizationDB = async (organization) => {
+  const {user} = useContext(AuthContext)
+  try {
+    const {data} = await axios.post(
+      `/api/users/${user.id}/organizations`,
+      organization
+    )
+
+    return data
+  } catch (err) {
+    console.error(err)
+  }
+}
 
 /* COLUMNS */
 

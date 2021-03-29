@@ -1,6 +1,5 @@
 import React, {useState} from 'react'
-// import AddOrgDialog from './AddOrgDialog'
-
+import AddOrgDialog from './AddOrgDialog'
 import styles from './css/AddOrgDropdown.css'
 
 const AddOrgDropDown = () => {
@@ -21,7 +20,7 @@ const AddOrgDropDown = () => {
       )}
       {isDialogActive && (
         <div className={styles.content}>
-          {/* <AddOrgDialog closeModal={closeModal} /> */}
+          <AddOrgDialog closeModal={closeModal} />
         </div>
       )}
     </div>

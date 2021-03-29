@@ -12,7 +12,7 @@ const AllOrgs = () => {
   const {user} = useContext(AuthContext)
 
   // initialize all orgs state
-  const [organizations, setOrganizations, setAddOrganization] = useState([])
+  const [organizations, setOrganizations] = useState([])
   console.log('organizations---->', organizations)
 
   useEffect(() => {
@@ -26,20 +26,6 @@ const AllOrgs = () => {
       }
     }
     fetchAllOrgs()
-
-    const addNewOrgs = async (org) => {
-      try {
-        const {data} = await axios.post(
-          `/api/users/${user.id}/organizations`,
-          org
-        )
-        setAddOrganization(data)
-      } catch (err) {
-        console.log(err)
-      }
-    }
-
-    addNewOrgs()
 
     return () => {
       isMounted = false
