@@ -2,16 +2,21 @@ import React, {useState} from 'react'
 import Modal from './Modal'
 import styles from './css/ColumnDropDown.css'
 
-const EditProjectModal = ({project, closeModal}) => {
+const EditProjectModal = ({project, setProjects, closeModal}) => {
   const [name, setName] = useState(project.name)
+
+  const editProject = () => {
+    setProjects()
+  }
 
   return (
     <Modal>
       <div className={styles.modalContent}>
-        <div className={styles.newColumnName}>New column name</div>
+        <div className={styles.newColumnName}>New project name</div>
         <input
           type="text"
           className={styles.columnNameInput}
+          value={name}
           onChange={(e) => setName(e.target.value)}
         />
         <div className={styles.modalBtnsContainer}>
