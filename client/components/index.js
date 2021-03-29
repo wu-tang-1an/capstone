@@ -12,6 +12,7 @@ export {default as ProjectView} from './ProjectView'
 export {default as SingleTaskExpanded} from './SingleTaskExpanded'
 export {default as AllOrgs} from './AllOrgs'
 export {default as Profile} from './Profile'
+export {default as Organization} from './Organization'
 
 export {default as SingleOrganization} from './SingleOrganization'
 
