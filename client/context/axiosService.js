@@ -1,6 +1,29 @@
 import axios from 'axios'
 import history from '../history'
 
+/* ORGANIZATIONS */
+
+// get a single org
+export const getOrgDb = async (orgId) => {
+  try {
+    const {data} = await axios.get(`/api/prganizations/${orgId}`)
+    return data
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+/* PROJECTS */
+
+// delete a project
+export const deleteProjectDb = async (projectId) => {
+  try {
+    await axios.delete(`/api/projects/${projectId}`)
+  } catch (err) {
+    console.log(err)
+  }
+}
+
 /* COLUMNS */
 
 // get all columns for a project
