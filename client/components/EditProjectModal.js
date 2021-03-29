@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import Modal from './Modal'
+
 import styles from './css/ColumnDropDown.css'
 
 const EditProjectModal = ({project, setProjects, closeModal}) => {
