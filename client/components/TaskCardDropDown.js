@@ -48,11 +48,10 @@ const TaskCardDropDown = ({task}) => {
       )
 
       setTasks(tasks.filter((currTask) => currTask.id !== task.id))
-
-      socket.emit('delete-task', {ignore: socket.id})
     } catch (err) {
       console.error(err)
     }
+    socket.emit('delete-task', {ignore: socket.id})
     closeModal()
   }
 

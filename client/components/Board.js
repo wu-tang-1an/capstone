@@ -127,6 +127,14 @@ const Board = () => {
     if (socket.id === ignore) return
     setTaskChanged(!taskChanged)
   })
+  socket.on('comment-was-added', ({ignore}) => {
+    if (socket.id === ignore) return
+    setTaskChanged(!taskChanged)
+  })
+  socket.on('comment-was-deleted', ({ignore}) => {
+    if (socket.id === ignore) return
+    setTaskChanged(!taskChanged)
+  })
 
   // task edits require some update work
   socket.on('task-was-edited', ({ignore, updatedTask}) => {
