@@ -41,7 +41,10 @@ const NewUpdateUser = () => {
   return (
     <div>
       <div className={styles.NewUpdateUserContainer}>
-        <h1>Update Profile</h1>
+        <div className={styles.NewUpdateUserContainerLeft}>
+          <h1>Update Profile</h1>
+        </div>
+
         <div className={styles.NewUpdateUserContainerRight}>
           <div>
             <form className={styles.flexCol} onSubmit={handleSubmit}>
@@ -68,7 +71,7 @@ const NewUpdateUser = () => {
               </div>
 
               <div className={styles.formGroup}>
-                <label className={styles.formLabel}>Email </label>
+                <label className={styles.formLabel}>Email</label>
                 <input
                   className={styles.formControl}
                   type="text"
