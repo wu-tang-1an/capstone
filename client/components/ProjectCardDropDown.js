@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import styles from './css/TaskCardDropDown.css'
 import DeleteProjectModal from './DeleteProjectModal'
-// import {deleteProjectDb, getOrgDb} from '../context/axiosService'
+import EditProjectModal from './EditProjectModal'
 
 const fields = [
   {id: 1, type: 'Edit'},
@@ -68,6 +68,13 @@ const DropDownContainer = ({
         ))}
       </div>
       <div className={styles.arrowDown}></div>
+      {activeField === 'Edit' && (
+        <EditProjectModal
+          project={project}
+          setProjects={setProjects}
+          closeModal={closeModal}
+        />
+      )}
       {activeField === 'Delete' && (
         <DeleteProjectModal
           project={project}
