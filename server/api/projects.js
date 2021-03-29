@@ -13,6 +13,9 @@ const {
   STR_PROJECTS,
   STR_PROJECT,
   STR_ORGANIZATION,
+  STR_COLUMNS,
+  STR_COLUMN,
+  STR_TASKS,
 } = require('./helper/strings')
 module.exports = router
 
@@ -131,6 +134,45 @@ router.delete('/:projectId', checkUser, async (req, res, next) => {
     const {projectId} = req.params
     if (isNaN(projectId)) return resNaN(projectId, res)
 
+    // get project columns
+    const projectColumns = await Column.findAll({
+      where: {
+        projectId: projectId,
+      },
+    })
+    if (!projectColumns) return resDbNotFound(STR_COLUMNS, res)
+
+    projectColumns.forEach(async (col) => {
+      // get column tasks
+      const columnTasks = await Task.findAll({
+        where: {
+          columnId: col.id,
+        },
+      })
+      if (!columnTasks) return resDbNotFound(STR_TASKS, res)
+
+      // destroy column tasks before destroying column
+      // this removes tasks from db rather than simply
+      // removing the association of a task to a column
+      columnTasks.forEach(async (task) => {
+        // should we destroy task comments as well?
+        await Task.destroy({
+          where: {
+            id: task.id,
+          },
+        })
+      })
+
+      // then destroy column
+      const column = await Column.destroy({
+        where: {
+          id: col.id,
+        },
+      })
+      if (!column) return resDbNotFound(STR_COLUMN, res)
+    })
+
+    // now destroy project
     const project = await Project.destroy({where: {id: projectId}})
     if (!project) return resDbNotFound(STR_PROJECT, res)
 
