@@ -7,6 +7,7 @@ module.exports = [
     completionDate: '4/1/2021',
     editTimeStamp: timeStamp,
     createdBy: 'Albert Turtlesworth',
+    index: 0,
   },
   {
     name: 'marketing work',
@@ -14,6 +15,7 @@ module.exports = [
     completionDate: '4/2/2021',
     editTimeStamp: timeStamp,
     createdBy: 'Albert Turtlesworth',
+    index: 1,
   },
   {
     name: 'design logo',
@@ -21,6 +23,7 @@ module.exports = [
     completionDate: '4/3/2021',
     editTimeStamp: timeStamp,
     createdBy: 'Albert Turtlesworth',
+    index: 0,
   },
   {
     name: 'design header',
@@ -28,6 +31,7 @@ module.exports = [
     completionDate: '4/4/2021',
     editTimeStamp: timeStamp,
     createdBy: 'Albert Turtlesworth',
+    index: 1,
   },
   {
     name: 'update vscode',
@@ -35,6 +39,7 @@ module.exports = [
     completionDate: '4/5/2021',
     editTimeStamp: timeStamp,
     createdBy: 'Albert Turtlesworth',
+    index: 0,
   },
   {
     name: 'update oauth',
@@ -42,6 +47,7 @@ module.exports = [
     completionDate: '4/6/2021',
     editTimeStamp: timeStamp,
     createdBy: 'Albert Turtlesworth',
+    index: 1,
   },
   {
     name: 'changeover localSecrets.js',
@@ -49,6 +55,7 @@ module.exports = [
     completionDate: '4/7/2021',
     editTimeStamp: timeStamp,
     createdBy: 'Albert Turtlesworth',
+    index: 0,
   },
   {
     name: 'oversee merge',
@@ -56,6 +63,7 @@ module.exports = [
     completionDate: '4/8/2021',
     editTimeStamp: timeStamp,
     createdBy: 'Albert Turtlesworth',
+    index: 1,
   },
   {
     name: 'build component tree',
@@ -63,6 +71,7 @@ module.exports = [
     completionDate: '4/9/2021',
     editTimeStamp: timeStamp,
     createdBy: 'Albert Turtlesworth',
+    index: 0,
   },
   {
     name: 'diagram changes',
@@ -70,6 +79,7 @@ module.exports = [
     completionDate: '4/10/2021',
     editTimeStamp: timeStamp,
     createdBy: 'Albert Turtlesworth',
+    index: 1,
   },
   {
     name: 'update layout',
@@ -77,6 +87,7 @@ module.exports = [
     completionDate: '4/11/2021',
     editTimeStamp: timeStamp,
     createdBy: 'Albert Turtlesworth',
+    index: 0,
   },
   {
     name: 'modularize css',
@@ -84,6 +95,7 @@ module.exports = [
     completionDate: '4/12/2021',
     editTimeStamp: timeStamp,
     createdBy: 'Albert Turtlesworth',
+    index: 1,
   },
   {
     name: 'write user stories',
@@ -91,6 +103,7 @@ module.exports = [
     completionDate: '4/13/2021',
     editTimeStamp: timeStamp,
     createdBy: 'Albert Turtlesworth',
+    index: 0,
   },
   {
     name: 'refactor db',
@@ -98,6 +111,7 @@ module.exports = [
     completionDate: '4/14/2021',
     editTimeStamp: timeStamp,
     createdBy: 'Albert Turtlesworth',
+    index: 1,
   },
   {
     name: 'update models',
@@ -105,6 +119,7 @@ module.exports = [
     completionDate: '4/15/2021',
     editTimeStamp: timeStamp,
     createdBy: 'Albert Turtlesworth',
+    index: 0,
   },
   {
     name: 'write gatekeeping middleware',
@@ -112,6 +127,7 @@ module.exports = [
     completionDate: '4/16/2021',
     editTimeStamp: timeStamp,
     createdBy: 'Albert Turtlesworth',
+    index: 1,
   },
   {
     name: 'reverse linked list',
@@ -119,6 +135,7 @@ module.exports = [
     completionDate: '4/17/2021',
     editTimeStamp: timeStamp,
     createdBy: 'Albert Turtlesworth',
+    index: 0,
   },
   {
     name: 'buy popcorn',
@@ -126,6 +143,7 @@ module.exports = [
     completionDate: '4/18/2021',
     editTimeStamp: timeStamp,
     createdBy: 'Albert Turtlesworth',
+    index: 1,
   },
   {
     name: 'play guitar hero',
@@ -133,6 +151,7 @@ module.exports = [
     completionDate: '4/19/2021',
     editTimeStamp: timeStamp,
     createdBy: 'Albert Turtlesworth',
+    index: 0,
   },
   {
     name: 'deploy on heroku',
@@ -140,6 +159,7 @@ module.exports = [
     completionDate: '4/20/2021',
     editTimeStamp: timeStamp,
     createdBy: 'Albert Turtlesworth',
+    index: 1,
   },
   {
     name: 'rewrite markup',
@@ -147,6 +167,7 @@ module.exports = [
     completionDate: '4/9/2021',
     editTimeStamp: timeStamp,
     createdBy: 'Albert Turtlesworth',
+    index: 0,
   },
   {
     name: 'purchase snacks',
@@ -154,6 +175,7 @@ module.exports = [
     completionDate: '4/10/2021',
     editTimeStamp: timeStamp,
     createdBy: 'Albert Turtlesworth',
+    index: 1,
   },
   {
     name: 'reboot server',
@@ -161,6 +183,7 @@ module.exports = [
     completionDate: '4/11/2021',
     editTimeStamp: timeStamp,
     createdBy: 'Albert Turtlesworth',
+    index: 0,
   },
   {
     name: 'install centOS',
@@ -168,6 +191,7 @@ module.exports = [
     completionDate: '4/12/2021',
     editTimeStamp: timeStamp,
     createdBy: 'Albert Turtlesworth',
+    index: 1,
   },
   {
     name: 'play backgammon',
@@ -175,6 +199,7 @@ module.exports = [
     completionDate: '4/13/2021',
     editTimeStamp: timeStamp,
     createdBy: 'Albert Turtlesworth',
+    index: 0,
   },
   {
     name: 'eat more greens',
@@ -182,6 +207,7 @@ module.exports = [
     completionDate: '4/14/2021',
     editTimeStamp: timeStamp,
     createdBy: 'Albert Turtlesworth',
+    index: 1,
   },
   {
     name: 'update schema',
@@ -189,6 +215,7 @@ module.exports = [
     completionDate: '4/15/2021',
     editTimeStamp: timeStamp,
     createdBy: 'Albert Turtlesworth',
+    index: 0,
   },
   {
     name: 'learn sass',
@@ -196,6 +223,7 @@ module.exports = [
     completionDate: '4/16/2021',
     editTimeStamp: timeStamp,
     createdBy: 'Albert Turtlesworth',
+    index: 1,
   },
   {
     name: 'convert to context',
@@ -203,6 +231,7 @@ module.exports = [
     completionDate: '4/17/2021',
     editTimeStamp: timeStamp,
     createdBy: 'Albert Turtlesworth',
+    index: 0,
   },
   {
     name: 'refactor store',
@@ -210,6 +239,7 @@ module.exports = [
     completionDate: '4/18/2021',
     editTimeStamp: timeStamp,
     createdBy: 'Albert Turtlesworth',
+    index: 1,
   },
   {
     name: 'play guitar hero again',
@@ -217,6 +247,7 @@ module.exports = [
     completionDate: '4/19/2021',
     editTimeStamp: timeStamp,
     createdBy: 'Albert Turtlesworth',
+    index: 0,
   },
   {
     name: 'deploy on Travis-CI',
@@ -224,5 +255,6 @@ module.exports = [
     completionDate: '4/20/2021',
     editTimeStamp: timeStamp,
     createdBy: 'Albert Turtlesworth',
+    index: 1,
   },
 ]
