@@ -30,7 +30,7 @@ const AddTaskDialog = ({columnId, closeTaskDialog}) => {
       completionDate: new Date().toISOString(),
       editTimeStamp: new Date(),
       createdBy: user.firstName + ' ' + user.lastName,
-      index: thisTasks.length ? thisTasks.length - 1 : 0,
+      index: thisTasks.length ? thisTasks.length : 0,
     }
 
     try {
