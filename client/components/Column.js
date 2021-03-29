@@ -22,8 +22,9 @@ const DivHell = ({column}) => {
   // close task dialog
   const closeTaskDialog = () => setIsAddTaskVisible(false)
 
-  // grab tasks from column
-  const {tasks} = column || []
+  // grab column data
+  const tasks =
+    column && column.tasks ? column.tasks.sort((a, b) => a.index - b.index) : []
 
   return (
     <div>

@@ -23,6 +23,9 @@ const Task = db.define('task', {
     type: Sequelize.BOOLEAN,
     defaultValue: false,
   },
+  index: {
+    type: Sequelize.INTEGER,
+  },
 })
 
 Task.prototype.getTimeLeft = function () {
