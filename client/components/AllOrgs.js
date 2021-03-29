@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom'
 import {AuthContext} from '../context/authContext'
 import {CgOrganisation} from 'react-icons/cg'
 import {IconContext} from 'react-icons'
+import AddOrgDropdown from './AddOrgDropdown'
 import styles from './css/AllOrgs.css'
 
 const AllOrgs = () => {
@@ -11,7 +12,7 @@ const AllOrgs = () => {
   const {user} = useContext(AuthContext)
 
   // initialize all orgs state
-  const [organizations, setOrganizations] = useState([])
+  const [organizations, setOrganizations, setAddOrganization] = useState([])
   console.log('organizations---->', organizations)
 
   useEffect(() => {
@@ -26,6 +27,20 @@ const AllOrgs = () => {
     }
     fetchAllOrgs()
 
+    const addNewOrgs = async (org) => {
+      try {
+        const {data} = await axios.post(
+          `/api/users/${user.id}/organizations`,
+          org
+        )
+        setAddOrganization(data)
+      } catch (err) {
+        console.log(err)
+      }
+    }
+
+    addNewOrgs()
+
     return () => {
       isMounted = false
     }
@@ -37,12 +52,14 @@ const AllOrgs = () => {
         <div>
           <div className={styles.headerCont}>
             <h1 className={styles.allOrgsHeader}>Your Organizations</h1>
+
             <IconContext.Provider
               value={{size: '2rem', style: {marginTop: '0.7rem'}}}
             >
               <CgOrganisation />
             </IconContext.Provider>
           </div>
+
           <div className={styles.allOrgsCont}>
             {organizations.map((org) => (
               <Link
@@ -60,6 +77,7 @@ const AllOrgs = () => {
                 </div>
               </Link>
             ))}
+            <AddOrgDropdown />
           </div>
         </div>
       )}
