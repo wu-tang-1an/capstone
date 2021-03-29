@@ -7,6 +7,7 @@ const Organization = require('./organization')
 const Column = require('./column')
 const Project = require('./project')
 const Comment = require('./comment')
+const Invitation = require('./invitation')
 
 const UserOrganization = db.define('user_organization', {
   role: {
@@ -47,6 +48,9 @@ Column.hasMany(Task)
 Column.belongsTo(Project)
 Project.hasMany(Column)
 
+Invitation.belongsTo(User)
+User.hasMany(Invitation)
+
 /**
  * We'll export all of our models here, so that any time a module needs a model,
  * we can just require it from 'db/models'
@@ -62,4 +66,5 @@ module.exports = {
   Comment,
   UserOrganization,
   UserTask,
+  Invitation,
 }

@@ -9,6 +9,7 @@ import {
   Home,
   Loading,
   NewUpdateUser,
+  Organization,
 } from './components'
 
 import {AuthContext} from './context/authContext'
@@ -35,7 +36,7 @@ const Routes = () => {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route path="/home" component={Home} />
-          <Route exact path="/organizations" component={AllOrgs} />
+          <Route exact path="/organizations" component={Organization} />
           <Route
             path="/organizations/:organizationId"
             component={SingleOrganization}
