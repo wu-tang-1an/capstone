@@ -123,6 +123,10 @@ const Board = () => {
     if (socket.id === ignore) return
     setTaskChanged(!taskChanged)
   })
+  socket.on('task-was-deleted', ({ignore}) => {
+    if (socket.id === ignore) return
+    setTaskChanged(!taskChanged)
+  })
 
   return (
     <div>

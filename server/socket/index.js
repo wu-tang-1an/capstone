@@ -7,7 +7,7 @@ module.exports = (io) => {
     })
 
     socket.on('move-task', ({ignore, newColumns}) => {
-      console.log('project board has been updated!')
+      console.log('received task move')
       io.emit('task-was-moved', {ignore, newColumns})
     })
 
@@ -27,8 +27,13 @@ module.exports = (io) => {
     })
 
     socket.on('add-task', ({ignore}) => {
-      console.log('received col edit')
+      console.log('received task add')
       io.emit('task-was-added', {ignore})
+    })
+
+    socket.on('delete-task', ({ignore}) => {
+      console.log('received task delete')
+      io.emit('task-was-deleted', {ignore})
     })
   })
 }

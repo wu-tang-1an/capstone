@@ -3,6 +3,7 @@ import Modal from './Modal'
 import {ColumnContext} from '../context/columnContext'
 import DeleteTaskModal from './DeleteTaskModal'
 import SingleTaskExpanded from './SingleTaskExpanded'
+import socket from '../socket'
 import styles from './css/TaskCardDropDown.css'
 
 import axios from 'axios'
@@ -48,6 +49,8 @@ const TaskCardDropDown = ({task}) => {
       )
 
       setTasks(tasks.filter((currTask) => currTask.id !== task.id))
+
+      socket.emit('delete-task', {ignore: socket.id})
     } catch (err) {
       console.error(err)
     }
