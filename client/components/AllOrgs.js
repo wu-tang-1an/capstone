@@ -12,6 +12,7 @@ const AllOrgs = () => {
 
   // initialize all orgs state
   const [organizations, setOrganizations] = useState([])
+  console.log('organizations---->', organizations)
 
   useEffect(() => {
     let isMounted = true

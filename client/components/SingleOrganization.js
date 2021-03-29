@@ -13,6 +13,9 @@ const SingleOrganization = ({match}) => {
   const [organization, setOrganization] = useState({})
   const [projects, setProjects] = useState([])
 
+  console.log('organization--->', organization)
+  console.log('projects--->', projects)
+
   // get single org with direct api call
   // no context/provider here since it's a direct route
   useEffect(() => {
