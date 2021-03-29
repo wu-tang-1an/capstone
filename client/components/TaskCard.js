@@ -66,6 +66,13 @@ const TaskCard = ({task, index}) => {
     socket.emit('edit-task', {ignore: socket.id, updatedTask})
   }
 
+  // receives project board-level updates on name, badge-status
+  // and number of comments
+  socket.on('task-was-edited', ({ignore, updatedTask}) => {
+    if (socket.id === ignore) return
+    setActiveTask(updatedTask)
+  })
+
   return (
     <Draggable draggableId={String(task.id)} index={index}>
       {(provided) => (

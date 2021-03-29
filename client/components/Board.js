@@ -153,12 +153,6 @@ const Board = () => {
     setColumns(updatedColumns)
   })
 
-  // comments ???
-  /* socket.on('comment-was-edited', ({ignore}) => {
-    if (socket.id === ignore) return
-    setTaskChanged(!taskChanged)
-  }) */
-
   return (
     <div>
       <div className={styles.boardContainer}>

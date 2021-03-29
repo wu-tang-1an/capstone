@@ -64,7 +64,7 @@ const SingleTaskExpanded = ({task, closeModal}) => {
     await deleteCommentDB(commentId)
     setTaskComments(taskComments.filter((comment) => comment.id !== commentId))
     setTaskChanged(!taskChanged)
-    socket.emit('delete-comment', {ignore: socket.id})
+    socket.emit('delete-comment', {ignore: socket.id, commentId})
   }
 
   // editComment updates comment in db, local state
@@ -76,7 +76,7 @@ const SingleTaskExpanded = ({task, closeModal}) => {
       )
     )
     setTaskChanged(!taskChanged)
-    socket.emit('edit-comment', {ignore: socket.id})
+    socket.emit('edit-comment', {ignore: socket.id, updatedComment})
     return updatedComment
   }
 
@@ -106,6 +106,31 @@ const SingleTaskExpanded = ({task, closeModal}) => {
       console.error(err)
     }
   }
+
+  // socket comment logic for realtime local updates
+  socket.on('comment-was-added', ({ignore, newComment}) => {
+    if (socket.id === ignore) return
+    setTaskComments(
+      [...taskComments, newComment].sort((a, b) =>
+        a.editTimeStamp < b.editTimeStamp ? -1 : 1
+      )
+    )
+    setTaskChanged(!taskChanged)
+  })
+  socket.on('comment-was-deleted', ({ignore, commentId}) => {
+    if (socket.id === ignore) return
+    setTaskComments(taskComments.filter((comment) => comment.id !== commentId))
+    setTaskChanged(!taskChanged)
+  })
+  socket.on('comment-was-edited', ({ignore, updatedComment}) => {
+    if (socket.id === ignore) return
+    setTaskComments(
+      taskComments.map((comment) =>
+        comment.id === updatedComment.id ? updatedComment : comment
+      )
+    )
+    setTaskChanged(!taskChanged)
+  })
 
   return (
     <div className={styles.singleTaskContainer}>
@@ -156,7 +181,6 @@ const SingleTaskExpanded = ({task, closeModal}) => {
                   setTaskName(updatedTask.name)
                   setActiveNameEdit(false)
                   setLastEdit(updatedTask.editTimeStamp)
-                  socket.emit('edit-task', {ignore: socket.id, updatedTask})
                 }}
               ></textarea>
             )}
@@ -191,7 +215,6 @@ const SingleTaskExpanded = ({task, closeModal}) => {
                 await refreshProjectBoard()
                 setActiveMarkdownEditor(false)
                 setLastEdit(updatedTask.editTimeStamp)
-                socket.emit('edit-task', {ignore: socket.id, updatedTask})
               }}
               name="description"
               value={taskDescription || ''}

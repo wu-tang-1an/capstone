@@ -36,23 +36,29 @@ module.exports = (io) => {
       io.emit('task-was-deleted', {ignore})
     })
 
+    // only project board receives edit-task updates in real time
+    // to avoid race condition of two users editing the same
+    // card and one user's changes being preempted by sockets
+
     socket.on('edit-task', ({ignore, updatedTask}) => {
       console.log('received task edit')
       io.emit('task-was-edited', {ignore, updatedTask})
     })
 
-    // comments ???
-    /*
-
-    socket.on('add-comment', ({ignore}) => {
-      console.log('received comment add')
-      io.emit('comment-was-added', {ignore})
+    // comments are received and processed in/by SingleTaskExpanded
+    socket.on('add-comment', ({ignore, newComment}) => {
+      console.log('received new comment')
+      io.emit('comment-was-added', {ignore, newComment})
     })
 
-    socket.on('edit-comment', ({ignore}) => {
-      console.log('received comment edit')
-      io.emit('comment-was-edited', {ignore})
+    socket.on('delete-comment', ({ignore, commentId}) => {
+      console.log('received delete comment')
+      io.emit('comment-was-deleted', {ignore, commentId})
     })
-    */
+
+    socket.on('edit-comment', ({ignore, updatedComment}) => {
+      console.log('received edited comment')
+      io.emit('comment-was-edited', {ignore, updatedComment})
+    })
   })
 }
