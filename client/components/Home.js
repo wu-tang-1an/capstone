@@ -5,15 +5,22 @@ import styles from './css/Home.css'
 const Home = () => {
   const {user} = useContext(AuthContext)
 
-  return (
-    <div className={styles.homeContainer}>
-      <div className={styles.welcome}>
-        <span>Welcome, {user.firstName}!</span>
+  console.log('user is: ', user)
+
+  if (
+    user.firstName === 'Add First Name' &&
+    user.lastName === 'Add Last Name'
+  ) {
+    return (
+      <div className={styles.homeContainer}>
+        <div className={styles.welcome}>
+          <span>Welcome!</span>
+        </div>
+        <div className={styles.myFeed}></div>
+        {/* chat component here */}
       </div>
-      <div className={styles.myFeed}></div>
-      {/* chat component here */}
-    </div>
-  )
+    )
+  }
 }
 
 export default Home
