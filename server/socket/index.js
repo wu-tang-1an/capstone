@@ -25,5 +25,10 @@ module.exports = (io) => {
       console.log('received col edit')
       io.emit('column-name-was-edited', {ignore})
     })
+
+    socket.on('add-task', ({ignore}) => {
+      console.log('received col edit')
+      io.emit('task-was-added', {ignore})
+    })
   })
 }

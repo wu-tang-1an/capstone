@@ -5,6 +5,7 @@ import {dropUpdateDb} from '../context/axiosService'
 import Column from './Column'
 import AddColumnDropDown from './AddColumnDropDown'
 import socket from '../socket'
+import {notify} from './helper/toast'
 import styles from './css/Board.css'
 
 const Board = () => {
@@ -115,6 +116,10 @@ const Board = () => {
     setTaskChanged(!taskChanged)
   })
   socket.on('column-name-was-edited', ({ignore}) => {
+    if (socket.id === ignore) return
+    setTaskChanged(!taskChanged)
+  })
+  socket.on('task-was-added', ({ignore}) => {
     if (socket.id === ignore) return
     setTaskChanged(!taskChanged)
   })
