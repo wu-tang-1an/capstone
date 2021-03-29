@@ -68,21 +68,40 @@
   margin-left: 0.2em;
 }
 
+.nameAndEditIcon {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-start;
+  width: 100%;
+}
+
 .taskName {
   font-weight: bold;
-  margin: 0 0.5em;
   padding: 0.3em 0.4em;
-  width: 50%;
-  max-width: 200px;
+  width: max-content;
+  max-width: 250px;
   height: min-content;
 }
 
+.taskName i {
+  visibility: hidden;
+  font-size: 18px;
+  opacity: 0.6;
+  width: min-content;
+}
+
+.taskName:hover i {
+  visibility: visible;
+}
+
 .editName {
-  height: 32px;
-  width: 50%;
-  resize: none;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: 3em;
+  width: auto;
   margin-left: 0.5em;
-  padding: 0;
+  padding: 0 0.3em;
 }
 
 .creator,

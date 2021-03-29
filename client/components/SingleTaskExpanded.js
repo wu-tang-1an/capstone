@@ -120,12 +120,14 @@ const SingleTaskExpanded = ({task, closeModal}) => {
             </span>
             <span className={styles.taskId}>{`#${id}`}</span>
             {!isActiveNameEdit && (
-              <span
-                className={styles.taskName}
-                onClick={() => setActiveNameEdit(true)}
-              >
-                {taskName}
-              </span>
+              <div className={styles.nameAndEditIcon}>
+                <span
+                  className={styles.taskName}
+                  onClick={() => setActiveNameEdit(true)}
+                >
+                  {taskName} <i className="material-icons">create</i>
+                </span>
+              </div>
             )}
             {isActiveNameEdit && (
               <textarea
