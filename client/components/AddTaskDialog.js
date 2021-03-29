@@ -3,6 +3,7 @@ import styles from './css/AddDialogShared.css'
 import {AuthContext} from '../context/authContext'
 import {ProjectContext} from '../context/projectContext'
 import {addTaskToColumnDB} from '../context/axiosService'
+import socket from '../socket'
 import axios from 'axios'
 
 const AddTaskDialog = ({columnId, closeTaskDialog}) => {
@@ -54,6 +55,7 @@ const AddTaskDialog = ({columnId, closeTaskDialog}) => {
       // do NOT close the task dialog -- this allows users
       // to create multiple cards without having to click the +
       // repeatedly!
+      socket.emit('add-task', {ignore: socket.id})
     } catch (err) {
       console.error(err)
     }

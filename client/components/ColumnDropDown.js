@@ -33,6 +33,8 @@ const ColumnDropDown = ({columnId, closeDropDown}) => {
       setColumns(
         columns.map((column) => (column.id === data.id ? data : column))
       )
+
+      socket.emit('edit-column-name', {ignore: socket.id})
     } catch (err) {
       console.error(err)
     }

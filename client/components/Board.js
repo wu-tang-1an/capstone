@@ -114,6 +114,10 @@ const Board = () => {
     if (socket.id === ignore) return
     setTaskChanged(!taskChanged)
   })
+  socket.on('column-name-was-edited', ({ignore}) => {
+    if (socket.id === ignore) return
+    setTaskChanged(!taskChanged)
+  })
 
   return (
     <div>

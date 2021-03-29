@@ -20,5 +20,10 @@ module.exports = (io) => {
       console.log('received col delete')
       io.emit('column-was-deleted', {ignore})
     })
+
+    socket.on('edit-column-name', ({ignore}) => {
+      console.log('received col edit')
+      io.emit('column-name-was-edited', {ignore})
+    })
   })
 }
