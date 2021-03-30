@@ -33,6 +33,7 @@ const AddOrgDialog = ({closeModal}) => {
         className={styles.description}
         onChange={(e) => setName(e.target.value)}
       ></textarea>
+
       <div className={styles.btnContainer}>
         <button
           type="button"

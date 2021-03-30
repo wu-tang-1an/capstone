@@ -7,19 +7,14 @@ import styles from './css/ColumnDropDown.css'
 
 // fields are actions that user can take from dropdown menu
 const fields = [
-  {id: 1, content: 'Edit column name'},
-  {id: 3, content: 'Delete column'},
+  {id: 1, content: 'Edit Organization name'},
+  {id: 3, content: 'Delete Organization'},
   // more fields as necessary
 ]
 
-const ColumnDropDown = ({columnId, closeDropDown}) => {
-  // grab project, columns, columns setter from project context
-
-  console.log('columnId in Deee--->', columnId)
-
+const OrganizationDropDown = ({organizationId, closeDropDown}) => {
+  // grab organization from project context
   const {project, columns, setColumns} = useContext(ProjectContext)
-
-  console.log('columns in Drop--->', columns)
 
   // initialize local state to track current field, which is the type of operation the user wants to perform
   const [currentField, setCurrentField] = useState('')
@@ -91,9 +86,9 @@ const ColumnDropDown = ({columnId, closeDropDown}) => {
           <div className={styles.modalContent}>
             <div className={styles.deleteMessage}>
               <strong>Warning!</strong> This action will delete the selected
-              column and <strong>all cards associated with it.</strong>
-              <br /> Press <span>Delete column</span> to continue, or cancel to
-              go back.
+              Organization and <strong>everything associated with it.</strong>
+              <br /> Press <span>Delete organization</span> to continue, or
+              cancel to go back.
             </div>
             <div className={styles.modalBtnsContainer}>
               <button
@@ -117,7 +112,7 @@ const ColumnDropDown = ({columnId, closeDropDown}) => {
       {currentField === 'Edit column name' && (
         <Modal>
           <div className={styles.modalContent}>
-            <div className={styles.newColumnName}>New column name</div>
+            <div className={styles.newColumnName}>New Organization Name</div>
             <input
               type="text"
               className={styles.columnNameInput}
@@ -148,4 +143,4 @@ const ColumnDropDown = ({columnId, closeDropDown}) => {
     </div>
   )
 }
-export default ColumnDropDown
+export default OrganizationDropDown
