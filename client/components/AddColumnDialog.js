@@ -1,5 +1,5 @@
 import React, {useState, useContext} from 'react'
-import styles from './css/AddDialogShared.css'
+import styles from './css/AddDialogShared.module.css'
 import {ProjectContext} from '../context/projectContext'
 import {addColumnDB} from '../context/axiosService'
 import socket, {socketSent} from '../socket'

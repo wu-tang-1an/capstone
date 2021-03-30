@@ -1,6 +1,6 @@
 import React, {useEffect, useState, useContext} from 'react'
 import axios from 'axios'
-import styles from '../css/Profile.css'
+import styles from '../css/Profile.module.css'
 import {Link} from 'react-router-dom'
 import {AuthContext} from '../../context/authContext'
 

@@ -2,7 +2,7 @@ import React, {useState, useEffect, useContext} from 'react'
 import {ProjectContext} from '../context/projectContext'
 import axios from 'axios'
 import {Link} from 'react-router-dom'
-import styles from './css/DirectoryBar.css'
+import styles from './css/DirectoryBar.module.css'
 
 const DirectoryBar = () => {
   const [organization, setOrganization] = useState({})

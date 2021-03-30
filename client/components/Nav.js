@@ -3,7 +3,7 @@ import {AuthContext} from '../context/authContext'
 import {Link} from 'react-router-dom'
 import axios from 'axios'
 import history from '../history'
-import styles from './css/Nav.css'
+import styles from './css/Nav.module.css'
 
 const NavLink = ({name, linkPath, iconText}) => {
   return (
