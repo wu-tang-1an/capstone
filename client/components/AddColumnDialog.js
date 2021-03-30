@@ -2,7 +2,7 @@ import React, {useState, useContext} from 'react'
 import styles from './css/AddDialogShared.css'
 import {ProjectContext} from '../context/projectContext'
 import {addColumnDB} from '../context/axiosService'
-import socket from '../socket'
+import socket, {socketSent} from '../socket'
 import axios from 'axios'
 
 const AddColumnDialog = ({closeModal}) => {
@@ -46,7 +46,7 @@ const AddColumnDialog = ({closeModal}) => {
       console.error(err)
     }
 
-    socket.emit('add-column', {ignore: socket.id})
+    socket.emit(socketSent.ADD_COLUMN, {ignore: socket.id})
   }
 
   return (
