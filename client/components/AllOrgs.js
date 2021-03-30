@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom'
 import {AuthContext} from '../context/authContext'
 import {CgOrganisation} from 'react-icons/cg'
 import {IconContext} from 'react-icons'
+import AddOrgDropdown from './AddOrgDropdown'
 import styles from './css/AllOrgs.css'
 
 const AllOrgs = () => {
@@ -12,7 +13,6 @@ const AllOrgs = () => {
 
   // initialize all orgs state
   const [organizations, setOrganizations] = useState([])
-  console.log('organizations---->', organizations)
 
   useEffect(() => {
     let isMounted = true
@@ -29,7 +29,47 @@ const AllOrgs = () => {
     return () => {
       isMounted = false
     }
-  }, [])
+  })
+
+  if (user.status === 'admin') {
+    return (
+      <div>
+        {organizations && (
+          <div>
+            <div className={styles.headerCont}>
+              <h1 className={styles.allOrgsHeader}>Your Organizations</h1>
+
+              <IconContext.Provider
+                value={{size: '2rem', style: {marginTop: '0.7rem'}}}
+              >
+                <CgOrganisation />
+              </IconContext.Provider>
+            </div>
+
+            <div className={styles.allOrgsCont}>
+              {organizations.map((org) => (
+                <Link
+                  key={org.id}
+                  className={styles.allOrgsAnchor}
+                  to={`/organizations/${org.id}`}
+                >
+                  <div className={styles.orgCont}>
+                    <div>
+                      <img className={styles.orgImg} src={org.imageUrl} />
+                    </div>
+                    <div className={styles.orgNameCont}>
+                      <h3 className={styles.orgName}>{org.name}</h3>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+              <AddOrgDropdown />
+            </div>
+          </div>
+        )}
+      </div>
+    )
+  }
 
   return (
     <div>
@@ -37,12 +77,14 @@ const AllOrgs = () => {
         <div>
           <div className={styles.headerCont}>
             <h1 className={styles.allOrgsHeader}>Your Organizations</h1>
+
             <IconContext.Provider
               value={{size: '2rem', style: {marginTop: '0.7rem'}}}
             >
               <CgOrganisation />
             </IconContext.Provider>
           </div>
+
           <div className={styles.allOrgsCont}>
             {organizations.map((org) => (
               <Link

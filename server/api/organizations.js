@@ -1,8 +1,12 @@
 const router = require('express').Router()
 const {Organization, Project, User} = require('../db/models')
 const {checkUser, checkAdmin} = require('./helper/gatekeeper')
-const {resNaN, resDbNotFound, resDeleted} = require('./helper/helper')
-const {STR_ORGANIZATIONS, STR_ORGANIZATION} = require('./helper/strings')
+const {resNaN, resDbNotFound, resDeleted, resAssoc} = require('./helper/helper')
+const {
+  STR_ORGANIZATIONS,
+  STR_ORGANIZATION,
+  STR_USER,
+} = require('./helper/strings')
 module.exports = router
 
 // GET all organizations route '/api/organizations' (ADMIN ONLY)
@@ -79,6 +83,27 @@ router.put('/:orgId', checkUser, async (req, res, next) => {
     return res.json(updatedOrg)
   } catch (error) {
     next(error)
+  }
+})
+
+// PUT add user to org, '/api/organizations/:orgId/users/:userId' (AUTH USER ONLY)
+router.put('/:orgId/users/:userId', checkUser, async (req, res, next) => {
+  try {
+    const {orgId, userId} = req.params
+    if (isNaN(orgId)) return resNaN(orgId, res)
+    if (isNaN(userId)) return resNaN(userId, res)
+
+    const organization = await Organization.findByPk(orgId)
+    if (!organization) return resDbNotFound(STR_ORGANIZATION, res)
+
+    const user = await User.findByPk(userId)
+    if (!user) return resDbNotFound(STR_USER, res)
+
+    organization.addUser(user)
+
+    return resAssoc(STR_ORGANIZATION, STR_USER, orgId, userId, res)
+  } catch (err) {
+    next(err)
   }
 })
 

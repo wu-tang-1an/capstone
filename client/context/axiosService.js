@@ -1,6 +1,28 @@
 import axios from 'axios'
 import history from '../history'
 
+/* ORGANIZATION*/
+
+export const addOrganizationDB = async (newOrg) => {
+  try {
+    const {data} = await axios.post(`/api/organizations/`, newOrg)
+    return data
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+export const addUserToOrgDB = async (orgId, userId) => {
+  try {
+    const {data} = await axios.put(
+      `/api/organizations/${orgId}/users/${userId}`
+    )
+    return data
+  } catch (err) {
+    console.error(err)
+  }
+}
+
 /* COLUMNS */
 
 // get all columns for a project
