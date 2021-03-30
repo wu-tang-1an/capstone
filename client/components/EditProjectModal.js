@@ -1,8 +1,18 @@
 import React, {useState} from 'react'
 import Modal from './Modal'
 import {getOrgDb, updateProjectDb} from '../context/axiosService'
+import {notify} from './helper/toast'
 
 import styles from './css/ColumnDropDown.css'
+
+const validate = (name, imageUrl) => {
+  let errors = []
+
+  if (!name.length) errors.push('Name must not be empty!')
+  if (!imageUrl.length) errors.push('URL must not be empty!')
+
+  return errors
+}
 
 const EditProjectModal = ({project, organization, setProjects, closeModal}) => {
   const [name, setName] = useState(project.name)
@@ -11,6 +21,16 @@ const EditProjectModal = ({project, organization, setProjects, closeModal}) => {
   const [imageUrl, setImageUrl] = useState(project.imageUrl)
 
   const editProject = async () => {
+    const errors = validate(name, imageUrl)
+
+    if (errors.length) {
+      errors.forEach((error) => {
+        notify(error, 'error')
+      })
+
+      return
+    }
+
     await updateProjectDb(project.id, {
       name: name,
       status: status,
