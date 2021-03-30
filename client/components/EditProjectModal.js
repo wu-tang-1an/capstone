@@ -10,6 +10,7 @@ const validate = (name, imageUrl) => {
 
   if (!name.length) errors.push('Name must not be empty!')
   if (!imageUrl.length) errors.push('URL must not be empty!')
+  // implement check if valid url later
 
   return errors
 }
