@@ -3,7 +3,7 @@ import Modal from './Modal'
 import {getOrgDb, updateProjectDb} from '../context/axiosService'
 import {notify} from './helper/toast'
 
-import styles from './css/ColumnDropDown.css'
+import styles from './css/ColumnDropDown.module.css'
 
 const validate = (name, imageUrl) => {
   let errors = []

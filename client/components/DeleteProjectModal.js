@@ -2,7 +2,7 @@ import React from 'react'
 import Modal from './Modal'
 import {deleteProjectDb, getOrgDb} from '../context/axiosService'
 
-import styles from './css/DeleteTaskModal.css'
+import styles from './css/DeleteTaskModal.module.css'
 
 const DeleteProjectModal = ({
   project,

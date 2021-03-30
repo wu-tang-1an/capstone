@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import DeleteProjectModal from './DeleteProjectModal'
 import EditProjectModal from './EditProjectModal'
 
-import styles from './css/TaskCardDropDown.css'
+import styles from './css/TaskCardDropDown.module.css'
 
 const fields = [
   {id: 1, type: 'Edit'},
