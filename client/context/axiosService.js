@@ -1,18 +1,22 @@
 import axios from 'axios'
-import React, {useContext} from 'react'
 import history from '../history'
-import {AuthContext} from '../context/authContext'
 
 /* ORGANIZATION*/
 
-export const addOrganizationDB = async (organization) => {
-  const {user} = useContext(AuthContext)
+export const addOrganizationDB = async (newOrg) => {
   try {
-    const {data} = await axios.post(
-      `/api/users/${user.id}/organizations`,
-      organization
-    )
+    const {data} = await axios.post(`/api/organizations/`, newOrg)
+    return data
+  } catch (err) {
+    console.error(err)
+  }
+}
 
+export const addUserToOrgDB = async (orgId, userId) => {
+  try {
+    const {data} = await axios.put(
+      `/api/organizations/${orgId}/users/${userId}`
+    )
     return data
   } catch (err) {
     console.error(err)

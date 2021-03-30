@@ -4,7 +4,6 @@ import styles from './css/AddOrgDropdown.css'
 
 const AddOrgDropDown = () => {
   const [isDialogActive, setIsDialogActive] = useState(false)
-
   const closeModal = () => setIsDialogActive(false)
 
   return (

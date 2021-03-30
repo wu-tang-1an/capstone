@@ -1,46 +1,31 @@
 import React, {useState, useContext} from 'react'
 import styles from './css/AddDialogShared.css'
-
 import {AuthContext} from '../context/authContext'
-
-// import {addOrganizationDB} from '../context/axiosService'
-
-import axios from 'axios'
+import {addOrganizationDB, addUserToOrgDB} from '../context/axiosService'
 
 const AddOrgDialog = ({closeModal}) => {
-  // grab user from Auth context
-
   const {user} = useContext(AuthContext)
 
-  // initialize local state for new column name
+  // local state mgmt
   const [name, setName] = useState('')
-
-  // initialize local state for new Organization name
-
-  const [organizations, setOrganizations] = useState([])
-
-  console.log('organizations---->', organizations)
+  const [imageUrl, setImageUrl] = useState('')
 
   // add organization method updates db and closes the dialog
   const addOrganization = async (e) => {
     e.preventDefault()
 
-    // get new column instance for addColumnDB call
     const newOrganization = {
       name: name,
+      imageUrl: imageUrl,
     }
 
     try {
-      const {data} = await axios.post(`/api/organizations`, newOrganization)
-
-      // set local column state
-      setOrganizations([...organizations, data])
+      const createdOrganization = await addOrganizationDB(newOrganization)
+      await addUserToOrgDB(createdOrganization.id, user.id)
     } catch (err) {
       console.error(err)
     }
   }
-
-  console.log('organizations NOW!!!!---->', organizations)
 
   return (
     <div className={styles.addDropDownContainer}>
