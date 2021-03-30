@@ -60,8 +60,9 @@ const TaskCard = ({task, index}) => {
       task.id
     )
 
-    // then, toggle active badge
+    // then, toggle active badge and update local state
     setActiveBadge(!isActiveBadge)
+    setTaskChanged(!taskChanged)
 
     // // helper refreshes project board data
     // await refreshProjectBoard()

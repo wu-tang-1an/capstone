@@ -13,9 +13,10 @@ export const socketOnEvents = {
   COLUMN_NAME_WAS_EDITED: 'column-name-was-edited',
   TASK_WAS_ADDED: 'task-was-added',
   TASK_WAS_DELETED: 'task-was-deleted',
+  TASK_WAS_EDITED: 'task-was-edited',
   COMMENT_WAS_ADDED: 'comment-was-added',
   COMMENT_WAS_DELETED: 'comment-was-deleted',
-  TASK_WAS_EDITED: 'task-was-edited',
+  COMMENT_WAS_EDITED: 'comment-was-edited',
 }
 
 export default socket

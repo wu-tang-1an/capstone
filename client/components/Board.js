@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import React, {useContext} from 'react'
 import {DragDropContext} from 'react-beautiful-dnd'
 import {ProjectContext} from '../context/projectContext'
@@ -106,9 +107,10 @@ const Board = () => {
     COLUMN_NAME_WAS_EDITED,
     TASK_WAS_ADDED,
     TASK_WAS_DELETED,
+    TASK_WAS_EDITED,
     COMMENT_WAS_ADDED,
     COMMENT_WAS_DELETED,
-    TASK_WAS_EDITED,
+    COMMENT_WAS_EDITED,
   } = socketOnEvents
 
   socket.on(TASK_WAS_MOVED, ({ignore, newColumns}) => {
@@ -126,9 +128,10 @@ const Board = () => {
     COLUMN_NAME_WAS_EDITED ||
     TASK_WAS_ADDED ||
     TASK_WAS_DELETED ||
+    TASK_WAS_EDITED ||
     COMMENT_WAS_ADDED ||
     COMMENT_WAS_DELETED ||
-    TASK_WAS_EDITED
+    COMMENT_WAS_EDITED
 
   socket.on(CRUD_OPERATION, ({ignore}) => {
     if (socket.id === ignore) return
