@@ -1,10 +1,11 @@
+/* eslint-disable complexity */
 import React, {useContext} from 'react'
 import {DragDropContext} from 'react-beautiful-dnd'
 import {ProjectContext} from '../context/projectContext'
 import {dropUpdateDb} from '../context/axiosService'
 import Column from './Column'
 import AddColumnDropDown from './AddColumnDropDown'
-import socket from '../socket'
+import socket, {socketReceived, socketSent} from '../socket'
 import {notify} from './helper/toast'
 import styles from './css/Board.css'
 
@@ -95,11 +96,24 @@ const Board = () => {
 
     // broadcast drag and drop changes
     // send a payload with ignore
-    socket.emit('move-task', {ignore: socket.id, newColumns})
+    socket.emit(socketSent.MOVE_TASK, {ignore: socket.id, newColumns})
   }
 
   // socket logic
-  socket.on('task-was-moved', ({ignore, newColumns}) => {
+  const {
+    TASK_WAS_MOVED,
+    COLUMN_WAS_ADDED,
+    COLUMN_WAS_DELETED,
+    COLUMN_NAME_WAS_EDITED,
+    TASK_WAS_ADDED,
+    TASK_WAS_DELETED,
+    TASK_WAS_EDITED,
+    COMMENT_WAS_ADDED,
+    COMMENT_WAS_DELETED,
+    COMMENT_WAS_EDITED,
+  } = socketReceived
+
+  socket.on(TASK_WAS_MOVED, ({ignore, newColumns}) => {
     // only refresh when other user actions occur
     if (socket.id === ignore) return
     // set columns rather than trigger rerender
@@ -107,58 +121,44 @@ const Board = () => {
     // and card moves glitch
     setColumns(newColumns)
   })
-  socket.on('column-was-added', ({ignore}) => {
+
+  socket.on(TASK_WAS_ADDED, ({ignore, newColumns}) => {
     if (socket.id === ignore) return
-    setTaskChanged(!taskChanged)
-  })
-  socket.on('column-was-deleted', ({ignore}) => {
-    if (socket.id === ignore) return
-    setTaskChanged(!taskChanged)
-  })
-  socket.on('column-name-was-edited', ({ignore}) => {
-    if (socket.id === ignore) return
-    setTaskChanged(!taskChanged)
-  })
-  socket.on('task-was-added', ({ignore}) => {
-    if (socket.id === ignore) return
-    setTaskChanged(!taskChanged)
-  })
-  socket.on('task-was-deleted', ({ignore}) => {
-    if (socket.id === ignore) return
-    setTaskChanged(!taskChanged)
-  })
-  socket.on('comment-was-added', ({ignore}) => {
-    if (socket.id === ignore) return
-    setTaskChanged(!taskChanged)
-  })
-  socket.on('comment-was-deleted', ({ignore}) => {
-    if (socket.id === ignore) return
-    setTaskChanged(!taskChanged)
+    setColumns(newColumns)
   })
 
-  // task edits require some update work
-  socket.on('task-was-edited', ({ignore, updatedTask}) => {
+  socket.on(TASK_WAS_DELETED, ({ignore, taskId}) => {
     if (socket.id === ignore) return
+    setColumns(
+      columns.map((column) => {
+        if (!column.tasks.some((task) => task.id === taskId)) return column
+        const updatedTasks = column.tasks.filter((task) => task.id !== taskId)
+        column.tasks = updatedTasks
+        return column
+      })
+    )
+  })
 
-    const updatedColumns = columns.map((column) => {
-      // get an array of taskIds for each column's tasks
-      const taskIds = column.tasks ? column.tasks.map((task) => task.id) : []
+  socket.on(COLUMN_WAS_DELETED, ({ignore, newColumns}) => {
+    if (socket.id === ignore) return
+    setColumns(newColumns)
+  })
 
-      // if this column doesn't include the updated task, return the column
-      if (!taskIds.includes(updatedTask.id)) return column
+  socket.on(COLUMN_NAME_WAS_EDITED, ({ignore, newColumns}) => {
+    if (socket.id === ignore) return
+    setColumns(newColumns)
+  })
 
-      // otherwise, replace the task with the updatedTask received over socket connection
-      const updatedTasks = column.tasks.map((task) =>
-        task.id === updatedTask.id ? updatedTask : task
-      )
+  const OTHER_CRUD_OP =
+    COLUMN_WAS_ADDED ||
+    TASK_WAS_EDITED ||
+    COMMENT_WAS_ADDED ||
+    COMMENT_WAS_DELETED ||
+    COMMENT_WAS_EDITED
 
-      // replace the column's task array with the updated tasks and return
-      column.tasks = updatedTasks
-      return column
-    })
-
-    // after received updated columns, set them
-    setColumns(updatedColumns)
+  socket.on(OTHER_CRUD_OP, ({ignore}) => {
+    if (socket.id === ignore) return
+    setTaskChanged(!taskChanged)
   })
 
   return (
