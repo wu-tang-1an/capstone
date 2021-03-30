@@ -43,9 +43,12 @@ const TaskCard = ({task, index}) => {
   const [comments, setComments] = useState(task.comments || [])
 
   // grab helper to refresh data on project board after changes
-  const {refreshProjectBoard, taskChanged, setTaskChanged} = useContext(
-    ProjectContext
-  )
+  const {
+    project,
+    refreshProjectBoard,
+    taskChanged,
+    setTaskChanged,
+  } = useContext(ProjectContext)
 
   // returns firstName + lastName for task card "opened by _____"
   const getFullName = () => {
@@ -66,17 +69,24 @@ const TaskCard = ({task, index}) => {
 
     // // helper refreshes project board data
     // await refreshProjectBoard()
-    socket.emit(socketSent.EDIT_TASK, {ignore: socket.id, updatedTask})
+    socket.emit(socketSent.EDIT_TASK, {
+      ignoreUser: socket.id,
+      projectId: project.id,
+      updatedTask,
+    })
   }
 
-  // socket logic for task, comment updates
-  socket.on(socketReceived.TASK_WAS_EDITED, ({ignore, updatedTask}) => {
-    if (socket.id === ignore) return
-    if (task.id === updatedTask.id) {
-      setActiveBadge(updatedTask.isActiveBadge)
-      setTaskChanged(!taskChanged)
+  // socket logic for task updates
+  socket.on(
+    socketReceived.TASK_WAS_EDITED,
+    ({ignoreUser, projectId, updatedTask}) => {
+      if (socket.id === ignoreUser || projectId !== project.id) return
+      if (task.id === updatedTask.id) {
+        setActiveBadge(updatedTask.isActiveBadge)
+        setTaskChanged(!taskChanged)
+      }
     }
-  })
+  )
 
   // important! if "this" client makes a CRUD op
   // with a comment, we want to listen for it even though

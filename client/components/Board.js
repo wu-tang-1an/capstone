@@ -96,7 +96,11 @@ const Board = () => {
 
     // broadcast drag and drop changes
     // send a payload with ignore
-    socket.emit(socketSent.MOVE_TASK, {ignore: socket.id, newColumns})
+    socket.emit(socketSent.MOVE_TASK, {
+      ignoreUser: socket.id,
+      projectId: project.id,
+      newColumns,
+    })
   }
 
   // socket logic
@@ -113,22 +117,22 @@ const Board = () => {
     COMMENT_WAS_EDITED,
   } = socketReceived
 
-  socket.on(TASK_WAS_MOVED, ({ignore, newColumns}) => {
+  socket.on(TASK_WAS_MOVED, ({ignoreUser, projectId, newColumns}) => {
     // only refresh when other user actions occur
-    if (socket.id === ignore) return
+    if (socket.id === ignoreUser || projectId !== project.id) return
     // set columns rather than trigger rerender
     // otherwise card doesn't get its new index
     // and card moves glitch
     setColumns(newColumns)
   })
 
-  socket.on(TASK_WAS_ADDED, ({ignore, newColumns}) => {
-    if (socket.id === ignore) return
+  socket.on(TASK_WAS_ADDED, ({ignoreUser, projectId, newColumns}) => {
+    if (socket.id === ignoreUser || projectId !== project.id) return
     setColumns(newColumns)
   })
 
-  socket.on(TASK_WAS_DELETED, ({ignore, taskId}) => {
-    if (socket.id === ignore) return
+  socket.on(TASK_WAS_DELETED, ({ignoreUser, projectId, taskId}) => {
+    if (socket.id === ignoreUser || projectId !== project.id) return
     setColumns(
       columns.map((column) => {
         if (!column.tasks.some((task) => task.id === taskId)) return column
@@ -139,13 +143,13 @@ const Board = () => {
     )
   })
 
-  socket.on(COLUMN_WAS_DELETED, ({ignore, newColumns}) => {
-    if (socket.id === ignore) return
+  socket.on(COLUMN_WAS_DELETED, ({ignoreUser, projectId, newColumns}) => {
+    if (socket.id === ignoreUser || projectId !== project.id) return
     setColumns(newColumns)
   })
 
-  socket.on(COLUMN_NAME_WAS_EDITED, ({ignore, newColumns}) => {
-    if (socket.id === ignore) return
+  socket.on(COLUMN_NAME_WAS_EDITED, ({ignoreUser, projectId, newColumns}) => {
+    if (socket.id === ignoreUser || projectId !== project.id) return
     setColumns(newColumns)
   })
 
@@ -156,8 +160,8 @@ const Board = () => {
     COMMENT_WAS_DELETED ||
     COMMENT_WAS_EDITED
 
-  socket.on(OTHER_CRUD_OP, ({ignore}) => {
-    if (socket.id === ignore) return
+  socket.on(OTHER_CRUD_OP, ({ignoreUser, projectId}) => {
+    if (socket.id === ignoreUser || projectId !== project.id) return
     setTaskChanged(!taskChanged)
   })
 

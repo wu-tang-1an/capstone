@@ -34,9 +34,12 @@ const SingleTaskExpanded = ({task, closeModal}) => {
   const [isAddCommentActive, setAddCommentActive] = useState(false)
   const [isActiveNameEdit, setActiveNameEdit] = useState(false)
 
-  const {taskChanged, setTaskChanged, refreshProjectBoard} = useContext(
-    ProjectContext
-  )
+  const {
+    project,
+    taskChanged,
+    setTaskChanged,
+    refreshProjectBoard,
+  } = useContext(ProjectContext)
 
   // deleteComment removes comment from db
   // local state will reload on single task view
@@ -44,7 +47,11 @@ const SingleTaskExpanded = ({task, closeModal}) => {
     await deleteCommentDB(commentId)
     setTaskComments(taskComments.filter((comment) => comment.id !== commentId))
     setTaskChanged(!taskChanged)
-    socket.emit(socketSent.DELETE_COMMENT, {ignore: socket.id, commentId})
+    socket.emit(socketSent.DELETE_COMMENT, {
+      ignoreUser: socket.id,
+      projectId: project.id,
+      commentId,
+    })
   }
 
   // editComment updates comment in db, local state
@@ -56,7 +63,11 @@ const SingleTaskExpanded = ({task, closeModal}) => {
       )
     )
     setTaskChanged(!taskChanged)
-    socket.emit(socketSent.EDIT_COMMENT, {ignore: socket.id, updatedComment})
+    socket.emit(socketSent.EDIT_COMMENT, {
+      ignoreUser: socket.id,
+      projectId: project.id,
+      updatedComment,
+    })
     return updatedComment
   }
 
@@ -79,7 +90,8 @@ const SingleTaskExpanded = ({task, closeModal}) => {
       setTaskChanged(!taskChanged)
 
       socket.emit(socketSent.ADD_COMMENT, {
-        ignore: socket.id,
+        ignoreUser: socket.id,
+        projectId: project.id,
         newComment: associatedComment,
       })
     } catch (err) {
@@ -88,31 +100,42 @@ const SingleTaskExpanded = ({task, closeModal}) => {
   }
 
   // socket logic
-  socket.on(socketReceived.COMMENT_WAS_ADDED, ({ignore, newComment}) => {
-    if (socket.id === ignore) return
-    setTaskComments(
-      [...taskComments, newComment].sort((a, b) =>
-        a.editTimeStamp < b.editTimeStamp ? -1 : 1
+  socket.on(
+    socketReceived.COMMENT_WAS_ADDED,
+    ({ignoreUser, projectId, newComment}) => {
+      if (socket.id === ignoreUser || projectId !== project.id) return
+      setTaskComments(
+        [...taskComments, newComment].sort((a, b) =>
+          a.editTimeStamp < b.editTimeStamp ? -1 : 1
+        )
       )
-    )
-    setTaskChanged(!taskChanged)
-  })
+      setTaskChanged(!taskChanged)
+    }
+  )
 
-  socket.on(socketReceived.COMMENT_WAS_DELETED, ({ignore, commentId}) => {
-    if (socket.id === ignore) return
-    setTaskComments(taskComments.filter((comment) => comment.id !== commentId))
-    setTaskChanged(!taskChanged)
-  })
-
-  socket.on(socketReceived.COMMENT_WAS_EDITED, ({ignore, updatedComment}) => {
-    if (socket.id === ignore) return
-    setTaskComments(
-      taskComments.map((comment) =>
-        comment.id === updatedComment.id ? updatedComment : comment
+  socket.on(
+    socketReceived.COMMENT_WAS_DELETED,
+    ({ignoreUser, projectId, commentId}) => {
+      if (socket.id === ignoreUser || projectId !== project.id) return
+      setTaskComments(
+        taskComments.filter((comment) => comment.id !== commentId)
       )
-    )
-    setTaskChanged(!taskChanged)
-  })
+      setTaskChanged(!taskChanged)
+    }
+  )
+
+  socket.on(
+    socketReceived.COMMENT_WAS_EDITED,
+    ({ignoreUser, projectId, updatedComment}) => {
+      if (socket.id === ignoreUser || projectId !== project.id) return
+      setTaskComments(
+        taskComments.map((comment) =>
+          comment.id === updatedComment.id ? updatedComment : comment
+        )
+      )
+      setTaskChanged(!taskChanged)
+    }
+  )
 
   return (
     <div className={styles.singleTaskContainer}>
@@ -164,7 +187,8 @@ const SingleTaskExpanded = ({task, closeModal}) => {
                   setActiveNameEdit(false)
                   setLastEdit(updatedTask.editTimeStamp)
                   socket.emit(socketSent.EDIT_TASK, {
-                    ignore: socket.id,
+                    ignoreUser: socket.id,
+                    projectId: project.id,
                     updatedTask,
                   })
                 }}
@@ -202,7 +226,8 @@ const SingleTaskExpanded = ({task, closeModal}) => {
                 setActiveMarkdownEditor(false)
                 setLastEdit(updatedTask.editTimeStamp)
                 socket.emit(socketSent.EDIT_TASK, {
-                  ignore: socket.id,
+                  ignoreUser: socket.id,
+                  projectId: project.id,
                   updatedTask,
                 })
               }}

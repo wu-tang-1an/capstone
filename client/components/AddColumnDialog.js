@@ -46,7 +46,10 @@ const AddColumnDialog = ({closeModal}) => {
       console.error(err)
     }
 
-    socket.emit(socketSent.ADD_COLUMN, {ignore: socket.id})
+    socket.emit(socketSent.ADD_COLUMN, {
+      ignoreUser: socket.id,
+      projectId: project.id,
+    })
   }
 
   return (

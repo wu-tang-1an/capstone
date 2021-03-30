@@ -11,7 +11,9 @@ const AddTaskDialog = ({columnId, closeTaskDialog}) => {
   const {user} = useContext(AuthContext)
 
   // grab column and tasks, setTasks from column context
-  const {columns, setColumns, tasks, setTasks} = useContext(ProjectContext)
+  const {project, columns, setColumns, tasks, setTasks} = useContext(
+    ProjectContext
+  )
 
   // get this column
   const thisColumn = columns.find((column) => column.id === columnId)
@@ -59,7 +61,8 @@ const AddTaskDialog = ({columnId, closeTaskDialog}) => {
       // to create multiple cards without having to click the +
       // repeatedly!
       socket.emit(socketSent.ADD_TASK, {
-        ignore: socket.id,
+        ignoreUser: socket.id,
+        projectId: project.id,
         newColumns: updatedColumns,
       })
     } catch (err) {

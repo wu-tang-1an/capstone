@@ -37,7 +37,8 @@ const ColumnDropDown = ({columnId, closeDropDown}) => {
       setColumns(updatedColumns)
 
       socket.emit(socketSent.EDIT_COLUMN_NAME, {
-        ignore: socket.id,
+        ignoreUser: socket.id,
+        projectId: project.id,
         newColumns: updatedColumns,
       })
     } catch (err) {
@@ -57,7 +58,8 @@ const ColumnDropDown = ({columnId, closeDropDown}) => {
       setColumns(updatedColumns)
 
       socket.emit(socketSent.DELETE_COLUMN, {
-        ignore: socket.id,
+        ignoreUser: socket.id,
+        projectId: project.id,
         newColumns: updatedColumns,
       })
     } catch (err) {
