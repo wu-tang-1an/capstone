@@ -64,6 +64,7 @@ const DropDownContainer = ({
       {activeField === 'Edit' && (
         <EditProjectModal
           project={project}
+          organization={organization}
           setProjects={setProjects}
           closeModal={closeModal}
         />
