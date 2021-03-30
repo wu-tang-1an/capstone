@@ -1,0 +1,54 @@
+.addDropDownContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5em 0;
+}
+
+textarea {
+  outline: none;
+  margin: 0;
+  padding: 1em;
+  height: 80px;
+  width: 100%;
+  background-color: white;
+  border: solid black 2px;
+  border-radius: 5px;
+  margin-bottom: 0.5em;
+  resize: none;
+}
+
+textarea:focus {
+  border: solid black 2px;
+  border-radius: 5px;
+}
+
+.btnContainer {
+  display: flex;
+  width: 100%;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.btnContainer button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 49.5%;
+  border-radius: 5px;
+  border: transparent;
+}
+
+.addBtn {
+  background-color: rgb(95, 189, 95);
+  color: white;
+}
+
+.addBtn:hover {
+  background-color: rgb(77, 155, 77);
+}
+
+.cancelBtn:hover {
+  background-color: white;
+}

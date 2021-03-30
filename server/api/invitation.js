@@ -27,7 +27,7 @@ router.get('/:userId', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
   try {
     const orgId = req.body.orgId
-    const userId = req.body.userId
+    const userEmail = req.body.userEmail
 
     const org = await Organization.findByPk(orgId)
 
@@ -37,10 +37,18 @@ router.post('/', async (req, res, next) => {
       orgName: org.name,
     })
 
-    let user = await User.findByPk(userId)
-    user = await user.addInvitation(invitation)
+    let user = await User.findOne({
+      where: {
+        email: userEmail,
+      },
+    })
 
-    res.json(user)
+    if (user) {
+      user = await user.addInvitation(invitation)
+      res.json(user)
+    } else {
+      res.json('User not found!')
+    }
   } catch (e) {
     console.log(e)
     next(e)
