@@ -1,33 +1,66 @@
 import React, {useState} from 'react'
 import Modal from './Modal'
+import {getOrgDb, updateProjectDb} from '../context/axiosService'
 
 import styles from './css/ColumnDropDown.css'
 
-const EditProjectModal = ({project, setProjects, closeModal}) => {
+const EditProjectModal = ({project, organization, setProjects, closeModal}) => {
   const [name, setName] = useState(project.name)
+  const [status, setStatus] = useState(project.status)
+  const [description, setDescription] = useState(project.description)
+  const [imageUrl, setImageUrl] = useState(project.imageUrl)
 
-  const editProject = () => {
-    setProjects()
+  const editProject = async () => {
+    await updateProjectDb(project.id, {
+      name: name,
+      status: status,
+      description: description,
+      imageUrl: imageUrl,
+    })
+
+    // get new organization info from db
+    const data = await getOrgDb(organization.id)
+
+    // update projects state
+    setProjects(data.projects || [])
+
+    closeModal()
   }
 
   return (
     <Modal>
       <div className={styles.modalContent}>
-        <div className={styles.newColumnName}>New project name</div>
+        <div className={styles.newColumnName}>Edit project name</div>
         <input
           type="text"
           className={styles.columnNameInput}
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
+        <div className={styles.newColumnName}>Edit project description</div>
+        <input
+          type="text"
+          className={styles.columnNameInput}
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
+        <div className={styles.newColumnName}>Edit project image URL</div>
+        <input
+          type="text"
+          className={styles.columnNameInput}
+          value={imageUrl}
+          onChange={(e) => setImageUrl(e.target.value)}
+        />
+        <div className={styles.newColumnName}>Edit project status</div>
+        <select value={status} onChange={(e) => setStatus(e.target.value)}>
+          <option value="in-progress">in-progress</option>
+          <option value="complete">complete</option>
+        </select>
         <div className={styles.modalBtnsContainer}>
           <button
             type="button"
             className={styles.editBtn}
-            onClick={() => {
-              //   editColumn()
-              closeModal()
-            }}
+            onClick={editProject}
           >
             Save
           </button>
