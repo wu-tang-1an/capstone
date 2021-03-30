@@ -50,6 +50,7 @@
     "connect-session-sequelize": "^6.0.0",
     "express": "^4.16.4",
     "express-session": "^1.15.1",
+    "gapi-script": "^1.1.0",
     "history": "^4.9.0",
     "marked": "^1.2.9",
     "mdbreact": "^5.0.1",

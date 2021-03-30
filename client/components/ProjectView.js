@@ -3,6 +3,7 @@ import {withRouter} from 'react-router'
 import ProjectProvider from '../context/projectContext'
 import Board from './Board'
 import DirectoryBar from './DirectoryBar'
+import GoogleDriveButton from '../../google-drive/GoogleDriveButton'
 import styles from './css/ProjectView.css'
 
 const ProjectView = ({match}) => {
@@ -12,6 +13,7 @@ const ProjectView = ({match}) => {
     <div className={styles.projectContainer}>
       <ProjectProvider projectId={projectId}>
         <DirectoryBar />
+        <GoogleDriveButton />
         <Board />
       </ProjectProvider>
     </div>
