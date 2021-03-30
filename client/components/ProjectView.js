@@ -3,7 +3,7 @@ import {withRouter} from 'react-router'
 import ProjectProvider from '../context/projectContext'
 import Board from './Board'
 import DirectoryBar from './DirectoryBar'
-import styles from './css/ProjectView.css'
+import styles from './css/ProjectView.module.css'
 
 const ProjectView = ({match}) => {
   const projectId = +match.params.projectId

@@ -16,7 +16,7 @@ import {
   deleteCommentDB,
 } from '../context/axiosService'
 import socket, {socketSent, socketReceived} from '../socket'
-import styles from './css/SingleTaskExpanded.css'
+import styles from './css/SingleTaskExpanded.module.css'
 
 const SingleTaskExpanded = ({task, closeModal}) => {
   // destructure task

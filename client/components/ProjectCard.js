@@ -1,7 +1,7 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 import ProjectCardDropDown from './ProjectCardDropDown'
-import styles from './css/ProjectCard.css'
+import styles from './css/ProjectCard.module.css'
 
 const ProjectCard = ({project, organization, setProjects}) => {
   const {id, name, description, imageUrl, status} = project

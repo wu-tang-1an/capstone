@@ -1,5 +1,5 @@
 import React, {useState, useContext} from 'react'
-import styles from '../css/AddMemDialog.css'
+import styles from '../css/AddMemDialog.module.css'
 import {AuthContext} from '../../context/authContext'
 import {sendInvite} from '../../context/axiosService'
 

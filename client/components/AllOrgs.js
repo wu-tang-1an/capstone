@@ -5,7 +5,7 @@ import {AuthContext} from '../context/authContext'
 import {CgOrganisation} from 'react-icons/cg'
 import {IconContext} from 'react-icons'
 import AddOrgDropdown from './AddOrgDropdown'
-import styles from './css/AllOrgs.css'
+import styles from './css/AllOrgs.module.css'
 
 const AllOrgs = () => {
   // grab user from auth context
