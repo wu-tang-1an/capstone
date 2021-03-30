@@ -144,13 +144,13 @@ const Board = () => {
     setColumns(newColumns)
   })
 
-  /* TASK_WAS_ADDED ||
-    TASK_WAS_DELETED || */
+  socket.on(COLUMN_NAME_WAS_EDITED, ({ignore, newColumns}) => {
+    if (socket.id === ignore) return
+    setColumns(newColumns)
+  })
 
   const OTHER_CRUD_OP =
     COLUMN_WAS_ADDED ||
-    COLUMN_WAS_DELETED ||
-    COLUMN_NAME_WAS_EDITED ||
     TASK_WAS_EDITED ||
     COMMENT_WAS_ADDED ||
     COMMENT_WAS_DELETED ||
