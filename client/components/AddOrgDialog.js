@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react'
+import React, {useState, useContext, useEffect} from 'react'
 import styles from './css/AddDialogShared.css'
 import {AuthContext} from '../context/authContext'
 import {addOrganizationDB, addUserToOrgDB} from '../context/axiosService'
