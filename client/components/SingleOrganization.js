@@ -1,23 +1,26 @@
-import React, {useState, useEffect, useMemo} from 'react'
+import React, {useState, useEffect, useMemo, useContext} from 'react'
+import {AuthContext} from '../context/authContext'
+
 import axios from 'axios'
-import {Link} from 'react-router-dom'
+import isAdmin from './helper/isAdmin'
+import AddMemberDropdown from './sub-components/AddMemberDropdown'
+
 import ProjectCard from './ProjectCard'
 import UserCard from './UserCard'
 import styles from './css/SingleOrganization.css'
 
 const SingleOrganization = ({match}) => {
+  const {user} = useContext(AuthContext)
+  const userId = user.id
+
   // grab orgId from match
   const organizationId = +match.params.organizationId
-
   // assign local state
   const [organization, setOrganization] = useState({})
   const [projects, setProjects] = useState([])
 
-  console.log('organization--->', organization)
-  console.log('projects--->', projects)
+  const [status, setStatus] = useState(false)
 
-  // get single org with direct api call
-  // no context/provider here since it's a direct route
   useEffect(() => {
     let isMounted = true
     const fetchSingleOrg = async () => {
@@ -29,7 +32,17 @@ const SingleOrganization = ({match}) => {
         console.error(err)
       }
     }
+
+    const fetchStatus = async () => {
+      try {
+        setStatus(await isAdmin(userId, organizationId))
+      } catch (e) {
+        console.log(e)
+      }
+    }
+
     fetchSingleOrg()
+    fetchStatus()
 
     return () => {
       isMounted = false
@@ -56,6 +69,8 @@ const SingleOrganization = ({match}) => {
         <div className={styles.membersAndProjects}>
           <div className={styles.membersContainer}>
             <div className={styles.membersTitle}>Members:</div>
+            {status ? <AddMemberDropdown orgId={organizationId} /> : null}
+
             <div className={styles.memberList}>
               {users &&
                 users.map((user) => <UserCard key={user.id} user={user} />)}
