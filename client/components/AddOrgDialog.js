@@ -17,7 +17,8 @@ const AddOrgDialog = ({closeModal}) => {
   // initialize local state for new Organization name
 
   let [organization, setAddOrganization] = useState({})
-  const [organizations, setOrganizations] = useState([])
+
+  // const [organizations, setOrganizations] = useState([])
 
   console.log('organization in AddOrg---->', organization)
 
@@ -40,7 +41,8 @@ const AddOrgDialog = ({closeModal}) => {
 
       // set local column state
       setAddOrganization(data)
-      setOrganizations([...organizations, setAddOrganization(data)])
+
+      // setOrganizations([...organizations, setAddOrganization(data)])
     } catch (err) {
       console.error(err)
     }
