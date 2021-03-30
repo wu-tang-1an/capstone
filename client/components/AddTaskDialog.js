@@ -44,10 +44,13 @@ const AddTaskDialog = ({columnId, closeTaskDialog}) => {
       // fetch the column that holds the new task
       const {data} = await axios.get(`/api/columns/${thisColumn.id}`)
 
-      // first update the column on local state
-      setColumns(
-        columns.map((column) => (column.id === data.id ? data : column))
+      // get a new columns array
+      const updatedColumns = columns.map((column) =>
+        column.id === data.id ? data : column
       )
+
+      // first update the column on local state
+      setColumns(updatedColumns)
 
       // then update the local state tasks record
       setTasks([...tasks, createdTask])
@@ -55,7 +58,7 @@ const AddTaskDialog = ({columnId, closeTaskDialog}) => {
       // do NOT close the task dialog -- this allows users
       // to create multiple cards without having to click the +
       // repeatedly!
-      socket.emit('add-task', {ignore: socket.id})
+      socket.emit('add-task', {ignore: socket.id, newColumns: updatedColumns})
     } catch (err) {
       console.error(err)
     }

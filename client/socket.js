@@ -6,7 +6,20 @@ socket.on('connect', () => {
   console.log('Connected!')
 })
 
-export const socketOnEvents = {
+export const socketSent = {
+  MOVE_TASK: 'move-task',
+  ADD_COLUMN: 'add-column',
+  DELETE_COLUMN: 'delete-column',
+  EDIT_COLUMN_NAME: 'edit-column-name',
+  ADD_TASK: 'add-task',
+  DELETE_TASK: 'delete-task',
+  EDIT_TASK: 'edit-task',
+  ADD_COMMENT: 'add-comment',
+  DELETE_COMMENT: 'delete-comment',
+  EDIT_COMMENT: 'edit-comment',
+}
+
+export const socketReceived = {
   TASK_WAS_MOVED: 'task-was-moved',
   COLUMN_WAS_ADDED: 'column-was-added',
   COLUMN_WAS_DELETED: 'column-was-deleted',

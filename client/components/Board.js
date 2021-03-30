@@ -5,7 +5,7 @@ import {ProjectContext} from '../context/projectContext'
 import {fetchTaskDB, dropUpdateDb} from '../context/axiosService'
 import Column from './Column'
 import AddColumnDropDown from './AddColumnDropDown'
-import socket, {socketOnEvents} from '../socket'
+import socket, {socketReceived, socketSent} from '../socket'
 import {notify} from './helper/toast'
 import styles from './css/Board.css'
 
@@ -96,7 +96,7 @@ const Board = () => {
 
     // broadcast drag and drop changes
     // send a payload with ignore
-    socket.emit('move-task', {ignore: socket.id, newColumns})
+    socket.emit(socketSent.MOVE_TASK, {ignore: socket.id, newColumns})
   }
 
   // socket logic
@@ -111,7 +111,7 @@ const Board = () => {
     COMMENT_WAS_ADDED,
     COMMENT_WAS_DELETED,
     COMMENT_WAS_EDITED,
-  } = socketOnEvents
+  } = socketReceived
 
   socket.on(TASK_WAS_MOVED, ({ignore, newColumns}) => {
     // only refresh when other user actions occur
@@ -122,18 +122,36 @@ const Board = () => {
     setColumns(newColumns)
   })
 
-  const CRUD_OPERATION =
+  socket.on(TASK_WAS_ADDED, ({ignore, newColumns}) => {
+    if (socket.id === ignore) return
+    setColumns(newColumns)
+  })
+
+  socket.on(TASK_WAS_DELETED, ({ignore, taskId}) => {
+    if (socket.id === ignore) return
+    setColumns(
+      columns.map((column) => {
+        if (!column.tasks.some((task) => task.id === taskId)) return column
+        const updatedTasks = column.tasks.filter((task) => task.id !== taskId)
+        column.tasks = updatedTasks
+        return column
+      })
+    )
+  })
+
+  /* TASK_WAS_ADDED ||
+    TASK_WAS_DELETED || */
+
+  const OTHER_CRUD_OP =
     COLUMN_WAS_ADDED ||
     COLUMN_WAS_DELETED ||
     COLUMN_NAME_WAS_EDITED ||
-    TASK_WAS_ADDED ||
-    TASK_WAS_DELETED ||
     TASK_WAS_EDITED ||
     COMMENT_WAS_ADDED ||
     COMMENT_WAS_DELETED ||
     COMMENT_WAS_EDITED
 
-  socket.on(CRUD_OPERATION, ({ignore}) => {
+  socket.on(OTHER_CRUD_OP, ({ignore}) => {
     if (socket.id === ignore) return
     setTaskChanged(!taskChanged)
   })
