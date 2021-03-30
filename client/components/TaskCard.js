@@ -1,4 +1,4 @@
-import React, {useContext, useState, useEffect} from 'react'
+import React, {useContext, useState} from 'react'
 import {Draggable} from 'react-beautiful-dnd'
 import styled from 'styled-components'
 import moment from 'moment'
@@ -10,7 +10,7 @@ import {ProjectContext} from '../context/projectContext'
 import {updateTaskDB} from '../context/axiosService'
 import ImportantBadge from './ImportantBadge'
 import NumberOfCommentsBadge from './NumberOfCommentsBadge'
-import socket from '../socket'
+import socket, {socketSent, socketReceived} from '../socket'
 import styles from './css/TaskCard.css'
 
 const Container = styled.div`
@@ -40,6 +40,7 @@ const TaskCard = ({task, index}) => {
 
   // initilaize local state to track task card badge activation
   const [isActiveBadge, setActiveBadge] = useState(task.isActiveBadge)
+  const [comments, setComments] = useState(task.comments || [])
 
   // grab helper to refresh data on project board after changes
   const {refreshProjectBoard, taskChanged, setTaskChanged} = useContext(
@@ -59,25 +60,52 @@ const TaskCard = ({task, index}) => {
       task.id
     )
 
-    // then, toggle active badge
+    // then, toggle active badge and update local state
     setActiveBadge(!isActiveBadge)
+    setTaskChanged(!taskChanged)
 
-    socket.emit('edit-task', {ignore: socket.id, updatedTask})
-
-    // helper refreshes project board data
-    await refreshProjectBoard()
+    // // helper refreshes project board data
+    // await refreshProjectBoard()
+    socket.emit(socketSent.EDIT_TASK, {ignore: socket.id, updatedTask})
   }
 
-  // receives project board-level updates on name, badge-status
-  // and number of comments
-  useEffect(() => {
-    let isMounted = true
-    socket.on('task-was-edited', ({ignore, updatedTask}) => {
-      if (socket.id === ignore) return
+  // socket logic for task, comment updates
+  socket.on(socketReceived.TASK_WAS_EDITED, ({ignore, updatedTask}) => {
+    if (socket.id === ignore) return
+    if (task.id === updatedTask.id) {
+      setActiveBadge(updatedTask.isActiveBadge)
       setTaskChanged(!taskChanged)
-    })
-    return () => {
-      isMounted = false
+    }
+  })
+
+  // important! if "this" client makes a CRUD op
+  // with a comment, we want to listen for it even though
+  // "we" emitted the event! due to the way our modal
+  // is hooked above the task card state, we actually
+  // need to "listen" for comment events here
+  // so we check task id, rather than check socket id
+  socket.on(socketReceived.COMMENT_WAS_ADDED, ({newComment}) => {
+    if (task.id === newComment.taskId) {
+      setComments([...comments, newComment])
+      setTaskChanged(!taskChanged)
+    }
+  })
+
+  socket.on(socketReceived.COMMENT_WAS_DELETED, ({commentId}) => {
+    if (task.comments.some((comment) => comment.id === commentId)) {
+      setComments(comments.filter((comment) => comment.id !== commentId))
+      setTaskChanged(!taskChanged)
+    }
+  })
+
+  socket.on(socketReceived.COMMENT_WAS_EDITED, ({updatedComment}) => {
+    if (task.comments.some((comment) => comment.id === updatedComment.id)) {
+      setComments(
+        comments.map((comment) =>
+          comment.id === updatedComment.id ? updatedComment : comment
+        )
+      )
+      setTaskChanged(!taskChanged)
     }
   })
 
@@ -135,9 +163,7 @@ const TaskCard = ({task, index}) => {
             </section>
             <section className={styles.commentsBadgeAndAvatars}>
               <NumberOfCommentsBadge
-                numberOfComments={
-                  task && task.comments ? task.comments.length : 0
-                }
+                numberOfComments={comments ? comments.length : 0}
               />
               <img src={user.imageUrl} />
             </section>

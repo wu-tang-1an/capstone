@@ -2,7 +2,7 @@ import React, {useState, useContext} from 'react'
 import {ProjectContext} from '../context/projectContext'
 import Modal from './Modal'
 import axios from 'axios'
-import socket from '../socket'
+import socket, {socketSent} from '../socket'
 import styles from './css/ColumnDropDown.css'
 
 // fields are actions that user can take from dropdown menu
@@ -30,11 +30,16 @@ const ColumnDropDown = ({columnId, closeDropDown}) => {
         name: name,
       })
 
-      setColumns(
-        columns.map((column) => (column.id === data.id ? data : column))
+      const updatedColumns = columns.map((column) =>
+        column.id === data.id ? data : column
       )
 
-      socket.emit('edit-column-name', {ignore: socket.id})
+      setColumns(updatedColumns)
+
+      socket.emit(socketSent.EDIT_COLUMN_NAME, {
+        ignore: socket.id,
+        newColumns: updatedColumns,
+      })
     } catch (err) {
       console.error(err)
     }
@@ -46,10 +51,15 @@ const ColumnDropDown = ({columnId, closeDropDown}) => {
       // delete column from db
       await axios.delete(`/api/columns/${columnId}`)
 
-      // remove column from project context's columns record
-      setColumns(columns.filter((column) => column.id !== columnId))
+      const updatedColumns = columns.filter((column) => column.id !== columnId)
 
-      socket.emit('delete-column', {ignore: socket.id})
+      // remove column from project context's columns record
+      setColumns(updatedColumns)
+
+      socket.emit(socketSent.DELETE_COLUMN, {
+        ignore: socket.id,
+        newColumns: updatedColumns,
+      })
     } catch (err) {
       console.error(err)
     }
