@@ -5,6 +5,9 @@ const {resNaN, resDbNotFound, resAssoc, resDeleted} = require('./helper/helper')
 const {STR_USERS, STR_USER, STR_ORGANIZATION} = require('./helper/strings')
 module.exports = router
 
+const dee = User.prototype
+console.log('dee Add User---->', dee)
+
 // GET all users route '/api/users' (ADMIN ONLY)
 router.get('/', checkAdmin, async (req, res, next) => {
   try {
@@ -72,6 +75,24 @@ router.get('/:userId/organizations', checkUser, async (req, res, next) => {
 
     const orgs = await user.getOrganizations()
     return res.json(orgs)
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.post('/:userId/organizations/', checkUser, async (req, res, next) => {
+  try {
+    const {userId} = req.params
+    if (isNaN(userId)) return resNaN(userId, res)
+
+    const user = await User.findByPk(userId)
+    if (!user) return resDbNotFound(STR_USER, res)
+
+    console.log('this is req.body of deee--->', req.body)
+
+    const addOrg = await user.createOrganization(req.body)
+
+    return res.json(addOrg)
   } catch (error) {
     next(error)
   }

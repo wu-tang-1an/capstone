@@ -1,6 +1,5 @@
 import React, {useState, useContext, useEffect} from 'react'
 import styles from './css/AddDialogShared.css'
-
 import {AuthContext} from '../context/authContext'
 
 // import {addOrganizationDB} from '../context/axiosService'
@@ -17,30 +16,37 @@ const AddOrgDialog = ({closeModal}) => {
 
   // initialize local state for new Organization name
 
+  let [organization, setAddOrganization] = useState({})
   const [organizations, setOrganizations] = useState([])
 
-  console.log('organizations---->', organizations)
+  console.log('organization in AddOrg---->', organization)
 
   // add organization method updates db and closes the dialog
   const addOrganization = async (e) => {
     e.preventDefault()
 
-    // get new column instance for addColumnDB call
-    const newOrganization = {
+    // get new org instance
+    organization = {
       name: name,
     }
 
+    console.log('add org--->', organization)
+
     try {
-      const {data} = await axios.post(`/api/organizations`, newOrganization)
+      const {data} = await axios.post(
+        `/api/users/${user.id}/organizations/`,
+        organization
+      )
 
       // set local column state
-      setOrganizations([...organizations, data])
+      setAddOrganization(data)
+      setOrganizations([...organizations, setAddOrganization(data)])
     } catch (err) {
       console.error(err)
     }
   }
 
-  console.log('organizations NOW!!!!---->', organizations)
+  console.log('organization NOW!!!!---->', organization)
 
   return (
     <div className={styles.addDropDownContainer}>
