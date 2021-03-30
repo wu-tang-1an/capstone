@@ -12,7 +12,6 @@ const Invitations = () => {
 
   // initialize all orgs state
   const [invites, setInvitations] = useState([])
-  console.log('organizations---->', invites)
 
   useEffect(() => {
     let isMounted = true
@@ -29,7 +28,7 @@ const Invitations = () => {
     return () => {
       isMounted = false
     }
-  }, [user.organizations])
+  }, [])
 
   async function acceptInvite(userId, orgId, inviteId) {
     try {
