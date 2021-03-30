@@ -8,7 +8,9 @@ import {ProjectContext} from '../context/projectContext'
 
 const DeleteTaskModal = ({task, closeModal}) => {
   // grab tasks, setTasks from column context
-  const {columns, setColumns, tasks, setTasks} = useContext(ProjectContext)
+  const {project, columns, setColumns, tasks, setTasks} = useContext(
+    ProjectContext
+  )
 
   const deleteTask = async () => {
     const taskId = task.id
@@ -28,7 +30,11 @@ const DeleteTaskModal = ({task, closeModal}) => {
     } catch (err) {
       console.error(err)
     }
-    socket.emit(socketSent.DELETE_TASK, {ignore: socket.id, taskId: taskId})
+    socket.emit(socketSent.DELETE_TASK, {
+      ignoreUser: socket.id,
+      projectId: project.id,
+      taskId: taskId,
+    })
   }
 
   return (

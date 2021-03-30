@@ -32,59 +32,81 @@ module.exports = (io) => {
       console.log(`Connection ${socket.id} has left the building`)
     })
 
-    socket.on(received.MOVE_TASK, ({ignore, newColumns}) => {
+    socket.on(received.MOVE_TASK, ({ignoreUser, projectId, newColumns}) => {
       console.log('received task move')
-      io.emit(sent.TASK_WAS_MOVED, {ignore, newColumns})
+      io.emit(sent.TASK_WAS_MOVED, {ignoreUser, projectId, newColumns})
     })
 
-    socket.on(received.ADD_COLUMN, ({ignore}) => {
+    socket.on(received.ADD_COLUMN, ({ignoreUser, projectId}) => {
       console.log('received col add')
-      io.emit(sent.COLUMN_WAS_ADDED, {ignore})
+      io.emit(sent.COLUMN_WAS_ADDED, {ignoreUser, projectId})
     })
 
-    socket.on(received.DELETE_COLUMN, ({ignore, newColumns}) => {
+    socket.on(received.DELETE_COLUMN, ({ignoreUser, projectId, newColumns}) => {
       console.log('received col delete')
-      io.emit(sent.COLUMN_WAS_DELETED, {ignore, newColumns})
+      io.emit(sent.COLUMN_WAS_DELETED, {
+        ignoreUser,
+        projectId,
+        newColumns,
+      })
     })
 
-    socket.on(received.EDIT_COLUMN_NAME, ({ignore, newColumns}) => {
-      console.log('received col edit')
-      io.emit(sent.COLUMN_NAME_WAS_EDITED, {ignore, newColumns})
-    })
+    socket.on(
+      received.EDIT_COLUMN_NAME,
+      ({ignoreUser, projectId, newColumns}) => {
+        console.log('received col edit')
+        io.emit(sent.COLUMN_NAME_WAS_EDITED, {
+          ignoreUser,
+          projectId,
+          newColumns,
+        })
+      }
+    )
 
-    socket.on(received.ADD_TASK, ({ignore, newColumns}) => {
+    socket.on(received.ADD_TASK, ({ignoreUser, projectId, newColumns}) => {
       console.log('received task add')
-      io.emit(sent.TASK_WAS_ADDED, {ignore, newColumns})
+      io.emit(sent.TASK_WAS_ADDED, {ignoreUser, projectId, newColumns})
     })
 
-    socket.on(received.DELETE_TASK, ({ignore, taskId}) => {
+    socket.on(received.DELETE_TASK, ({ignoreUser, projectId, taskId}) => {
       console.log('received task delete')
-      io.emit(sent.TASK_WAS_DELETED, {ignore, taskId})
+      io.emit(sent.TASK_WAS_DELETED, {ignoreUser, projectId, taskId})
     })
 
     // only project board receives edit-task updates in real time
     // to avoid race condition of two users editing the same
     // card and one user's changes being preempted by sockets
 
-    socket.on(received.EDIT_TASK, ({ignore, updatedTask}) => {
+    socket.on(received.EDIT_TASK, ({ignoreUser, projectId, updatedTask}) => {
       console.log('received task edit')
-      io.emit(sent.TASK_WAS_EDITED, {ignore, updatedTask})
+      io.emit(sent.TASK_WAS_EDITED, {ignoreUser, projectId, updatedTask})
     })
 
     // comments are received and processed in/by SingleTaskExpanded
-    socket.on(received.ADD_COMMENT, ({ignore, newComment}) => {
+    socket.on(received.ADD_COMMENT, ({ignoreUser, projectId, newComment}) => {
       console.log('received new comment')
-      io.emit(sent.COMMENT_WAS_ADDED, {ignore, newComment})
+      io.emit(sent.COMMENT_WAS_ADDED, {ignoreUser, projectId, newComment})
     })
 
-    socket.on(received.DELETE_COMMENT, ({ignore, commentId}) => {
+    socket.on(received.DELETE_COMMENT, ({ignoreUser, projectId, commentId}) => {
       console.log('received delete comment')
-      io.emit(sent.COMMENT_WAS_DELETED, {ignore, commentId})
+      io.emit(sent.COMMENT_WAS_DELETED, {
+        ignoreUser,
+        projectId,
+        commentId,
+      })
     })
 
-    socket.on(received.EDIT_COMMENT, ({ignore, updatedComment}) => {
-      console.log('received edited comment')
-      io.emit(sent.COMMENT_WAS_EDITED, {ignore, updatedComment})
-    })
+    socket.on(
+      received.EDIT_COMMENT,
+      ({ignoreUser, projectId, updatedComment}) => {
+        console.log('received edited comment')
+        io.emit(sent.COMMENT_WAS_EDITED, {
+          ignoreUser,
+          projectId,
+          updatedComment,
+        })
+      }
+    )
   })
 }
