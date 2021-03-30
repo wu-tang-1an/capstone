@@ -62,17 +62,14 @@ const TaskCard = ({task, index}) => {
     // then, toggle active badge
     setActiveBadge(!isActiveBadge)
 
+    // // helper refreshes project board data
+    // await refreshProjectBoard()
     socket.emit('edit-task', {ignore: socket.id, updatedTask})
-
-    // helper refreshes project board data
-    await refreshProjectBoard()
   }
 
-  // receives project board-level updates on name, badge-status
-  // and number of comments
   socket.on('task-was-edited', ({ignore, updatedTask}) => {
     if (socket.id === ignore) return
-    setTaskChanged(!taskChanged)
+    if (task.id === updatedTask.id) setActiveBadge(updatedTask.isActiveBadge)
   })
 
   return (
