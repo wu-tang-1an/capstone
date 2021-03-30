@@ -79,8 +79,8 @@ router.get('/:userId/organizations', checkUser, async (req, res, next) => {
     next(error)
   }
 })
-
-router.post('/:userId/organizations/', checkUser, async (req, res, next) => {
+// post create new organzation for userId
+router.post('/:userId/organizations/', checkAdmin, async (req, res, next) => {
   try {
     const {userId} = req.params
     if (isNaN(userId)) return resNaN(userId, res)
@@ -88,11 +88,11 @@ router.post('/:userId/organizations/', checkUser, async (req, res, next) => {
     const user = await User.findByPk(userId)
     if (!user) return resDbNotFound(STR_USER, res)
 
-    console.log('this is req.body of deee--->', req.body)
+    if (user.status === 'admin') {
+      const addOrg = await user.createOrganization(req.body)
 
-    const addOrg = await user.createOrganization(req.body)
-
-    return res.json(addOrg)
+      return res.json(addOrg)
+    }
   } catch (error) {
     next(error)
   }
