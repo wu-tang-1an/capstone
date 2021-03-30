@@ -1,5 +1,5 @@
 import React, {useContext} from 'react'
-import styles from './css/DeleteTaskModal.css'
+import styles from './css/DeleteTaskModal.module.css'
 
 import socket, {socketSent} from '../socket'
 
