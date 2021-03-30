@@ -2,7 +2,7 @@
 import React, {useContext} from 'react'
 import {DragDropContext} from 'react-beautiful-dnd'
 import {ProjectContext} from '../context/projectContext'
-import {fetchTaskDB, dropUpdateDb} from '../context/axiosService'
+import {dropUpdateDb} from '../context/axiosService'
 import Column from './Column'
 import AddColumnDropDown from './AddColumnDropDown'
 import socket, {socketReceived, socketSent} from '../socket'

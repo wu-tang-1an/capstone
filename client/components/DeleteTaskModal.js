@@ -1,7 +1,7 @@
 import React, {useContext} from 'react'
 import styles from './css/DeleteTaskModal.css'
 
-import socket from '../socket'
+import socket, {socketSent} from '../socket'
 
 import axios from 'axios'
 import {ProjectContext} from '../context/projectContext'
@@ -28,7 +28,7 @@ const DeleteTaskModal = ({task, closeModal}) => {
     } catch (err) {
       console.error(err)
     }
-    socket.emit('delete-task', {ignore: socket.id, taskId: taskId})
+    socket.emit(socketSent.DELETE_TASK, {ignore: socket.id, taskId: taskId})
   }
 
   return (

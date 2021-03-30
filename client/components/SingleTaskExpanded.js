@@ -15,7 +15,7 @@ import {
   updateCommentDB,
   deleteCommentDB,
 } from '../context/axiosService'
-import socket from '../socket'
+import socket, {socketSent, socketReceived} from '../socket'
 import styles from './css/SingleTaskExpanded.css'
 
 const SingleTaskExpanded = ({task, closeModal}) => {
@@ -44,7 +44,7 @@ const SingleTaskExpanded = ({task, closeModal}) => {
     await deleteCommentDB(commentId)
     setTaskComments(taskComments.filter((comment) => comment.id !== commentId))
     setTaskChanged(!taskChanged)
-    socket.emit('delete-comment', {ignore: socket.id, commentId})
+    socket.emit(socketSent.DELETE_COMMENT, {ignore: socket.id, commentId})
   }
 
   // editComment updates comment in db, local state
@@ -56,7 +56,7 @@ const SingleTaskExpanded = ({task, closeModal}) => {
       )
     )
     setTaskChanged(!taskChanged)
-    socket.emit('edit-comment', {ignore: socket.id, updatedComment})
+    socket.emit(socketSent.EDIT_COMMENT, {ignore: socket.id, updatedComment})
     return updatedComment
   }
 
@@ -78,7 +78,7 @@ const SingleTaskExpanded = ({task, closeModal}) => {
       // do NOT close the comment dialog -- allows the user to type multiple comments without having to repeatedly click to open the text field!
       setTaskChanged(!taskChanged)
 
-      socket.emit('add-comment', {
+      socket.emit(socketSent.ADD_COMMENT, {
         ignore: socket.id,
         newComment: associatedComment,
       })
@@ -87,40 +87,31 @@ const SingleTaskExpanded = ({task, closeModal}) => {
     }
   }
 
-  // socket comment logic for realtime local updates
-  // we wrap the calls in useEffect to prevent
-  // renders on other client who don't have
-  // this component mounted when the socket message is received!
-  useEffect(() => {
-    let isMounted = true
-    socket.on('comment-was-added', ({ignore, newComment}) => {
-      if (socket.id === ignore) return
-      setTaskComments(
-        [...taskComments, newComment].sort((a, b) =>
-          a.editTimeStamp < b.editTimeStamp ? -1 : 1
-        )
+  // socket logic
+  socket.on(socketReceived.COMMENT_WAS_ADDED, ({ignore, newComment}) => {
+    if (socket.id === ignore) return
+    setTaskComments(
+      [...taskComments, newComment].sort((a, b) =>
+        a.editTimeStamp < b.editTimeStamp ? -1 : 1
       )
-      setTaskChanged(!taskChanged)
-    })
-    socket.on('comment-was-deleted', ({ignore, commentId}) => {
-      if (socket.id === ignore) return
-      setTaskComments(
-        taskComments.filter((comment) => comment.id !== commentId)
+    )
+    setTaskChanged(!taskChanged)
+  })
+
+  socket.on(socketReceived.COMMENT_WAS_DELETED, ({ignore, commentId}) => {
+    if (socket.id === ignore) return
+    setTaskComments(taskComments.filter((comment) => comment.id !== commentId))
+    setTaskChanged(!taskChanged)
+  })
+
+  socket.on(socketReceived.COMMENT_WAS_EDITED, ({ignore, updatedComment}) => {
+    if (socket.id === ignore) return
+    setTaskComments(
+      taskComments.map((comment) =>
+        comment.id === updatedComment.id ? updatedComment : comment
       )
-      setTaskChanged(!taskChanged)
-    })
-    socket.on('comment-was-edited', ({ignore, updatedComment}) => {
-      if (socket.id === ignore) return
-      setTaskComments(
-        taskComments.map((comment) =>
-          comment.id === updatedComment.id ? updatedComment : comment
-        )
-      )
-      setTaskChanged(!taskChanged)
-    })
-    return () => {
-      isMounted = false
-    }
+    )
+    setTaskChanged(!taskChanged)
   })
 
   return (
@@ -172,7 +163,10 @@ const SingleTaskExpanded = ({task, closeModal}) => {
                   setTaskName(updatedTask.name)
                   setActiveNameEdit(false)
                   setLastEdit(updatedTask.editTimeStamp)
-                  socket.emit('edit-task', {ignore: socket.id, updatedTask})
+                  socket.emit(socketSent.EDIT_TASK, {
+                    ignore: socket.id,
+                    updatedTask,
+                  })
                 }}
               ></textarea>
             )}
@@ -207,7 +201,10 @@ const SingleTaskExpanded = ({task, closeModal}) => {
                 setTaskChanged(!taskChanged)
                 setActiveMarkdownEditor(false)
                 setLastEdit(updatedTask.editTimeStamp)
-                socket.emit('edit-task', {ignore: socket.id, updatedTask})
+                socket.emit(socketSent.EDIT_TASK, {
+                  ignore: socket.id,
+                  updatedTask,
+                })
               }}
               name="description"
               value={taskDescription || ''}

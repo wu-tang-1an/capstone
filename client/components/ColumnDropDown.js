@@ -2,7 +2,7 @@ import React, {useState, useContext} from 'react'
 import {ProjectContext} from '../context/projectContext'
 import Modal from './Modal'
 import axios from 'axios'
-import socket from '../socket'
+import socket, {socketSent} from '../socket'
 import styles from './css/ColumnDropDown.css'
 
 // fields are actions that user can take from dropdown menu
@@ -36,7 +36,7 @@ const ColumnDropDown = ({columnId, closeDropDown}) => {
 
       setColumns(updatedColumns)
 
-      socket.emit('edit-column-name', {
+      socket.emit(socketSent.EDIT_COLUMN_NAME, {
         ignore: socket.id,
         newColumns: updatedColumns,
       })
@@ -56,7 +56,7 @@ const ColumnDropDown = ({columnId, closeDropDown}) => {
       // remove column from project context's columns record
       setColumns(updatedColumns)
 
-      socket.emit('delete-column', {
+      socket.emit(socketSent.DELETE_COLUMN, {
         ignore: socket.id,
         newColumns: updatedColumns,
       })

@@ -1,4 +1,4 @@
-import React, {useContext, useState, useEffect} from 'react'
+import React, {useContext, useState} from 'react'
 import {Draggable} from 'react-beautiful-dnd'
 import styled from 'styled-components'
 import moment from 'moment'
@@ -10,7 +10,7 @@ import {ProjectContext} from '../context/projectContext'
 import {updateTaskDB} from '../context/axiosService'
 import ImportantBadge from './ImportantBadge'
 import NumberOfCommentsBadge from './NumberOfCommentsBadge'
-import socket from '../socket'
+import socket, {socketSent, socketReceived} from '../socket'
 import styles from './css/TaskCard.css'
 
 const Container = styled.div`
@@ -66,11 +66,11 @@ const TaskCard = ({task, index}) => {
 
     // // helper refreshes project board data
     // await refreshProjectBoard()
-    socket.emit('edit-task', {ignore: socket.id, updatedTask})
+    socket.emit(socketSent.EDIT_TASK, {ignore: socket.id, updatedTask})
   }
 
   // socket logic for task, comment updates
-  socket.on('task-was-edited', ({ignore, updatedTask}) => {
+  socket.on(socketReceived.TASK_WAS_EDITED, ({ignore, updatedTask}) => {
     if (socket.id === ignore) return
     if (task.id === updatedTask.id) {
       setActiveBadge(updatedTask.isActiveBadge)
@@ -82,20 +82,23 @@ const TaskCard = ({task, index}) => {
   // with a comment, we want to listen for it even though
   // "we" emitted the event! due to the way our modal
   // is hooked above the task card state, we actually
-  // need to "listen" for this event HERE
-  socket.on('comment-was-added', ({newComment}) => {
+  // need to "listen" for comment events here
+  // so we check task id, rather than check socket id
+  socket.on(socketReceived.COMMENT_WAS_ADDED, ({newComment}) => {
     if (task.id === newComment.taskId) {
       setComments([...comments, newComment])
       setTaskChanged(!taskChanged)
     }
   })
-  socket.on('comment-was-deleted', ({commentId}) => {
+
+  socket.on(socketReceived.COMMENT_WAS_DELETED, ({commentId}) => {
     if (task.comments.some((comment) => comment.id === commentId)) {
       setComments(comments.filter((comment) => comment.id !== commentId))
       setTaskChanged(!taskChanged)
     }
   })
-  socket.on('comment-was-edited', ({updatedComment}) => {
+
+  socket.on(socketReceived.COMMENT_WAS_EDITED, ({updatedComment}) => {
     if (task.comments.some((comment) => comment.id === updatedComment.id)) {
       setComments(
         comments.map((comment) =>
