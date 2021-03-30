@@ -71,7 +71,10 @@ const TaskCard = ({task, index}) => {
   // socket logic for task, comment updates
   socket.on('task-was-edited', ({ignore, updatedTask}) => {
     if (socket.id === ignore) return
-    if (task.id === updatedTask.id) setActiveBadge(updatedTask.isActiveBadge)
+    if (task.id === updatedTask.id) {
+      setActiveBadge(updatedTask.isActiveBadge)
+      setTaskChanged(!taskChanged)
+    }
   })
 
   // important! if "this" client makes a CRUD op
@@ -80,17 +83,26 @@ const TaskCard = ({task, index}) => {
   // is hooked above the task card state, we actually
   // need to "listen" for this event HERE
   socket.on('comment-was-added', ({newComment}) => {
-    setComments([...comments, newComment])
+    if (task.id === newComment.taskId) {
+      setComments([...comments, newComment])
+      setTaskChanged(!taskChanged)
+    }
   })
   socket.on('comment-was-deleted', ({commentId}) => {
-    setComments(comments.filter((comment) => comment.id !== commentId))
+    if (task.comments.some((comment) => comment.id === commentId)) {
+      setComments(comments.filter((comment) => comment.id !== commentId))
+      setTaskChanged(!taskChanged)
+    }
   })
   socket.on('comment-was-edited', ({updatedComment}) => {
-    setComments(
-      comments.map((comment) =>
-        comment.id === updatedComment.id ? updatedComment : comment
+    if (task.comments.some((comment) => comment.id === updatedComment.id)) {
+      setComments(
+        comments.map((comment) =>
+          comment.id === updatedComment.id ? updatedComment : comment
+        )
       )
-    )
+      setTaskChanged(!taskChanged)
+    }
   })
 
   return (

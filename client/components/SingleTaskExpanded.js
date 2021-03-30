@@ -168,7 +168,7 @@ const SingleTaskExpanded = ({task, closeModal}) => {
                     editTimeStamp: newTimeStamp,
                   }
                   const updatedTask = await updateTaskDB(updateInfo, task.id)
-                  await refreshProjectBoard()
+                  setTaskChanged(!taskChanged)
                   setTaskName(updatedTask.name)
                   setActiveNameEdit(false)
                   setLastEdit(updatedTask.editTimeStamp)
@@ -204,7 +204,7 @@ const SingleTaskExpanded = ({task, closeModal}) => {
                   editTimeStamp: newTimeStamp,
                 }
                 const updatedTask = await updateTaskDB(updateInfo, id)
-                await refreshProjectBoard()
+                setTaskChanged(!taskChanged)
                 setActiveMarkdownEditor(false)
                 setLastEdit(updatedTask.editTimeStamp)
                 socket.emit('edit-task', {ignore: socket.id, updatedTask})
