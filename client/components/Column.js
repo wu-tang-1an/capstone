@@ -7,7 +7,7 @@ import styled from 'styled-components'
 import TaskCard from './TaskCard'
 import AddTaskDialog from './AddTaskDialog'
 import ColumnDropDown from './ColumnDropDown'
-import styles from './css/Column.css'
+import styles from './css/Column.module.css'
 
 const TaskList = styled.div``
 

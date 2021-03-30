@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from './css/NumberOfCommentsBadge.css'
+import styles from './css/NumberOfCommentsBadge.module.css'
 
 const NumberOfCommentsBadge = ({numberOfComments}) => {
   return (

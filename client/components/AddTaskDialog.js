@@ -1,5 +1,5 @@
 import React, {useState, useContext} from 'react'
-import styles from './css/AddDialogShared.css'
+import styles from './css/AddDialogShared.module.css'
 import {AuthContext} from '../context/authContext'
 import {ProjectContext} from '../context/projectContext'
 import {addTaskToColumnDB} from '../context/axiosService'

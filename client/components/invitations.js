@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom'
 import {AuthContext} from '../context/authContext'
 import {FcInvite} from 'react-icons/fc'
 import {IconContext} from 'react-icons'
-import styles from './css/Invitations.css'
+import styles from './css/Invitations.module.css'
 
 const Invitations = () => {
   // grab user from auth context

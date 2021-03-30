@@ -2,7 +2,7 @@ import React, {useState, useContext} from 'react'
 import {AuthContext} from '../context/authContext'
 import axios from 'axios'
 import history from '../history'
-import styles from './css/AuthForm.css'
+import styles from './css/AuthForm.module.css'
 
 const AuthForm = ({authType}) => {
   // local state of user input
