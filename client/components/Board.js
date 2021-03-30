@@ -7,7 +7,7 @@ import Column from './Column'
 import AddColumnDropDown from './AddColumnDropDown'
 import socket, {socketReceived, socketSent} from '../socket'
 import {notify} from './helper/toast'
-import styles from './css/Board.css'
+import styles from './css/Board.module.css'
 
 const Board = () => {
   const {

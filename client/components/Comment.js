@@ -1,7 +1,7 @@
 import React, {useContext, useState} from 'react'
 import {AuthContext} from '../context/authContext'
 import moment from 'moment'
-import styles from './css/Comment.css'
+import styles from './css/Comment.module.css'
 
 const Comment = ({comment, editComment, deleteComment}) => {
   // grab user from auth context to check read/write permissions

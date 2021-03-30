@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import AddColumnDialog from './AddColumnDialog'
-import styles from './css/AddColumnDropDown.css'
+import styles from './css/AddColumnDropDown.module.css'
 
 const AddColumnDropDown = () => {
   const [isDialogActive, setIsDialogActive] = useState(false)
