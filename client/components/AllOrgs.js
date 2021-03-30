@@ -29,7 +29,7 @@ const AllOrgs = () => {
     return () => {
       isMounted = false
     }
-  })
+  }, [])
 
   if (user.status === 'admin') {
     return (
