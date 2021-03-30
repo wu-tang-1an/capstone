@@ -35,6 +35,16 @@ export const addUserToOrgDB = async (orgId, userId) => {
 
 /* PROJECTS */
 
+// update a project
+export const updateProjectDb = async (projectId, updateData) => {
+  try {
+    const data = await axios.put(`/api/projects/${projectId}`, updateData)
+    return data
+  } catch (err) {
+    console.log(err)
+  }
+}
+
 // delete a project
 export const deleteProjectDb = async (projectId) => {
   try {
