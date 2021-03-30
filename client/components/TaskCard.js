@@ -70,15 +70,9 @@ const TaskCard = ({task, index}) => {
 
   // receives project board-level updates on name, badge-status
   // and number of comments
-  useEffect(() => {
-    let isMounted = true
-    socket.on('task-was-edited', ({ignore, updatedTask}) => {
-      if (socket.id === ignore) return
-      setTaskChanged(!taskChanged)
-    })
-    return () => {
-      isMounted = false
-    }
+  socket.on('task-was-edited', ({ignore, updatedTask}) => {
+    if (socket.id === ignore) return
+    setTaskChanged(!taskChanged)
   })
 
   return (
