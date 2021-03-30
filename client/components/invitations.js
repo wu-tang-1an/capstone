@@ -71,16 +71,16 @@ const Invitations = () => {
                   <h3 className={styles.orgName}>{invite.orgName}</h3>
                 </div>
                 <div className={styles.buttonCont}>
-                  <button
+                  <Link
+                    to={`/organizations/${invite.orgId}`}
                     className={styles.accept}
                     type="submit"
                     onClick={(e) => {
-                      e.preventDefault()
                       acceptInvite(user.id, invite.orgId, invite.id)
                     }}
                   >
                     Accept
-                  </button>
+                  </Link>
                   <button
                     className={styles.decline}
                     type="submit"
