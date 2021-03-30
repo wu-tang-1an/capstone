@@ -13,7 +13,6 @@ const AllOrgs = () => {
 
   // initialize all orgs state
   const [organizations, setOrganizations] = useState([])
-  console.log('organizations---->', organizations)
 
   useEffect(() => {
     let isMounted = true
@@ -30,7 +29,7 @@ const AllOrgs = () => {
     return () => {
       isMounted = false
     }
-  }, [])
+  })
 
   if (user.status === 'admin') {
     return (
