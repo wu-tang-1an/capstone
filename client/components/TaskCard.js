@@ -11,7 +11,7 @@ import {updateTaskDB} from '../context/axiosService'
 import ImportantBadge from './ImportantBadge'
 import NumberOfCommentsBadge from './NumberOfCommentsBadge'
 import socket, {socketSent, socketReceived} from '../socket'
-import styles from './css/TaskCard.css'
+import styles from './css/TaskCard.module.css'
 
 const Container = styled.div`
   border-radius: 1px;

@@ -1,5 +1,11 @@
 const router = require('express').Router()
-const {User, Organization, Task, Comment} = require('../db/models')
+const {
+  User,
+  Organization,
+  Task,
+  Comment,
+  UserOrganization,
+} = require('../db/models')
 const {checkUser, checkAdmin} = require('./helper/gatekeeper')
 const {resNaN, resDbNotFound, resAssoc, resDeleted} = require('./helper/helper')
 const {STR_USERS, STR_USER, STR_ORGANIZATION} = require('./helper/strings')
@@ -79,6 +85,24 @@ router.get('/:userId/organizations', checkUser, async (req, res, next) => {
     next(error)
   }
 })
+
+router.get('/:userId/organizations/:orgId', async (req, res, next) => {
+  try {
+    const {userId, orgId} = req.params
+
+    let user = await UserOrganization.findOne({
+      where: {
+        userId: userId,
+        organizationId: orgId,
+      },
+    })
+
+    return res.json(user)
+  } catch (error) {
+    next(error)
+  }
+})
+
 // post create new organzation for userId
 router.post('/:userId/organizations/', checkAdmin, async (req, res, next) => {
   try {

@@ -1,27 +1,25 @@
 import React, {useState, useContext} from 'react'
-import styles from './css/AddDialogShared.module.css'
-import {AuthContext} from '../context/authContext'
-import {addOrganizationDB, addUserToOrgDB} from '../context/axiosService'
+import styles from '../css/AddMemDialog.module.css'
+import {AuthContext} from '../../context/authContext'
+import {sendInvite} from '../../context/axiosService'
 
-const AddOrgDialog = ({closeModal}) => {
+const AddMemDialog = (props) => {
   const {user} = useContext(AuthContext)
 
   // local state mgmt
-  const [name, setName] = useState('')
-  const [imageUrl, setImageUrl] = useState('')
+  const [email, setEmail] = useState('')
 
   // add organization method updates db and closes the dialog
   const addOrganization = async (e) => {
     e.preventDefault()
 
-    const newOrganization = {
-      name: name,
-      imageUrl: imageUrl,
+    const newMember = {
+      userEmail: email,
+      orgId: props.orgId,
     }
 
     try {
-      const createdOrganization = await addOrganizationDB(newOrganization)
-      await addUserToOrgDB(createdOrganization.id, user.id)
+      await sendInvite(newMember)
     } catch (err) {
       console.error(err)
     }
@@ -30,10 +28,10 @@ const AddOrgDialog = ({closeModal}) => {
   return (
     <div className={styles.addDropDownContainer}>
       <textarea
+        placeholder="Enter the new member's email..."
         className={styles.description}
-        onChange={(e) => setName(e.target.value)}
+        onChange={(e) => setEmail(e.target.value)}
       ></textarea>
-
       <div className={styles.btnContainer}>
         <button
           type="button"
@@ -42,7 +40,11 @@ const AddOrgDialog = ({closeModal}) => {
         >
           Add
         </button>
-        <button type="button" className={styles.cancelBtn} onClick={closeModal}>
+        <button
+          type="button"
+          className={styles.cancelBtn}
+          onClick={props.closeModal}
+        >
           Close
         </button>
       </div>
@@ -50,4 +52,4 @@ const AddOrgDialog = ({closeModal}) => {
   )
 }
 
-export default AddOrgDialog
+export default AddMemDialog

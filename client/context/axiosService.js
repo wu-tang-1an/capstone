@@ -1,7 +1,35 @@
 import axios from 'axios'
 import history from '../history'
 
+// INVITES
+
+export async function sendInvite(inviteObj) {
+  try {
+    let response = await axios.post('/api/invitations', {
+      orgId: inviteObj.orgId,
+      userEmail: inviteObj.userEmail,
+    })
+
+    return response
+  } catch (e) {
+    console.log(e)
+  }
+}
+
 /* ORGANIZATION*/
+
+export async function getOrganizationRole(userId, orgId) {
+  try {
+    let admin = false
+    let {data} = await axios.get(`/api/users/${userId}/organizations/${orgId}`)
+
+    if (data.role === 'admin') admin = true
+
+    return admin
+  } catch (e) {
+    console.log(e)
+  }
+}
 
 export const addOrganizationDB = async (newOrg) => {
   try {

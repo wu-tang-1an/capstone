@@ -1,30 +1,29 @@
 import React, {useState} from 'react'
-import AddColumnDialog from './AddColumnDialog'
-import styles from './css/AddColumnDropDown.module.css'
+import AddMember from './AddMember'
+import AddMemDialog from './AddMemDialog'
+import styles from '../css/AddOrgDropdown.module.css'
 
-const AddColumnDropDown = () => {
+const AddMemberDropDown = ({orgId}) => {
   const [isDialogActive, setIsDialogActive] = useState(false)
-
   const closeModal = () => setIsDialogActive(false)
 
   return (
-    <div className={styles.addColumnDropDownContainer}>
+    <div className={styles.AddOrgDropdownContainer}>
       {!isDialogActive && (
         <div
           className={styles.addIconAndName}
           onClick={() => setIsDialogActive(true)}
         >
-          <span className="material-icons">add</span>
-          <span className={styles.name}>Add a column</span>
+          <AddMember />
         </div>
       )}
       {isDialogActive && (
         <div className={styles.content}>
-          <AddColumnDialog closeModal={closeModal} />
+          <AddMemDialog orgId={orgId} closeModal={closeModal} />
         </div>
       )}
     </div>
   )
 }
 
-export default AddColumnDropDown
+export default AddMemberDropDown

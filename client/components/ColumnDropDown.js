@@ -3,7 +3,7 @@ import {ProjectContext} from '../context/projectContext'
 import Modal from './Modal'
 import axios from 'axios'
 import socket, {socketSent} from '../socket'
-import styles from './css/ColumnDropDown.css'
+import styles from './css/ColumnDropDown.module.css'
 
 // fields are actions that user can take from dropdown menu
 const fields = [

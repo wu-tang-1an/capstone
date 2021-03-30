@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import React from 'react'
-import styles from './css/UserCard.css'
+import styles from './css/UserCard.module.css'
 
 const UserCard = ({user}) => {
   const {firstName, lastName, imageUrl, user_organization} = user

@@ -1,7 +1,7 @@
 import React, {useState, useContext} from 'react'
 import ProfileCard from './sub-components/ProfileCard'
 import ProfileComments from './sub-components/ProfileComments'
-import styles from './css/MainProfileComp.css'
+import styles from './css/MainProfileComp.module.css'
 
 import {AuthContext} from '../context/authContext'
 
