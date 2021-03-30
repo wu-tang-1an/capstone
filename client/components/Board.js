@@ -4,7 +4,7 @@ import {ProjectContext} from '../context/projectContext'
 import {fetchTaskDB, dropUpdateDb} from '../context/axiosService'
 import Column from './Column'
 import AddColumnDropDown from './AddColumnDropDown'
-import socket from '../socket'
+import socket, {socketOnEvents} from '../socket'
 import {notify} from './helper/toast'
 import styles from './css/Board.css'
 
@@ -99,7 +99,19 @@ const Board = () => {
   }
 
   // socket logic
-  socket.on('task-was-moved', ({ignore, newColumns}) => {
+  const {
+    TASK_WAS_MOVED,
+    COLUMN_WAS_ADDED,
+    COLUMN_WAS_DELETED,
+    COLUMN_NAME_WAS_EDITED,
+    TASK_WAS_ADDED,
+    TASK_WAS_DELETED,
+    COMMENT_WAS_ADDED,
+    COMMENT_WAS_DELETED,
+    TASK_WAS_EDITED,
+  } = socketOnEvents
+
+  socket.on(TASK_WAS_MOVED, ({ignore, newColumns}) => {
     // only refresh when other user actions occur
     if (socket.id === ignore) return
     // set columns rather than trigger rerender
@@ -107,35 +119,18 @@ const Board = () => {
     // and card moves glitch
     setColumns(newColumns)
   })
-  socket.on('column-was-added', ({ignore}) => {
-    if (socket.id === ignore) return
-    setTaskChanged(!taskChanged)
-  })
-  socket.on('column-was-deleted', ({ignore}) => {
-    if (socket.id === ignore) return
-    setTaskChanged(!taskChanged)
-  })
-  socket.on('column-name-was-edited', ({ignore}) => {
-    if (socket.id === ignore) return
-    setTaskChanged(!taskChanged)
-  })
-  socket.on('task-was-added', ({ignore}) => {
-    if (socket.id === ignore) return
-    setTaskChanged(!taskChanged)
-  })
-  socket.on('task-was-deleted', ({ignore}) => {
-    if (socket.id === ignore) return
-    setTaskChanged(!taskChanged)
-  })
-  socket.on('comment-was-added', ({ignore}) => {
-    if (socket.id === ignore) return
-    setTaskChanged(!taskChanged)
-  })
-  socket.on('comment-was-deleted', ({ignore}) => {
-    if (socket.id === ignore) return
-    setTaskChanged(!taskChanged)
-  })
-  socket.on('task-was-edited', ({ignore}) => {
+
+  const CRUD_OPERATION =
+    COLUMN_WAS_ADDED ||
+    COLUMN_WAS_DELETED ||
+    COLUMN_NAME_WAS_EDITED ||
+    TASK_WAS_ADDED ||
+    TASK_WAS_DELETED ||
+    COMMENT_WAS_ADDED ||
+    COMMENT_WAS_DELETED ||
+    TASK_WAS_EDITED
+
+  socket.on(CRUD_OPERATION, ({ignore}) => {
     if (socket.id === ignore) return
     setTaskChanged(!taskChanged)
   })

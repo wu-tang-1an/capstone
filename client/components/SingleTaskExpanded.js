@@ -23,28 +23,8 @@ const SingleTaskExpanded = ({task, closeModal}) => {
   const {id, name, description, createdBy, editTimeStamp, isActiveBadge} =
     task || {}
 
-  // destructure comments separately to type check
-  const comments = task && task.comments ? task.comments : []
-
   // initialize taskComments to track local state for CRUD ops on comments
-  const [taskComments, setTaskComments] = useState([])
-
-  // fetch task
-  useEffect(() => {
-    let isMounted = true
-    const getTask = async () => {
-      try {
-        task = await fetchTaskDB(task.id)
-        setTaskComments(comments)
-      } catch (err) {
-        console.error(err)
-      }
-    }
-    getTask()
-    return () => {
-      isMounted = false
-    }
-  }, [task])
+  const [taskComments, setTaskComments] = useState(task.comments || [])
 
   // then declare state and initialize with task data
   const [taskName, setTaskName] = useState(name || '')
@@ -108,6 +88,9 @@ const SingleTaskExpanded = ({task, closeModal}) => {
   }
 
   // socket comment logic for realtime local updates
+  // we wrap the calls in useEffect to prevent
+  // renders on other client who don't have
+  // this component mounted when the socket message is received!
   useEffect(() => {
     let isMounted = true
     socket.on('comment-was-added', ({ignore, newComment}) => {

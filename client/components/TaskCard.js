@@ -40,6 +40,7 @@ const TaskCard = ({task, index}) => {
 
   // initilaize local state to track task card badge activation
   const [isActiveBadge, setActiveBadge] = useState(task.isActiveBadge)
+  const [comments, setComments] = useState(task.comments || [])
 
   // grab helper to refresh data on project board after changes
   const {refreshProjectBoard, taskChanged, setTaskChanged} = useContext(
@@ -67,9 +68,29 @@ const TaskCard = ({task, index}) => {
     socket.emit('edit-task', {ignore: socket.id, updatedTask})
   }
 
+  // socket logic for task, comment updates
   socket.on('task-was-edited', ({ignore, updatedTask}) => {
     if (socket.id === ignore) return
     if (task.id === updatedTask.id) setActiveBadge(updatedTask.isActiveBadge)
+  })
+
+  // important! if "this" client makes a CRUD op
+  // with a comment, we want to listen for it even though
+  // "we" emitted the event! due to the way our modal
+  // is hooked above the task card state, we actually
+  // need to "listen" for this event HERE
+  socket.on('comment-was-added', ({newComment}) => {
+    setComments([...comments, newComment])
+  })
+  socket.on('comment-was-deleted', ({commentId}) => {
+    setComments(comments.filter((comment) => comment.id !== commentId))
+  })
+  socket.on('comment-was-edited', ({updatedComment}) => {
+    setComments(
+      comments.map((comment) =>
+        comment.id === updatedComment.id ? updatedComment : comment
+      )
+    )
   })
 
   return (
@@ -126,9 +147,7 @@ const TaskCard = ({task, index}) => {
             </section>
             <section className={styles.commentsBadgeAndAvatars}>
               <NumberOfCommentsBadge
-                numberOfComments={
-                  task && task.comments ? task.comments.length : 0
-                }
+                numberOfComments={comments ? comments.length : 0}
               />
               <img src={user.imageUrl} />
             </section>
