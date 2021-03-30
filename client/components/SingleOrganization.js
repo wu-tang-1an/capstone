@@ -8,6 +8,7 @@ import AddMemberDropdown from './sub-components/AddMemberDropdown'
 import ProjectCard from './ProjectCard'
 import UserCard from './UserCard'
 import styles from './css/SingleOrganization.module.css'
+import AddProjectDropdown from './AddProjectDropdown'
 
 const SingleOrganization = ({match}) => {
   const {user} = useContext(AuthContext)
@@ -82,6 +83,7 @@ const SingleOrganization = ({match}) => {
               {projects &&
                 projects.map((project) => (
                   <div key={project.id}>
+                    <AddProjectDropdown />
                     <ProjectCard
                       project={project}
                       organization={organization}
