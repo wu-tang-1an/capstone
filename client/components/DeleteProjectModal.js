@@ -10,17 +10,18 @@ const DeleteProjectModal = ({
   setProjects,
   closeModal,
 }) => {
-  const deleteProject = () => {
+  const deleteProject = async () => {
+    // close the modal BEFORE changing state
+    closeModal()
+
     // delete project from db
-    deleteProjectDb(project.id)
+    await deleteProjectDb(project.id)
 
     // get new organization info from db
-    const data = getOrgDb(organization.id)
+    const data = await getOrgDb(organization.id)
 
     // update projects state
     setProjects(data.projects || [])
-
-    closeModal()
   }
 
   return (
