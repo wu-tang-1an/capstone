@@ -139,6 +139,11 @@ const Board = () => {
     )
   })
 
+  socket.on(COLUMN_WAS_DELETED, ({ignore, newColumns}) => {
+    if (socket.id === ignore) return
+    setColumns(newColumns)
+  })
+
   /* TASK_WAS_ADDED ||
     TASK_WAS_DELETED || */
 

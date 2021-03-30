@@ -42,14 +42,14 @@ module.exports = (io) => {
       io.emit(sent.COLUMN_WAS_ADDED, {ignore})
     })
 
-    socket.on(received.DELETE_COLUMN, ({ignore}) => {
+    socket.on(received.DELETE_COLUMN, ({ignore, newColumns}) => {
       console.log('received col delete')
-      io.emit(sent.COLUMN_WAS_DELETED, {ignore})
+      io.emit(sent.COLUMN_WAS_DELETED, {ignore, newColumns})
     })
 
-    socket.on(received.EDIT_COLUMN_NAME, ({ignore}) => {
+    socket.on(received.EDIT_COLUMN_NAME, ({ignore, newColumns}) => {
       console.log('received col edit')
-      io.emit(sent.COLUMN_NAME_WAS_EDITED, {ignore})
+      io.emit(sent.COLUMN_NAME_WAS_EDITED, {ignore, newColumns})
     })
 
     socket.on(received.ADD_TASK, ({ignore, newColumns}) => {
