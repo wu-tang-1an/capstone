@@ -19,6 +19,17 @@ const Board = () => {
     setTaskChanged,
   } = useContext(ProjectContext)
 
+  // start drag logic
+  const onDragStart = (start) => {
+    const {draggableId} = start
+
+    socket.emit(socketSent.DRAG_START, {
+      ignoreUser: socket.id,
+      projectId: project.id,
+      dragId: +draggableId,
+    })
+  }
+
   // drop logic
   const onDragEnd = (result) => {
     const {draggableId, source, destination} = result
@@ -95,6 +106,13 @@ const Board = () => {
     )
 
     // broadcast drag and drop changes
+
+    socket.emit(socketSent.DRAG_END, {
+      ignoreUser: socket.id,
+      projectId: project.id,
+      dragId: +draggableId,
+    })
+
     // send a payload with ignore
     socket.emit(socketSent.MOVE_TASK, {
       ignoreUser: socket.id,
@@ -168,7 +186,7 @@ const Board = () => {
   return (
     <div>
       <div className={styles.boardContainer}>
-        <DragDropContext onDragEnd={onDragEnd}>
+        <DragDropContext onDragStart={onDragStart} onDragEnd={onDragEnd}>
           {columns.map((column) => (
             <Column key={column.id} column={column} />
           ))}
