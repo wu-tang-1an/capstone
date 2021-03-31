@@ -112,6 +112,42 @@ router.post('/columns/:columnId', checkUser, async (req, res, next) => {
   }
 })
 
+// PUT user dropped a task '/api/tasks/drop' (AUTH USER ONLY)
+// eslint-disable-next-line complexity
+router.put('/drop', checkUser, async (req, res, next) => {
+  try {
+    const {sourColId, destColId, sourFETasks, destFETasks, taskId} = req.body
+
+    if (isNaN(sourColId)) return resNaN(sourColId, res)
+    if (isNaN(destColId)) return resNaN(destColId, res)
+    if (isNaN(taskId)) return resNaN(taskId, res)
+
+    const task = await Task.findByPk(taskId)
+    if (!task) return resDbNotFound(STR_TASK, res)
+
+    const sourCol = await Column.findByPk(sourColId)
+    if (!sourCol) return resDbNotFound(STR_COLUMN, res)
+
+    const destCol = await Column.findByPk(destColId)
+    if (!destCol) return resDbNotFound(STR_COLUMN, res)
+
+    await sourCol.removeTask(task)
+    await destCol.addTask(task)
+
+    sourFETasks.forEach(async (tsk) => {
+      await Task.update({index: tsk.index}, {where: {id: tsk.id}})
+    })
+
+    destFETasks.forEach(async (tsk) => {
+      await Task.update({index: tsk.index}, {where: {id: tsk.id}})
+    })
+
+    return res.status(204).send()
+  } catch (error) {
+    next(error)
+  }
+})
+
 // PUT update task route '/api/tasks/:taskId' (AUTH USER ONLY)
 router.put('/:taskId', checkUser, async (req, res, next) => {
   try {
