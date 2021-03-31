@@ -24,7 +24,6 @@ const Comments = () => {
       isMounted = false
     }
   }, [])
-  console.log('these are the comments ', comments)
   return (
     <div>
       <h1>Your Comments</h1>

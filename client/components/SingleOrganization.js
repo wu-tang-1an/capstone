@@ -56,8 +56,10 @@ const SingleOrganization = ({match}) => {
       setOrganization,
       projects,
       setProjects,
+      setStatus,
+      status,
     }
-  }, [organization, projects])
+  }, [organization, projects, status])
 
   // destructure organization
   const {name, imageUrl, users} = organization
