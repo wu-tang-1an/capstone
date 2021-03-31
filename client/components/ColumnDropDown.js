@@ -123,6 +123,7 @@ const ColumnDropDown = ({columnId, closeDropDown}) => {
                 className={styles.editBtn}
                 onClick={() => {
                   editColumn()
+                  closeDropDown()
                 }}
               >
                 Save
