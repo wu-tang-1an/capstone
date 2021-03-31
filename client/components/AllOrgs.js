@@ -6,10 +6,7 @@ import {CgOrganisation} from 'react-icons/cg'
 import {IconContext} from 'react-icons'
 import AddOrgDropdown from './AddOrgDropdown'
 import styles from './css/AllOrgs.module.css'
-import {
-  deleteOrganizationDB,
-  fetchAllOrganizations,
-} from '../context/axiosService'
+import {deleteOrganizationDB, fetchUserOrgs} from '../context/axiosService'
 
 const AllOrgs = () => {
   // grab user from auth context
@@ -22,7 +19,7 @@ const AllOrgs = () => {
   useEffect(() => {
     const fetchAllOrgs = async () => {
       try {
-        const orgs = await fetchAllOrganizations()
+        const orgs = await fetchUserOrgs(user.id)
         setOrganizations(orgs)
       } catch (err) {
         console.error(err)
