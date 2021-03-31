@@ -70,14 +70,40 @@ router.get('/:projectId', checkUser, async (req, res, next) => {
   }
 })
 
-// POST create new project route '/api/projects/' (AUTH USER ONLY)
+// POST create new project route '/api/projects/' (ADMIN ONLY)
 // creates a free floating project (unassociated)
-router.post('/', checkUser, async (req, res, next) => {
+router.post('/', checkAdmin, async (req, res, next) => {
   try {
     const data = req.body
     const {dataValues} = await Project.create(data)
 
     return res.json(dataValues)
+  } catch (error) {
+    next(error)
+  }
+})
+
+// POST create new project with org route '/api/projects//organizations/:orgId' (AUTH USER ONLY)
+// creates a 4 column project
+router.post('/organizations/:orgId', checkUser, async (req, res, next) => {
+  try {
+    const data = req.body
+    const {orgId} = req.params
+    if (isNaN(orgId)) return resNaN(orgId, res)
+
+    const org = await Organization.findByPk(orgId)
+    if (!org) return resDbNotFound(STR_ORGANIZATION, res)
+
+    const project = await Project.create(data)
+
+    await project.setOrganization(org)
+
+    await project.createColumn({name: 'Todo'})
+    await project.createColumn({name: 'In-progress'})
+    await project.createColumn({name: 'Review'})
+    await project.createColumn({name: 'Done'})
+
+    return res.json(project.dataValues)
   } catch (error) {
     next(error)
   }
