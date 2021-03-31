@@ -86,6 +86,7 @@ router.get('/:userId/organizations', checkUser, async (req, res, next) => {
   }
 })
 
+// get a specific user's org
 router.get('/:userId/organizations/:orgId', async (req, res, next) => {
   try {
     const {userId, orgId} = req.params
