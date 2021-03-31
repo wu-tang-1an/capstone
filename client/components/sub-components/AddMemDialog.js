@@ -38,9 +38,9 @@ const AddMemDialog = (props) => {
         <button
           type="button"
           className={styles.addBtn}
-          onClick={() => {
-            addOrganization()
+          onClick={(e) => {
             props.closeModal()
+            addOrganization(e)
           }}
         >
           Add
