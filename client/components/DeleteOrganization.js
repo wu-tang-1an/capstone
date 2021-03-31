@@ -12,18 +12,11 @@ const fields = [
   // more fields as necessary
 ]
 
-const OrganizationDropDown = ({organizationId, closeDropDown}) => {
+const DeleteOrganization = () => {
   // grab organization from project context
-  const {project, columns, setColumns} = useContext(ProjectContext)
-
-  // initialize local state to track current field, which is the type of operation the user wants to perform
-  const [currentField, setCurrentField] = useState('')
-  const [name, setName] = useState(
-    columns.find((column) => column.id === columnId).name
-  )
 
   // deleteColumn method deletes column from db and local state
-  const deleteColumn = async () => {
+  const deleteOrg = async () => {
     try {
       // delete column from db
       await axios.delete(`/api/columns/${columnId}`)
@@ -119,4 +112,4 @@ const OrganizationDropDown = ({organizationId, closeDropDown}) => {
     </div>
   )
 }
-export default OrganizationDropDown
+export default DeleteOrganization
