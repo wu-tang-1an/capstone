@@ -70,6 +70,15 @@ export const fetchAllOrganizations = async () => {
   }
 }
 
+export const fetchUserOrgs = async (userId) => {
+  try {
+    const {data} = await axios.get(`/api/users/${userId}/organizations`)
+    return data
+  } catch (err) {
+    console.error(err)
+  }
+}
+
 /* COLUMNS */
 
 // get all columns for a project
