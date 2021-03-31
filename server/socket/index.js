@@ -9,6 +9,7 @@ const received = {
   ADD_COMMENT: 'add-comment',
   DELETE_COMMENT: 'delete-comment',
   EDIT_COMMENT: 'edit-comment',
+  DRAG_START: 'drag-start',
 }
 
 const sent = {
@@ -22,6 +23,7 @@ const sent = {
   COMMENT_WAS_ADDED: 'comment-was-added',
   COMMENT_WAS_DELETED: 'comment-was-deleted',
   COMMENT_WAS_EDITED: 'comment-was-edited',
+  DRAG_WAS_STARTED: 'drag-was-started',
 }
 
 module.exports = (io) => {
