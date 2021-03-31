@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const {User, Invitation, Organization} = require('../db/models')
+const {checkOrgAdmin} = require('./helper/gatekeeper')
 
 router.get('/', async (req, res, next) => {
   try {
@@ -24,7 +25,7 @@ router.get('/:userId', async (req, res, next) => {
   }
 })
 
-router.post('/', async (req, res, next) => {
+router.post('/', checkOrgAdmin, async (req, res, next) => {
   try {
     const orgId = req.body.orgId
     const userEmail = req.body.userEmail

@@ -1,4 +1,4 @@
-const {User} = require('../../db/models')
+const {User, UserOrganization} = require('../../db/models')
 
 const checkUser = async (req, res, next) => {
   // checks if someone is logged in
@@ -50,4 +50,21 @@ const checkAdmin = async (req, res, next) => {
   }
 }
 
-module.exports = {checkUser, checkAdmin}
+const checkOrgAdmin = async (req, res, next) => {
+  if (req.session.passport) {
+    const reqId = req.session.passport.user
+
+    let user = await UserOrganization.findOne({
+      where: {
+        userId: reqId,
+        organizationId: req.body.orgId,
+      },
+    })
+
+    user.role === 'admin' ? next() : res.status(401).send('Unauthorized')
+  } else {
+    res.status(401).send('Unauthorized')
+  }
+}
+
+module.exports = {checkUser, checkAdmin, checkOrgAdmin}

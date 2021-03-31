@@ -60,7 +60,7 @@ const Nav = () => {
     try {
       await axios.post('/auth/logout')
       setUser({})
-      history.push('/login')
+      history.push('/')
     } catch (err) {
       console.error(err)
     }
