@@ -40,7 +40,11 @@ const AllOrgs = () => {
               <h1 className={styles.allOrgsHeader}>Your Organizations</h1>
 
               <IconContext.Provider
-                value={{size: '2rem', style: {marginTop: '0.7rem'}}}
+                value={{
+                  size: '2rem',
+                  className: styles.test,
+                  style: {marginTop: '0rem'},
+                }}
               >
                 <CgOrganisation />
               </IconContext.Provider>
@@ -54,7 +58,7 @@ const AllOrgs = () => {
                   to={`/organizations/${org.id}`}
                 >
                   <div className={styles.orgCont}>
-                    <div>
+                    <div className={styles.orgImgCont}>
                       <img className={styles.orgImg} src={org.imageUrl} />
                     </div>
                     <div className={styles.orgNameCont}>
