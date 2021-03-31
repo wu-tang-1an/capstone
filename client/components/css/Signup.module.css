@@ -91,7 +91,8 @@ form > div:not(.formBtnContainer) {
   width: 100%;
 }
 
-form > div > input[type='text'] {
+form > div > input[type='text'],
+form > div > input[type='password'] {
   display: flex;
   flex-grow: 1;
   width: 100%;
