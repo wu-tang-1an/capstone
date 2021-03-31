@@ -3,12 +3,10 @@
  * This way, we can import all of our components from the same place, rather than
  * having to figure out which file they belong to!
  */
-export {default as LandingPage} from './LandingPage'
 export {default as Loading} from './Loading'
 export {default as Nav} from './Nav'
 export {default as Home} from './Home'
 export {default as NewUpdateUser} from './NewUpdateUser'
-export {default as Signup} from './Signup'
 export {default as AuthForm} from './AuthForm'
 export {default as ProjectView} from './ProjectView'
 export {default as SingleTaskExpanded} from './SingleTaskExpanded'
