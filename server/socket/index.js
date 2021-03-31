@@ -9,6 +9,8 @@ const received = {
   ADD_COMMENT: 'add-comment',
   DELETE_COMMENT: 'delete-comment',
   EDIT_COMMENT: 'edit-comment',
+  DRAG_START: 'drag-start',
+  DRAG_END: 'drag-end',
 }
 
 const sent = {
@@ -22,6 +24,8 @@ const sent = {
   COMMENT_WAS_ADDED: 'comment-was-added',
   COMMENT_WAS_DELETED: 'comment-was-deleted',
   COMMENT_WAS_EDITED: 'comment-was-edited',
+  DRAG_WAS_STARTED: 'drag-was-started',
+  DRAG_WAS_ENDED: 'drag-was-ended',
 }
 
 module.exports = (io) => {
@@ -108,5 +112,23 @@ module.exports = (io) => {
         })
       }
     )
+
+    socket.on(received.DRAG_START, ({ignoreUser, projectId, dragId}) => {
+      console.log('received start drag')
+      io.emit(sent.DRAG_WAS_STARTED, {
+        ignoreUser,
+        projectId,
+        dragId,
+      })
+    })
+
+    socket.on(received.DRAG_END, ({ignoreUser, projectId, dragId}) => {
+      console.log('received end drag')
+      io.emit(sent.DRAG_WAS_ENDED, {
+        ignoreUser,
+        projectId,
+        dragId,
+      })
+    })
   })
 }

@@ -1,12 +1,23 @@
+.dropdownParent {
+  position: relative;
+}
+
+.dropdownParentClosed {
+  position: relative;
+  visibility: hidden;
+}
+
 .taskCardDropDownContainer {
   display: flex;
   flex-direction: column;
-  position: relative;
-  right: -70%;
-  width: 30%;
+  position: absolute;
+  right: 0;
+  top: 2em;
   justify-content: space-between;
   background-color: white;
   border-radius: 5px;
+  z-index: 999;
+  border: 1px solid rgb(35, 118, 187);
 }
 
 .fieldContainer {
@@ -26,17 +37,6 @@
 
 .fieldName:hover {
   text-decoration: underline;
-}
-
-.arrowDown {
-  width: 0;
-  height: 0;
-  border-left: 8px solid transparent;
-  border-right: 8px solid transparent;
-  border-top: 8px solid white;
-  background-color: transparent;
-  position: relative;
-  left: 86%;
 }
 
 /* ---- Modal Container ---- */
