@@ -67,7 +67,7 @@ const AllOrgs = () => {
                         type="button"
                         onClick={() => {
                           // this.props.removeSingleStudent(student)
-                          // this.props.getStudents()
+                          // fetchAllOrgs()
                         }}
                       >
                         X
@@ -78,7 +78,7 @@ const AllOrgs = () => {
                         type="button"
                         onClick={() => {
                           // this.props.removeSingleStudent(student)
-                          // this.props.getStudents()
+                          // fetchAllOrgs()
                         }}
                       >
                         Edit
