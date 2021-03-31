@@ -16,6 +16,7 @@ const AddMemDialog = (props) => {
     const newMember = {
       userEmail: email,
       orgId: props.orgId,
+      inviter: user.id,
     }
 
     try {
@@ -31,12 +32,16 @@ const AddMemDialog = (props) => {
         placeholder="Enter the new member's email..."
         className={styles.description}
         onChange={(e) => setEmail(e.target.value)}
+        required
       ></textarea>
       <div className={styles.btnContainer}>
         <button
           type="button"
           className={styles.addBtn}
-          onClick={addOrganization}
+          onClick={() => {
+            addOrganization()
+            props.closeModal()
+          }}
         >
           Add
         </button>

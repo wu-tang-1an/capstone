@@ -8,6 +8,7 @@ export async function sendInvite(inviteObj) {
     let response = await axios.post('/api/invitations', {
       orgId: inviteObj.orgId,
       userEmail: inviteObj.userEmail,
+      inviter: inviteObj.inviter,
     })
 
     return response
