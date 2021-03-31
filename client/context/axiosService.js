@@ -42,6 +42,7 @@ export const addOrganizationDB = async (newOrg) => {
 export const deleteOrganizationDB = async (deleteOrg) => {
   try {
     const {data} = await axios.delete(`/api/organizations/${deleteOrg.id}`)
+    console.log('this is the data--->', data)
     return data
   } catch (err) {
     console.error(err)
@@ -149,7 +150,7 @@ export const addTaskToColumnDB = async (newTask, columnId) => {
 export const updateTaskDB = async (updateInfo, taskId) => {
   try {
     const {data} = await axios.put(`/api/tasks/${taskId}`, updateInfo)
-    console.log('this is the data--->', data)
+
     return data
   } catch (err) {
     console.error(err)
