@@ -8,10 +8,11 @@ import styles from './css/TaskCardDropDown.module.css'
 const fields = [
   {id: 1, type: 'Edit'},
   {id: 2, type: 'Delete'},
+  {id: 3, type: 'Back'},
   // more fields as necessary
 ]
 
-const TaskCardDropDown = ({task}) => {
+const TaskCardDropDown = ({task, closeDropDown}) => {
   // designate local state to handle modal visibility
   const [activeField, setActiveField] = useState('')
 
@@ -32,6 +33,7 @@ const TaskCardDropDown = ({task}) => {
   const handleSelectOption = (option) => {
     // handle 'Delete' selection
     if (option === 'Delete') return setActiveField(option)
+    if (option === 'Back') return closeDropDown()
 
     // otherwise, handle 'Edit' selection
     setActiveTask(task)
@@ -40,7 +42,7 @@ const TaskCardDropDown = ({task}) => {
   }
 
   return (
-    <div>
+    <div className={styles.dropdownParent}>
       <div className={styles.taskCardDropDownContainer}>
         {/* to add fields to dropdown, use fields array above */}
         {fields.map((field) => (
@@ -54,7 +56,6 @@ const TaskCardDropDown = ({task}) => {
           </div>
         ))}
       </div>
-      <div className={styles.arrowDown}></div>
       {activeField === 'Delete' && (
         <Modal>
           <DeleteTaskModal task={task} closeModal={closeModal} />
