@@ -4,7 +4,8 @@ import {
   AuthForm,
   ProjectView,
   SingleOrganization,
-  AllOrgs,
+  LandingPage,
+  Signup,
   Profile,
   Home,
   Loading,
@@ -25,16 +26,16 @@ const Routes = () => {
       {/* these routes are available before login */}
       {user && !user.id && (
         <Switch>
-          <Route exact path="/" render={() => <AuthForm authType="login" />} />
+          <Route exact path="/" component={LandingPage} />
           <Route path="/login" render={() => <AuthForm authType="login" />} />
-          <Route path="/signup" render={() => <AuthForm authType="signup" />} />
+          <Route path="/signup" component={Signup} />
         </Switch>
       )}
 
       {/* these routes are available after login */}
       {user.id && (
         <Switch>
-          <Route exact path="/" component={Home} />
+          <Route exact path="/" component={LandingPage} />
           <Route path="/home" component={Home} />
           <Route exact path="/organizations" component={Organization} />
           <Route
