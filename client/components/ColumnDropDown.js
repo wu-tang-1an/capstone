@@ -8,7 +8,8 @@ import styles from './css/ColumnDropDown.module.css'
 // fields are actions that user can take from dropdown menu
 const fields = [
   {id: 1, content: 'Edit column name'},
-  {id: 3, content: 'Delete column'},
+  {id: 2, content: 'Delete column'},
+  {id: 3, content: 'Back'},
   // more fields as necessary
 ]
 
@@ -21,6 +22,10 @@ const ColumnDropDown = ({columnId, closeDropDown}) => {
   const [name, setName] = useState(
     columns.find((column) => column.id === columnId).name
   )
+
+  // handle dropdown visibility by checking for currentField
+  // if no currentField, dropdown is hidden
+  const [isVisibleDropDown, setIsVisibleDropDown] = useState(true)
 
   // editColumn method renames column and persists to db, local state
   const editColumn = async () => {
@@ -68,18 +73,7 @@ const ColumnDropDown = ({columnId, closeDropDown}) => {
   }
 
   return (
-    <div className={styles.columnDropDownContainer}>
-      {fields.map((field) => (
-        // onClick, reveal a dropdown with clickable links for each field
-        <div
-          key={field.id}
-          className={styles.dropDownField}
-          onClick={() => setCurrentField(field.content)}
-        >
-          <span className={styles.fieldName}>{field.content}</span>
-          <span className="material-icons">keyboard_arrow_right</span>
-        </div>
-      ))}
+    <React.Fragment>
       {/* delete modal */}
       {currentField === 'Delete column' && (
         <Modal>
@@ -124,7 +118,6 @@ const ColumnDropDown = ({columnId, closeDropDown}) => {
                 className={styles.editBtn}
                 onClick={() => {
                   editColumn()
-                  closeDropDown()
                 }}
               >
                 Save
@@ -132,7 +125,7 @@ const ColumnDropDown = ({columnId, closeDropDown}) => {
               <button
                 type="button"
                 className={styles.cancelBtn}
-                onClick={closeDropDown}
+                onClick={() => closeDropDown()}
               >
                 Close
               </button>
@@ -140,7 +133,32 @@ const ColumnDropDown = ({columnId, closeDropDown}) => {
           </div>
         </Modal>
       )}
-    </div>
+      <div className={styles.colDropDownParent}>
+        <div
+          className={
+            isVisibleDropDown
+              ? styles.columnDropDownContainer
+              : styles.columnDropDownContainerHidden
+          }
+        >
+          {fields.map((field) => (
+            // onClick, reveal a dropdown with clickable links for each field
+            <div
+              key={field.id}
+              className={styles.dropDownField}
+              onClick={() => {
+                if (field.content === 'Back') return closeDropDown()
+                setIsVisibleDropDown(false)
+                setCurrentField(field.content)
+              }}
+            >
+              <span className={styles.fieldName}>{field.content}</span>
+              <span className="material-icons">keyboard_arrow_right</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </React.Fragment>
   )
 }
 export default ColumnDropDown
