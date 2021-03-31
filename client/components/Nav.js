@@ -68,10 +68,12 @@ const Nav = () => {
 
   return (
     <nav>
-      <div className={styles.logo}>
-        <span className="material-icons">note_alt</span>
-        <span>note-ary</span>
-      </div>
+      <Link to="/" className={styles.logoLink}>
+        <div className={styles.logo}>
+          <span className="material-icons">note_alt</span>
+          <span>note-ary</span>
+        </div>
+      </Link>
       <div className={styles.navLinks}>
         {!user.id &&
           loggedOutLinks.map((link) => <NavLink key={link.id} {...link} />)}

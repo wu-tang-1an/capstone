@@ -25,3 +25,7 @@ nav {
   height: 3em;
   width: auto;
 }
+
+.logoLink:hover {
+  color: black;
+}
