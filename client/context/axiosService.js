@@ -64,6 +64,19 @@ export const addUserToOrgDB = async (orgId, userId) => {
 
 /* PROJECTS */
 
+// create a project
+export const createProjectDb = async (orgId, project) => {
+  try {
+    const {data} = await axios.post(
+      `/api/projects/organizations/${orgId}`,
+      project
+    )
+    return data
+  } catch (err) {
+    console.log(err)
+  }
+}
+
 // update a project
 export const updateProjectDb = async (projectId, updateData) => {
   try {
