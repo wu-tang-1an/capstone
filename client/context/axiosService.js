@@ -49,9 +49,9 @@ export const deleteOrganizationDB = async (deleteOrg) => {
   }
 }
 
-export const addUserToOrgDB = async (orgId, userId) => {
+export const deleteUserToOrgDB = async (orgId, userId) => {
   try {
-    const {data} = await axios.put(
+    const {data} = await axios.delete(
       `/api/organizations/${orgId}/users/${userId}`
     )
     return data
@@ -60,9 +60,9 @@ export const addUserToOrgDB = async (orgId, userId) => {
   }
 }
 
-export const deleteUserToOrgDB = async (orgId, userId) => {
+export const addUserToOrgDB = async (orgId, userId) => {
   try {
-    const {data} = await axios.delete(
+    const {data} = await axios.put(
       `/api/organizations/${orgId}/users/${userId}`
     )
     return data
