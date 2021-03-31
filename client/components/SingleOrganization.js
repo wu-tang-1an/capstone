@@ -82,10 +82,13 @@ const SingleOrganization = ({match}) => {
           <div className={styles.projectsContainer}>
             <div className={styles.projectsTitle}>Projects:</div>
             <div className={styles.projectList}>
+              <AddProjectDropdown
+                organization={organization}
+                setProjects={setProjects}
+              />
               {projects &&
                 projects.map((project) => (
                   <div key={project.id}>
-                    <AddProjectDropdown />
                     <ProjectCard
                       project={project}
                       organization={organization}
