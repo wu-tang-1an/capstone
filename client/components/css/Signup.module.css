@@ -2,11 +2,17 @@ section {
   display: flex;
 }
 
+.leftPanel {
+  display: flex;
+  flex-direction: column;
+  width: 38%;
+}
+
 .signupContainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 38%;
+
   padding: 0 1em;
 }
 
@@ -91,6 +97,7 @@ form > span {
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 
 form button {
