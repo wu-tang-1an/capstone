@@ -112,6 +112,32 @@ router.post('/columns/:columnId', checkUser, async (req, res, next) => {
   }
 })
 
+// PUT user dropped a task '/api/tasks/drop' (AUTH USER ONLY)
+router.put('/drop', checkUser, async (req, res, next) => {
+  try {
+    const {sourColId, destColId, sourFETasks, destFETasks, taskId} = req.body
+
+    const task = await Task.findByPk(taskId)
+    const sourCol = await Column.findByPk(sourColId, {include: Task})
+    const destCol = await Column.findByPk(destColId, {include: Task})
+
+    sourCol.removeTask(task)
+    destCol.addTask(task)
+
+    sourFETasks.forEach(async (tsk) => {
+      await Task.update({index: tsk.index}, {where: {id: tsk.id}})
+    })
+
+    destFETasks.forEach(async (tsk) => {
+      await Task.update({index: tsk.index}, {where: {id: tsk.id}})
+    })
+
+    return res.status(200)
+  } catch (error) {
+    next(error)
+  }
+})
+
 // PUT update task route '/api/tasks/:taskId' (AUTH USER ONLY)
 router.put('/:taskId', checkUser, async (req, res, next) => {
   try {
