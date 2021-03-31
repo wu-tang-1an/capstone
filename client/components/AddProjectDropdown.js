@@ -3,7 +3,7 @@ import AddProjectDialog from './AddProjectDialog'
 
 import styles from './css/AddOrgDropdown.module.css'
 
-const AddProjectDropdown = () => {
+const AddProjectDropdown = ({organization, setProjects}) => {
   const [isDialogActive, setIsDialogActive] = useState(false)
   const closeModal = () => setIsDialogActive(false)
 
@@ -20,7 +20,11 @@ const AddProjectDropdown = () => {
       )}
       {isDialogActive && (
         <div className={styles.content}>
-          <AddProjectDialog closeModal={closeModal} />
+          <AddProjectDialog
+            organization={organization}
+            setProjects={setProjects}
+            closeModal={closeModal}
+          />
         </div>
       )}
     </div>
