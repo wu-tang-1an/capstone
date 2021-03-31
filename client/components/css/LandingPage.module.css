@@ -1,0 +1,71 @@
+.homeContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+}
+
+section {
+  display: flex;
+  height: 600px;
+  padding: 1em 4em;
+}
+
+section > div {
+  width: 70%;
+}
+
+section img {
+  height: 100%;
+  width: auto;
+}
+
+.bigText {
+  font-size: 4em;
+  color: black;
+  margin-top: 1em;
+  line-height: 1.2em;
+}
+
+.notearyColor {
+  color: rgb(60, 60, 197);
+}
+
+.mainCopy {
+  margin-top: 1em;
+  font-size: 1.2em;
+}
+
+form {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+  margin-top: 3em;
+}
+
+form input {
+  height: 2.6em;
+  padding: 0.5em;
+  border-radius: 5px;
+  margin-right: 1em;
+  width: 60%;
+}
+
+form button,
+.gotoProjects button {
+  border-radius: 5px;
+  border: transparent;
+  background-color: rgb(60, 60, 197);
+  color: white;
+  height: 2.6em;
+}
+
+form button {
+  width: 40%;
+}
+
+.gotoProjects {
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 3em;
+}
