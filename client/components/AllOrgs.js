@@ -6,24 +6,45 @@ import {CgOrganisation} from 'react-icons/cg'
 import {IconContext} from 'react-icons'
 import AddOrgDropdown from './AddOrgDropdown'
 import styles from './css/AllOrgs.module.css'
+import {deleteOrganizationDB, deleteUserToOrgDB} from '../context/axiosService'
+import {OrganizationContext} from '../context/organizationContext'
 
 const AllOrgs = () => {
   // grab user from auth context
   const {user} = useContext(AuthContext)
 
+  console.log('this is user--->', user)
+
+  //grab organization from organizationContext
+  // const {organization} = useContext(OrganizationContext)
+  // console.log('organization--->', organization)
+
   // initialize all orgs state
   const [organizations, setOrganizations] = useState([])
 
+  const fetchAllOrgs = async () => {
+    try {
+      const {data} = await axios.get(`/api/users/${user.id}/organizations`)
+      setOrganizations(data)
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  const deleteOrganization = async (e, org) => {
+    e.preventDefault()
+    try {
+      await deleteOrganizationDB(org)
+      console.log('this is deletedOrg', org)
+      setOrganizations(organizations.filter((currOrg) => currOrg.id !== org.id))
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   useEffect(() => {
     let isMounted = true
-    const fetchAllOrgs = async () => {
-      try {
-        const {data} = await axios.get(`/api/users/${user.id}/organizations`)
-        setOrganizations(data)
-      } catch (err) {
-        console.error(err)
-      }
-    }
+
     fetchAllOrgs()
 
     return () => {
@@ -64,6 +85,28 @@ const AllOrgs = () => {
                     <div className={styles.orgNameCont}>
                       <h3 className={styles.orgName}>{org.name}</h3>
                     </div>
+                    <div onSubmit={(event) => event.preventDefault()}>
+                      <button
+                        type="button"
+                        onClick={(event) => {
+                          deleteOrganization(event, org)
+                        }}
+                      >
+                        X
+                      </button>
+                    </div>
+
+                    {/* <div onSubmit={(event) => event.preventDefault()}>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          // this.props.removeSingleStudent(student)
+                          // fetchAllOrgs()
+                        }}
+                      >
+                        Edit
+                      </button>
+                    </div> */}
                   </div>
                 </Link>
               ))}

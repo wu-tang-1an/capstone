@@ -1,5 +1,6 @@
 import React, {useEffect, useState, useContext} from 'react'
 import axios from 'axios'
+import NewUpdateUser from '../NewUpdateUser'
 import styles from '../css/Profile.module.css'
 import {Link} from 'react-router-dom'
 import {AuthContext} from '../../context/authContext'
@@ -42,7 +43,7 @@ export default function ProfileCard() {
           </div>
 
           <div className={styles.updateProfileCont}>
-            <Link to="/updateProfile">Update Profile</Link>
+            <NewUpdateUser />
           </div>
         </div>
       </div>
@@ -62,7 +63,8 @@ export default function ProfileCard() {
         </div>
 
         <div className={styles.updateProfileCont}>
-          <Link to="/updateProfile">Update Profile</Link>
+          {/* <Link to="/updateProfile">Update Profile</Link> */}
+          <NewUpdateUser />
         </div>
       </div>
     </div>
