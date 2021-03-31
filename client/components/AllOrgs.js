@@ -60,7 +60,7 @@ const AllOrgs = () => {
           <div className={styles.allOrgsCont}>
             {organizations.map((org, idx) => (
               <Link
-                key={idx}
+                key={org.id || idx}
                 className={styles.allOrgsAnchor}
                 to={`/organizations/${org.id}`}
               >
