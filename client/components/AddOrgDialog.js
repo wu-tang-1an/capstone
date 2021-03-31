@@ -3,7 +3,7 @@ import styles from './css/AddDialogShared.module.css'
 import {AuthContext} from '../context/authContext'
 import {addOrganizationDB, addUserToOrgDB} from '../context/axiosService'
 
-const AddOrgDialog = ({closeModal}) => {
+const AddOrgDialog = ({closeModal, organizations, setOrganizations}) => {
   const {user} = useContext(AuthContext)
 
   // local state mgmt
@@ -11,17 +11,26 @@ const AddOrgDialog = ({closeModal}) => {
   const [imageUrl, setImageUrl] = useState('')
 
   // add organization method updates db and closes the dialog
-  const addOrganization = async (e) => {
-    e.preventDefault()
-
+  const addOrganization = async () => {
+    // build the new org from local state
     const newOrganization = {
       name: name,
       imageUrl: imageUrl,
     }
 
+    // create org and associate to user
     try {
       const createdOrganization = await addOrganizationDB(newOrganization)
-      await addUserToOrgDB(createdOrganization.id, user.id)
+
+      const associatedOrg = await addUserToOrgDB(
+        createdOrganization.id,
+        user.id
+      )
+
+      console.log('in addorgdialog, new org: ', associatedOrg)
+
+      // this func was passed down through an intermediary
+      setOrganizations([...organizations, associatedOrg])
     } catch (err) {
       console.error(err)
     }
@@ -29,10 +38,23 @@ const AddOrgDialog = ({closeModal}) => {
 
   return (
     <div className={styles.addDropDownContainer}>
-      <textarea
-        className={styles.description}
-        onChange={(e) => setName(e.target.value)}
-      ></textarea>
+      <form>
+        <div>
+          <label>Name:</label>
+          <input
+            className={styles.description}
+            onChange={(e) => setName(e.target.value)}
+          ></input>
+        </div>
+        <div>
+          <label>Upload ImageUrl:</label>
+          <input
+            className={styles.description}
+            onChange={(e) => setImageUrl(e.target.value)}
+          ></input>
+        </div>
+      </form>
+
       <div className={styles.btnContainer}>
         <button
           type="button"

@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import AddOrgDialog from './AddOrgDialog'
 import styles from './css/AddOrgDropdown.module.css'
 
-const AddOrgDropDown = () => {
+const AddOrgDropDown = ({organizations, setOrganizations}) => {
   const [isDialogActive, setIsDialogActive] = useState(false)
   const closeModal = () => setIsDialogActive(false)
 
@@ -19,7 +19,11 @@ const AddOrgDropDown = () => {
       )}
       {isDialogActive && (
         <div className={styles.content}>
-          <AddOrgDialog closeModal={closeModal} />
+          <AddOrgDialog
+            closeModal={closeModal}
+            organizations={organizations}
+            setOrganizations={setOrganizations}
+          />
         </div>
       )}
     </div>

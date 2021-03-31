@@ -15,7 +15,8 @@ const NewUpdateUser = () => {
   const [password, setPassword] = useState(user.password || '')
 
   async function handleSubmit(e) {
-    e.preventDefault()
+    //I got rid of e.preventDefault() just so the page would reload when clicking submit/////
+    // e.preventDefault()
 
     let updateInfo = {
       firstName,
@@ -32,7 +33,7 @@ const NewUpdateUser = () => {
       setUser(data)
 
       // redirect to user profile
-      history.push('/profile')
+      // history.push('/profile')
     } catch (err) {
       console.error(err)
     }

@@ -51,11 +51,40 @@ export const addOrganizationDB = async (newOrg) => {
   }
 }
 
+export const deleteOrganizationDB = async (deleteOrg) => {
+  try {
+    const {data} = await axios.delete(`/api/organizations/${deleteOrg.id}`)
+    return data
+  } catch (err) {
+    console.error(err)
+  }
+}
+
 export const addUserToOrgDB = async (orgId, userId) => {
   try {
     const {data} = await axios.put(
       `/api/organizations/${orgId}/users/${userId}`
     )
+    console.log('data is: ', data)
+
+    return data
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+export const fetchAllOrganizations = async () => {
+  try {
+    const {data} = await axios.get('/api/organizations')
+    return data
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+export const fetchUserOrgs = async (userId) => {
+  try {
+    const {data} = await axios.get(`/api/users/${userId}/organizations`)
     return data
   } catch (err) {
     console.error(err)
