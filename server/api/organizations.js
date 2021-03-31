@@ -1,7 +1,13 @@
 const router = require('express').Router()
 const {Organization, Project, User} = require('../db/models')
 const {checkUser, checkAdmin} = require('./helper/gatekeeper')
-const {resNaN, resDbNotFound, resDeleted, resAssoc} = require('./helper/helper')
+const {
+  resNaN,
+  resDbNotFound,
+  resDeleted,
+  resAssoc,
+  resUnassoc,
+} = require('./helper/helper')
 const {
   STR_ORGANIZATIONS,
   STR_ORGANIZATION,
@@ -102,6 +108,27 @@ router.put('/:orgId/users/:userId', checkUser, async (req, res, next) => {
     organization.addUser(user)
 
     return resAssoc(STR_ORGANIZATION, STR_USER, orgId, userId, res)
+  } catch (err) {
+    next(err)
+  }
+})
+
+// PUT **remove** org from user's orgs '/api/organizations/:orgId/users/:userId' (AUTH USER ONLY)
+router.delete('/:orgId/users/:userId', checkUser, async (req, res, next) => {
+  try {
+    const {orgId, userId} = req.params
+    if (isNaN(orgId)) return resNaN(orgId, res)
+    if (isNaN(userId)) return resNaN(userId, res)
+
+    const organization = await Organization.findByPk(orgId)
+    if (!organization) return resDbNotFound(STR_ORGANIZATION, res)
+
+    const user = await User.findByPk(userId)
+    if (!user) return resDbNotFound(STR_USER, res)
+
+    organization.removeUser(user)
+
+    return resUnassoc(STR_ORGANIZATION, STR_USER, orgId, userId, res)
   } catch (err) {
     next(err)
   }
