@@ -6,6 +6,7 @@ import {CgOrganisation} from 'react-icons/cg'
 import {IconContext} from 'react-icons'
 import AddOrgDropdown from './AddOrgDropdown'
 import styles from './css/AllOrgs.module.css'
+import {deleteOrganizationDB, deleteUserToOrgDB} from '../context/axiosService'
 
 const AllOrgs = () => {
   // grab user from auth context
@@ -13,13 +14,22 @@ const AllOrgs = () => {
 
   // initialize all orgs state
   const [organizations, setOrganizations] = useState([])
-
   const [organization, setDeleteOrganization] = useState({})
 
   const fetchAllOrgs = async () => {
     try {
       const {data} = await axios.get(`/api/users/${user.id}/organizations`)
       setOrganizations(data)
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  const deleteOrganization = async (e) => {
+    // e.preventDefault()
+    try {
+      const createdOrganization = await deleteOrganizationDB(organization)
+      await deleteUserToOrgDB(createdOrganization.id, user.id)
     } catch (err) {
       console.error(err)
     }
@@ -68,14 +78,14 @@ const AllOrgs = () => {
                       <button
                         type="button"
                         onClick={() => {
-                          // this.props.removeSingleStudent(student)
-                          // fetchAllOrgs()
+                          deleteOrganization()
                         }}
                       >
                         X
                       </button>
                     </div>
-                    <div onSubmit={(event) => event.preventDefault()}>
+
+                    {/* <div onSubmit={(event) => event.preventDefault()}>
                       <button
                         type="button"
                         onClick={() => {
@@ -85,7 +95,7 @@ const AllOrgs = () => {
                       >
                         Edit
                       </button>
-                    </div>
+                    </div> */}
                   </div>
                 </Link>
               ))}

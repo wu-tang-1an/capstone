@@ -59,6 +59,17 @@ export const addUserToOrgDB = async (orgId, userId) => {
   }
 }
 
+export const deleteUserToOrgDB = async (orgId, userId) => {
+  try {
+    const {data} = await axios.delete(
+      `/api/organizations/${orgId}/users/${userId}`
+    )
+    return data
+  } catch (err) {
+    console.error(err)
+  }
+}
+
 /* COLUMNS */
 
 // get all columns for a project
@@ -138,7 +149,7 @@ export const addTaskToColumnDB = async (newTask, columnId) => {
 export const updateTaskDB = async (updateInfo, taskId) => {
   try {
     const {data} = await axios.put(`/api/tasks/${taskId}`, updateInfo)
-
+    console.log('this is the data--->', data)
     return data
   } catch (err) {
     console.error(err)
