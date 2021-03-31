@@ -42,7 +42,6 @@ export const addOrganizationDB = async (newOrg) => {
 export const deleteOrganizationDB = async (deleteOrg) => {
   try {
     const {data} = await axios.delete(`/api/organizations/${deleteOrg.id}`)
-    console.log('this is the data--->', data)
     return data
   } catch (err) {
     console.error(err)
@@ -54,17 +53,8 @@ export const addUserToOrgDB = async (orgId, userId) => {
     const {data} = await axios.put(
       `/api/organizations/${orgId}/users/${userId}`
     )
-    return data
-  } catch (err) {
-    console.error(err)
-  }
-}
+    console.log('data is: ', data)
 
-export const deleteUserToOrgDB = async (orgId, userId) => {
-  try {
-    const {data} = await axios.delete(
-      `/api/organizations/${orgId}/users/${userId}`
-    )
     return data
   } catch (err) {
     console.error(err)
