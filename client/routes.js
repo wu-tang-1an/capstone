@@ -1,7 +1,7 @@
 import React, {useContext} from 'react'
 import {Route, Switch} from 'react-router-dom'
 import {
-  AuthForm,
+  Login,
   ProjectView,
   SingleOrganization,
   LandingPage,
@@ -27,7 +27,7 @@ const Routes = () => {
       {user && !user.id && (
         <Switch>
           <Route exact path="/" component={LandingPage} />
-          <Route path="/login" render={() => <AuthForm authType="login" />} />
+          <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />
         </Switch>
       )}

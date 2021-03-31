@@ -17,8 +17,8 @@ const LandingPage = () => {
           <span className={styles.notearyColor}>note&#8209;ary</span>.
         </div>
         <p className={styles.mainCopy}>
-          Note-ary is a collaborative project management suite that empowers
-          colleagues to reach new heights of productivity.
+          Note&#8209;ary is a collaborative project management suite that
+          empowers colleagues to reach new heights of productivity.
         </p>
         {user && user.id && (
           <div className={styles.gotoProjects}>
