@@ -22,30 +22,6 @@ const OrganizationDropDown = ({organizationId, closeDropDown}) => {
     columns.find((column) => column.id === columnId).name
   )
 
-  // editColumn method renames column and persists to db, local state
-  const editColumn = async () => {
-    try {
-      // update column
-      const {data} = await axios.put(`/api/columns/${columnId}`, {
-        name: name,
-      })
-
-      const updatedColumns = columns.map((column) =>
-        column.id === data.id ? data : column
-      )
-
-      setColumns(updatedColumns)
-
-      socket.emit(socketSent.EDIT_COLUMN_NAME, {
-        ignoreUser: socket.id,
-        projectId: project.id,
-        newColumns: updatedColumns,
-      })
-    } catch (err) {
-      console.error(err)
-    }
-  }
-
   // deleteColumn method deletes column from db and local state
   const deleteColumn = async () => {
     try {

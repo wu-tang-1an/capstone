@@ -14,16 +14,18 @@ const AllOrgs = () => {
   // initialize all orgs state
   const [organizations, setOrganizations] = useState([])
 
+  const fetchAllOrgs = async () => {
+    try {
+      const {data} = await axios.get(`/api/users/${user.id}/organizations`)
+      setOrganizations(data)
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   useEffect(() => {
     let isMounted = true
-    const fetchAllOrgs = async () => {
-      try {
-        const {data} = await axios.get(`/api/users/${user.id}/organizations`)
-        setOrganizations(data)
-      } catch (err) {
-        console.error(err)
-      }
-    }
+
     fetchAllOrgs()
 
     return () => {
@@ -59,6 +61,28 @@ const AllOrgs = () => {
                     </div>
                     <div className={styles.orgNameCont}>
                       <h3 className={styles.orgName}>{org.name}</h3>
+                    </div>
+                    <div onSubmit={(event) => event.preventDefault()}>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          // this.props.removeSingleStudent(student)
+                          // this.props.getStudents()
+                        }}
+                      >
+                        X
+                      </button>
+                    </div>
+                    <div onSubmit={(event) => event.preventDefault()}>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          // this.props.removeSingleStudent(student)
+                          // this.props.getStudents()
+                        }}
+                      >
+                        Edit
+                      </button>
                     </div>
                   </div>
                 </Link>

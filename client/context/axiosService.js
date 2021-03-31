@@ -16,8 +16,6 @@ export async function sendInvite(inviteObj) {
   }
 }
 
-/* ORGANIZATION*/
-
 export async function getOrganizationRole(userId, orgId) {
   try {
     let admin = false
