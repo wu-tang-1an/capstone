@@ -1,0 +1,141 @@
+section {
+  display: flex;
+}
+
+.leftPanel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 38%;
+}
+
+.signupContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 1em;
+}
+
+.title {
+  font-size: 3em;
+  color: black;
+  line-height: 1em;
+  margin-bottom: 1em;
+  text-align: center;
+}
+
+.smolTitle {
+  font-size: 24px;
+}
+
+.btnContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.btnContainer button,
+.btnContainer a,
+.signMeUp {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 260px;
+  border-radius: 5px;
+  padding: 0.5em;
+  font-size: 18px;
+  margin-top: 2em;
+}
+
+.localSignupBtn,
+.signMeUp {
+  border: transparent;
+  background-color: rgb(60, 60, 197);
+  color: white;
+  margin-top: 1em;
+}
+
+.googleSignupBtn {
+  color: black;
+  border: 1px solid lightgrey;
+  background-color: transparent;
+}
+
+.googleSignupBtn img {
+  height: 22px;
+  width: auto;
+  margin-right: 1em;
+}
+
+.bigOr {
+  font-size: 18px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-top: 0;
+}
+
+form label {
+  opacity: 0.6;
+}
+
+form > div:not(.formBtnContainer) {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1em;
+  width: 100%;
+}
+
+form > div > input[type='text'],
+form > div > input[type='password'] {
+  display: flex;
+  flex-grow: 1;
+  width: 100%;
+}
+
+form > span {
+  border: 1px solid lightgrey;
+  padding: 0.5em;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+form button {
+  width: 49.5%;
+  align-self: flex-end;
+  margin-top: 1.6em;
+}
+
+.notearyColor {
+  color: rgb(60, 60, 197);
+}
+
+.photo {
+  background-image: url('https://i.imgur.com/r6zFlvJ.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-radius: 5px;
+}
+
+.transparencyMask {
+  background-image: linear-gradient(
+    to left,
+    rgba(255, 0, 0, 0),
+    rgb(255, 255, 255)
+  );
+  z-index: 2;
+  height: 100%;
+  width: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
