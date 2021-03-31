@@ -2,6 +2,11 @@
   position: relative;
 }
 
+.dropdownParentClosed {
+  position: relative;
+  visibility: hidden;
+}
+
 .taskCardDropDownContainer {
   display: flex;
   flex-direction: column;

@@ -6,8 +6,8 @@ import styles from './css/TaskCardDropDown.module.css'
 
 // fields are actions that user can take from dropdown menu
 const fields = [
-  {id: 1, type: 'Edit'},
-  {id: 2, type: 'Delete'},
+  {id: 1, type: 'Edit task'},
+  {id: 2, type: 'Delete task'},
   {id: 3, type: 'Back'},
   // more fields as necessary
 ]
@@ -32,10 +32,15 @@ const TaskCardDropDown = ({task, closeDropDown}) => {
   // handle drop down selections
   const handleSelectOption = (option) => {
     // handle 'Delete' selection
-    if (option === 'Delete') return setActiveField(option)
+    if (option === 'Delete task') {
+      return setActiveField(option)
+    }
+
+    // handle 'Back' selection
     if (option === 'Back') return closeDropDown()
 
     // otherwise, handle 'Edit' selection
+    closeDropDown()
     setActiveTask(task)
     setActiveField(option)
     setSingleTaskVisible(true)
@@ -43,12 +48,20 @@ const TaskCardDropDown = ({task, closeDropDown}) => {
 
   return (
     <React.Fragment>
-      {activeField === 'Delete' && (
+      {activeField === 'Delete task' && (
         <Modal>
-          <DeleteTaskModal task={task} closeModal={closeModal} />
+          <DeleteTaskModal
+            task={task}
+            closeModal={closeModal}
+            closeDropDown={closeDropDown}
+          />
         </Modal>
       )}
-      <div className={styles.dropdownParent}>
+      <div
+        className={
+          activeField ? styles.dropdownParentClosed : styles.dropdownParent
+        }
+      >
         <div className={styles.taskCardDropDownContainer}>
           {/* to add fields to dropdown, use fields array above */}
           {fields.map((field) => (
