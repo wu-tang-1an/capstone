@@ -110,5 +110,14 @@ module.exports = (io) => {
         })
       }
     )
+
+    socket.on(received.DRAG_START, ({ignoreUser, projectId, dragId}) => {
+      console.log('received start drag')
+      io.emit(sent.DRAG_WAS_STARTED, {
+        ignoreUser,
+        projectId,
+        dragId,
+      })
+    })
   })
 }
