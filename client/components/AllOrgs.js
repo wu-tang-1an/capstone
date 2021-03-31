@@ -14,6 +14,8 @@ const AllOrgs = () => {
   // initialize all orgs state
   const [organizations, setOrganizations] = useState([])
 
+  const [organization, setDeleteOrganization] = useState({})
+
   const fetchAllOrgs = async () => {
     try {
       const {data} = await axios.get(`/api/users/${user.id}/organizations`)
