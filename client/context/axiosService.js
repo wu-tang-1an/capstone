@@ -71,6 +71,15 @@ export const deleteUserToOrgDB = async (orgId, userId) => {
   }
 }
 
+export const fetchAllOrganizations = async () => {
+  try {
+    const {data} = await axios.get('/api/organizations')
+    return data
+  } catch (err) {
+    console.error(err)
+  }
+}
+
 /* COLUMNS */
 
 // get all columns for a project
