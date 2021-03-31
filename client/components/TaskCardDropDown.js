@@ -42,26 +42,28 @@ const TaskCardDropDown = ({task, closeDropDown}) => {
   }
 
   return (
-    <div className={styles.dropdownParent}>
-      <div className={styles.taskCardDropDownContainer}>
-        {/* to add fields to dropdown, use fields array above */}
-        {fields.map((field) => (
-          <div
-            key={field.id}
-            className={styles.dropDownField}
-            onClick={() => handleSelectOption(field.type)}
-          >
-            <span className={styles.fieldName}>{field.type}</span>
-            <span className="arrow material-icons">keyboard_arrow_right</span>
-          </div>
-        ))}
-      </div>
+    <React.Fragment>
       {activeField === 'Delete' && (
         <Modal>
           <DeleteTaskModal task={task} closeModal={closeModal} />
         </Modal>
       )}
-    </div>
+      <div className={styles.dropdownParent}>
+        <div className={styles.taskCardDropDownContainer}>
+          {/* to add fields to dropdown, use fields array above */}
+          {fields.map((field) => (
+            <div
+              key={field.id}
+              className={styles.dropDownField}
+              onClick={() => handleSelectOption(field.type)}
+            >
+              <span className={styles.fieldName}>{field.type}</span>
+              <span className="arrow material-icons">keyboard_arrow_right</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </React.Fragment>
   )
 }
 
