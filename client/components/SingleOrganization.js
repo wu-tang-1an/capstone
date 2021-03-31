@@ -7,7 +7,7 @@ import AddMemberDropdown from './sub-components/AddMemberDropdown'
 
 import ProjectCard from './ProjectCard'
 import UserCard from './UserCard'
-import styles from './css/SingleOrganization.css'
+import styles from './css/SingleOrganization.module.css'
 
 const SingleOrganization = ({match}) => {
   const {user} = useContext(AuthContext)

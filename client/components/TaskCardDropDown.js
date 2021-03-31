@@ -2,7 +2,7 @@ import React, {useState, useContext} from 'react'
 import Modal from './Modal'
 import {ColumnContext} from '../context/columnContext'
 import DeleteTaskModal from './DeleteTaskModal'
-import styles from './css/TaskCardDropDown.css'
+import styles from './css/TaskCardDropDown.module.css'
 
 // fields are actions that user can take from dropdown menu
 const fields = [

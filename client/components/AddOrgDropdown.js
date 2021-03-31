@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import AddOrgDialog from './AddOrgDialog'
-import styles from './css/AddOrgDropdown.css'
+import styles from './css/AddOrgDropdown.module.css'
 
 const AddOrgDropDown = () => {
   const [isDialogActive, setIsDialogActive] = useState(false)

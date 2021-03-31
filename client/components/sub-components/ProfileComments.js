@@ -1,7 +1,7 @@
 import React, {useEffect, useState, useContext} from 'react'
 import {AuthContext} from '../../context/authContext'
 
-import styles from '../css/ProfileComments.css'
+import styles from '../css/ProfileComments.module.css'
 import axios from 'axios'
 
 const Comments = () => {

@@ -1,7 +1,7 @@
 import React, {useContext, useState} from 'react'
 import history from '../history'
 import {AuthContext} from '../context/authContext'
-import styles from '../components/css/NewUpdateUser.css'
+import styles from '../components/css/NewUpdateUser.module.css'
 import axios from 'axios'
 
 const NewUpdateUser = () => {

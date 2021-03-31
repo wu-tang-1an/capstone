@@ -1,6 +1,6 @@
 import React, {useContext} from 'react'
 import {AuthContext} from '../context/authContext'
-import styles from './css/Home.css'
+import styles from './css/Home.module.css'
 
 const Home = () => {
   const {user} = useContext(AuthContext)

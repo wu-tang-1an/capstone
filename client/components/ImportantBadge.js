@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from './css/ImportantBadge.css'
+import styles from './css/ImportantBadge.module.css'
 
 const ImportantBadge = ({isActiveBadge}) => {
   return (
