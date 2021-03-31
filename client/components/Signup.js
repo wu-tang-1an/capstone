@@ -1,4 +1,7 @@
-import React, {useState} from 'react'
+import React, {useState, useContext} from 'react'
+import {AuthContext} from '../context/authContext'
+import axios from 'axios'
+import history from '../history'
 import styles from './css/Signup.module.css'
 
 const Signup = () => {
@@ -14,6 +17,37 @@ const Signup = () => {
   // reveal form
   const [isFormVisible, setFormVisible] = useState(false)
 
+  // setUser method from AuthProvider
+  const {setUser} = useContext(AuthContext)
+
+  // login method
+  const authenticateUser = async (e) => {
+    e.preventDefault()
+
+    // catch errors with user retrieval
+    let res
+    try {
+      res = await axios.post(`/auth/signup`, {
+        firstName,
+        lastName,
+        email,
+        password,
+      })
+    } catch (err) {
+      console.error(err)
+    }
+
+    // pull user out of response, add local set on AuthContext
+    // then redirect to all orgs view
+    const user = res.data
+    try {
+      setUser(user)
+      history.push('/organizations')
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   return (
     <section>
       <div className={styles.leftPanel}>
@@ -24,12 +58,12 @@ const Signup = () => {
         <div className={styles.signupContainer}>
           {!isFormVisible && (
             <div className={styles.btnContainer}>
-              <button type="button" className={styles.googleSignupBtn}>
+              <a href="/auth/google" className={styles.googleSignupBtn}>
                 <span>
                   <img src="/google-logo.webp" />
                 </span>
                 Signup with Google
-              </button>
+              </a>
               <button
                 type="submit"
                 className={styles.localSignupBtn}
@@ -76,7 +110,7 @@ const Signup = () => {
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
-              <button type="submit" onClick={() => {}}>
+              <button type="submit" onClick={authenticateUser}>
                 Sign me up!
               </button>
             </form>
