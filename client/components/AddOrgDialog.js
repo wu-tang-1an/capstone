@@ -29,10 +29,24 @@ const AddOrgDialog = ({closeModal}) => {
 
   return (
     <div className={styles.addDropDownContainer}>
-      <textarea
-        className={styles.description}
-        onChange={(e) => setName(e.target.value)}
-      ></textarea>
+      <form>
+        <div>
+          <label>Name:</label>
+          <input
+            className={styles.description}
+            onChange={(e) => setName(e.target.value)}
+          ></input>
+        </div>
+        <div>
+          <label>Upload ImageUrl:</label>
+          <input
+            // type="file"
+            className={styles.description}
+            onChange={(e) => setImageUrl(e.target.value)}
+          ></input>
+        </div>
+      </form>
+
       <div className={styles.btnContainer}>
         <button
           type="button"
