@@ -6,31 +6,32 @@ import {CgOrganisation} from 'react-icons/cg'
 import {IconContext} from 'react-icons'
 import AddOrgDropdown from './AddOrgDropdown'
 import styles from './css/AllOrgs.module.css'
-import {deleteOrganizationDB, deleteUserToOrgDB} from '../context/axiosService'
-import {OrganizationContext} from '../context/organizationContext'
+import {
+  deleteOrganizationDB,
+  fetchAllOrganizations,
+} from '../context/axiosService'
 
 const AllOrgs = () => {
   // grab user from auth context
   const {user} = useContext(AuthContext)
 
-  console.log('this is user--->', user)
-
-  //grab organization from organizationContext
-  // const {organization} = useContext(OrganizationContext)
-  // console.log('organization--->', organization)
-
   // initialize all orgs state
   const [organizations, setOrganizations] = useState([])
 
-  const fetchAllOrgs = async () => {
-    try {
-      const {data} = await axios.get(`/api/users/${user.id}/organizations`)
-      setOrganizations(data)
-    } catch (err) {
-      console.error(err)
+  // fetch all orgs
+  useEffect(() => {
+    const fetchAllOrgs = async () => {
+      try {
+        const orgs = await fetchAllOrganizations()
+        setOrganizations(orgs)
+      } catch (err) {
+        console.error(err)
+      }
     }
-  }
+    fetchAllOrgs()
+  }, [organizations.length])
 
+  // delete a single org and persist to local state
   const deleteOrganization = async (e, org) => {
     e.preventDefault()
     try {
@@ -41,16 +42,6 @@ const AllOrgs = () => {
       console.error(err)
     }
   }
-
-  useEffect(() => {
-    let isMounted = true
-
-    fetchAllOrgs()
-
-    return () => {
-      isMounted = false
-    }
-  }, [])
 
   if (user.status === 'admin') {
     return (
@@ -133,9 +124,9 @@ const AllOrgs = () => {
           </div>
 
           <div className={styles.allOrgsCont}>
-            {organizations.map((org) => (
+            {organizations.map((org, idx) => (
               <Link
-                key={org.id}
+                key={org.id || idx}
                 className={styles.allOrgsAnchor}
                 to={`/organizations/${org.id}`}
               >
@@ -146,9 +137,25 @@ const AllOrgs = () => {
                   <div className={styles.orgNameCont}>
                     <h3 className={styles.orgName}>{org.name}</h3>
                   </div>
+                  {user && user.status === 'admin' && (
+                    <div>
+                      <button
+                        type="button"
+                        onClick={(event) => {
+                          deleteOrganization(event, org)
+                        }}
+                      >
+                        X
+                      </button>
+                    </div>
+                  )}
                 </div>
               </Link>
             ))}
+            <AddOrgDropdown
+              organizations={organizations}
+              setOrganizations={setOrganizations}
+            />
           </div>
         </div>
       )}
