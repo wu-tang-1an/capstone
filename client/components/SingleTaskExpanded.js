@@ -1,5 +1,5 @@
 /* eslint-disable complexity */
-import React, {useState, useContext} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import marked from 'marked'
 import moment from 'moment'
 import Comment from './Comment'
@@ -8,6 +8,7 @@ import AddCommentDialog from './AddCommentDialog'
 import {ProjectContext} from '../context/projectContext'
 import axios from 'axios'
 import {
+  fetchTaskDB,
   updateTaskDB,
   getCommentDB,
   addCommentToTaskDB,
