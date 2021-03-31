@@ -17,6 +17,8 @@ export const socketSent = {
   ADD_COMMENT: 'add-comment',
   DELETE_COMMENT: 'delete-comment',
   EDIT_COMMENT: 'edit-comment',
+  DRAG_START: 'drag-start',
+  DRAG_END: 'drag-end',
 }
 
 export const socketReceived = {
@@ -30,6 +32,8 @@ export const socketReceived = {
   COMMENT_WAS_ADDED: 'comment-was-added',
   COMMENT_WAS_DELETED: 'comment-was-deleted',
   COMMENT_WAS_EDITED: 'comment-was-edited',
+  DRAG_WAS_STARTED: 'drag-was-started',
+  DRAG_WAS_ENDED: 'drag-was-ended',
 }
 
 export default socket

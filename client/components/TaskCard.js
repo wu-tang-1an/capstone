@@ -31,6 +31,8 @@ const TaskCard = ({task, index}) => {
     setDropDownTargetId,
     isTaskDropDownVisible,
     setTaskDropDownVisible,
+    dragDisabled,
+    setDragDisabled,
   } = useContext(TaskContext)
 
   // get user from auth context, unpack task, and get task's users
@@ -76,6 +78,24 @@ const TaskCard = ({task, index}) => {
     })
   }
 
+  // socket logic for drag start
+  socket.on(
+    socketReceived.DRAG_WAS_STARTED,
+    ({ignoreUser, projectId, dragId}) => {
+      if (socket.id === ignoreUser || projectId !== project.id) return
+      if (dragId === task.id) setDragDisabled(true)
+    }
+  )
+
+  // socket logic for drag end
+  socket.on(
+    socketReceived.DRAG_WAS_ENDED,
+    ({ignoreUser, projectId, dragId}) => {
+      if (socket.id === ignoreUser || projectId !== project.id) return
+      if (dragId === task.id) setDragDisabled(false)
+    }
+  )
+
   // socket logic for task updates
   socket.on(
     socketReceived.TASK_WAS_EDITED,
@@ -120,7 +140,11 @@ const TaskCard = ({task, index}) => {
   })
 
   return (
-    <Draggable draggableId={String(task.id)} index={index}>
+    <Draggable
+      draggableId={String(task.id)}
+      isDragDisabled={dragDisabled}
+      index={index}
+    >
       {(provided) => (
         <Container
           ref={provided.innerRef}
