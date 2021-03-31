@@ -14,8 +14,18 @@ const Signup = () => {
     <section>
       <div className={styles.signupContainer}>
         <div className={styles.title}>
-          Signup with <br />
-          <span className={styles.notearyColor}>note-ary</span>
+          Signup with <span className={styles.notearyColor}>note-ary</span>
+          <br />
+          <span className={styles.smolTitle}>by choosing an option below.</span>
+        </div>
+        <div className={styles.googleBtnContainer}>
+          <button type="button" className={styles.googleBtn}>
+            <span>
+              <img src="/google-logo.webp" />
+            </span>
+            Signup with Google
+          </button>
+          <span className={styles.bigOr}> , or:</span>
         </div>
         <form>
           <div>
@@ -50,17 +60,9 @@ const Signup = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <div className={styles.btnContainer}>
-            <button type="submit" className={styles.localSignup}>
-              Signup with note-ary
-            </button>
-            <button type="button" className={styles.googleSignup}>
-              <span>
-                <img src="/google-logo.webp" />
-              </span>
-              Signup with Google
-            </button>
-          </div>
+          <button type="submit" className={styles.localSignup}>
+            Signup direct
+          </button>
         </form>
       </div>
       <div className={styles.photo}>

@@ -11,6 +11,47 @@ section {
   margin-right: 1em;
 }
 
+.googleBtnContainer {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-start;
+}
+
+.googleBtn {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background-color: transparent;
+  color: black;
+  border: 1px solid lightgrey;
+  width: 260px;
+  border-radius: 5px;
+  padding: 0.5em;
+  font-size: 18px;
+  margin-top: 2em;
+  margin-bottom: 1em;
+  margin-right: 0.5em;
+}
+
+.googleBtn img {
+  height: 28px;
+  width: auto;
+}
+
+.bigOr {
+  font-size: 18px;
+}
+
+.title {
+  font-size: 3em;
+  color: black;
+  line-height: 1em;
+}
+
+.smolTitle {
+  font-size: 24px;
+}
+
 form {
   display: flex;
   flex-direction: column;
@@ -36,11 +77,8 @@ form > div > input[type='text'] {
   width: 100%;
 }
 
-.title {
-  font-size: 3.4em;
-  color: black;
-  line-height: 1.2em;
-  width: 100%;
+p {
+  margin: 0;
 }
 
 .notearyColor {
@@ -54,30 +92,19 @@ form > div > input[type='text'] {
   justify-content: space-between;
 }
 
-.btnContainer button {
-  border-radius: 5px;
-  height: 2.6em;
-  width: 49.5%;
-}
-
 .localSignup {
   border: transparent;
+  border-radius: 5px;
   background-color: rgb(60, 60, 197);
   color: white;
-}
-
-.googleSignup {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  background-color: transparent;
-  color: black;
-  border: 1px solid lightgrey;
+  justify-content: center;
+  margin-top: 1em;
 }
 
-.googleSignup img {
-  height: 20px;
-  width: auto;
+.localSignup i {
+  margin-right: 0.5em;
 }
 
 .photo {
