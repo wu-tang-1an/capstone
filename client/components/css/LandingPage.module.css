@@ -36,8 +36,10 @@ section img {
   font-size: 1.2em;
 }
 
-form {
+form.landingPageForm {
   display: flex;
+  flex-direction: row;
+  justify-content: center;
   align-items: center;
   flex-grow: 1;
   margin-top: 3em;
@@ -51,7 +53,7 @@ form input {
   width: 60%;
 }
 
-form button,
+.landingPageForm button,
 .gotoProjects button {
   border-radius: 5px;
   border: transparent;
@@ -60,7 +62,8 @@ form button,
   height: 2.6em;
 }
 
-form button {
+.landingPageForm button {
+  margin-top: 0;
   width: 40%;
 }
 

@@ -110,7 +110,11 @@ const Signup = () => {
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
-              <button type="submit" onClick={authenticateUser}>
+              <button
+                type="submit"
+                className={styles.signMeUp}
+                onClick={authenticateUser}
+              >
                 Sign me up!
               </button>
             </form>

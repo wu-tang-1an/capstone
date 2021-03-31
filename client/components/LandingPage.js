@@ -31,6 +31,7 @@ const LandingPage = () => {
             )}
             {user && !user.id && (
               <form
+                className={styles.landingPageForm}
                 onSubmit={() => {
                   localStorage.setItem('newUserEmail', email)
                   history.push('/signup')
