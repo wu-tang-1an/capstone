@@ -1,0 +1,103 @@
+section {
+  display: flex;
+}
+
+.signupContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 38%;
+  padding: 0 1em;
+  margin-right: 1em;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-top: 0;
+}
+
+form label {
+  opacity: 0.6;
+}
+
+form > div {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1em;
+  width: 100%;
+}
+
+form > div > input[type='text'] {
+  display: flex;
+  flex-grow: 1;
+  width: 100%;
+}
+
+.title {
+  font-size: 3.4em;
+  color: black;
+  line-height: 1.2em;
+  width: 100%;
+}
+
+.notearyColor {
+  color: rgb(60, 60, 197);
+}
+
+.btnContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.btnContainer button {
+  border-radius: 5px;
+  height: 2.6em;
+  width: 49.5%;
+}
+
+.localSignup {
+  border: transparent;
+  background-color: rgb(60, 60, 197);
+  color: white;
+}
+
+.googleSignup {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: transparent;
+  color: black;
+  border: 1px solid lightgrey;
+}
+
+.googleSignup img {
+  height: 20px;
+  width: auto;
+}
+
+.photo {
+  background-image: url('https://i.imgur.com/r6zFlvJ.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-radius: 5px;
+}
+
+.transparencyMask {
+  background-image: linear-gradient(
+    to left,
+    rgba(255, 0, 0, 0),
+    rgb(255, 255, 255)
+  );
+  z-index: 2;
+  height: 100%;
+  width: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
