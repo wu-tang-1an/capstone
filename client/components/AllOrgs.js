@@ -15,8 +15,6 @@ const AllOrgs = () => {
   // grab user from auth context
   const {user} = useContext(AuthContext)
 
-  console.log(user)
-
   // initialize all orgs state
   const [organizations, setOrganizations] = useState([])
 
@@ -31,7 +29,7 @@ const AllOrgs = () => {
       }
     }
     fetchAllOrgs()
-  }, [])
+  }, [organizations.length])
 
   // delete a single org and persist to local state
   const deleteOrganization = async (e, org) => {
@@ -60,9 +58,9 @@ const AllOrgs = () => {
           </div>
 
           <div className={styles.allOrgsCont}>
-            {organizations.map((org) => (
+            {organizations.map((org, idx) => (
               <Link
-                key={org.id}
+                key={org.id || idx}
                 className={styles.allOrgsAnchor}
                 to={`/organizations/${org.id}`}
               >
@@ -88,7 +86,10 @@ const AllOrgs = () => {
                 </div>
               </Link>
             ))}
-            <AddOrgDropdown />
+            <AddOrgDropdown
+              organizations={organizations}
+              setOrganizations={setOrganizations}
+            />
           </div>
         </div>
       )}
