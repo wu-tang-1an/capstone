@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import DeleteProjectModal from './DeleteProjectModal'
 import EditProjectModal from './EditProjectModal'
 
-import styles from './css/TaskCardDropDown.module.css'
+import styles from './css/ProjectCardDropDown.module.css'
 
 const fields = [
   {id: 1, type: 'Edit'},
@@ -13,8 +13,6 @@ const fields = [
 const ProjectCardDropDown = ({project, organization, setProjects}) => {
   const [isDropDownActive, setIsDropDownActive] = useState(false)
 
-  const closeDropDown = () => setIsDropDownActive(false)
-
   return (
     <div>
       {isDropDownActive && (
@@ -22,25 +20,21 @@ const ProjectCardDropDown = ({project, organization, setProjects}) => {
           project={project}
           organization={organization}
           setProjects={setProjects}
-          closeDropDown={closeDropDown}
         />
       )}
-      <div
-        className="material-icons"
-        onClick={() => setIsDropDownActive(!isDropDownActive)}
-      >
-        more_horiz
+      <div className={styles.addIconAndName}>
+        <div
+          className="material-icons"
+          onClick={() => setIsDropDownActive(!isDropDownActive)}
+        >
+          more_horiz
+        </div>
       </div>
     </div>
   )
 }
 
-const DropDownContainer = ({
-  project,
-  organization,
-  setProjects,
-  closeDropDown,
-}) => {
+const DropDownContainer = ({project, organization, setProjects}) => {
   const [activeField, setActiveField] = useState('')
 
   const closeModal = () => setActiveField('')
