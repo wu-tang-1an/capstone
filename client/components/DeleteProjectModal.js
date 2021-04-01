@@ -1,6 +1,8 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import Modal from './Modal'
+import {AuthContext} from '../context/authContext'
 import {deleteProjectDb, getOrgDb} from '../context/axiosService'
+import {notify} from './helper/toast'
 
 import styles from './css/DeleteTaskModal.module.css'
 
@@ -10,9 +12,14 @@ const DeleteProjectModal = ({
   setProjects,
   closeModal,
 }) => {
+  const {user} = useContext(AuthContext)
+
   const deleteProject = async () => {
     // close the modal BEFORE changing state
     closeModal()
+
+    if (user.status !== 'admin')
+      return notify('Only admins can delete projects!', 'warning')
 
     // delete project from db
     await deleteProjectDb(project.id)
@@ -22,14 +29,17 @@ const DeleteProjectModal = ({
 
     // update projects state
     setProjects(data.projects || [])
+
+    notify(`Project "${project.name}" deleted!`, 'warning')
   }
 
   return (
     <Modal>
       <div className={styles.modalContent}>
         <div className={styles.deleteMessage}>
-          <strong>Warning!</strong> This action will delete the selected project
-          and <strong>all columns and tasks associated with it.</strong>
+          <strong>Warning!</strong> This action will delete the project "
+          {project.name}" and{' '}
+          <strong>all columns and tasks associated with it.</strong>
           <br /> Press <span>Delete project</span> to continue, or cancel to go
           back.
         </div>

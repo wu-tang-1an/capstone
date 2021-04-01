@@ -12,12 +12,14 @@ const ProjectCard = ({project, organization, setProjects}) => {
         organization={organization}
         setProjects={setProjects}
       />
-      <Link key={id} to={`/projects/${id}`}>
+      <Link to={`/projects/${id}`}>
         <div className={styles.projectCardContainer}>
           <img src={imageUrl} />
-          <div className={styles.projectName}>{name}</div>
-          <div className={styles.projectStatus}>{status}</div>
-          <div className={styles.projectDescription}>{description}</div>
+          <div className={styles.projectCardInfo}>
+            <div className={styles.projectName}>{name}</div>
+            <div className={styles.projectStatus}>{status}</div>
+            <div className={styles.projectDescription}>{description}</div>
+          </div>
         </div>
       </Link>
     </div>
