@@ -3,6 +3,7 @@ import Modal from './Modal'
 import {deleteProjectDb, getOrgDb} from '../context/axiosService'
 
 import styles from './css/DeleteTaskModal.module.css'
+import {notify} from './helper/toast'
 
 const DeleteProjectModal = ({
   project,
@@ -22,6 +23,8 @@ const DeleteProjectModal = ({
 
     // update projects state
     setProjects(data.projects || [])
+
+    notify(`Project ${project.name} deleted!`, 'warning')
   }
 
   return (
