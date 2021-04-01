@@ -37,23 +37,25 @@ const AddOrgDialog = ({closeModal, organizations, setOrganizations}) => {
   }
 
   return (
-    <div className={styles.addDropDownContainer}>
-      <form>
-        <div>
-          <label>Name:</label>
-          <input
-            className={styles.description}
-            onChange={(e) => setName(e.target.value)}
-          ></input>
-        </div>
-        <div>
-          <label>Upload ImageUrl:</label>
-          <input
-            className={styles.description}
-            onChange={(e) => setImageUrl(e.target.value)}
-          ></input>
-        </div>
-      </form>
+    <div className={styles.OrgDialogContainer}>
+      <div className={styles.ContainerRight}>
+        <form className={styles.flexCol}>
+          <div className={styles.formGroup}>
+            <label className={styles.formLabel}>Name</label>
+            <input
+              className={styles.formControl}
+              onChange={(e) => setName(e.target.value)}
+            ></input>
+          </div>
+          <div className={styles.formGroup}>
+            <label className={styles.formLabel}>Upload ImageUrl</label>
+            <input
+              className={styles.formControl}
+              onChange={(e) => setImageUrl(e.target.value)}
+            ></input>
+          </div>
+        </form>
+      </div>
 
       <div className={styles.btnContainer}>
         <button

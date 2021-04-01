@@ -67,6 +67,7 @@ const SingleOrganization = ({match}) => {
   return (
     <div className="topLevelViewContainer">
       <div className={styles.organizationContainer}>
+        <h1>Organization: {organization.name}</h1>
         <img className={styles.organizationImg} src={imageUrl} />
         <div className={styles.membersAndProjects}>
           <div className={styles.membersContainer}>

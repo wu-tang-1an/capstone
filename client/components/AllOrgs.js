@@ -1,12 +1,11 @@
 import React, {useState, useContext, useEffect} from 'react'
-import axios from 'axios'
 import {Link} from 'react-router-dom'
 import {AuthContext} from '../context/authContext'
 import {CgOrganisation} from 'react-icons/cg'
 import {IconContext} from 'react-icons'
 import AddOrgDropdown from './AddOrgDropdown'
 import styles from './css/AllOrgs.module.css'
-import {deleteOrganizationDB, fetchUserOrgs} from '../context/axiosService'
+import {removeUserFromOrgDB, fetchUserOrgs} from '../context/axiosService'
 
 const AllOrgs = () => {
   // grab user from auth context
@@ -32,8 +31,7 @@ const AllOrgs = () => {
   const deleteOrganization = async (e, org) => {
     e.preventDefault()
     try {
-      await deleteOrganizationDB(org)
-      console.log('this is deletedOrg', org)
+      await removeUserFromOrgDB(org.id, user.id)
       setOrganizations(organizations.filter((currOrg) => currOrg.id !== org.id))
     } catch (err) {
       console.error(err)
