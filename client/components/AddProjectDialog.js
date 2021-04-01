@@ -13,7 +13,7 @@ const validate = (name) => {
 }
 
 const AddProjectDialog = ({organization, setProjects, closeModal}) => {
-  const [name, setName] = useState('New Project')
+  const [name, setName] = useState('')
 
   const createProject = async () => {
     const errors = validate(name)
@@ -37,15 +37,16 @@ const AddProjectDialog = ({organization, setProjects, closeModal}) => {
     setProjects(data.projects || [])
 
     closeModal()
+
+    notify(`Project ${name} created!`, 'success')
   }
 
   return (
     <div className={styles.addDropDownContainer}>
-      <div>Project name</div>
       <input
         type="text"
-        value={name}
         onChange={(e) => setName(e.target.value)}
+        placeholder="Project name"
       ></input>
       <div className={styles.btnContainer}>
         <button type="button" className={styles.addBtn} onClick={createProject}>
