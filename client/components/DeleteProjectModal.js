@@ -24,7 +24,7 @@ const DeleteProjectModal = ({
     // update projects state
     setProjects(data.projects || [])
 
-    notify(`Project ${project.name} deleted!`, 'warning')
+    notify(`Project "${project.name}" deleted!`, 'warning')
   }
 
   return (

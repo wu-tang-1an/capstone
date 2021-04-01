@@ -47,7 +47,7 @@ const EditProjectModal = ({project, organization, setProjects, closeModal}) => {
 
     closeModal()
 
-    notify(`Project ${name} updated!`, 'success')
+    notify(`Project "${name}" updated!`, 'success')
   }
 
   return (

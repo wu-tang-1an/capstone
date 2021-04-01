@@ -14,6 +14,8 @@ const validate = (name) => {
 
 const AddProjectDialog = ({organization, setProjects, closeModal}) => {
   const [name, setName] = useState('')
+  const [description, setDescription] = useState()
+  const [imageUrl, setImageUrl] = useState()
 
   const createProject = async () => {
     const errors = validate(name)
@@ -28,6 +30,8 @@ const AddProjectDialog = ({organization, setProjects, closeModal}) => {
 
     await createProjectDb(organization.id, {
       name: name,
+      description: description,
+      imageUrl: imageUrl,
     })
 
     // get new organization info from db
@@ -38,7 +42,7 @@ const AddProjectDialog = ({organization, setProjects, closeModal}) => {
 
     closeModal()
 
-    notify(`Project ${name} created!`, 'success')
+    notify(`Project "${name}" created!`, 'success')
   }
 
   return (
@@ -47,6 +51,16 @@ const AddProjectDialog = ({organization, setProjects, closeModal}) => {
         type="text"
         onChange={(e) => setName(e.target.value)}
         placeholder="Project name"
+      ></input>
+      <textarea
+        type="text"
+        onChange={(e) => setDescription(e.target.value)}
+        placeholder="Project description"
+      ></textarea>
+      <input
+        type="text"
+        onChange={(e) => setImageUrl(e.target.value)}
+        placeholder="Project image URL"
       ></input>
       <div className={styles.btnContainer}>
         <button type="button" className={styles.addBtn} onClick={createProject}>
