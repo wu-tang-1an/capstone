@@ -106,6 +106,9 @@ const Profile = () => {
                 </div>
 
                 <div className={styles.formGroup}>
+                  <pre className={styles.imagePreview}>
+                    <img src={imageUrl} />
+                  </pre>
                   <label className={styles.formLabel}>Photo </label>
                   <input
                     className={styles.formControl}
@@ -114,9 +117,6 @@ const Profile = () => {
                     defaultValue={imageUrl}
                     onChange={(e) => setImageUrl(e.target.value)}
                   />
-                  <pre>
-                    <img src={imageUrl} />
-                  </pre>
                 </div>
 
                 <input

@@ -7,8 +7,8 @@
 .profileMasterCont {
   display: flex;
   padding: 10px;
-
   justify-content: space-evenly;
+  margin-top: 2em;
 }
 
 .profileImgCont {
@@ -91,4 +91,19 @@
   border: 1px solid #ced4da;
   border-radius: 0.25rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.imagePreview {
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2em;
+  height: max-content;
+  width: auto;
+}
+
+.imagePreview img {
+  height: 200px;
+  width: auto;
 }
