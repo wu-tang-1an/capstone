@@ -7,7 +7,13 @@ const {
   UserOrganization,
 } = require('../db/models')
 const {checkUser, checkAdmin} = require('./helper/gatekeeper')
-const {resNaN, resDbNotFound, resAssoc, resDeleted} = require('./helper/helper')
+const {
+  resNaN,
+  resDbNotFound,
+  resAssoc,
+  resUnassoc,
+  resDeleted,
+} = require('./helper/helper')
 const {STR_USERS, STR_USER, STR_ORGANIZATION} = require('./helper/strings')
 module.exports = router
 
