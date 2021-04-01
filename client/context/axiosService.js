@@ -1,7 +1,27 @@
 import axios from 'axios'
 import history from '../history'
 
-// INVITES
+/* USERS */
+
+export const fetchUserDB = async (userId) => {
+  try {
+    const {data} = await axios.get(`/api/users/${userId}`)
+    return data
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+export const updateUserDB = async (userId, updateInfo) => {
+  try {
+    const {data} = await axios.put(`/api/users/${userId}`, updateInfo)
+    return data
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+/* INVITES */
 
 export async function sendInvite(inviteObj) {
   try {
@@ -14,6 +34,18 @@ export async function sendInvite(inviteObj) {
     return response
   } catch (e) {
     console.log(e)
+  }
+}
+
+/* ORGANIZATIONS */
+
+// get a single org
+export const getOrgDb = async (orgId) => {
+  try {
+    const {data} = await axios.get(`/api/organizations/${orgId}`)
+    return data
+  } catch (err) {
+    console.error(err)
   }
 }
 
@@ -87,6 +119,40 @@ export const fetchUserOrgs = async (userId) => {
     return data
   } catch (err) {
     console.error(err)
+  }
+}
+
+/* PROJECTS */
+
+// create a project
+export const createProjectDb = async (orgId, project) => {
+  try {
+    const {data} = await axios.post(
+      `/api/projects/organizations/${orgId}`,
+      project
+    )
+    return data
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+// update a project
+export const updateProjectDb = async (projectId, updateData) => {
+  try {
+    const data = await axios.put(`/api/projects/${projectId}`, updateData)
+    return data
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+// delete a project
+export const deleteProjectDb = async (projectId) => {
+  try {
+    await axios.delete(`/api/projects/${projectId}`)
+  } catch (err) {
+    console.log(err)
   }
 }
 

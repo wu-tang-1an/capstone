@@ -8,6 +8,7 @@ import AddMemberDropdown from './sub-components/AddMemberDropdown'
 import ProjectCard from './ProjectCard'
 import UserCard from './UserCard'
 import styles from './css/SingleOrganization.module.css'
+import AddProjectDropdown from './AddProjectDropdown'
 
 const SingleOrganization = ({match}) => {
   const {user} = useContext(AuthContext)
@@ -67,6 +68,7 @@ const SingleOrganization = ({match}) => {
   return (
     <div className="topLevelViewContainer">
       <div className={styles.organizationContainer}>
+        <h1>Organization: {organization.name}</h1>
         <img className={styles.organizationImg} src={imageUrl} />
         <div className={styles.membersAndProjects}>
           <div className={styles.membersContainer}>
@@ -81,9 +83,19 @@ const SingleOrganization = ({match}) => {
           <div className={styles.projectsContainer}>
             <div className={styles.projectsTitle}>Projects:</div>
             <div className={styles.projectList}>
+              <AddProjectDropdown
+                organization={organization}
+                setProjects={setProjects}
+              />
               {projects &&
                 projects.map((project) => (
-                  <ProjectCard key={project.id} project={project} />
+                  <div key={project.id}>
+                    <ProjectCard
+                      project={project}
+                      organization={organization}
+                      setProjects={setProjects}
+                    />
+                  </div>
                 ))}
             </div>
           </div>

@@ -66,18 +66,16 @@ const AllOrgs = () => {
                   <div className={styles.orgNameCont}>
                     <h3 className={styles.orgName}>{org.name}</h3>
                   </div>
-                  {user && user.status === 'admin' && (
-                    <div>
-                      <button
-                        type="button"
-                        onClick={(event) => {
-                          deleteOrganization(event, org)
-                        }}
-                      >
-                        X
-                      </button>
-                    </div>
-                  )}
+                  <div>
+                    <button
+                      type="button"
+                      onClick={(event) => {
+                        deleteOrganization(event, org)
+                      }}
+                    >
+                      X
+                    </button>
+                  </div>
                 </div>
               </Link>
             ))}
