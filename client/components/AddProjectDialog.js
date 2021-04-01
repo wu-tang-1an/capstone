@@ -1,5 +1,6 @@
-import React, {useState} from 'react'
+import React, {useState, useContext} from 'react'
 import styled from 'styled-components'
+import {AuthContext} from '../context/authContext'
 import {createProjectDb, getOrgDb} from '../context/axiosService'
 import {notify} from './helper/toast'
 
@@ -23,11 +24,18 @@ const validate = (name) => {
 }
 
 const AddProjectDialog = ({organization, setProjects, closeModal}) => {
+  const {user} = useContext(AuthContext)
+
   const [name, setName] = useState('')
   const [description, setDescription] = useState()
   const [imageUrl, setImageUrl] = useState()
 
   const createProject = async () => {
+    if (user.status !== 'admin') {
+      closeModal()
+      return notify('Only admins can add projects!', 'warning')
+    }
+
     const errors = validate(name)
 
     if (errors.length) {
