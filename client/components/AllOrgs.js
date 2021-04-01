@@ -38,70 +38,16 @@ const AllOrgs = () => {
     }
   }
 
-  if (user.status === 'admin') {
-    return (
-      <div>
-        {organizations && (
-          <div>
-            <div className={styles.headerCont}>
-              <h1 className={styles.allOrgsHeader}>Your Organizations</h1>
-
-              <IconContext.Provider
-                value={{
-                  size: '2rem',
-                  className: styles.test,
-                  style: {marginTop: '0rem'},
-                }}
-              >
-                <CgOrganisation />
-              </IconContext.Provider>
-            </div>
-
-            <div className={styles.allOrgsCont}>
-              {organizations.map((org) => (
-                <Link
-                  key={org.id}
-                  className={styles.allOrgsAnchor}
-                  to={`/organizations/${org.id}`}
-                >
-                  <div className={styles.orgCont}>
-                    <div className={styles.orgImgCont}>
-                      <img className={styles.orgImg} src={org.imageUrl} />
-                    </div>
-                    <div className={styles.orgNameCont}>
-                      <h3 className={styles.orgName}>{org.name}</h3>
-                    </div>
-                    <div onSubmit={(event) => event.preventDefault()}>
-                      <button
-                        type="button"
-                        onClick={(event) => {
-                          deleteOrganization(event, org)
-                        }}
-                      >
-                        X
-                      </button>
-                    </div>
-
-                    {/* <div onSubmit={(event) => event.preventDefault()}>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          // this.props.removeSingleStudent(student)
-                          // fetchAllOrgs()
-                        }}
-                      >
-                        Edit
-                      </button>
-                    </div> */}
-                  </div>
-                </Link>
-              ))}
-              <AddOrgDropdown />
-            </div>
-          </div>
-        )}
-      </div>
-    )
+  const addOrgFunc = () => {
+    if (user.status === 'admin') {
+      return (
+        <AddOrgDropdown
+          organizations={organizations}
+          setOrganizations={setOrganizations}
+        />
+      )
+    }
+    return <div>Receive an invitation to join an Organization!</div>
   }
 
   return (
@@ -132,6 +78,7 @@ const AllOrgs = () => {
                   <div className={styles.orgNameCont}>
                     <h3 className={styles.orgName}>{org.name}</h3>
                   </div>
+
                   {user && user.status === 'admin' && (
                     <div>
                       <button
@@ -147,10 +94,11 @@ const AllOrgs = () => {
                 </div>
               </Link>
             ))}
-            <AddOrgDropdown
+            {/* <AddOrgDropdown
               organizations={organizations}
               setOrganizations={setOrganizations}
-            />
+            /> */}
+            {addOrgFunc()}
           </div>
         </div>
       )}
