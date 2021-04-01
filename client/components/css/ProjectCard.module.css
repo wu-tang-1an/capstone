@@ -3,16 +3,6 @@ a {
   text-decoration: none;
 }
 
-/* .projectCardContainer {
-  height: min-content;
-  width: min-content;
-  margin: 2em;
-  transition: box-shadow 0.1s ease-in-out;
-  box-shadow: 0.8px 0.9px 3px rgb(187, 187, 187);
-  padding-bottom: 1.5em;
-  text-align: center;
-} */
-
 .projectCardContainer {
   width: 380px;
   height: 120px;
@@ -27,13 +17,6 @@ a {
 .projectCardContainer:hover {
   box-shadow: 0.8px 0.9px 3px rgb(63, 127, 201);
 }
-
-/* .projectCardContainer img {
-  height: 240px;
-  width: auto;
-  border-bottom-left-radius: 0px;
-  border-bottom-right-radius: 0px;
-} */
 
 .projectCardContainer img {
   height: 120px;
