@@ -4,9 +4,11 @@ import {AuthContext} from '../context/authContext'
 import styles from '../components/css/NewUpdateUser.module.css'
 import axios from 'axios'
 
-const NewUpdateUser = () => {
+const NewUpdateUser = (props) => {
   // get user from auth context
   const {user, setUser} = useContext(AuthContext)
+
+  console.log('props1111--->', props)
 
   // initialize local state for the form
   const [firstName, setFirstName] = useState(user.firstName || '')
@@ -16,7 +18,7 @@ const NewUpdateUser = () => {
 
   async function handleSubmit(e) {
     //I got rid of e.preventDefault() just so the page would reload when clicking submit/////
-    // e.preventDefault()
+    e.preventDefault()
 
     let updateInfo = {
       firstName,
@@ -30,7 +32,14 @@ const NewUpdateUser = () => {
       const {data} = await axios.put(`/api/users/${user.id}`, updateInfo)
 
       // then update local state
+      console.log('data--->', data)
       setUser(data)
+      console.log('this is setuser--->', setUser(data))
+      props.setProfile({
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+      })
 
       // redirect to user profile
       // history.push('/profile')

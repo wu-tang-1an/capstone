@@ -64,7 +64,7 @@ export default function ProfileCard() {
 
         <div className={styles.updateProfileCont}>
           {/* <Link to="/updateProfile">Update Profile</Link> */}
-          <NewUpdateUser />
+          <NewUpdateUser setProfile={setProfile} profile={profile} />
         </div>
       </div>
     </div>
