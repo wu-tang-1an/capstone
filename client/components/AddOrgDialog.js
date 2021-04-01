@@ -20,14 +20,7 @@ const AddOrgDialog = ({closeModal, organizations, setOrganizations}) => {
 
     // create org and associate to user
     try {
-      const createdOrganization = await addOrganizationDB(newOrganization)
-
-      const associatedOrg = await addUserToOrgDB(
-        createdOrganization.id,
-        user.id
-      )
-
-      console.log('in addorgdialog, new org: ', associatedOrg)
+      const associatedOrg = await addOrganizationDB(newOrganization)
 
       // this func was passed down through an intermediary
       setOrganizations([...organizations, associatedOrg])
