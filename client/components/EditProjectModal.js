@@ -1,5 +1,6 @@
-import React, {useState} from 'react'
+import React, {useState, useContext} from 'react'
 import Modal from './Modal'
+import {AuthContext} from '../context/authContext'
 import {getOrgDb, updateProjectDb} from '../context/axiosService'
 import {notify} from './helper/toast'
 
@@ -16,12 +17,19 @@ const validate = (name, imageUrl) => {
 }
 
 const EditProjectModal = ({project, organization, setProjects, closeModal}) => {
+  const {user} = useContext(AuthContext)
+
   const [name, setName] = useState(project.name)
   const [status, setStatus] = useState(project.status)
   const [description, setDescription] = useState(project.description)
   const [imageUrl, setImageUrl] = useState(project.imageUrl)
 
   const editProject = async () => {
+    if (user.status !== 'admin') {
+      closeModal()
+      return notify('Only admins can edit projects!', 'warning')
+    }
+
     const errors = validate(name, imageUrl)
 
     if (errors.length) {
@@ -46,6 +54,8 @@ const EditProjectModal = ({project, organization, setProjects, closeModal}) => {
     setProjects(data.projects || [])
 
     closeModal()
+
+    notify(`Project "${name}" updated!`, 'success')
   }
 
   return (

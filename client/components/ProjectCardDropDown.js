@@ -1,4 +1,5 @@
 import React, {useState} from 'react'
+import styled from 'styled-components'
 import DeleteProjectModal from './DeleteProjectModal'
 import EditProjectModal from './EditProjectModal'
 
@@ -9,6 +10,10 @@ const fields = [
   {id: 2, type: 'Delete'},
   // more fields as necessary
 ]
+
+const Wrapper = styled.div`
+  position: relative;
+`
 
 const ProjectCardDropDown = ({project, organization, setProjects}) => {
   const [isDropDownActive, setIsDropDownActive] = useState(false)
@@ -22,14 +27,16 @@ const ProjectCardDropDown = ({project, organization, setProjects}) => {
           setProjects={setProjects}
         />
       )}
-      <div className={styles.addIconAndName}>
-        <div
-          className="material-icons"
-          onClick={() => setIsDropDownActive(!isDropDownActive)}
-        >
-          more_horiz
+      <Wrapper>
+        <div className={styles.addIconAndName}>
+          <div
+            className="material-icons"
+            onClick={() => setIsDropDownActive(!isDropDownActive)}
+          >
+            more_horiz
+          </div>
         </div>
-      </div>
+      </Wrapper>
     </div>
   )
 }

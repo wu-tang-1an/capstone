@@ -1,8 +1,19 @@
-import React, {useState} from 'react'
+import React, {useState, useContext} from 'react'
+import styled from 'styled-components'
+import {AuthContext} from '../context/authContext'
 import {createProjectDb, getOrgDb} from '../context/axiosService'
 import {notify} from './helper/toast'
 
 import styles from './css/AddDialogShared.module.css'
+
+const FormWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+
+const FormInput = styled.input`
+  margin-bottom: 5px;
+`
 
 const validate = (name) => {
   let errors = []
@@ -13,9 +24,18 @@ const validate = (name) => {
 }
 
 const AddProjectDialog = ({organization, setProjects, closeModal}) => {
-  const [name, setName] = useState('New Project')
+  const {user} = useContext(AuthContext)
+
+  const [name, setName] = useState('')
+  const [description, setDescription] = useState()
+  const [imageUrl, setImageUrl] = useState()
 
   const createProject = async () => {
+    if (user.status !== 'admin') {
+      closeModal()
+      return notify('Only admins can add projects!', 'warning')
+    }
+
     const errors = validate(name)
 
     if (errors.length) {
@@ -28,6 +48,8 @@ const AddProjectDialog = ({organization, setProjects, closeModal}) => {
 
     await createProjectDb(organization.id, {
       name: name,
+      description: description,
+      imageUrl: imageUrl,
     })
 
     // get new organization info from db
@@ -37,16 +59,29 @@ const AddProjectDialog = ({organization, setProjects, closeModal}) => {
     setProjects(data.projects || [])
 
     closeModal()
+
+    notify(`Project "${name}" created!`, 'success')
   }
 
   return (
     <div className={styles.addDropDownContainer}>
-      <div>Project name</div>
-      <input
-        type="text"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      ></input>
+      <FormWrapper>
+        <FormInput
+          type="text"
+          onChange={(e) => setName(e.target.value)}
+          placeholder="Project name"
+        ></FormInput>
+        <FormInput
+          type="text"
+          onChange={(e) => setImageUrl(e.target.value)}
+          placeholder="Project image URL"
+        ></FormInput>
+        <textarea
+          type="text"
+          onChange={(e) => setDescription(e.target.value)}
+          placeholder="Project description"
+        ></textarea>
+      </FormWrapper>
       <div className={styles.btnContainer}>
         <button type="button" className={styles.addBtn} onClick={createProject}>
           Add

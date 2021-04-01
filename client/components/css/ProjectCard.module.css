@@ -4,13 +4,14 @@ a {
 }
 
 .projectCardContainer {
-  height: min-content;
-  width: min-content;
-  margin: 2em;
-  transition: box-shadow 0.1s ease-in-out;
+  width: 380px;
+  height: 120px;
+  background-color: var(--cardBackground);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin: 0.5em;
   box-shadow: 0.8px 0.9px 3px rgb(187, 187, 187);
-  padding-bottom: 1.5em;
-  text-align: center;
+  transition: box-shadow 0.1s ease-in-out;
 }
 
 .projectCardContainer:hover {
@@ -18,10 +19,20 @@ a {
 }
 
 .projectCardContainer img {
-  height: 240px;
+  height: 120px;
   width: auto;
-  border-bottom-left-radius: 0px;
+  max-width: 180px;
+  border-top-right-radius: 0px;
   border-bottom-right-radius: 0px;
+}
+
+.projectCardInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+  justify-content: center;
+  margin: 0;
+  overflow: auto;
 }
 
 .projectName {
@@ -30,6 +41,10 @@ a {
   margin-top: 0.6em;
 }
 
+.projectStatus {
+  font-style: italic;
+}
+
 .projectDescription {
-  margin-top: 0.5em;
+  margin-top: 0.6em;
 }
