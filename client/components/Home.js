@@ -36,27 +36,42 @@ const Home = () => {
     setTasks(columns.map((column) => column.tasks).flat())
   }
 
+  // helper returns a startDate to establish a window for user feed
   const getStartDate = (endpoint, numDays) => {
     return new Date(endpoint.setDate(endpoint.getDate() - numDays))
   }
 
-  const myFeed = async () => {
+  // get a line-item for user feed
+  // output: "deploy on heroku was edited on Wed Jul 29 2020"
+  const getSnapshot = (task) => {
+    return `${task.name} was edited on ${new Date(
+      task.editTimeStamp
+    ).toDateString()}`
+  }
+
+  // generate a list of tasks that are marked urgent / active
+  const importantTasks = () => {
+    return tasks.filter((task) => task.isActiveBadge)
+  }
+
+  // generate a list of user feed line-items
+  const myFeed = () => {
+    // get today
     const today = new Date()
 
-    const startDate = getStartDate(new Date(today), 50)
+    // set the boundary date before today with getStartDate()
+    const startDate = getStartDate(new Date(today), 200)
 
-    const feed = {
-      tasks: tasks.filter((task) => {
-        const withinWindow = new Date(task.editTimeStamp) < new Date(startDate)
-        if (withinWindow) {
-          console.log('within window!')
-          return task
-        }
-      }),
-    }
-    console.log(feed)
+    // filter project tasks by window
+    const recentTasks = tasks.filter((task) => {
+      const withinWindow = new Date(task.editTimeStamp) < new Date(startDate)
+
+      if (withinWindow) return task
+    })
+
+    // return a list of line-items
+    return recentTasks.map((task) => getSnapshot(task))
   }
-  myFeed()
 
   return (
     <div className={styles.homeContainer}>
