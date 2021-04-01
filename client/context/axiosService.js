@@ -61,6 +61,17 @@ export const addUserToOrgDB = async (orgId, userId) => {
   }
 }
 
+export const removeUserFromOrgDB = async (orgId, userId) => {
+  try {
+    const {data} = await axios.delete(
+      `/api/organizations/${orgId}/users/${userId}`
+    )
+    return data
+  } catch (err) {
+    console.error(err)
+  }
+}
+
 export const fetchAllOrganizations = async () => {
   try {
     const {data} = await axios.get('/api/organizations')
