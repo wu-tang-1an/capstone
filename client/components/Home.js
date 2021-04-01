@@ -36,13 +36,19 @@ const Home = () => {
     setTasks(columns.map((column) => column.tasks).flat())
   }
 
+  const getStartDate = (endpoint, numDays) => {
+    return new Date(endpoint.setDate(endpoint.getDate() - numDays))
+  }
+
   const myFeed = async () => {
     const today = new Date()
-    const yesterday = new Date(today)
-    const start = new Date(yesterday.setDate(yesterday.getDate() - 1))
-    console.dir(yesterday, start)
+
+    const startDate = getStartDate(today, 1)
+
     const feed = {
-      tasks: tasks.map((task) => task.editTimeStamp),
+      tasks: tasks.filter(
+        (task) => new Date(Date.parse(task.editTimeStamp)) < startDate
+      ),
     }
     console.log(feed)
   }
