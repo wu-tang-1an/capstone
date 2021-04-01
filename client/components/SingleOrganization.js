@@ -12,7 +12,7 @@ import styles from './css/SingleOrganization.module.css'
 import AddProjectDropdown from './AddProjectDropdown'
 
 const OverflowWrapper = styled.div`
-  height: 600px;
+  height: 400px;
   overflow: auto;
 `
 
