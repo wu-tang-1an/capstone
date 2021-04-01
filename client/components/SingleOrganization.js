@@ -1,4 +1,5 @@
 import React, {useState, useEffect, useMemo, useContext} from 'react'
+import styled from 'styled-components'
 import {AuthContext} from '../context/authContext'
 
 import axios from 'axios'
@@ -9,6 +10,11 @@ import ProjectCard from './ProjectCard'
 import UserCard from './UserCard'
 import styles from './css/SingleOrganization.module.css'
 import AddProjectDropdown from './AddProjectDropdown'
+
+const OverflowWrapper = styled.div`
+  height: 400px;
+  overflow: auto;
+`
 
 const SingleOrganization = ({match}) => {
   const {user} = useContext(AuthContext)
@@ -78,40 +84,45 @@ const SingleOrganization = ({match}) => {
         <div className={styles.membersAndProjects}>
           <div className={styles.membersContainer}>
             <div className={styles.membersTitle}>Members:</div>
-            {status ? <AddMemberDropdown orgId={organizationId} /> : null}
+            <OverflowWrapper>
+              {status ? <AddMemberDropdown orgId={organizationId} /> : null}
 
-            <div className={styles.memberList}>
-              {members &&
-                members.map((member) => (
-                  <UserCard
-                    key={member.id}
-                    user={{
-                      ...member,
-                      orgId: organizationId,
-                      removeUser: removeUser,
-                      mainUser: user,
-                    }}
-                  />
-                ))}
-            </div>
+              <div className={styles.memberList}>
+                {members &&
+                  members.map((member) => (
+                    <UserCard
+                      key={member.id}
+                      user={{
+                        ...member,
+                        orgId: organizationId,
+                        removeUser: removeUser,
+                        mainUser: user,
+                      }}
+                    />
+                  ))}
+              </div>
+            </OverflowWrapper>
           </div>
+
           <div className={styles.projectsContainer}>
             <div className={styles.projectsTitle}>Projects:</div>
             <div className={styles.projectList}>
-              <AddProjectDropdown
-                organization={organization}
-                setProjects={setProjects}
-              />
-              {projects &&
-                projects.map((project) => (
-                  <div key={project.id}>
-                    <ProjectCard
-                      project={project}
-                      organization={organization}
-                      setProjects={setProjects}
-                    />
-                  </div>
-                ))}
+              <OverflowWrapper>
+                <AddProjectDropdown
+                  organization={organization}
+                  setProjects={setProjects}
+                />
+                {projects &&
+                  projects.map((project) => (
+                    <div key={project.id}>
+                      <ProjectCard
+                        project={project}
+                        organization={organization}
+                        setProjects={setProjects}
+                      />
+                    </div>
+                  ))}
+              </OverflowWrapper>
             </div>
           </div>
         </div>
