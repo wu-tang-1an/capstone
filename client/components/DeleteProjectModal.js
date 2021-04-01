@@ -1,9 +1,9 @@
 import React from 'react'
 import Modal from './Modal'
 import {deleteProjectDb, getOrgDb} from '../context/axiosService'
+import {notify} from './helper/toast'
 
 import styles from './css/DeleteTaskModal.module.css'
-import {notify} from './helper/toast'
 
 const DeleteProjectModal = ({
   project,
