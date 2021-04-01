@@ -35,21 +35,10 @@ const Profile = () => {
     }
   }
 
-  return (
-    <div className={styles.profileCont}>
-      <div className={styles.profileMasterCont}>
-        <div className={styles.profileContainer}>
-          <div className={styles.profileImgCont}>
-            <img className={styles.profileImg} src={user.imageUrl} />
-          </div>
-          <div className={styles.nameCont}>
-            <h1>{`${user.firstName} ${user.lastName}`}</h1>
-          </div>
-          <div className={styles.emailCont}>
-            <h3>{user.email}</h3>
-          </div>
-        </div>
-      </div>
+  // form subcomponent has access to setters
+  // if we place it inside profile component
+  const Form = () => {
+    return (
       <div className={styles.formContainer}>
         <div className={styles.NewUpdateUserContainer}>
           <h1>Update Profile</h1>
@@ -103,13 +92,38 @@ const Profile = () => {
                 <input
                   className={styles.formControl}
                   type="submit"
-                  value="Submit"
+                  value="Update My Info"
                 />
               </form>
             </div>
           </div>
         </div>
       </div>
+    )
+  }
+
+  const MyInfo = () => {
+    return (
+      <div className={styles.profileMasterCont}>
+        <div className={styles.profileContainer}>
+          <div className={styles.profileImgCont}>
+            <img className={styles.profileImg} src={user.imageUrl} />
+          </div>
+          <div className={styles.nameCont}>
+            <h1>{`${user.firstName} ${user.lastName}`}</h1>
+          </div>
+          <div className={styles.emailCont}>
+            <h3>{user.email}</h3>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className={styles.profileCont}>
+      <MyInfo />
+      <Form />
     </div>
   )
 }
