@@ -43,12 +43,16 @@ const Home = () => {
   const myFeed = async () => {
     const today = new Date()
 
-    const startDate = getStartDate(today, 1)
+    const startDate = getStartDate(new Date(today), 50)
 
     const feed = {
-      tasks: tasks.filter(
-        (task) => new Date(Date.parse(task.editTimeStamp)) < startDate
-      ),
+      tasks: tasks.filter((task) => {
+        const withinWindow = new Date(task.editTimeStamp) < new Date(startDate)
+        if (withinWindow) {
+          console.log('within window!')
+          return task
+        }
+      }),
     }
     console.log(feed)
   }
