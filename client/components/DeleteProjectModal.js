@@ -31,8 +31,8 @@ const DeleteProjectModal = ({
     <Modal>
       <div className={styles.modalContent}>
         <div className={styles.deleteMessage}>
-          <strong>Warning!</strong> This action will delete the selected project
-          and <strong>all columns and tasks associated with it.</strong>
+          <strong>Warning!</strong> This action will delete the "{project.name}"
+          project and <strong>all columns and tasks associated with it.</strong>
           <br /> Press <span>Delete project</span> to continue, or cancel to go
           back.
         </div>
