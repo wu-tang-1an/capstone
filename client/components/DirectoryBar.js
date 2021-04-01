@@ -29,13 +29,20 @@ const DirectoryBar = () => {
 
   return (
     <div className={styles.directoryBarContainer}>
-      <Link to={`/organizations/${organization.id}`}>
-        <span>{organization.name}</span>
-      </Link>
-      <span className={styles.divider}>/</span>
-      <Link to={`/projects/${project.id}`}>
-        <span>{project.name}</span>
-      </Link>
+      <div>
+        <strong>Organization: </strong>
+        <Link to={`/organizations/${organization.id}`}>
+          <span> {organization.name}</span>
+        </Link>
+      </div>
+      <span className={styles.divider}> / </span>
+      <div>
+        <strong>Project: </strong>
+
+        <Link to={`/projects/${project.id}`}>
+          <span> {project.name}</span>
+        </Link>
+      </div>
     </div>
   )
 }
