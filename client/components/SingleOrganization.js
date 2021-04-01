@@ -27,7 +27,7 @@ const SingleOrganization = ({match}) => {
   const [projects, setProjects] = useState([])
 
   const [status, setStatus] = useState(false)
-
+  const [members, setMembers] = useState([])
   useEffect(() => {
     let isMounted = true
     const fetchSingleOrg = async () => {
@@ -35,6 +35,7 @@ const SingleOrganization = ({match}) => {
         const {data} = await axios.get(`/api/organizations/${organizationId}`)
         setOrganization(data)
         setProjects(data.projects)
+        setMembers(data.users)
       } catch (err) {
         console.error(err)
       }
@@ -69,7 +70,11 @@ const SingleOrganization = ({match}) => {
   }, [organization, projects, status])
 
   // destructure organization
-  const {name, imageUrl, users} = organization
+  const {name, imageUrl} = organization
+
+  function removeUser(currentUser) {
+    setMembers(members.filter((member) => member.id !== currentUser))
+  }
 
   return (
     <div className="topLevelViewContainer">
@@ -83,11 +88,22 @@ const SingleOrganization = ({match}) => {
               {status ? <AddMemberDropdown orgId={organizationId} /> : null}
 
               <div className={styles.memberList}>
-                {users &&
-                  users.map((user) => <UserCard key={user.id} user={user} />)}
+                {members &&
+                  members.map((member) => (
+                    <UserCard
+                      key={member.id}
+                      user={{
+                        ...member,
+                        orgId: organizationId,
+                        removeUser: removeUser,
+                        mainUser: user,
+                      }}
+                    />
+                  ))}
               </div>
             </OverflowWrapper>
           </div>
+
           <div className={styles.projectsContainer}>
             <div className={styles.projectsTitle}>Projects:</div>
             <div className={styles.projectList}>
