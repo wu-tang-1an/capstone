@@ -1,8 +1,18 @@
 import React, {useState} from 'react'
+import styled from 'styled-components'
 import {createProjectDb, getOrgDb} from '../context/axiosService'
 import {notify} from './helper/toast'
 
 import styles from './css/AddDialogShared.module.css'
+
+const FormWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+
+const FormInput = styled.input`
+  margin-bottom: 5px;
+`
 
 const validate = (name) => {
   let errors = []
@@ -47,21 +57,23 @@ const AddProjectDialog = ({organization, setProjects, closeModal}) => {
 
   return (
     <div className={styles.addDropDownContainer}>
-      <input
-        type="text"
-        onChange={(e) => setName(e.target.value)}
-        placeholder="Project name"
-      ></input>
-      <textarea
-        type="text"
-        onChange={(e) => setDescription(e.target.value)}
-        placeholder="Project description"
-      ></textarea>
-      <input
-        type="text"
-        onChange={(e) => setImageUrl(e.target.value)}
-        placeholder="Project image URL"
-      ></input>
+      <FormWrapper>
+        <FormInput
+          type="text"
+          onChange={(e) => setName(e.target.value)}
+          placeholder="Project name"
+        ></FormInput>
+        <FormInput
+          type="text"
+          onChange={(e) => setImageUrl(e.target.value)}
+          placeholder="Project image URL"
+        ></FormInput>
+        <textarea
+          type="text"
+          onChange={(e) => setDescription(e.target.value)}
+          placeholder="Project description"
+        ></textarea>
+      </FormWrapper>
       <div className={styles.btnContainer}>
         <button type="button" className={styles.addBtn} onClick={createProject}>
           Add
