@@ -82,13 +82,14 @@ const SingleOrganization = ({match}) => {
 
             <div className={styles.memberList}>
               {members &&
-                members.map((user) => (
+                members.map((member) => (
                   <UserCard
-                    key={user.id}
+                    key={member.id}
                     user={{
-                      ...user,
+                      ...member,
                       orgId: organizationId,
                       removeUser: removeUser,
+                      mainUser: user,
                     }}
                   />
                 ))}

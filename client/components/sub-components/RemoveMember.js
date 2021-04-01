@@ -15,7 +15,6 @@ const Button = styled.button`
 
 export default function RemoveUser(props) {
   const {orgId, userId} = props
-  console.log('these are the props, ', props)
   return (
     <div>
       <Button

@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import RemoveMember from './sub-components/RemoveMember'
+import isAdmin from './helper/isAdmin'
 import styles from './css/UserCard.module.css'
 
 const UserCard = ({user}) => {
@@ -11,7 +12,18 @@ const UserCard = ({user}) => {
     user_organization,
     orgId,
     removeUser,
+    mainUser,
   } = user
+
+  const [isOrgAdmin, setOrgAdmin] = useState(false)
+
+  useEffect(() => {
+    const fetchAdmin = async () => {
+      setOrgAdmin(await isAdmin(mainUser.id, orgId))
+    }
+
+    fetchAdmin()
+  }, [])
 
   const combinedName = firstName + ' ' + lastName
 
@@ -24,7 +36,13 @@ const UserCard = ({user}) => {
         <div className={styles.name}>{combinedName}</div>
         <div className={styles.status}>{role}</div>
 
-        <RemoveMember userId={user.id} orgId={orgId} removeUser={removeUser} />
+        {isOrgAdmin ? (
+          <RemoveMember
+            userId={user.id}
+            orgId={orgId}
+            removeUser={removeUser}
+          />
+        ) : null}
       </div>
     </div>
   )
