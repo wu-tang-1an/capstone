@@ -46,6 +46,8 @@ const EditProjectModal = ({project, organization, setProjects, closeModal}) => {
     setProjects(data.projects || [])
 
     closeModal()
+
+    notify(`Project ${name} updated!`, 'success')
   }
 
   return (
