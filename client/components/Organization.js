@@ -61,7 +61,10 @@ export default function ScrollableTabsButtonAuto() {
   }
 
   return (
-    <div className={classes.root}>
+    <div
+      style={{padding: '10px', backgroundColor: 'transparent'}}
+      className={classes.root}
+    >
       <AppBar position="static" color="default">
         <Tabs
           value={value}

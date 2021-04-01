@@ -1,15 +1,12 @@
 .headerCont {
   display: flex;
+  align-items: center;
   text-align: center;
 }
 
 .spanCont {
   padding: 6px;
 }
-
-/* .orgSvg   {
-  margin-top: 10px;
-} */
 
 .allOrgsHeader {
   padding: 0px 10px;
@@ -21,7 +18,7 @@
 
 .allOrgsCont {
   padding: 10px;
-  background-color: aqua;
+  /* background-color: aqua; */
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -31,11 +28,17 @@
 
 .orgCont {
   background-color: brown;
+
   -webkit-box-shadow: 0 8px 6px -6px black;
   -moz-box-shadow: 0 8px 6px -6px black;
   box-shadow: 0 8px 6px -6px black;
   margin-right: 6px;
   margin-bottom: 6px;
+}
+
+.orgImgCont {
+  height: max-content;
+  width: 15rem;
 }
 
 .orgImg {
@@ -47,8 +50,15 @@
 
 .orgNameCont {
   text-align: center;
+  vertical-align: middle;
+  margin: auto;
+  color: whitesmoke;
 }
 
 .orgName {
   padding: 5px;
+}
+
+.test {
+  text-align: center;
 }
