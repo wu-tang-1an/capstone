@@ -1,25 +1,117 @@
 import React, {useState, useContext} from 'react'
-import ProfileCard from './sub-components/ProfileCard'
-import ProfileComments from './sub-components/ProfileComments'
-
+import {AuthContext} from '../context/authContext'
+import {fetchUserDB, updateUserDB} from '../context/axiosService'
 import styles from './css/MainProfileComp.module.css'
 
-import {AuthContext} from '../context/authContext'
-
-export default function Profile() {
-  // initialize profile state
-  const [profile, setProfile] = useState({})
-
+const Profile = () => {
   // grab user from auth context
-  const {user} = useContext(AuthContext)
+  const {user, setUser} = useContext(AuthContext)
 
-  // if check prevents infinite rerender
-  if (!profile.id) setProfile(user)
+  // initialize local state for form
+  const [firstName, setFirstName] = useState(user.firstName || '')
+  const [lastName, setLastName] = useState(user.lastName || '')
+  const [imageUrl, setImageUrl] = useState(user.imageUrl || '')
+  const [email, setEmail] = useState(user.email || '')
+  const [password, setPassword] = useState(user.password || '')
+
+  // update form logic
+  const updateUserInfo = async (e) => {
+    e.preventDefault()
+
+    const updateInfo = {
+      ...user,
+      firstName,
+      lastName,
+      imageUrl,
+      email,
+      password,
+    }
+
+    try {
+      const updatedUser = await updateUserDB(user.id, updateInfo)
+      setUser(updatedUser)
+    } catch (err) {
+      console.error(err)
+    }
+  }
 
   return (
     <div className={styles.profileCont}>
-      <ProfileCard />
-      <ProfileComments />
+      <div className={styles.profileMasterCont}>
+        <div className={styles.profileContainer}>
+          <div className={styles.profileImgCont}>
+            <img className={styles.profileImg} src={user.imageUrl} />
+          </div>
+          <div className={styles.nameCont}>
+            <h1>{`${user.firstName} ${user.lastName}`}</h1>
+          </div>
+          <div className={styles.emailCont}>
+            <h3>{user.email}</h3>
+          </div>
+        </div>
+      </div>
+      <div className={styles.formContainer}>
+        <div className={styles.NewUpdateUserContainer}>
+          <h1>Update Profile</h1>
+          <div className={styles.NewUpdateUserContainerRight}>
+            <div>
+              <form className={styles.flexCol} onSubmit={updateUserInfo}>
+                <div className={styles.formGroup}>
+                  <label className={styles.formLabel}>First Name</label>
+                  <input
+                    className={styles.formControl}
+                    type="text"
+                    name="firstName"
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                  />
+                </div>
+
+                <div className={styles.formGroup}>
+                  <label className={styles.formLabel}>Last Name </label>
+                  <input
+                    className={styles.formControl}
+                    type="text"
+                    name="lastName"
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                  />
+                </div>
+
+                <div className={styles.formGroup}>
+                  <label className={styles.formLabel}>Email </label>
+                  <input
+                    className={styles.formControl}
+                    type="text"
+                    name="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                </div>
+
+                <div className={styles.formGroup}>
+                  <label className={styles.formLabel}>Password </label>
+                  <input
+                    className={styles.formControl}
+                    name="password"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                </div>
+
+                <input
+                  className={styles.formControl}
+                  type="submit"
+                  value="Submit"
+                />
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
+
+export default Profile

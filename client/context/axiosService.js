@@ -1,7 +1,27 @@
 import axios from 'axios'
 import history from '../history'
 
-// INVITES
+/* USERS */
+
+export const fetchUserDB = async (userId) => {
+  try {
+    const {data} = await axios.get(`/api/users/${userId}`)
+    return data
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+export const updateUserDB = async (userId, updateInfo) => {
+  try {
+    const {data} = await axios.put(`/api/users/${userId}`, updateInfo)
+    return data
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+/* INVITES */
 
 export async function sendInvite(inviteObj) {
   try {
