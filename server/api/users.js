@@ -5,6 +5,8 @@ const {
   Task,
   Comment,
   UserOrganization,
+  Project,
+  Column,
 } = require('../db/models')
 const {checkUser, checkAdmin} = require('./helper/gatekeeper')
 const {
@@ -85,7 +87,36 @@ router.get('/:userId/organizations', checkUser, async (req, res, next) => {
     const user = await User.findByPk(userId)
     if (!user) return resDbNotFound(STR_USER, res)
 
-    const orgs = await user.getOrganizations()
+    const orgs = await user.getOrganizations({
+      include: [
+        {
+          model: Project,
+          include: [
+            {
+              model: Column,
+              include: [
+                {
+                  model: Task,
+                  include: [
+                    {
+                      model: User,
+                    },
+                    {
+                      model: Comment,
+                      include: [
+                        {
+                          model: User,
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    })
     return res.json(orgs)
   } catch (error) {
     next(error)
