@@ -1,18 +1,18 @@
 import React, {useState, useContext} from 'react'
 import {AuthContext} from '../context/authContext'
-import {fetchUserDB, updateUserDB} from '../context/axiosService'
-import styles from './css/MainProfileComp.module.css'
+import {updateUserDB} from '../context/axiosService'
+import styles from './css/Profile.module.css'
 
 const Profile = () => {
   // grab user from auth context
   const {user, setUser} = useContext(AuthContext)
 
   // initialize local state for form
-  const [firstName, setFirstName] = useState(user.firstName || '')
-  const [lastName, setLastName] = useState(user.lastName || '')
-  const [imageUrl, setImageUrl] = useState(user.imageUrl || '')
-  const [email, setEmail] = useState(user.email || '')
-  const [password, setPassword] = useState(user.password || '')
+  const [firstName, setFirstName] = useState(user.firstName)
+  const [lastName, setLastName] = useState(user.lastName)
+  const [imageUrl, setImageUrl] = useState(user.imageUrl)
+  const [email, setEmail] = useState(user.email)
+  const [password, setPassword] = useState(user.password)
 
   // update form logic
   const updateUserInfo = async (e) => {
@@ -35,73 +35,6 @@ const Profile = () => {
     }
   }
 
-  // form subcomponent has access to setters
-  // if we place it inside profile component
-  const Form = () => {
-    return (
-      <div className={styles.formContainer}>
-        <div className={styles.NewUpdateUserContainer}>
-          <h1>Update Profile</h1>
-          <div className={styles.NewUpdateUserContainerRight}>
-            <div>
-              <form className={styles.flexCol} onSubmit={updateUserInfo}>
-                <div className={styles.formGroup}>
-                  <label className={styles.formLabel}>First Name</label>
-                  <input
-                    className={styles.formControl}
-                    type="text"
-                    name="firstName"
-                    value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
-                  />
-                </div>
-
-                <div className={styles.formGroup}>
-                  <label className={styles.formLabel}>Last Name </label>
-                  <input
-                    className={styles.formControl}
-                    type="text"
-                    name="lastName"
-                    value={lastName}
-                    onChange={(e) => setLastName(e.target.value)}
-                  />
-                </div>
-
-                <div className={styles.formGroup}>
-                  <label className={styles.formLabel}>Email </label>
-                  <input
-                    className={styles.formControl}
-                    type="text"
-                    name="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                </div>
-
-                <div className={styles.formGroup}>
-                  <label className={styles.formLabel}>Password </label>
-                  <input
-                    className={styles.formControl}
-                    name="password"
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                </div>
-
-                <input
-                  className={styles.formControl}
-                  type="submit"
-                  value="Update My Info"
-                />
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
   const MyInfo = () => {
     return (
       <div className={styles.profileMasterCont}>
@@ -122,8 +55,81 @@ const Profile = () => {
 
   return (
     <div className={styles.profileCont}>
+      <div className={styles.formContainer}>
+        <div className={styles.NewUpdateUserContainer}>
+          <h1>Update Profile</h1>
+          <div className={styles.NewUpdateUserContainerRight}>
+            <div>
+              <form className={styles.flexCol} onSubmit={updateUserInfo}>
+                <div className={styles.formGroup}>
+                  <label className={styles.formLabel}>First Name</label>
+                  <input
+                    className={styles.formControl}
+                    type="text"
+                    name="firstName"
+                    defaultValue={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                  />
+                </div>
+
+                <div className={styles.formGroup}>
+                  <label className={styles.formLabel}>Last Name </label>
+                  <input
+                    className={styles.formControl}
+                    type="text"
+                    name="lastName"
+                    defaultValue={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                  />
+                </div>
+
+                <div className={styles.formGroup}>
+                  <label className={styles.formLabel}>Email </label>
+                  <input
+                    className={styles.formControl}
+                    type="text"
+                    name="email"
+                    defaultValue={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                </div>
+
+                <div className={styles.formGroup}>
+                  <label className={styles.formLabel}>Password </label>
+                  <input
+                    className={styles.formControl}
+                    name="password"
+                    type="password"
+                    defaultValue={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                </div>
+
+                <div className={styles.formGroup}>
+                  <label className={styles.formLabel}>Photo </label>
+                  <input
+                    className={styles.formControl}
+                    name="photo"
+                    type="text"
+                    defaultValue={imageUrl}
+                    onChange={(e) => setImageUrl(e.target.value)}
+                  />
+                  <pre>
+                    <img src={imageUrl} />
+                  </pre>
+                </div>
+
+                <input
+                  className={styles.formControl}
+                  type="submit"
+                  value="Update My Info"
+                />
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
       <MyInfo />
-      <Form />
     </div>
   )
 }

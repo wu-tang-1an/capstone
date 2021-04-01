@@ -1,12 +1,14 @@
-.profileMasterCont {
+.profileCont {
   display: flex;
-  padding: 10px;
-  /* background-color: aqua; */
+  flex-wrap: wrap;
   justify-content: space-evenly;
 }
 
-.profileContainer {
-  /* width: 95%; */
+.profileMasterCont {
+  display: flex;
+  padding: 10px;
+
+  justify-content: space-evenly;
 }
 
 .profileImgCont {
