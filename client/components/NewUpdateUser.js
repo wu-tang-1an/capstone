@@ -18,7 +18,7 @@ const NewUpdateUser = (props) => {
 
   async function handleSubmit(e) {
     //I got rid of e.preventDefault() just so the page would reload when clicking submit/////
-    e.preventDefault()
+    // e.preventDefault()
 
     let updateInfo = {
       firstName,
