@@ -38,18 +38,6 @@ const AllOrgs = () => {
     }
   }
 
-  const addOrgFunc = () => {
-    if (user.status === 'admin') {
-      return (
-        <AddOrgDropdown
-          organizations={organizations}
-          setOrganizations={setOrganizations}
-        />
-      )
-    }
-    return <div>Receive an invitation to join an Organization!</div>
-  }
-
   return (
     <div>
       {organizations && (
@@ -78,27 +66,23 @@ const AllOrgs = () => {
                   <div className={styles.orgNameCont}>
                     <h3 className={styles.orgName}>{org.name}</h3>
                   </div>
-
-                  {user && user.status === 'admin' && (
-                    <div>
-                      <button
-                        type="button"
-                        onClick={(event) => {
-                          deleteOrganization(event, org)
-                        }}
-                      >
-                        X
-                      </button>
-                    </div>
-                  )}
+                  <div>
+                    <button
+                      type="button"
+                      onClick={(event) => {
+                        deleteOrganization(event, org)
+                      }}
+                    >
+                      X
+                    </button>
+                  </div>
                 </div>
               </Link>
             ))}
-            {/* <AddOrgDropdown
+            <AddOrgDropdown
               organizations={organizations}
               setOrganizations={setOrganizations}
-            /> */}
-            {addOrgFunc()}
+            />
           </div>
         </div>
       )}
