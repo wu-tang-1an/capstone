@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {Organization, Project, User} = require('../db/models')
+const {Organization, Project, User, UserOrganization} = require('../db/models')
 const {checkUser, checkAdmin} = require('./helper/gatekeeper')
 const {
   resNaN,
@@ -63,10 +63,18 @@ router.get('/:orgId/users', checkUser, async (req, res, next) => {
 // POST create new organization route '/api/organizations/' (AUTH USER ONLY)
 router.post('/', checkUser, async (req, res, next) => {
   try {
-    const data = req.body
+    let data = req.body
     const {dataValues} = await Organization.create(data)
+    let obj = {
+      role: 'admin',
+      userId: req.session.passport.user,
+      organizationId: dataValues.id,
+    }
 
-    return res.json(dataValues)
+    //whoever created the org becomes admin
+    let userOrg = await UserOrganization.create(obj)
+
+    return res.json(userOrg)
   } catch (error) {
     next(error)
   }
