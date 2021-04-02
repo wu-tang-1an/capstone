@@ -86,3 +86,12 @@
 .text {
   line-height: 1.6em;
 }
+
+/* ---- VideoList ---- */
+
+.videoContainer {
+  display: flex;
+  flex: 1 1 100%;
+  height: 300px;
+  width: 300px;
+}

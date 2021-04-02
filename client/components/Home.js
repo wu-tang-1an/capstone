@@ -1,4 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react'
+import Slider from './sub-components/Slider'
 import {AuthContext} from '../context/authContext'
 import {fetchUserOrgs} from '../context/axiosService'
 import styles from './css/Home.module.css'
@@ -18,8 +19,21 @@ const ListContainer = ({list, type}) => {
   )
 }
 
+const VideoList = ({videoSrcList}) => {
+  return (
+    <div className={styles.videoContainer}>
+      {videoSrcList.map((src, idx) => (
+        <video key={idx} controls>
+          <source src={src} type="video/webm" />
+          Your browser does not support the video tag.
+        </video>
+      ))}
+    </div>
+  )
+}
+
 // sub-component renders section views in home
-const OverviewSection = ({title, text, videoSrc, shouldReverse}) => {
+const OverviewSection = ({title, text, videoSrcList, shouldReverse}) => {
   return (
     <div
       className={styles.overviewContainer}
@@ -31,9 +45,7 @@ const OverviewSection = ({title, text, videoSrc, shouldReverse}) => {
         <div className={styles.title}>{title}</div>
         <div className={styles.text}>{text}</div>
       </div>
-      <div className={styles.vid}>
-        <video src={videoSrc} />
-      </div>
+      <VideoList videoSrcList={videoSrcList} />
     </div>
   )
 }
@@ -83,28 +95,31 @@ const Home = () => {
       title: 'Working with your project board',
       text:
         "The note-ary board is the heart of your project. Make lists, create tasks, leave comments to encourage your team or suggest changes -- note-ary keeps it flexible and let's you decide what works for you.",
-      videoSrc: '',
+      videoSrcList: [''],
     },
     {
       id: 2,
       title: 'Creating lists and tasks',
       text:
         "Keeping track of what's next has never been easier: note-ary's task-list system lets you create, assign, and prioritize your workflow. Our realtime communication support keeps you in sync with your teammates -- whatever changes you make will be reflected in your colleagues' boards instantly.",
-      videoSrc: '',
+      videoSrcList: ['/assets/add-column.webm', '/assets/add-task.webm'],
     },
     {
       id: 3,
       title: 'Editing tasks and lists',
       text:
         "Note-ary's built-in Markdown support lets you write and format task descriptions with ease and clarity. Each task comes equipped with a realtime-chat-enabled comments section -- remote communication is key, and note-ary wants to help keep you in the loop.",
-      videoSrc: '',
+      videoSrcList: ['/assets/edit-task.webm'],
     },
     {
       id: 4,
       title: 'Removing tasks and lists',
       text:
         "Finished a task? One-click deletion moves you closer to your goal. New workflow? Create a new list, migrate your tasks, and tear down the old list. Note-ary allows you to customize your workflow to suit your team's unique vision and style.",
-      videoSrc: '',
+      videoSrcList: [
+        '/assets/edit-delete-column.webm',
+        '/assets/delete-task.webm',
+      ],
     },
   ]
 
@@ -136,12 +151,12 @@ const Home = () => {
       </section>
       <section className={styles.overview}>
         <div className={styles.sectionHeader}>Welcome and Overview</div>
-        {panels.map(({id, title, text, videoSrc}) => (
+        {panels.map(({id, title, text, videoSrcList}) => (
           <OverviewSection
             key={id}
             title={title}
             text={text}
-            videoSrc={videoSrc}
+            videoSrcList={videoSrcList}
             shouldReverse={id % 2 === 0}
           />
         ))}
