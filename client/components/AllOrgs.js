@@ -84,7 +84,7 @@ const AllOrgs = () => {
                         deleteOrganization(event, org)
                       }}
                     >
-                      Remove
+                      Leave
                     </button>
                   </div>
                 </div>
