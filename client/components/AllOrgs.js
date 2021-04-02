@@ -15,10 +15,6 @@ const AllOrgs = () => {
   // initialize all orgs state
   const [organizations, setOrganizations] = useState([])
 
-  // closeModal clears activeField
-  // used by RemoveOrg modal
-  const closeModal = () => setActiveField('')
-
   // fetch all orgs
   useEffect(() => {
     const fetchAllOrgs = async () => {
@@ -43,50 +39,46 @@ const AllOrgs = () => {
     }
   }
 
+  const [isModalVisible, setModalVisible] = useState(false)
+
   return (
     <div>
       {organizations && (
         <div>
           <div className={styles.headerCont}>
             <h1 className={styles.allOrgsHeader}>Your Organizations</h1>
-
             <IconContext.Provider
               value={{size: '2rem', style: {marginTop: '0.7rem'}}}
             >
               <CgOrganisation />
             </IconContext.Provider>
           </div>
-
           <div className={styles.allOrgsCont}>
             {organizations.map((org, idx) => (
-              <Link
-                key={idx}
-                className={styles.allOrgsAnchor}
-                to={`/organizations/${org.id}`}
-              >
-                <div className={styles.orgCont}>
-                  <div>
-                    <img className={styles.orgImg} src={org.imageUrl} />
-                  </div>
-                  <div className={styles.orgNameCont}>
-                    <h3 className={styles.orgName}>{org.name}</h3>
-                  </div>
-                  <div className={styles.btnContainer}>
-                    <button
-                      className={styles.removeBtn}
-                      type="button"
-                      onClick={() => (
-                        <RemoveOrgModal
-                          org={org}
-                          deleteOrganization={deleteOrganization}
-                        />
-                      )}
-                    >
-                      Leave
-                    </button>
-                  </div>
+              <div key={idx} className={styles.orgCont}>
+                <div>
+                  <img className={styles.orgImg} src={org.imageUrl} />
                 </div>
-              </Link>
+                <div className={styles.orgNameCont}>
+                  <h3 className={styles.orgName}>{org.name}</h3>
+                </div>
+                <div className={styles.btnContainer}>
+                  <button
+                    className={styles.removeBtn}
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      setModalVisible(true)
+                    }}
+                    style={{zIndex: '999'}}
+                  >
+                    Leave
+                  </button>
+                </div>
+                {isModalVisible && (
+                  <RemoveOrgModal deleteOrganization={deleteOrganization} />
+                )}
+              </div>
             ))}
             <AddOrgDropdown
               organizations={organizations}
