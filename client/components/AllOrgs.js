@@ -5,11 +5,16 @@ import {CgOrganisation} from 'react-icons/cg'
 import {IconContext} from 'react-icons'
 import AddOrgDropdown from './AddOrgDropdown'
 import styles from './css/AllOrgs.module.css'
+import RemoveOrgModal from './RemoveOrgModal'
 import {removeUserFromOrgDB, fetchUserOrgs} from '../context/axiosService'
 
 const AllOrgs = () => {
   // grab user from auth context
   const {user} = useContext(AuthContext)
+
+  const [show, setShow] = useState(false)
+
+  const closeModalHandler = () => setShow(false)
 
   // initialize all orgs state
   const [organizations, setOrganizations] = useState([])
@@ -37,16 +42,6 @@ const AllOrgs = () => {
       console.error(err)
     }
   }
-
-  // const editOrganization = async (e, org) => {
-  //   e.preventDefault()
-  //   try {
-  //     await editUserFromOrgDB(org.id, user.id)
-  //     setOrganizations(organizations.filter((currOrg) => currOrg.id !== org.id))
-  //   } catch (err) {
-  //     console.error(err)
-  //   }
-  // }
 
   return (
     <div>
@@ -80,9 +75,12 @@ const AllOrgs = () => {
                     <button
                       className={styles.removeBtn}
                       type="button"
-                      onClick={(event) => {
-                        deleteOrganization(event, org)
-                      }}
+                      onClick={
+                        //   (event) => {
+                        //   deleteOrganization(event, org)
+                        // }
+                        () => setShow(true)
+                      }
                     >
                       Leave
                     </button>
