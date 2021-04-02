@@ -7,13 +7,11 @@ import styles from './css/AllOrgs.module.css'
 import {fetchUserOrgs, removeUserFromOrgDB} from '../context/axiosService'
 
 const OrganizationCard = ({orgId, name, imageUrl, setModalVisible}) => {
-  const address = imageUrl
-
   return (
     <div className={styles.orgCardContainer}>
       <Link to={`/organizations/${orgId}`}>
         <div className={styles.imgAndOrgName}>
-          <img src={address} />
+          <img src={imageUrl} />
           <div className={styles.orgName}>{name}</div>
         </div>
       </Link>
