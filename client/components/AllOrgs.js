@@ -38,6 +38,16 @@ const AllOrgs = () => {
     }
   }
 
+  // const editOrganization = async (e, org) => {
+  //   e.preventDefault()
+  //   try {
+  //     await editUserFromOrgDB(org.id, user.id)
+  //     setOrganizations(organizations.filter((currOrg) => currOrg.id !== org.id))
+  //   } catch (err) {
+  //     console.error(err)
+  //   }
+  // }
+
   return (
     <div>
       {organizations && (
