@@ -9,7 +9,6 @@ import {
   Profile,
   Home,
   Loading,
-  NewUpdateUser,
   Organization,
 } from './components'
 
@@ -29,6 +28,7 @@ const Routes = () => {
           <Route exact path="/" component={LandingPage} />
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />
+          <Route component={Login} />
         </Switch>
       )}
 
@@ -44,6 +44,7 @@ const Routes = () => {
           />
           <Route path="/projects/:projectId" component={ProjectView} />
           <Route exact path="/profile" component={Profile} />
+          <Route component={Home} />
         </Switch>
       )}
     </div>
