@@ -29,8 +29,8 @@ export async function sendInvite(inviteObj) {
       orgId: inviteObj.orgId,
       userEmail: inviteObj.userEmail,
       inviter: inviteObj.inviter,
+      role: inviteObj.role,
     })
-
     return response
   } catch (e) {
     console.log(e)
@@ -43,6 +43,9 @@ export async function sendInvite(inviteObj) {
 export const getOrgDb = async (orgId) => {
   try {
     const {data} = await axios.get(`/api/organizations/${orgId}`)
+
+    if (!data) return 404
+
     return data
   } catch (err) {
     console.error(err)

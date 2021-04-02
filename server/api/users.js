@@ -212,6 +212,8 @@ router.put(
   async (req, res, next) => {
     try {
       const {userId, orgId} = req.params
+      const {role} = req.body
+      console.log('this is the role', role)
       if (isNaN(userId)) return resNaN(userId, res)
       if (isNaN(orgId)) return resNaN(orgId, res)
 
@@ -221,7 +223,11 @@ router.put(
       const org = await Organization.findByPk(orgId)
       if (!org) return resDbNotFound(STR_ORGANIZATION, res)
 
-      user.addOrganization(org)
+      await UserOrganization.create({
+        role: role,
+        organizationId: orgId,
+        userId: userId,
+      })
 
       return resAssoc(STR_USER, STR_ORGANIZATION, userId, orgId, res)
     } catch (error) {
