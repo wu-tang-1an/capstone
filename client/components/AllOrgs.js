@@ -12,12 +12,12 @@ const AllOrgs = () => {
   // grab user from auth context
   const {user} = useContext(AuthContext)
 
-  const [show, setShow] = useState(false)
-
-  const closeModalHandler = () => setShow(false)
-
   // initialize all orgs state
   const [organizations, setOrganizations] = useState([])
+
+  // closeModal clears activeField
+  // used by RemoveOrg modal
+  const closeModal = () => setActiveField('')
 
   // fetch all orgs
   useEffect(() => {
@@ -75,12 +75,12 @@ const AllOrgs = () => {
                     <button
                       className={styles.removeBtn}
                       type="button"
-                      onClick={
-                        //   (event) => {
-                        //   deleteOrganization(event, org)
-                        // }
-                        () => setShow(true)
-                      }
+                      onClick={() => (
+                        <RemoveOrgModal
+                          org={org}
+                          deleteOrganization={deleteOrganization}
+                        />
+                      )}
                     >
                       Leave
                     </button>
