@@ -17,7 +17,9 @@ const AllOrgs = () => {
 
   // closeModal clears activeField
   // used by RemoveOrg modal
-  const closeModal = () => setActiveField('')
+  const [show, setShow] = useState(false)
+
+  const closeModalHandler = () => setShow(false)
 
   // fetch all orgs
   useEffect(() => {
@@ -72,18 +74,23 @@ const AllOrgs = () => {
                     <h3 className={styles.orgName}>{org.name}</h3>
                   </div>
                   <div className={styles.btnContainer}>
+                    <div onClick={closeModalHandler}></div>
                     <button
                       className={styles.removeBtn}
                       type="button"
-                      onClick={() => (
-                        <RemoveOrgModal
-                          org={org}
-                          deleteOrganization={deleteOrganization}
-                        />
-                      )}
+                      onClick={() => setShow(true)}
+                      style={{zIndex: '10'}}
                     >
                       Leave
                     </button>
+                    {show && (
+                      <RemoveOrgModal
+                        org={org}
+                        show={show}
+                        deleteOrganization={deleteOrganization}
+                        closeModalHandler={closeModalHandler}
+                      />
+                    )}
                   </div>
                 </div>
               </Link>
