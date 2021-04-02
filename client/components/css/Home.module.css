@@ -71,8 +71,9 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  width: 55%;
+  width: 600px;
   height: 300px;
+  padding: 0 1em;
 }
 
 .title {
@@ -95,7 +96,6 @@
   display: flex;
   flex: 1 1 100%;
   height: 300px;
-  width: 300px;
   padding: 0 1em;
 }
 
