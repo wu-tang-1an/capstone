@@ -11,6 +11,9 @@ const ListContainer = ({list, type}) => {
       <ul>
         {list.map((item) => (
           <li key={item.id} className={styles.listItem}>
+            {type === 'Tasks' && (
+              <span style={{textAlign: 'right'}}>{item.completionDate}</span>
+            )}
             {item.name}
           </li>
         ))}
