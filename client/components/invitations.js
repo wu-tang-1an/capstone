@@ -30,9 +30,11 @@ const Invitations = () => {
     }
   }, [])
 
-  async function acceptInvite(userId, orgId, inviteId) {
+  async function acceptInvite(userId, orgId, inviteId, role) {
     try {
-      await axios.put(`/api/users/${userId}/organizations/${orgId}`, {})
+      await axios.put(`/api/users/${userId}/organizations/${orgId}`, {
+        role: role,
+      })
       await axios.delete(`/api/invitations/${inviteId}`)
       setInvitations(invites.filter((invite) => invite.id !== inviteId))
     } catch (error) {
@@ -76,7 +78,12 @@ const Invitations = () => {
                     className={styles.accept}
                     type="submit"
                     onClick={(e) => {
-                      acceptInvite(user.id, invite.orgId, invite.id)
+                      acceptInvite(
+                        user.id,
+                        invite.orgId,
+                        invite.id,
+                        invite.role
+                      )
                     }}
                   >
                     Accept
