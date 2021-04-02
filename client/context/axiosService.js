@@ -29,8 +29,8 @@ export async function sendInvite(inviteObj) {
       orgId: inviteObj.orgId,
       userEmail: inviteObj.userEmail,
       inviter: inviteObj.inviter,
+      role: inviteObj.role,
     })
-
     return response
   } catch (e) {
     console.log(e)
