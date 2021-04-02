@@ -2,6 +2,8 @@ const router = require('express').Router()
 const {
   User,
   Organization,
+  Project,
+  Column,
   Task,
   Comment,
   UserOrganization,
@@ -85,7 +87,34 @@ router.get('/:userId/organizations', checkUser, async (req, res, next) => {
     const user = await User.findByPk(userId)
     if (!user) return resDbNotFound(STR_USER, res)
 
-    const orgs = await user.getOrganizations()
+    const orgs = await user.getOrganizations({
+      include: [
+        {
+          model: Project,
+          include: [
+            {
+              model: Column,
+              include: [
+                {
+                  model: Task,
+                  include: [
+                    {
+                      model: User,
+                      include: [
+                        {
+                          model: Comment,
+                          include: [User],
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    })
     return res.json(orgs)
   } catch (error) {
     next(error)
