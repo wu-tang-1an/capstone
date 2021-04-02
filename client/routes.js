@@ -1,5 +1,5 @@
 import React, {useContext} from 'react'
-import {Route, Switch, Redirect} from 'react-router-dom'
+import {Route, Switch} from 'react-router-dom'
 import {
   Login,
   ProjectView,
@@ -9,7 +9,6 @@ import {
   Profile,
   Home,
   Loading,
-  NewUpdateUser,
   Organization,
 } from './components'
 
