@@ -1,18 +1,26 @@
 import React, {useState, useContext, useEffect} from 'react'
 import Modal from './Modal'
 import LeaveOrgModal from './LeaveOrgModal'
+import Invitations from './Invitations'
 import {Link} from 'react-router-dom'
 import {AuthContext} from '../context/authContext'
 import styles from './css/AllOrgs.module.css'
 import {fetchUserOrgs, removeUserFromOrgDB} from '../context/axiosService'
 
-const OrganizationCard = ({orgId, name, imageUrl, setModalVisible}) => {
+const OrganizationCard = ({
+  orgId,
+  name,
+  numMembers,
+  imageUrl,
+  setModalVisible,
+}) => {
   return (
     <div className={styles.orgCardContainer}>
       <Link to={`/organizations/${orgId}`}>
         <div className={styles.imgAndOrgName}>
           <img src={imageUrl} />
           <div className={styles.orgName}>{name}</div>
+          <div className={styles.orgName}>{`${numMembers} members`}</div>
         </div>
       </Link>
       <button
@@ -60,7 +68,7 @@ const AllOrgs = () => {
   const [isModalVisible, setModalVisible] = useState(false)
 
   return (
-    <React.Fragment>
+    <div className={styles.wrapper}>
       {isModalVisible && (
         <Modal>
           <LeaveOrgModal
@@ -69,19 +77,26 @@ const AllOrgs = () => {
           />
         </Modal>
       )}
-      <div className={styles.allOrgsContainer}>
-        {organizations.map((org) => (
-          <OrganizationCard
-            key={org.id}
-            userId={user.id}
-            orgId={org.id}
-            name={org.name}
-            imageUrl={org.imageUrl}
-            setModalVisible={setModalVisible}
-          />
-        ))}
+      <div className={styles.invitationsContainer}>
+        <Invitations />
       </div>
-    </React.Fragment>
+      <div className={styles.headerAndOrgs}>
+        <div className={styles.sectionHeader}>My Organizations</div>
+        <div className={styles.allOrgsContainer}>
+          {organizations.map((org) => (
+            <OrganizationCard
+              key={org.id}
+              userId={user.id}
+              orgId={org.id}
+              name={org.name}
+              imageUrl={org.imageUrl}
+              numMembers={org.users.length}
+              setModalVisible={setModalVisible}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
   )
 }
 

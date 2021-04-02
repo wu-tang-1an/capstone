@@ -1,6 +1,33 @@
+.wrapper {
+  display: flex;
+  padding: 1em;
+}
+
+.invitationsContainer {
+  width: 30%;
+  border-right: 1px solid lightgrey;
+  padding: 0 1em;
+}
+
+.headerAndOrgs {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
 .allOrgsContainer {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
+  overflow-y: scroll;
+  padding: 0 1em;
+  width: 100%;
+  height: 100%;
+}
+
+.sectionHeader {
+  font-size: 2em;
+  text-align: center;
 }
 
 .orgCardContainer {
@@ -11,6 +38,7 @@
   width: 240px;
   box-shadow: 0.8px 0.9px 3px rgb(187, 187, 187);
   border-radius: 5px;
+  margin: 1em;
 }
 
 .imgAndOrgName {

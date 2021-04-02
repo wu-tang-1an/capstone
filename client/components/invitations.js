@@ -14,7 +14,6 @@ const Invitations = () => {
   const [invites, setInvitations] = useState([])
 
   useEffect(() => {
-    let isMounted = true
     const fetchInvites = async () => {
       try {
         const {data} = await axios.get(`/api/invitations/${user.id}/`)
@@ -24,10 +23,6 @@ const Invitations = () => {
       }
     }
     fetchInvites()
-
-    return () => {
-      isMounted = false
-    }
   }, [])
 
   async function acceptInvite(userId, orgId, inviteId, role) {
