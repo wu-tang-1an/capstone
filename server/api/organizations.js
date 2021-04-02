@@ -1,6 +1,6 @@
 const router = require('express').Router()
 const {Organization, Project, User, UserOrganization} = require('../db/models')
-const {checkUser, checkAdmin} = require('./helper/gatekeeper')
+const {checkUser, checkAdmin, checkUserOrg} = require('./helper/gatekeeper')
 const {
   resNaN,
   resDbNotFound,
@@ -28,7 +28,7 @@ router.get('/', checkAdmin, async (req, res, next) => {
 })
 
 // GET single organizations route '/api/organizations/:orgId' (AUTH USER ONLY)
-router.get('/:orgId', checkUser, async (req, res, next) => {
+router.get('/:orgId', checkUser, checkUserOrg, async (req, res, next) => {
   try {
     const {orgId} = req.params
     if (isNaN(orgId)) return resNaN(orgId, res)

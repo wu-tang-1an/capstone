@@ -67,4 +67,22 @@ const checkOrgAdmin = async (req, res, next) => {
   }
 }
 
-module.exports = {checkUser, checkAdmin, checkOrgAdmin}
+const checkUserOrg = async (req, res, next) => {
+  const userId = req.session.passport.user
+  const {orgId} = req.params
+
+  let user = await UserOrganization.findOne({
+    where: {
+      userId: userId,
+      organizationId: orgId,
+    },
+  })
+
+  if (user) {
+    next()
+  } else {
+    res.status(401).send('Unauthorized')
+  }
+}
+
+module.exports = {checkUser, checkAdmin, checkOrgAdmin, checkUserOrg}
