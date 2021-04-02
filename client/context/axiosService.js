@@ -120,6 +120,7 @@ export const fetchAllOrganizations = async () => {
 export const fetchUserOrgs = async (userId) => {
   try {
     const {data} = await axios.get(`/api/users/${userId}/organizations`)
+    console.log(data)
     return data
   } catch (err) {
     console.error(err)
