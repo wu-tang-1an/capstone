@@ -124,11 +124,7 @@
 }
 
 .transparencyMask {
-  background-image: linear-gradient(
-    to left,
-    rgba(255, 0, 0, 0),
-    rgb(255, 255, 255)
-  );
+  background-image: linear-gradient(to left, transparent, rgb(255, 255, 255));
   z-index: 2;
   height: 80vh;
   width: auto;
