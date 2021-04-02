@@ -1,8 +1,19 @@
 .homeContainer {
+  display: flex;
   height: 100vh;
   width: 100vw;
 }
 
-.welcome {
-  font-size: 40px;
+.myFeed {
+  display: flex;
+  flex-direction: column;
+  width: 20%;
+  height: 100%;
+}
+
+.overview {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  height: 100%;
 }
