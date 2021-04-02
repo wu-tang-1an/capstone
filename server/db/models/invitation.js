@@ -14,6 +14,11 @@ const Invitation = db.define('invitation', {
     type: Sequelize.STRING,
     allowNull: false,
   },
+  role: {
+    type: Sequelize.ENUM,
+    values: ['owner', 'co-owner', 'user', 'admin'],
+    defaultValue: 'user',
+  },
 })
 
 module.exports = Invitation
