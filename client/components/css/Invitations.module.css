@@ -21,7 +21,6 @@
 
 .allOrgsCont {
   padding: 10px;
-  background-color: aqua;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
