@@ -1,14 +1,14 @@
 .allOrgsContainer {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
+  justify-content: space-around;
 }
 
 .orgCardContainer {
   display: flex;
-  height: 400px;
-  width: 300px;
+  flex-direction: column;
+  height: 300px;
+  width: 240px;
+  box-shadow: 0.8px 0.9px 3px rgb(187, 187, 187);
 }
 
 .imgAndOrgName {
@@ -17,17 +17,28 @@
 }
 
 .imgAndOrgName img {
-  width: 100%;
   height: auto;
+  width: 100%;
 }
 
 .orgName {
   font-size: 1.2em;
   font-weight: bold;
   text-align: center;
+  margin: 0.5em 0;
 }
 
 .openModalBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin: 0.5em;
-  padding: 0.5em;
+  padding: 1em;
+  border: transparent;
+  border-radius: 5px;
+}
+
+.openModalBtn:hover {
+  color: white;
+  background-color: darkgrey;
 }

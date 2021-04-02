@@ -1,15 +1,19 @@
 import React, {useState, useContext, useEffect} from 'react'
+import Modal from './Modal'
+import LeaveOrgModal from './LeaveOrgModal'
 import {Link} from 'react-router-dom'
 import {AuthContext} from '../context/authContext'
 import styles from './css/AllOrgs.module.css'
 import {fetchUserOrgs, removeUserFromOrgDB} from '../context/axiosService'
 
 const OrganizationCard = ({orgId, name, imageUrl, setModalVisible}) => {
+  const address = imageUrl
+
   return (
     <div className={styles.orgCardContainer}>
       <Link to={`/organizations/${orgId}`}>
         <div className={styles.imgAndOrgName}>
-          <img src={imageUrl} />
+          <img src={address} />
           <div className={styles.orgName}>{name}</div>
         </div>
       </Link>
@@ -17,9 +21,9 @@ const OrganizationCard = ({orgId, name, imageUrl, setModalVisible}) => {
         className={styles.openModalBtn}
         type="button"
         onClick={() => setModalVisible(true)}
-        value="Leave"
-        style={{zIndex: '999'}}
-      />
+      >
+        Leave Organization
+      </button>
     </div>
   )
 }
@@ -42,7 +46,7 @@ const AllOrgs = () => {
       }
     }
     fetchAllOrgs()
-  }, [organizations.length])
+  }, [])
 
   // delete a single org and persist to local state
   const leaveOrg = async (e, orgId) => {
@@ -59,7 +63,14 @@ const AllOrgs = () => {
 
   return (
     <React.Fragment>
-      {isModalVisible && <LeaveOrgModal leaveOrg={leaveOrg} />}
+      {isModalVisible && (
+        <Modal>
+          <LeaveOrgModal
+            leaveOrg={leaveOrg}
+            closeModal={() => setModalVisible(false)}
+          />
+        </Modal>
+      )}
       <div className={styles.allOrgsContainer}>
         {organizations.map((org) => (
           <OrganizationCard

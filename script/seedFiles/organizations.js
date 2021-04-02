@@ -1,21 +1,20 @@
+const getRandNum = () => Math.ceil(Math.random() * 10000)
+
 module.exports = [
   {
-    name: 'Fullstack',
-    imageUrl:
-      'https://coursereport-s3-production.global.ssl.fastly.net/uploads/school/logo/39/original/fsa_logo_vertical-01_full_color_CR-01.png',
+    name: 'SingleCycle',
+    imageUrl: `https://source.unsplash.com/random?sig=${getRandNum()}/600x400`,
   },
   {
-    name: 'Google Inc',
-    imageUrl:
-      'https://q3p9g6n2.rocketcdn.me/wp-content/ml-loads/2019/08/shutterstock_1283238880-800x450.jpg',
+    name: 'Readr',
+    imageUrl: `https://source.unsplash.com/random?sig=${getRandNum()}/600x400`,
   },
   {
-    name: 'Facebook Inc',
-    imageUrl:
-      'https://ibw21.org/wp-content/uploads/2018/04/facebook-1-hacker-way-billboard.jpg',
+    name: 'Skimm',
+    imageUrl: `https://source.unsplash.com/random?sig=${getRandNum()}/600x400`,
   },
   {
-    name: 'Apple Inc',
-    imageUrl: 'https://i.ytimg.com/vi/FzcfZyEhOoI/maxresdefault.jpg',
+    name: 'NorEaster',
+    imageUrl: `https://source.unsplash.com/random?sig=${getRandNum()}/600x400`,
   },
 ]
