@@ -1,3 +1,20 @@
+.btnContainer {
+  display: flex;
+  width: 100%;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.btnContainer button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 49.5%;
+  border-radius: 5px;
+  border: transparent;
+  padding: 0.5em;
+}
+
 .headerCont {
   display: flex;
   align-items: center;
@@ -57,6 +74,13 @@
 
 .orgName {
   padding: 5px;
+}
+.removeBtn {
+  background-color: rgb(95, 189, 95);
+  color: white;
+}
+.removeBtn:hover {
+  background-color: rgb(77, 155, 77);
 }
 
 .test {

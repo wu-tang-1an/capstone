@@ -66,14 +66,15 @@ const AllOrgs = () => {
                   <div className={styles.orgNameCont}>
                     <h3 className={styles.orgName}>{org.name}</h3>
                   </div>
-                  <div>
+                  <div className={styles.btnContainer}>
                     <button
+                      className={styles.removeBtn}
                       type="button"
                       onClick={(event) => {
                         deleteOrganization(event, org)
                       }}
                     >
-                      X
+                      Remove
                     </button>
                   </div>
                 </div>
