@@ -23,7 +23,7 @@ const LandingPage = () => {
         {user && user.id && (
           <div className={styles.gotoProjects}>
             <Link to="/organizations">
-              <button type="button">Go to my projects</button>
+              <button type="button">Go to my organizations</button>
             </Link>
           </div>
         )}
