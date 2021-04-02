@@ -10,6 +10,8 @@ import ProjectCard from './ProjectCard'
 import UserCard from './UserCard'
 import styles from './css/SingleOrganization.module.css'
 import AddProjectDropdown from './AddProjectDropdown'
+import {notify} from './helper/toast'
+import history from '../history'
 
 const OverflowWrapper = styled.div`
   height: 400px;
@@ -28,29 +30,41 @@ const SingleOrganization = ({match}) => {
 
   const [status, setStatus] = useState(false)
   const [members, setMembers] = useState([])
+
   useEffect(() => {
     let isMounted = true
+    let org = {}
+    let admin = false
+
     const fetchSingleOrg = async () => {
       try {
-        const {data} = await axios.get(`/api/organizations/${organizationId}`)
-        setOrganization(data)
-        setProjects(data.projects)
-        setMembers(data.users)
+        org = await axios.get(`/api/organizations/${organizationId}`)
       } catch (err) {
         console.error(err)
+        notify('Something went wrong!', 'error')
+        history.push('/organizations')
       }
     }
 
     const fetchStatus = async () => {
       try {
-        setStatus(await isAdmin(userId, organizationId))
+        admin = await isAdmin(userId, organizationId)
       } catch (e) {
         console.log(e)
       }
     }
 
-    fetchSingleOrg()
-    fetchStatus()
+    fetchSingleOrg().then(() => {
+      if (isMounted) {
+        setOrganization(org.data)
+        setProjects(org.data.projects)
+        setMembers(org.data.users)
+      }
+    })
+
+    fetchStatus().then(() => {
+      if (isMounted) setStatus(admin)
+    })
 
     return () => {
       isMounted = false
