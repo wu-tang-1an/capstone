@@ -29,6 +29,7 @@ router.post('/', checkOrgAdmin, checkInviteExists, async (req, res, next) => {
   try {
     const orgId = req.body.orgId
     const userEmail = req.body.userEmail
+    const role = req.body.role
 
     const org = await Organization.findByPk(orgId)
 
@@ -36,6 +37,7 @@ router.post('/', checkOrgAdmin, checkInviteExists, async (req, res, next) => {
       orgId: orgId,
       orgPicture: org.imageUrl,
       orgName: org.name,
+      role: role,
     })
 
     let user = await User.findOne({

@@ -6,7 +6,7 @@ module.exports = [
     isActiveBadge: false,
     completionDate: '4/1/2021',
     editTimeStamp: timeStamp,
-    createdBy: 'Albert Turtlesworth',
+    createdBy: 'Daniel Shapiro',
     index: 0,
   },
   {
@@ -14,7 +14,7 @@ module.exports = [
     isActiveBadge: true,
     completionDate: '4/2/2021',
     editTimeStamp: timeStamp,
-    createdBy: 'Albert Turtlesworth',
+    createdBy: 'David Ahn',
     index: 1,
   },
   {
@@ -22,7 +22,7 @@ module.exports = [
     isActiveBadge: false,
     completionDate: '4/3/2021',
     editTimeStamp: timeStamp,
-    createdBy: 'Albert Turtlesworth',
+    createdBy: 'Gene Kaufman',
     index: 0,
   },
   {
@@ -30,7 +30,7 @@ module.exports = [
     isActiveBadge: true,
     completionDate: '4/4/2021',
     editTimeStamp: timeStamp,
-    createdBy: 'Albert Turtlesworth',
+    createdBy: 'Johnny Vazquez',
     index: 1,
   },
   {
@@ -38,7 +38,7 @@ module.exports = [
     isActiveBadge: false,
     completionDate: '4/5/2021',
     editTimeStamp: timeStamp,
-    createdBy: 'Albert Turtlesworth',
+    createdBy: 'Daniel Shapiro',
     index: 0,
   },
   {
@@ -46,7 +46,7 @@ module.exports = [
     isActiveBadge: true,
     completionDate: '4/6/2021',
     editTimeStamp: timeStamp,
-    createdBy: 'Albert Turtlesworth',
+    createdBy: 'David Ahn',
     index: 1,
   },
   {
@@ -54,7 +54,7 @@ module.exports = [
     isActiveBadge: false,
     completionDate: '4/7/2021',
     editTimeStamp: timeStamp,
-    createdBy: 'Albert Turtlesworth',
+    createdBy: 'Gene Kaufman',
     index: 0,
   },
   {
@@ -62,7 +62,7 @@ module.exports = [
     isActiveBadge: true,
     completionDate: '4/8/2021',
     editTimeStamp: timeStamp,
-    createdBy: 'Albert Turtlesworth',
+    createdBy: 'Johnny Vazquez',
     index: 1,
   },
   {
@@ -70,7 +70,7 @@ module.exports = [
     isActiveBadge: false,
     completionDate: '4/9/2021',
     editTimeStamp: timeStamp,
-    createdBy: 'Albert Turtlesworth',
+    createdBy: 'Daniel Shapiro',
     index: 0,
   },
   {
@@ -78,7 +78,7 @@ module.exports = [
     isActiveBadge: true,
     completionDate: '4/10/2021',
     editTimeStamp: timeStamp,
-    createdBy: 'Albert Turtlesworth',
+    createdBy: 'David Ahn',
     index: 1,
   },
   {
@@ -86,7 +86,7 @@ module.exports = [
     isActiveBadge: false,
     completionDate: '4/11/2021',
     editTimeStamp: timeStamp,
-    createdBy: 'Albert Turtlesworth',
+    createdBy: 'Gene Kaufman',
     index: 0,
   },
   {
@@ -94,7 +94,7 @@ module.exports = [
     isActiveBadge: true,
     completionDate: '4/12/2021',
     editTimeStamp: timeStamp,
-    createdBy: 'Albert Turtlesworth',
+    createdBy: 'Johnny Vazquez',
     index: 1,
   },
   {
@@ -102,7 +102,7 @@ module.exports = [
     isActiveBadge: false,
     completionDate: '4/13/2021',
     editTimeStamp: timeStamp,
-    createdBy: 'Albert Turtlesworth',
+    createdBy: 'Daniel Shapiro',
     index: 0,
   },
   {
@@ -110,7 +110,7 @@ module.exports = [
     isActiveBadge: true,
     completionDate: '4/14/2021',
     editTimeStamp: timeStamp,
-    createdBy: 'Albert Turtlesworth',
+    createdBy: 'David Ahn',
     index: 1,
   },
   {
@@ -118,7 +118,7 @@ module.exports = [
     isActiveBadge: false,
     completionDate: '4/15/2021',
     editTimeStamp: timeStamp,
-    createdBy: 'Albert Turtlesworth',
+    createdBy: 'Gene Kaufman',
     index: 0,
   },
   {
@@ -126,7 +126,7 @@ module.exports = [
     isActiveBadge: true,
     completionDate: '4/16/2021',
     editTimeStamp: timeStamp,
-    createdBy: 'Albert Turtlesworth',
+    createdBy: 'Johnny Vazquez',
     index: 1,
   },
   {
@@ -134,7 +134,7 @@ module.exports = [
     isActiveBadge: false,
     completionDate: '4/17/2021',
     editTimeStamp: timeStamp,
-    createdBy: 'Albert Turtlesworth',
+    createdBy: 'Daniel Shapiro',
     index: 0,
   },
   {
@@ -142,7 +142,7 @@ module.exports = [
     isActiveBadge: true,
     completionDate: '4/18/2021',
     editTimeStamp: timeStamp,
-    createdBy: 'Albert Turtlesworth',
+    createdBy: 'David Ahn',
     index: 1,
   },
   {
@@ -150,7 +150,7 @@ module.exports = [
     isActiveBadge: false,
     completionDate: '4/19/2021',
     editTimeStamp: timeStamp,
-    createdBy: 'Albert Turtlesworth',
+    createdBy: 'Gene Kaufman',
     index: 0,
   },
   {
@@ -158,7 +158,7 @@ module.exports = [
     isActiveBadge: true,
     completionDate: '4/20/2021',
     editTimeStamp: timeStamp,
-    createdBy: 'Albert Turtlesworth',
+    createdBy: 'Johnny Vazquez',
     index: 1,
   },
   {
@@ -166,7 +166,7 @@ module.exports = [
     isActiveBadge: false,
     completionDate: '4/9/2021',
     editTimeStamp: timeStamp,
-    createdBy: 'Albert Turtlesworth',
+    createdBy: 'Daniel Shapiro',
     index: 0,
   },
   {
@@ -174,7 +174,7 @@ module.exports = [
     isActiveBadge: true,
     completionDate: '4/10/2021',
     editTimeStamp: timeStamp,
-    createdBy: 'Albert Turtlesworth',
+    createdBy: 'David Ahn',
     index: 1,
   },
   {
@@ -182,7 +182,7 @@ module.exports = [
     isActiveBadge: false,
     completionDate: '4/11/2021',
     editTimeStamp: timeStamp,
-    createdBy: 'Albert Turtlesworth',
+    createdBy: 'Gene Kaufman',
     index: 0,
   },
   {
@@ -190,7 +190,7 @@ module.exports = [
     isActiveBadge: true,
     completionDate: '4/12/2021',
     editTimeStamp: timeStamp,
-    createdBy: 'Albert Turtlesworth',
+    createdBy: 'Johnny Vazquez',
     index: 1,
   },
   {
@@ -198,7 +198,7 @@ module.exports = [
     isActiveBadge: false,
     completionDate: '4/13/2021',
     editTimeStamp: timeStamp,
-    createdBy: 'Albert Turtlesworth',
+    createdBy: 'Daniel Shapiro',
     index: 0,
   },
   {
@@ -206,7 +206,7 @@ module.exports = [
     isActiveBadge: true,
     completionDate: '4/14/2021',
     editTimeStamp: timeStamp,
-    createdBy: 'Albert Turtlesworth',
+    createdBy: 'David Ahn',
     index: 1,
   },
   {
@@ -214,7 +214,7 @@ module.exports = [
     isActiveBadge: false,
     completionDate: '4/15/2021',
     editTimeStamp: timeStamp,
-    createdBy: 'Albert Turtlesworth',
+    createdBy: 'Gene Kaufman',
     index: 0,
   },
   {
@@ -222,7 +222,7 @@ module.exports = [
     isActiveBadge: true,
     completionDate: '4/16/2021',
     editTimeStamp: timeStamp,
-    createdBy: 'Albert Turtlesworth',
+    createdBy: 'Johnny Vazquez',
     index: 1,
   },
   {
@@ -230,7 +230,7 @@ module.exports = [
     isActiveBadge: false,
     completionDate: '4/17/2021',
     editTimeStamp: timeStamp,
-    createdBy: 'Albert Turtlesworth',
+    createdBy: 'Daniel Shapiro',
     index: 0,
   },
   {
@@ -238,7 +238,7 @@ module.exports = [
     isActiveBadge: true,
     completionDate: '4/18/2021',
     editTimeStamp: timeStamp,
-    createdBy: 'Albert Turtlesworth',
+    createdBy: 'David Ahn',
     index: 1,
   },
   {
@@ -246,7 +246,7 @@ module.exports = [
     isActiveBadge: false,
     completionDate: '4/19/2021',
     editTimeStamp: timeStamp,
-    createdBy: 'Albert Turtlesworth',
+    createdBy: 'Gene Kaufman',
     index: 0,
   },
   {
@@ -254,7 +254,7 @@ module.exports = [
     isActiveBadge: true,
     completionDate: '4/20/2021',
     editTimeStamp: timeStamp,
-    createdBy: 'Albert Turtlesworth',
+    createdBy: 'Johnny Vazquez',
     index: 1,
   },
 ]
