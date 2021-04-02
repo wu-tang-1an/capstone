@@ -1,5 +1,5 @@
 import React, {useContext} from 'react'
-import {Route, Switch} from 'react-router-dom'
+import {Route, Switch, Redirect} from 'react-router-dom'
 import {
   Login,
   ProjectView,
@@ -29,6 +29,7 @@ const Routes = () => {
           <Route exact path="/" component={LandingPage} />
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />
+          <Route component={Login} />
         </Switch>
       )}
 
@@ -44,6 +45,7 @@ const Routes = () => {
           />
           <Route path="/projects/:projectId" component={ProjectView} />
           <Route exact path="/profile" component={Profile} />
+          <Route component={Home} />
         </Switch>
       )}
     </div>
