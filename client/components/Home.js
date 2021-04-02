@@ -22,12 +22,14 @@ const ListContainer = ({list, type}) => {
 const VideoList = ({videoSrcList}) => {
   return (
     <div className={styles.videoContainer}>
-      {videoSrcList.map((src, idx) => (
-        <video key={idx} controls>
-          <source src={src} type="video/webm" />
-          Your browser does not support the video tag.
-        </video>
-      ))}
+      <Slider>
+        {videoSrcList.map((src, idx) => (
+          <video key={idx} controls>
+            <source src={src} type="video/webm" />
+            Your browser does not support the video tag.
+          </video>
+        ))}
+      </Slider>
     </div>
   )
 }
@@ -95,7 +97,7 @@ const Home = () => {
       title: 'Working with your project board',
       text:
         "The note-ary board is the heart of your project. Make lists, create tasks, leave comments to encourage your team or suggest changes -- note-ary keeps it flexible and let's you decide what works for you.",
-      videoSrcList: [''],
+      videoSrcList: ['/assets/add-column.webm'],
     },
     {
       id: 2,
