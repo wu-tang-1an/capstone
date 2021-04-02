@@ -1,12 +1,28 @@
 import React, {useState, useContext, useEffect} from 'react'
 import {Link} from 'react-router-dom'
 import {AuthContext} from '../context/authContext'
-import {CgOrganisation} from 'react-icons/cg'
-import {IconContext} from 'react-icons'
-import AddOrgDropdown from './AddOrgDropdown'
 import styles from './css/AllOrgs.module.css'
-import RemoveOrgModal from './RemoveOrgModal'
-import {removeUserFromOrgDB, fetchUserOrgs} from '../context/axiosService'
+import {fetchUserOrgs, removeUserFromOrgDB} from '../context/axiosService'
+
+const OrganizationCard = ({orgId, name, imageUrl, setModalVisible}) => {
+  return (
+    <div className={styles.orgCardContainer}>
+      <Link to={`/organizations/${orgId}`}>
+        <div className={styles.imgAndOrgName}>
+          <img src={imageUrl} />
+          <div className={styles.orgName}>{name}</div>
+        </div>
+      </Link>
+      <button
+        className={styles.openModalBtn}
+        type="button"
+        onClick={() => setModalVisible(true)}
+        value="Leave"
+        style={{zIndex: '999'}}
+      />
+    </div>
+  )
+}
 
 const AllOrgs = () => {
   // grab user from auth context
@@ -29,11 +45,11 @@ const AllOrgs = () => {
   }, [organizations.length])
 
   // delete a single org and persist to local state
-  const deleteOrganization = async (e, org) => {
+  const leaveOrg = async (e, orgId) => {
     e.preventDefault()
     try {
-      await removeUserFromOrgDB(org.id, user.id)
-      setOrganizations(organizations.filter((currOrg) => currOrg.id !== org.id))
+      await removeUserFromOrgDB(orgId, user.id)
+      setOrganizations(organizations.filter((org) => org.id !== orgId))
     } catch (err) {
       console.error(err)
     }
@@ -42,52 +58,21 @@ const AllOrgs = () => {
   const [isModalVisible, setModalVisible] = useState(false)
 
   return (
-    <div>
-      {organizations && (
-        <div>
-          <div className={styles.headerCont}>
-            <h1 className={styles.allOrgsHeader}>Your Organizations</h1>
-            <IconContext.Provider
-              value={{size: '2rem', style: {marginTop: '0.7rem'}}}
-            >
-              <CgOrganisation />
-            </IconContext.Provider>
-          </div>
-          <div className={styles.allOrgsCont}>
-            {organizations.map((org, idx) => (
-              <div key={idx} className={styles.orgCont}>
-                <div>
-                  <img className={styles.orgImg} src={org.imageUrl} />
-                </div>
-                <div className={styles.orgNameCont}>
-                  <h3 className={styles.orgName}>{org.name}</h3>
-                </div>
-                <div className={styles.btnContainer}>
-                  <button
-                    className={styles.removeBtn}
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      setModalVisible(true)
-                    }}
-                    style={{zIndex: '999'}}
-                  >
-                    Leave
-                  </button>
-                </div>
-                {isModalVisible && (
-                  <RemoveOrgModal deleteOrganization={deleteOrganization} />
-                )}
-              </div>
-            ))}
-            <AddOrgDropdown
-              organizations={organizations}
-              setOrganizations={setOrganizations}
-            />
-          </div>
-        </div>
-      )}
-    </div>
+    <React.Fragment>
+      {isModalVisible && <LeaveOrgModal leaveOrg={leaveOrg} />}
+      <div className={styles.allOrgsContainer}>
+        {organizations.map((org) => (
+          <OrganizationCard
+            key={org.id}
+            userId={user.id}
+            orgId={org.id}
+            name={org.name}
+            imageUrl={org.imageUrl}
+            setModalVisible={setModalVisible}
+          />
+        ))}
+      </div>
+    </React.Fragment>
   )
 }
 
