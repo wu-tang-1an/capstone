@@ -1,4 +1,4 @@
-const {User, UserOrganization} = require('../../db/models')
+const {User, UserOrganization, Invitation} = require('../../db/models')
 
 const checkUser = async (req, res, next) => {
   // checks if someone is logged in
@@ -67,6 +67,25 @@ const checkOrgAdmin = async (req, res, next) => {
   }
 }
 
+const checkInviteExists = async (req, res, next) => {
+  const userEmail = req.body.userEmail
+  const orgId = req.body.orgId.toString()
+
+  let user = await User.findOne({
+    include: {
+      model: Invitation,
+      where: {
+        orgId: orgId,
+      },
+    },
+    where: {
+      email: userEmail,
+    },
+  })
+
+  user ? res.status(409).send('Invite already exists!') : next()
+}
+
 const checkUserOrg = async (req, res, next) => {
   const userId = req.session.passport.user
   const {orgId} = req.params
@@ -85,4 +104,10 @@ const checkUserOrg = async (req, res, next) => {
   }
 }
 
-module.exports = {checkUser, checkAdmin, checkOrgAdmin, checkUserOrg}
+module.exports = {
+  checkUser,
+  checkAdmin,
+  checkOrgAdmin,
+  checkUserOrg,
+  checkInviteExists,
+}
