@@ -51,12 +51,13 @@ export const getOrgDb = async (orgId) => {
 
 export async function getOrganizationRole(userId, orgId) {
   try {
-    let admin = false
-    let {data} = await axios.get(`/api/users/${userId}/organizations/${orgId}`)
+    const {data} = await axios.get(
+      `/api/users/${userId}/organizations/${orgId}`
+    )
 
-    if (data.role === 'admin') admin = true
+    if (!data) return 404
 
-    return admin
+    return data.role === 'admin'
   } catch (e) {
     console.log(e)
   }
