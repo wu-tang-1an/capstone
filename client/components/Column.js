@@ -54,29 +54,38 @@ const DivHell = ({column}) => {
             </div>
           </div>
         </div>
-        <div className={styles.cardContainer}>
-          {tasks &&
-            tasks.map((task, idx) => (
-              <div key={task.id} className={styles.card}>
-                {/* check falsey idx here to only display add task dialog once, at the top of the column */}
-                {isAddTaskVisible && !idx && (
-                  <AddTaskDialog
-                    columnId={column.id}
-                    closeTaskDialog={closeTaskDialog}
-                  />
-                )}
-                <TaskProvider>
-                  <TaskCard task={task} index={idx} />
-                </TaskProvider>
-              </div>
-            ))}
-          {isAddTaskVisible && (!tasks || !tasks.length) && (
-            <AddTaskDialog
-              columnId={column.id}
-              closeTaskDialog={closeTaskDialog}
-            />
+        <Droppable droppableId={String(column.id)}>
+          {(provided) => (
+            <div
+              className={styles.cardContainer}
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+            >
+              {tasks &&
+                tasks.map((task, idx) => (
+                  <div key={task.id} className={styles.card}>
+                    {/* check falsey idx here to only display add task dialog once, at the top of the column */}
+                    {isAddTaskVisible && !idx && (
+                      <AddTaskDialog
+                        columnId={column.id}
+                        closeTaskDialog={closeTaskDialog}
+                      />
+                    )}
+                    <TaskProvider>
+                      <TaskCard task={task} index={idx} />
+                    </TaskProvider>
+                  </div>
+                ))}
+              {isAddTaskVisible && (!tasks || !tasks.length) && (
+                <AddTaskDialog
+                  columnId={column.id}
+                  closeTaskDialog={closeTaskDialog}
+                />
+              )}
+              {provided.placeholder}
+            </div>
           )}
-        </div>
+        </Droppable>
       </div>
     </div>
   )
@@ -85,14 +94,9 @@ const DivHell = ({column}) => {
 const Column = ({column}) => {
   return (
     <ColumnProvider>
-      <Droppable droppableId={String(column.id)}>
-        {(provided) => (
-          <TaskList ref={provided.innerRef} {...provided.droppableProps}>
-            <DivHell column={column} />
-            {provided.placeholder}
-          </TaskList>
-        )}
-      </Droppable>
+      <TaskList>
+        <DivHell column={column} />
+      </TaskList>
     </ColumnProvider>
   )
 }
