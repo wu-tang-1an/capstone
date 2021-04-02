@@ -10,8 +10,7 @@ import ProjectCard from './ProjectCard'
 import UserCard from './UserCard'
 import styles from './css/SingleOrganization.module.css'
 import AddProjectDropdown from './AddProjectDropdown'
-import {notify} from './helper/toast'
-import history from '../history'
+import {errorRedirect} from './helper/errorHandle'
 
 const OverflowWrapper = styled.div`
   height: 400px;
@@ -41,8 +40,7 @@ const SingleOrganization = ({match}) => {
         org = await axios.get(`/api/organizations/${organizationId}`)
       } catch (err) {
         console.error(err)
-        notify('Something went wrong!', 'error')
-        history.push('/organizations')
+        errorRedirect('/organizations')
       }
     }
 
