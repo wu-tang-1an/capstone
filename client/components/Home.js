@@ -7,7 +7,7 @@ const Home = () => {
 
   return (
     <div className={styles.homeContainer}>
-      <div className={styles.welcome}>
+      <div className={styles.welcome} style={{padding: '10px'}}>
         <span>Welcome, {user.firstName}!</span>
       </div>
       <div className={styles.myFeed}></div>
