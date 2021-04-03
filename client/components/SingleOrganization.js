@@ -1,6 +1,7 @@
 import React, {useState, useContext} from 'react'
 import {Link} from 'react-router-dom'
 import {AuthContext} from '../context/authContext'
+import history from '../history'
 import OrganizationProvider, {
   OrganizationContext,
 } from '../context/organizationContext'
@@ -11,6 +12,7 @@ import styles from './css/SingleOrganization.module.css'
 
 const ProjectFrame = ({project}) => {
   const {id, name, imageUrl, description, status} = project
+
   return (
     <Link to={`/projects/${id}`}>
       <div className={styles.projectCardContainer}>
@@ -25,9 +27,14 @@ const ProjectFrame = ({project}) => {
   )
 }
 
-const Member = ({member, members, setMembers}) => {
+const Member = ({member, members, setMembers, authUserAdminStatus}) => {
+  // grab user from auth context
+  const {user} = useContext(AuthContext)
+
+  // destructure org member (a user instance)
   const {id, firstName, lastName, imageUrl} = member
 
+  // destructure the through-table to get user org role, orgId
   const {role, organizationId} = member.user_organization
 
   return (
@@ -39,36 +46,35 @@ const Member = ({member, members, setMembers}) => {
           <div className={styles.memberRole}>{role}</div>
         </div>
       </div>
-      <span
-        className={styles.removeBtnContainer}
-        onClick={async () => {
-          try {
-            await removeUserFromOrgDB(organizationId, id)
-            setMembers(members.filter((mem) => mem.id !== id))
-          } catch (err) {
-            console.error(err)
-          }
-        }}
-      >
-        <i className="material-icons">highlight_off</i>
-        <span>Remove</span>
-      </span>
+      {authUserAdminStatus && (
+        <span
+          className={styles.removeBtnContainer}
+          onClick={async () => {
+            try {
+              await removeUserFromOrgDB(organizationId, id)
+              setMembers(members.filter((mem) => mem.id !== id))
+              if (id === user.id) history.push('/home')
+            } catch (err) {
+              console.error(err)
+            }
+          }}
+        >
+          <i className="material-icons">highlight_off</i>
+          <span>Remove</span>
+        </span>
+      )}
     </div>
   )
 }
 
 const SingleOrganization = () => {
-  // grab user from auth context
-  const {user} = useContext(AuthContext)
-
   // grab org and its projects, users from organization context
   const {
     organization,
     projects,
-    status,
-    setStatus,
     members,
     setMembers,
+    authUserAdminStatus,
   } = useContext(OrganizationContext)
 
   // destructure organization
@@ -96,12 +102,19 @@ const SingleOrganization = () => {
               member={member}
               members={members}
               setMembers={setMembers}
+              authUserAdminStatus={authUserAdminStatus}
             />
           ))}
         </div>
-        <button type="button" onClick={() => setModalVisible(true)}>
-          + Add A Teammate
-        </button>
+        <div className={styles.addUserBtnContainer}>
+          <button
+            className={styles.addUserToOrgBtn}
+            type="button"
+            onClick={() => setModalVisible(true)}
+          >
+            + Add A Teammate
+          </button>
+        </div>
       </section>
       <section className={styles.rightPanel}>
         <div className={styles.avatarAndName}>

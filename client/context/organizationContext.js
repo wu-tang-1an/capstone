@@ -17,7 +17,7 @@ const OrganizationProvider = ({match, children}) => {
   // assign local state
   const [organization, setOrganization] = useState({})
   const [projects, setProjects] = useState([])
-  const [status, setStatus] = useState(false)
+  const [authUserAdminStatus, setAuthUserAdminStatus] = useState(false)
   const [members, setMembers] = useState([])
 
   // fetch org
@@ -52,7 +52,7 @@ const OrganizationProvider = ({match, children}) => {
     })
 
     fetchStatus().then(() => {
-      if (isMounted) setStatus(admin)
+      if (isMounted) setAuthUserAdminStatus(admin)
     })
 
     return () => {
@@ -68,8 +68,8 @@ const OrganizationProvider = ({match, children}) => {
     setProjects,
     members,
     setMembers,
-    status,
-    setStatus,
+    authUserAdminStatus,
+    setAuthUserAdminStatus,
   }
 
   return (

@@ -75,6 +75,24 @@
   font-size: 12px;
 }
 
+.addUserBtnContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.addUserToOrgBtn {
+  padding: 0.5em 1em;
+  border-radius: 5px;
+  border: transparent;
+  color: white;
+  background-color: rgb(77, 155, 77);
+}
+
+.addUserToOrgBtn:hover {
+  background-color: rgb(60, 122, 60);
+}
+
 /* ---- SingleOrganization ---- */
 
 .headerAndOrgs {
