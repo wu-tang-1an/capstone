@@ -59,8 +59,6 @@ const Invitations = ({invitations}) => {
     try {
       await updateUserRoleDB(user.id, orgId, inviteId, role)
       await deleteInviteDB(inviteId)
-      const {data} = await getOrgDb(orgId)
-      return data
     } catch (error) {
       console.log(error)
     }
