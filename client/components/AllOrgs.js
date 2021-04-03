@@ -4,6 +4,9 @@ import LeaveOrgModal from './LeaveOrgModal'
 import Invitations from './Invitations'
 import {Link} from 'react-router-dom'
 import {AuthContext} from '../context/authContext'
+import InvitationProvider, {
+  InvitationContext,
+} from '../context/invitationContext'
 import styles from './css/AllOrgs.module.css'
 import {fetchUserOrgs, removeUserFromOrgDB} from '../context/axiosService'
 
@@ -42,6 +45,9 @@ const AllOrgs = () => {
   // grab user from auth context
   const {user} = useContext(AuthContext)
 
+  // grab invitations and setter from invitation context
+  const {invitations, setInvitations} = useContext(InvitationContext)
+
   // initialize all orgs state
   const [organizations, setOrganizations] = useState([])
 
@@ -67,8 +73,6 @@ const AllOrgs = () => {
     }
   }
 
-  // setOrganizations(organizations.filter((org) => org.id !== orgId))
-
   const [isModalVisible, setModalVisible] = useState(false)
   const [orgIdForDelete, setOrgIdForDelete] = useState(0)
 
@@ -87,6 +91,8 @@ const AllOrgs = () => {
       )}
       <div className={styles.invitationsContainer}>
         <Invitations
+          invitations={invitations}
+          setInvitations={setInvitations}
           organizations={organizations}
           setOrganizations={setOrganizations}
         />
@@ -96,7 +102,9 @@ const AllOrgs = () => {
         <div className={styles.allOrgsContainer}>
           {organizations.map((org) => (
             <OrganizationCard
-              key={org.id}
+              key={
+                org.id || Math.ceil(Math.random() * 1000 + organizations.length)
+              }
               userId={user.id}
               orgId={org.id}
               name={org.name}
@@ -112,4 +120,10 @@ const AllOrgs = () => {
   )
 }
 
-export default AllOrgs
+const WrappedOrgs = () => (
+  <InvitationProvider>
+    <AllOrgs />
+  </InvitationProvider>
+)
+
+export default WrappedOrgs

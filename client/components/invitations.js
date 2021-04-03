@@ -6,6 +6,7 @@ import {
   getOrgDb,
 } from '../context/axiosService'
 import {AuthContext} from '../context/authContext'
+import {InvitationContext} from '../context/invitationContext'
 import styles from './css/Invitations.module.css'
 
 const SingleInvitation = ({
@@ -59,30 +60,21 @@ const SingleInvitation = ({
   )
 }
 
-const Invitations = ({organizations, setOrganizations}) => {
+const Invitations = ({
+  invitations,
+  setInvitations,
+  organizations,
+  setOrganizations,
+}) => {
   // grab user from auth context
   const {user} = useContext(AuthContext)
-
-  // initialize all orgs state
-  const [invitations, setInvitations] = useState([])
-
-  // fetch invitations
-  useEffect(() => {
-    const fetchinvitations = async () => {
-      try {
-        setInvitations(await fetchUserInvites(user.id))
-      } catch (err) {
-        console.error(err)
-      }
-    }
-    fetchinvitations()
-  }, [])
 
   // helper updates user role to associate to given orgId, updates local state
   const acceptInvite = async (orgId, inviteId, role) => {
     try {
       await updateUserRoleDB(user.id, orgId, inviteId, role)
       await deleteInviteDB(inviteId)
+      setInvitations(invitations.filter((invite) => invite.id !== inviteId))
       const {data} = await getOrgDb(orgId)
       return data
     } catch (error) {
