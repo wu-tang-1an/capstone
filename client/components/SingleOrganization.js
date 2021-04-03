@@ -25,17 +25,23 @@ const ProjectFrame = ({project}) => {
 }
 
 const Member = ({member, removeUser}) => {
-  const {name, imageUrl, role} = member
+  const {firstName, lastName, imageUrl} = member
+
+  const {role} = member.user_organization
+
   return (
     <div className={styles.memberContainer}>
       <div className={styles.imgAndInfo}>
-        <img className={styles.avatar} src={imageUrl} />
+        <img className={styles.memberAvatar} src={imageUrl} />
         <div className={styles.nameAndRole}>
-          <div className={styles.role}>{role}</div>
-          <div className={styles.name}>{name}</div>
+          <div className={styles.memberName}>{firstName + ' ' + lastName}</div>
+          <div className={styles.memberRole}>{role}</div>
         </div>
       </div>
-      <button type="button" onClick={removeUser}></button>
+      <span className={styles.removeBtnContainer}>
+        <i className="material-icons">highlight_off</i>
+        <span>Remove</span>
+      </span>
     </div>
   )
 }
@@ -77,7 +83,7 @@ const SingleOrganization = () => {
         </Modal>
       )}
       <section className={styles.leftPanel}>
-        <div className="membersContainer">
+        <div className={styles.membersContainer}>
           {members.map((member) => (
             <Member key={member.id} member={member} removeUser={removeUser} />
           ))}
