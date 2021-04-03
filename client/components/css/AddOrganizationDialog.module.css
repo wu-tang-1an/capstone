@@ -1,0 +1,12 @@
+.createOrgBtn {
+  padding: 1em;
+  border-radius: 5px;
+  border: transparent;
+  color: white;
+  background-color: rgb(77, 155, 77);
+}
+
+.createOrgBtn:hover {
+  color: white;
+  background-color: rgb(60, 122, 60);
+}

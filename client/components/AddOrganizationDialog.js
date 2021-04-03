@@ -2,7 +2,7 @@ import React, {useState, useContext} from 'react'
 import Modal from './Modal'
 import {addOrganizationDB} from '../context/axiosService'
 import {AuthContext} from '../context/authContext'
-import styles from './css/AddOrganizationDialog.css'
+import styles from './css/AddOrganizationDialog.module.css'
 
 const NewOrganizationForm = ({
   userId,
@@ -62,6 +62,9 @@ const NewOrganizationForm = ({
       </div>
 
       <button type="submit">Create My Organization</button>
+      <button type="button" onClick={closeModal}>
+        Cancel
+      </button>
     </form>
   )
 }
