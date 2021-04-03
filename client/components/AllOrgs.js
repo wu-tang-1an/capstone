@@ -1,4 +1,5 @@
 import React, {useState, useContext, useEffect} from 'react'
+import AddOrganizationDialog from './AddOrganizationDialog'
 import Modal from './Modal'
 import LeaveOrgModal from './LeaveOrgModal'
 import Invitations from './Invitations'
@@ -62,12 +63,13 @@ const AllOrgs = () => {
       }
     }
     fetchAllOrgs()
-  }, [invitations.length])
+  }, [invitations])
 
   // delete a single org and persist to local state
   const leaveOrg = async (orgId) => {
     try {
       await removeUserFromOrgDB(orgId, user.id)
+      setOrganizations(organizations.filter((org) => org.id !== orgId))
     } catch (err) {
       console.error(err)
     }
@@ -89,8 +91,9 @@ const AllOrgs = () => {
           />
         </Modal>
       )}
-      <div className={styles.invitationsContainer}>
+      <div className={styles.leftPanel}>
         <Invitations invitations={invitations} />
+        <AddOrganizationDialog closeModal={() => setModalVisible(false)} />
       </div>
       <div className={styles.headerAndOrgs}>
         <div className={styles.sectionHeader}>My Organizations</div>
