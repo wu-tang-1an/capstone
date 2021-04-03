@@ -6,6 +6,7 @@ import OrganizationProvider, {
 } from '../context/organizationContext'
 import AddMemberModal from './AddMemberModal'
 import Modal from './Modal'
+import {removeUserFromOrgDB} from '../context/axiosService'
 import styles from './css/SingleOrganization.module.css'
 
 const ProjectFrame = ({project}) => {
@@ -24,10 +25,10 @@ const ProjectFrame = ({project}) => {
   )
 }
 
-const Member = ({member, removeUser}) => {
-  const {firstName, lastName, imageUrl} = member
+const Member = ({member, members, setMembers}) => {
+  const {id, firstName, lastName, imageUrl} = member
 
-  const {role} = member.user_organization
+  const {role, organizationId} = member.user_organization
 
   return (
     <div className={styles.memberContainer}>
@@ -38,7 +39,17 @@ const Member = ({member, removeUser}) => {
           <div className={styles.memberRole}>{role}</div>
         </div>
       </div>
-      <span className={styles.removeBtnContainer}>
+      <span
+        className={styles.removeBtnContainer}
+        onClick={async () => {
+          try {
+            await removeUserFromOrgDB(organizationId, id)
+            setMembers(members.filter((mem) => mem.id !== id))
+          } catch (err) {
+            console.error(err)
+          }
+        }}
+      >
         <i className="material-icons">highlight_off</i>
         <span>Remove</span>
       </span>
@@ -66,11 +77,6 @@ const SingleOrganization = () => {
   // handle modal visibility
   const [isModalVisible, setModalVisible] = useState(false)
 
-  // helper clears user from local state after removing from org
-  function removeUser(currentUser) {
-    setMembers(members.filter((member) => member.id !== currentUser))
-  }
-
   return (
     <div className={styles.wrapper}>
       {isModalVisible && (
@@ -85,7 +91,12 @@ const SingleOrganization = () => {
       <section className={styles.leftPanel}>
         <div className={styles.membersContainer}>
           {members.map((member) => (
-            <Member key={member.id} member={member} removeUser={removeUser} />
+            <Member
+              key={member.id}
+              member={member}
+              members={members}
+              setMembers={setMembers}
+            />
           ))}
         </div>
         <button type="button" onClick={() => setModalVisible(true)}>

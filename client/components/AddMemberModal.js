@@ -11,32 +11,6 @@ const AddMemberModal = ({orgId, closeModal}) => {
   const [email, setEmail] = useState('')
   const [role, setRole] = useState('user')
 
-  // add organization method updates db and closes the dialog
-  const addOrganization = async (e) => {
-    e.preventDefault()
-
-    const newMember = {
-      userEmail: email,
-      orgId: orgId,
-      inviter: user.id,
-      role: role,
-    }
-
-    try {
-      const response = await sendInvite(newMember)
-
-      if (response.status === 200) {
-        const {firstName, lastName} = response.data
-        const name = `${firstName} ${lastName} (${email})`
-        notify(`${name} was invited!`, 'success')
-      }
-    } catch (err) {
-      notify(`User was already invited!`, 'error')
-
-      console.error(err)
-    }
-  }
-
   return (
     <div className={styles.addDropDownContainer}>
       <textarea
@@ -55,18 +29,11 @@ const AddMemberModal = ({orgId, closeModal}) => {
         <option value="admin">Admin</option>
       </select>
       <div className={styles.btnContainer}>
-        <button
-          type="button"
-          className={styles.addBtn}
-          onClick={(e) => {
-            closeModal()
-            addOrganization(e)
-          }}
-        >
+        <button type="button" className={styles.addBtn} onClick={closeModal}>
           Add
         </button>
         <button type="button" className={styles.cancelBtn} onClick={closeModal}>
-          Close
+          Cancel
         </button>
       </div>
     </div>

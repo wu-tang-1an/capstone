@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react'
 import moment from 'moment'
 import {Link} from 'react-router-dom'
-import Slider from './sub-components/Slider'
+import Slider from './Slider'
 import {AuthContext} from '../context/authContext'
 import {fetchUserOrgs} from '../context/axiosService'
 import styles from './css/Home.module.css'
