@@ -54,7 +54,7 @@ export const deleteInviteDB = async (inviteId) => {
 
 export const sendInvite = async (inviteObj) => {
   try {
-    let response = await axios.post('/api/invitations', {
+    const response = await axios.post('/api/invitations', {
       orgId: inviteObj.orgId,
       userEmail: inviteObj.userEmail,
       inviter: inviteObj.inviter,

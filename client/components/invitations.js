@@ -1,10 +1,10 @@
 import React, {useState, useContext, useEffect} from 'react'
+import history from '../history'
 import {
   fetchUserInvites,
   updateUserRoleDB,
   deleteInviteDB,
 } from '../context/axiosService'
-import {Link} from 'react-router-dom'
 import {AuthContext} from '../context/authContext'
 import styles from './css/Invitations.module.css'
 
@@ -18,29 +18,37 @@ const SingleInvitation = ({
   declineInvite,
 }) => {
   return (
-    <div className={styles.singleOrgContainer}>
+    <div className={styles.inviteContainer}>
       <img src={orgPicture} />
-      <div className={styles.orgName}>{orgName}</div>
-      <div className={styles.btnContainer}>
-        <Link
-          to={`/organizations/${orgId}`}
-          className={styles.acceptBtn}
-          type="button"
-          onClick={() => {
-            acceptInvite(orgId, inviteId, role)
-          }}
-        >
-          Accept
-        </Link>
-        <button
-          className={styles.declineBtn}
-          type="button"
-          onClick={() => {
-            declineInvite(inviteId)
-          }}
-        >
-          Decline
-        </button>
+      <div className={styles.nameAndIcons}>
+        <div className={styles.orgName}>{orgName}</div>
+        <div className={styles.acceptAndDecline}>
+          <div className={styles.textAndIcon}>
+            <i
+              className="material-icons"
+              onClick={() => {
+                acceptInvite(orgId, inviteId, role)
+                history.push(`/organizations/`)
+              }}
+              style={{color: 'green'}}
+            >
+              check_circle_outline
+            </i>
+            <span>Accept </span>
+          </div>
+          <div className={styles.textAndIcon}>
+            <i
+              className="material-icons"
+              onClick={() => {
+                declineInvite(inviteId)
+              }}
+              style={{color: 'red'}}
+            >
+              highlight_off
+            </i>
+            <span>Decline </span>
+          </div>
+        </div>
       </div>
     </div>
   )
@@ -89,7 +97,7 @@ const Invitations = () => {
   return (
     <React.Fragment>
       <div className={styles.invitesHeader}>My Invites</div>
-      <div className={styles.invitesContainer}>
+      <div className={styles.allInvitesContainer}>
         {invites.map((invite) => (
           <SingleInvitation
             key={invite.id}
