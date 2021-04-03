@@ -1,4 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react'
+import {Link} from 'react-router-dom'
 import Slider from './sub-components/Slider'
 import {AuthContext} from '../context/authContext'
 import {fetchUserOrgs} from '../context/axiosService'
@@ -9,14 +10,30 @@ const ListContainer = ({list, type}) => {
     <div className={styles.listContainer}>
       <div className={styles.listHeader}>My {type}</div>
       <ul>
-        {list.map((item) => (
-          <li key={item.id} className={styles.listItem}>
-            {type === 'Tasks' && (
-              <span style={{textAlign: 'right'}}>{item.completionDate}</span>
-            )}
-            {item.name}
-          </li>
-        ))}
+        {list.map((item) => {
+          // generate a link based on list type
+          // if org or project, link to org || project / orgId || projectId
+          // if task, link to task's project board
+          const address =
+            type === 'Organizations'
+              ? `/organizations/${item.id}`
+              : type === 'Projects'
+              ? `/projects/${item.id}`
+              : `/projects/${item.projectId}`
+
+          return (
+            <Link key={item.id} to={address}>
+              <li className={styles.listItem}>
+                {type === 'Tasks' && (
+                  <span style={{textAlign: 'right'}}>
+                    {item.completionDate}
+                  </span>
+                )}
+                {item.name}
+              </li>
+            </Link>
+          )
+        })}
       </ul>
     </div>
   )
@@ -80,12 +97,27 @@ const Home = () => {
     return orgs.map((org) => org.projects).flat()
   }
 
-  // helper extracts tasks from user projects
+  // helper extracts tasks from user projects and sorts by closest completionDate
   const getMyTasks = (projects) => {
-    return projects
-      .map((project) => project.columns.map((column) => column.tasks).flat())
+    const columns = projects.map((project) => project.columns).flat()
+
+    const colAndProjectIds = columns.map((col) => ({
+      colId: col.id,
+      projectId: col.projectId,
+    }))
+
+    const tasks = columns
+      .map((col) => col.tasks)
       .flat()
       .filter((task) => task.createdBy === `${user.firstName} ${user.lastName}`)
+      .map((task) => {
+        const colAndProjectIdObj = colAndProjectIds.find(
+          (obj) => obj.colId === task.columnId
+        )
+        return {...task, projectId: colAndProjectIdObj.projectId}
+      })
+
+    return tasks.sort((a, b) => (a.completionDate < b.completionDate ? -1 : 1))
   }
 
   const userProjects = getMyProjects(userOrgs)
