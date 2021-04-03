@@ -52,7 +52,7 @@ const AllOrgs = () => {
       }
     }
     fetchAllOrgs()
-  }, [])
+  }, [organizations.length])
 
   // delete a single org and persist to local state
   const leaveOrg = async (e, orgId) => {
@@ -64,6 +64,10 @@ const AllOrgs = () => {
       console.error(err)
     }
   }
+
+  // helper updates orgs on local state after accepting invite
+  const updateOrganizations = (newlyAssociatedOrg) =>
+    setOrganizations([...organizations, newlyAssociatedOrg])
 
   const [isModalVisible, setModalVisible] = useState(false)
 
@@ -78,7 +82,7 @@ const AllOrgs = () => {
         </Modal>
       )}
       <div className={styles.invitationsContainer}>
-        <Invitations />
+        <Invitations updateOrganizations={updateOrganizations} />
       </div>
       <div className={styles.headerAndOrgs}>
         <div className={styles.sectionHeader}>My Organizations</div>
@@ -90,7 +94,7 @@ const AllOrgs = () => {
               orgId={org.id}
               name={org.name}
               imageUrl={org.imageUrl}
-              numMembers={org.users.length}
+              numMembers={org && org.users ? org.users.length : 0}
               setModalVisible={setModalVisible}
             />
           ))}

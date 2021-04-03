@@ -118,8 +118,6 @@ export const addUserToOrgDB = async (orgId, userId) => {
     const {data} = await axios.put(
       `/api/organizations/${orgId}/users/${userId}`
     )
-    console.log('data is: ', data)
-
     return data
   } catch (err) {
     console.error(err)

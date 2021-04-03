@@ -4,6 +4,7 @@ import {
   fetchUserInvites,
   updateUserRoleDB,
   deleteInviteDB,
+  getOrgDb,
 } from '../context/axiosService'
 import {AuthContext} from '../context/authContext'
 import styles from './css/Invitations.module.css'
@@ -16,6 +17,7 @@ const SingleInvitation = ({
   role,
   acceptInvite,
   declineInvite,
+  updateOrganizations,
 }) => {
   return (
     <div className={styles.inviteContainer}>
@@ -23,27 +25,25 @@ const SingleInvitation = ({
       <div className={styles.nameAndIcons}>
         <div className={styles.orgName}>{orgName}</div>
         <div className={styles.acceptAndDecline}>
-          <div className={styles.textAndIcon}>
-            <i
-              className="material-icons"
-              onClick={() => {
-                acceptInvite(orgId, inviteId, role)
-                history.push(`/organizations/`)
-              }}
-              style={{color: 'green'}}
-            >
+          <div
+            className={styles.textAndIcon}
+            onClick={() => {
+              const newlyAssociatedOrg = acceptInvite(orgId, inviteId, role)
+              updateOrganizations(newlyAssociatedOrg)
+            }}
+          >
+            <i className="material-icons" style={{color: 'green'}}>
               check_circle_outline
             </i>
             <span>Accept </span>
           </div>
-          <div className={styles.textAndIcon}>
-            <i
-              className="material-icons"
-              onClick={() => {
-                declineInvite(inviteId)
-              }}
-              style={{color: 'red'}}
-            >
+          <div
+            className={styles.textAndIcon}
+            onClick={() => {
+              declineInvite(inviteId)
+            }}
+          >
+            <i className="material-icons" style={{color: 'red'}}>
               highlight_off
             </i>
             <span>Decline </span>
@@ -54,7 +54,7 @@ const SingleInvitation = ({
   )
 }
 
-const Invitations = () => {
+const Invitations = ({updateOrganizations}) => {
   // grab user from auth context
   const {user} = useContext(AuthContext)
 
@@ -72,13 +72,16 @@ const Invitations = () => {
       }
     }
     fetchInvites()
-  }, [])
+  }, [invites.length])
 
   // helper updates user role to associate to given orgId, updates local state
   const acceptInvite = async (orgId, inviteId, role) => {
     try {
       await updateUserRoleDB(user.id, orgId, inviteId, role)
+      await deleteInviteDB(inviteId)
       setInvitations(invites.filter((invite) => invite.id !== inviteId))
+      const {data} = await getOrgDb(orgId)
+      return data
     } catch (error) {
       console.log(error)
     }
@@ -108,6 +111,7 @@ const Invitations = () => {
             role={invite.orgRole}
             acceptInvite={acceptInvite}
             declineInvite={declineInvite}
+            updateOrganizations={updateOrganizations}
           />
         ))}
       </div>
