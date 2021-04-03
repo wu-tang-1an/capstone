@@ -62,7 +62,7 @@ const AllOrgs = () => {
       }
     }
     fetchAllOrgs()
-  }, [organizations.length])
+  }, [invitations.length])
 
   // delete a single org and persist to local state
   const leaveOrg = async (orgId) => {
@@ -90,12 +90,7 @@ const AllOrgs = () => {
         </Modal>
       )}
       <div className={styles.invitationsContainer}>
-        <Invitations
-          invitations={invitations}
-          setInvitations={setInvitations}
-          organizations={organizations}
-          setOrganizations={setOrganizations}
-        />
+        <Invitations invitations={invitations} />
       </div>
       <div className={styles.headerAndOrgs}>
         <div className={styles.sectionHeader}>My Organizations</div>

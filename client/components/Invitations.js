@@ -15,10 +15,6 @@ const SingleInvitation = ({
   role,
   acceptInvite,
   declineInvite,
-  allOrgs,
-  setOrganizations,
-  invitations,
-  setInvitations,
 }) => {
   return (
     <div className={styles.inviteContainer}>
@@ -29,11 +25,7 @@ const SingleInvitation = ({
           <div
             className={styles.textAndIcon}
             onClick={() => {
-              const newlyAssociatedOrg = acceptInvite(orgId, inviteId, role)
-              setOrganizations([...allOrgs, newlyAssociatedOrg])
-              setInvitations(
-                invitations.filter((invite) => invite.id !== inviteId)
-              )
+              acceptInvite(orgId, inviteId, role)
             }}
           >
             <i className="material-icons" style={{color: 'green'}}>
@@ -58,12 +50,7 @@ const SingleInvitation = ({
   )
 }
 
-const Invitations = ({
-  invitations,
-  setInvitations,
-  organizations,
-  setOrganizations,
-}) => {
+const Invitations = ({invitations}) => {
   // grab user from auth context
   const {user} = useContext(AuthContext)
 
@@ -72,7 +59,6 @@ const Invitations = ({
     try {
       await updateUserRoleDB(user.id, orgId, inviteId, role)
       await deleteInviteDB(inviteId)
-      setInvitations(invitations.filter((invite) => invite.id !== inviteId))
       const {data} = await getOrgDb(orgId)
       return data
     } catch (error) {
@@ -84,7 +70,6 @@ const Invitations = ({
   const declineInvite = async (inviteId) => {
     try {
       await deleteInviteDB(inviteId)
-      setInvitations(invitations.filter((invite) => invite.id !== inviteId))
     } catch (error) {
       console.log(error)
     }
@@ -104,10 +89,6 @@ const Invitations = ({
             role={invite.orgRole}
             acceptInvite={acceptInvite}
             declineInvite={declineInvite}
-            allOrgs={organizations}
-            setOrganizations={setOrganizations}
-            invitations={invitations}
-            setInvitations={setInvitations}
           />
         ))}
       </div>
