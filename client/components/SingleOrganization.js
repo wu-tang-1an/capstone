@@ -29,6 +29,8 @@ const ProjectFrame = ({project}) => {
 
 const Member = ({member, members, setMembers, authUserAdminStatus}) => {
   // grab user from auth context
+  // we'll use this user to redirect ourself
+  // if we leave the current organization
   const {user} = useContext(AuthContext)
 
   // destructure org member (a user instance)
