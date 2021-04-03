@@ -1,10 +1,54 @@
 import React, {useState, useContext, useEffect} from 'react'
-import axios from 'axios'
+import {
+  fetchUserInvites,
+  updateUserRoleDB,
+  deleteInviteDB,
+} from '../context/axiosService'
 import {Link} from 'react-router-dom'
 import {AuthContext} from '../context/authContext'
-import {FcInvite} from 'react-icons/fc'
-import {IconContext} from 'react-icons'
 import styles from './css/Invitations.module.css'
+
+const SingleInvitation = ({
+  inviteId,
+  orgId,
+  orgPicture,
+  orgName,
+  role,
+  acceptInvite,
+  declineInvite,
+}) => {
+  return (
+    <div className={styles.singleOrgContainer}>
+      <div>
+        <img src={orgPicture} />
+      </div>
+      <div className={styles.orgNameCont}>
+        <h3 className={styles.orgName}>{orgName}</h3>
+      </div>
+      <div className={styles.buttonCont}>
+        <Link
+          to={`/organizations/${orgId}`}
+          className={styles.acceptBtn}
+          type="button"
+          onClick={() => {
+            acceptInvite(orgId, inviteId, role)
+          }}
+        >
+          Accept
+        </Link>
+        <button
+          className={styles.declineBtn}
+          type="button"
+          onClick={() => {
+            declineInvite(inviteId)
+          }}
+        >
+          Decline
+        </button>
+      </div>
+    </div>
+  )
+}
 
 const Invitations = () => {
   // grab user from auth context
@@ -16,8 +60,8 @@ const Invitations = () => {
   useEffect(() => {
     const fetchInvites = async () => {
       try {
-        const {data} = await axios.get(`/api/invitations/${user.id}/`)
-        setInvitations(data)
+        const invitations = await fetchUserInvites(user.id)
+        setInvitations(invitations)
       } catch (err) {
         console.error(err)
       }
@@ -25,21 +69,18 @@ const Invitations = () => {
     fetchInvites()
   }, [])
 
-  async function acceptInvite(userId, orgId, inviteId, role) {
+  const acceptInvite = async (orgId, inviteId, role) => {
     try {
-      await axios.put(`/api/users/${userId}/organizations/${orgId}`, {
-        role: role,
-      })
-      await axios.delete(`/api/invitations/${inviteId}`)
+      await updateUserRoleDB(user.id, orgId, inviteId, role)
       setInvitations(invites.filter((invite) => invite.id !== inviteId))
     } catch (error) {
       console.log(error)
     }
   }
 
-  async function declineInvite(inviteId) {
+  const declineInvite = async (inviteId) => {
     try {
-      await axios.delete(`/api/invitations/${inviteId}`)
+      await deleteInviteDB(inviteId)
       setInvitations(invites.filter((invite) => invite.id !== inviteId))
     } catch (error) {
       console.log(error)
@@ -47,58 +88,19 @@ const Invitations = () => {
   }
 
   return (
-    <div>
-      {invites && (
-        <div>
-          <div className={styles.headerCont}>
-            <h1 className={styles.allOrgsHeader}>Your Invitations</h1>
-            <IconContext.Provider
-              value={{size: '2rem', style: {marginTop: '0.7rem'}}}
-            >
-              <FcInvite />
-            </IconContext.Provider>
-          </div>
-          <div className={styles.allOrgsCont}>
-            {invites.map((invite) => (
-              <div className={styles.orgCont} key={invite.id}>
-                <div>
-                  <img className={styles.orgImg} src={invite.orgPicture} />
-                </div>
-                <div className={styles.orgNameCont}>
-                  <h3 className={styles.orgName}>{invite.orgName}</h3>
-                </div>
-                <div className={styles.buttonCont}>
-                  <Link
-                    to={`/organizations/${invite.orgId}`}
-                    className={styles.accept}
-                    type="submit"
-                    onClick={(e) => {
-                      acceptInvite(
-                        user.id,
-                        invite.orgId,
-                        invite.id,
-                        invite.role
-                      )
-                    }}
-                  >
-                    Accept
-                  </Link>
-                  <button
-                    className={styles.decline}
-                    type="submit"
-                    onClick={(e) => {
-                      e.preventDefault()
-                      declineInvite(invite.id)
-                    }}
-                  >
-                    Decline
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
+    <div className={styles.invitesContainer}>
+      {invites.map((invite) => (
+        <SingleInvitation
+          key={invite.id}
+          inviteId={invite.id}
+          orgId={invite.orgId}
+          orgPicture={invite.orgPicture}
+          orgName={invite.orgName}
+          role={invite.orgRole}
+          acceptInvite={acceptInvite}
+          declineInvite={declineInvite}
+        />
+      ))}
     </div>
   )
 }

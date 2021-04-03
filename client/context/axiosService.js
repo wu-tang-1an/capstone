@@ -23,6 +23,35 @@ export const updateUserDB = async (userId, updateInfo) => {
 
 /* INVITES */
 
+export const fetchUserInvites = async (userId) => {
+  try {
+    const {data} = await axios.get(`/api/invitations/${userId}/`)
+    return data
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+// important! no returned value from put on this route
+export const updateUserRoleDB = async (userId, orgId, inviteId, role) => {
+  try {
+    await axios.put(`/api/users/${userId}/organizations/${orgId}`, {
+      role: role,
+    })
+    await axios.delete(`/api/invitations/${inviteId}`)
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+export const deleteInviteDB = async (inviteId) => {
+  try {
+    await axios.delete(`/api/invitations/${inviteId}`)
+  } catch (err) {
+    console.error(err)
+  }
+}
+
 export async function sendInvite(inviteObj) {
   try {
     let response = await axios.post('/api/invitations', {

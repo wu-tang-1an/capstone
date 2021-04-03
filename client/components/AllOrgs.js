@@ -20,7 +20,7 @@ const OrganizationCard = ({
         <div className={styles.imgAndOrgName}>
           <img src={imageUrl} />
           <div className={styles.orgName}>{name}</div>
-          <div className={styles.orgName}>{`${numMembers} members`}</div>
+          <div className={styles.numMembers}>{`${numMembers} members`}</div>
         </div>
       </Link>
       <button
