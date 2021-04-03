@@ -90,7 +90,7 @@ const AllOrgs = () => {
         </Modal>
       )}
       <div className={styles.invitationsContainer}>
-        <Invitations
+        <Invites
           invitations={invitations}
           setInvitations={setInvitations}
           organizations={organizations}
