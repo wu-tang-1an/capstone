@@ -1,26 +1,27 @@
 module.exports = [
   {
-    name: 'Note-Ary',
+    name: 'OrganizeIt!',
     status: 'in-progress',
-    description: 'we are stealing trellos idea',
+    description:
+      "Extending Lou Presotovitch's non-Zorp-related time management approach to digital workflows",
     imageUrl: 'https://unsplash.it/200/200',
   },
   {
-    name: 'Jay-zima',
+    name: 'Pretendr',
     status: 'in-progress',
-    description: 'we bought a bunch of zima when the factory shut down',
+    description: 'A K-12 extracurricular program for budding magicians',
     imageUrl: 'https://unsplash.it/200/200',
   },
   {
     name: 'Splatify',
     status: 'in-progress',
-    description: 'we drop records off the roof and see how far the pieces go',
+    description: 'Designing a better water balloon trebuchet',
     imageUrl: 'https://unsplash.it/200/200',
   },
   {
-    name: 'Goggle',
+    name: 'Sweep',
     status: 'in-progress',
-    description: 'we made a search engine that only finds aquatic accessories',
+    description: 'An allergen quantifier for home air quality monitoring',
     imageUrl: 'https://unsplash.it/200/200',
   },
 ]
