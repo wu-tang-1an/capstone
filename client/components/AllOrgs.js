@@ -93,7 +93,10 @@ const AllOrgs = () => {
       )}
       <div className={styles.leftPanel}>
         <Invitations invitations={invitations} />
-        <AddOrganizationDialog closeModal={() => setModalVisible(false)} />
+        <AddOrganizationDialog
+          organizations={organizations}
+          setOrganizations={setOrganizations}
+        />
       </div>
       <div className={styles.headerAndOrgs}>
         <div className={styles.sectionHeader}>My Organizations</div>

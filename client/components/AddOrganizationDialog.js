@@ -1,8 +1,10 @@
-import React, {useState} from 'react'
+import React, {useState, useContext} from 'react'
 import Modal from './Modal'
+import {addOrganizationDB} from '../context/axiosService'
+import {AuthContext} from '../context/authContext'
 import styles from './css/AddOrganizationDialog.css'
 
-const NewOrganizationForm = () => {
+const NewOrganizationForm = ({createOrganization, closeModal}) => {
   const [name, setName] = useState('')
   const [imageUrl, setImageUrl] = useState('')
 
@@ -38,7 +40,8 @@ const NewOrganizationForm = () => {
         type="submit"
         onClick={(e) => {
           e.preventDefault()
-          // do the logic that makes an org
+          createOrganization({name, imageUrl})
+          closeModal()
         }}
       >
         Create My Organization
@@ -47,14 +50,26 @@ const NewOrganizationForm = () => {
   )
 }
 
-const AddOrganizationDialog = () => {
+const AddOrganizationDialog = ({organizations, setOrganizations}) => {
   const [isModalVisible, setModalVisible] = useState(false)
+
+  const createOrganization = async (newOrg) => {
+    try {
+      const createdOrg = await addOrganizationDB(newOrg)
+      setOrganizations([...organizations, createdOrg])
+    } catch (err) {
+      console.error(err)
+    }
+  }
 
   return (
     <div className={styles.addOrgContainer}>
       {isModalVisible && (
         <Modal>
-          <NewOrganizationForm closeModal={() => setModalVisible(false)} />
+          <NewOrganizationForm
+            createOrganization={createOrganization}
+            closeModal={() => setModalVisible(false)}
+          />
         </Modal>
       )}
       <button
