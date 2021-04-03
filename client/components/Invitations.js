@@ -76,7 +76,7 @@ const Invitations = ({invitations}) => {
   return (
     <React.Fragment>
       <div className={styles.invitationsHeader}>My invitations</div>
-      <div className={styles.allinvitationsContainer}>
+      <div className={styles.allInvitesContainer}>
         {invitations.map((invite) => (
           <SingleInvitation
             key={invite.id}
