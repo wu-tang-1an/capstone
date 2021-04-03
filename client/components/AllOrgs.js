@@ -1,7 +1,7 @@
 import React, {useState, useContext, useEffect} from 'react'
 import Modal from './Modal'
 import LeaveOrgModal from './LeaveOrgModal'
-import Invites from './Invites'
+import Invitations from './Invitations'
 import {Link} from 'react-router-dom'
 import {AuthContext} from '../context/authContext'
 import InvitationProvider, {
@@ -90,7 +90,7 @@ const AllOrgs = () => {
         </Modal>
       )}
       <div className={styles.invitationsContainer}>
-        <Invites
+        <Invitations
           invitations={invitations}
           setInvitations={setInvitations}
           organizations={organizations}
