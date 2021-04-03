@@ -35,7 +35,13 @@ const ListContainer = ({list, type}) => {
                       .fromNow()}
                   </span>
                 )}
-                {item.name}
+                <div
+                  style={
+                    item.isActiveBadge ? {color: 'red'} : {color: 'inherit'}
+                  }
+                >
+                  {item.name}
+                </div>
               </li>
             </Link>
           )
