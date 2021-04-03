@@ -13,6 +13,7 @@ const OrganizationCard = ({
   numMembers,
   imageUrl,
   setModalVisible,
+  setOrgIdForDelete,
 }) => {
   return (
     <div className={styles.orgCardContainer}>
@@ -26,7 +27,10 @@ const OrganizationCard = ({
       <button
         className={styles.openModalBtn}
         type="button"
-        onClick={() => setModalVisible(true)}
+        onClick={() => {
+          setOrgIdForDelete(orgId)
+          setModalVisible(true)
+        }}
       >
         Leave Organization
       </button>
@@ -55,17 +59,18 @@ const AllOrgs = () => {
   }, [organizations.length])
 
   // delete a single org and persist to local state
-  const leaveOrg = async (e, orgId) => {
-    e.preventDefault()
+  const leaveOrg = async (orgId) => {
     try {
       await removeUserFromOrgDB(orgId, user.id)
-      setOrganizations(organizations.filter((org) => org.id !== orgId))
     } catch (err) {
       console.error(err)
     }
   }
 
+  // setOrganizations(organizations.filter((org) => org.id !== orgId))
+
   const [isModalVisible, setModalVisible] = useState(false)
+  const [orgIdForDelete, setOrgIdForDelete] = useState(0)
 
   return (
     <div className={styles.wrapper}>
@@ -73,6 +78,9 @@ const AllOrgs = () => {
         <Modal>
           <LeaveOrgModal
             leaveOrg={leaveOrg}
+            orgIdForDelete={orgIdForDelete}
+            organizations={organizations}
+            setOrganizations={setOrganizations}
             closeModal={() => setModalVisible(false)}
           />
         </Modal>
@@ -95,6 +103,7 @@ const AllOrgs = () => {
               imageUrl={org.imageUrl}
               numMembers={org && org.users ? org.users.length : 0}
               setModalVisible={setModalVisible}
+              setOrgIdForDelete={setOrgIdForDelete}
             />
           ))}
         </div>

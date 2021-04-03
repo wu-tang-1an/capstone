@@ -1,7 +1,13 @@
 import React from 'react'
 import styles from './css/DeleteTaskModal.module.css'
 
-const LeaveOrgModal = ({leaveOrg, closeModal}) => {
+const LeaveOrgModal = ({
+  orgIdForDelete,
+  leaveOrg,
+  organizations,
+  setOrganizations,
+  closeModal,
+}) => {
   return (
     <div className={styles.modalContent}>
       <div className={styles.deleteMessage}>
@@ -11,7 +17,17 @@ const LeaveOrgModal = ({leaveOrg, closeModal}) => {
         go back.
       </div>
       <div className={styles.modalBtnsContainer}>
-        <button type="button" className={styles.deleteBtn} onClick={leaveOrg}>
+        <button
+          type="button"
+          className={styles.deleteBtn}
+          onClick={() => {
+            leaveOrg(orgIdForDelete)
+            setOrganizations(
+              organizations.filter((org) => org.id !== orgIdForDelete)
+            )
+            closeModal()
+          }}
+        >
           Leave Organization
         </button>
         <button type="button" className={styles.cancelBtn} onClick={closeModal}>
