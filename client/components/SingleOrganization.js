@@ -17,6 +17,30 @@ const OverflowWrapper = styled.div`
   overflow: auto;
 `
 
+const ProjectFrame = () => {
+  return (
+    <div className={styles.projectCardContainer}>
+      <Link to={`/projects/${projectId}`}>
+        <div className={styles.cardContents}>
+          <img src={imageUrl} />
+          <div className={styles.orgName}>{name}</div>
+          <div className={styles.numMembers}>{`${numMembers} members`}</div>
+        </div>
+      </Link>
+      <button
+        className={styles.openModalBtn}
+        type="button"
+        onClick={() => {
+          setOrgIdForDelete(orgId)
+          setModalVisible(true)
+        }}
+      >
+        Leave Organization
+      </button>
+    </div>
+  )
+}
+
 const SingleOrganization = ({match}) => {
   const {user} = useContext(AuthContext)
   const userId = user.id
@@ -89,53 +113,51 @@ const SingleOrganization = ({match}) => {
   }
 
   return (
-    <div className="topLevelViewContainer">
-      <div className={styles.organizationContainer}>
-        <h1>Organization: {organization.name}</h1>
-        <img className={styles.organizationImg} src={imageUrl} />
-        <div className={styles.membersAndProjects}>
-          <div className={styles.membersContainer}>
-            <div className={styles.membersTitle}>Members:</div>
-            <OverflowWrapper>
-              {status ? <AddMemberDropdown orgId={organizationId} /> : null}
+    <div className={styles.organizationContainer}>
+      <div className={styles.header}>Organization: {organization.name}</div>
+      <img className={styles.organizationImg} src={imageUrl} />
+      <div className={styles.membersAndProjects}>
+        <div className={styles.membersContainer}>
+          <div className={styles.membersTitle}>Members:</div>
+          <OverflowWrapper>
+            {status ? <AddMemberDropdown orgId={organizationId} /> : null}
 
-              <div className={styles.memberList}>
-                {members &&
-                  members.map((member) => (
-                    <UserCard
-                      key={member.id}
-                      user={{
-                        ...member,
-                        orgId: organizationId,
-                        removeUser: removeUser,
-                        mainUser: user,
-                      }}
-                    />
-                  ))}
-              </div>
-            </OverflowWrapper>
-          </div>
-
-          <div className={styles.projectsContainer}>
-            <div className={styles.projectsTitle}>Projects:</div>
-            <div className={styles.projectList}>
-              <OverflowWrapper>
-                <AddProjectDropdown
-                  organization={organization}
-                  setProjects={setProjects}
-                />
-                {projects &&
-                  projects.map((project) => (
-                    <div key={project.id}>
-                      <ProjectCard
-                        project={project}
-                        organization={organization}
-                        setProjects={setProjects}
-                      />
-                    </div>
-                  ))}
-              </OverflowWrapper>
+            <div className={styles.memberList}>
+              {members &&
+                members.map((member) => (
+                  <UserCard
+                    key={member.id}
+                    user={{
+                      ...member,
+                      orgId: organizationId,
+                      removeUser: removeUser,
+                      mainUser: user,
+                    }}
+                  />
+                ))}
             </div>
+          </OverflowWrapper>
+        </div>
+
+        <div className={styles.projectsContainer}>
+          <div className={styles.projectsTitle}>Projects:</div>
+          <div className={styles.projectList}>
+            <OverflowWrapper>
+              <AddProjectDropdown
+                organization={organization}
+                setProjects={setProjects}
+              />
+              {projects &&
+                projects.map((project) => (
+                  <div key={project.id}>
+                    <ProjectCard
+                      project={project}
+                      organization={organization}
+                      setProjects={setProjects}
+                    />
+                  </div>
+                ))}
+            </OverflowWrapper>
           </div>
         </div>
       </div>

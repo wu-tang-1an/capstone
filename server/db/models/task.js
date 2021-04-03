@@ -19,6 +19,12 @@ const Task = db.define('task', {
   editTimeStamp: {
     type: Sequelize.DATE,
   },
+  formattedDate: {
+    type: Sequelize.VIRTUAL,
+    set() {
+      this.setDataValue('formattedDate', this.getFromNow(this.editTimeStamp))
+    },
+  },
   isActiveBadge: {
     type: Sequelize.BOOLEAN,
     defaultValue: false,
@@ -27,5 +33,7 @@ const Task = db.define('task', {
     type: Sequelize.INTEGER,
   },
 })
+
+Task.getFromNow = (date) => moment(date).format('l').replace(/\//g, '')
 
 module.exports = Task

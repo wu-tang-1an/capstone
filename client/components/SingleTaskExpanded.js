@@ -20,8 +20,15 @@ import styles from './css/SingleTaskExpanded.module.css'
 
 const SingleTaskExpanded = ({task, closeModal}) => {
   // destructure task
-  const {id, name, description, createdBy, editTimeStamp, isActiveBadge} =
-    task || {}
+  const {
+    id,
+    name,
+    description,
+    formattedDate,
+    createdBy,
+    editTimeStamp,
+    isActiveBadge,
+  } = task || {}
 
   // initialize taskComments to track local state for CRUD ops on comments
   const [taskComments, setTaskComments] = useState(task.comments || [])
@@ -29,7 +36,8 @@ const SingleTaskExpanded = ({task, closeModal}) => {
   // then declare state and initialize with task data
   const [taskName, setTaskName] = useState(name || '')
   const [taskDescription, setDescription] = useState(description || '')
-  const [lastEdit, setLastEdit] = useState(editTimeStamp)
+  const [lastEdit, setLastEdit] = useState(formattedDate)
+
   const [activeMarkdownEditor, setActiveMarkdownEditor] = useState(false)
   const [isAddCommentActive, setAddCommentActive] = useState(false)
   const [isActiveNameEdit, setActiveNameEdit] = useState(false)
@@ -197,8 +205,7 @@ const SingleTaskExpanded = ({task, closeModal}) => {
           </div>
           <span className={styles.creator}>Opened by {createdBy}</span>
           <span className={styles.lastEdited}>{`Last edit: ${moment(
-            new Date(Date.parse(lastEdit)),
-            'YYYYMMDD'
+            formattedDate
           ).fromNow()}`}</span>
         </div>
       </section>
