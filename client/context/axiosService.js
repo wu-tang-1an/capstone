@@ -52,7 +52,7 @@ export const deleteInviteDB = async (inviteId) => {
   }
 }
 
-export async function sendInvite(inviteObj) {
+export const sendInvite = async (inviteObj) => {
   try {
     let response = await axios.post('/api/invitations', {
       orgId: inviteObj.orgId,
