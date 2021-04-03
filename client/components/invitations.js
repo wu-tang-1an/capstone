@@ -1,12 +1,10 @@
-import React, {useState, useContext, useEffect} from 'react'
+import React, {useContext} from 'react'
 import {
-  fetchUserInvites,
   updateUserRoleDB,
   deleteInviteDB,
   getOrgDb,
 } from '../context/axiosService'
 import {AuthContext} from '../context/authContext'
-import {InvitationContext} from '../context/invitationContext'
 import styles from './css/Invitations.module.css'
 
 const SingleInvitation = ({
