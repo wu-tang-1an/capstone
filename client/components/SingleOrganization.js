@@ -1,15 +1,12 @@
-import React, {useState, useEffect, useMemo, useContext} from 'react'
+import React, {useState, useContext} from 'react'
 import {Link} from 'react-router-dom'
 import {AuthContext} from '../context/authContext'
-
-import axios from 'axios'
-import isAdmin from './helper/isAdmin'
-
-import AddMemberDialog from './sub-components/AddMemberDialog'
+import OrganizationProvider, {
+  OrganizationContext,
+} from '../context/organizationContext'
+import AddMemberModal from './AddMemberModal'
 import Modal from './Modal'
-
 import styles from './css/SingleOrganization.module.css'
-import {errorRedirect} from './helper/errorHandle'
 
 const ProjectFrame = ({project}) => {
   const {id, name, imageUrl, description, status} = project
@@ -43,76 +40,26 @@ const Member = ({member, removeUser}) => {
   )
 }
 
-const SingleOrganization = ({match}) => {
+const SingleOrganization = () => {
+  // grab user from auth context
   const {user} = useContext(AuthContext)
-  const userId = user.id
 
-  // grab orgId from match
-  const organizationId = +match.params.organizationId
-  // assign local state
-  const [organization, setOrganization] = useState({})
-  const [projects, setProjects] = useState([])
-
-  const [status, setStatus] = useState(false)
-  const [members, setMembers] = useState([])
-
-  useEffect(() => {
-    let isMounted = true
-    let org = {}
-    let admin = false
-
-    const fetchSingleOrg = async () => {
-      try {
-        org = await axios.get(`/api/organizations/${organizationId}`)
-      } catch (err) {
-        console.error(err)
-        errorRedirect('/organizations')
-      }
-    }
-
-    const fetchStatus = async () => {
-      try {
-        admin = await isAdmin(userId, organizationId)
-      } catch (e) {
-        console.log(e)
-      }
-    }
-
-    fetchSingleOrg().then(() => {
-      if (isMounted) {
-        setOrganization(org.data)
-        setProjects(org.data.projects)
-        setMembers(org.data.users)
-      }
-    })
-
-    fetchStatus().then(() => {
-      if (isMounted) setStatus(admin)
-    })
-
-    return () => {
-      isMounted = false
-    }
-  }, [])
-
-  // memoize to keep rerenders to a minimum
-  useMemo(() => {
-    return {
-      organization,
-      setOrganization,
-      projects,
-      setProjects,
-      setStatus,
-      status,
-    }
-  }, [organization, projects, status])
+  // grab org and its projects, users from organization context
+  const {
+    organization,
+    projects,
+    status,
+    members,
+    setOrganization,
+    setProjects,
+    setStatus,
+    setMembers,
+  } = useContext(OrganizationContext)
 
   // handle modal visibility
   const [isModalVisible, setModalVisible] = useState(false)
 
-  // destructure organization
-  const {name, imageUrl} = organization
-
+  // helper clears user from local state after removing from org
   function removeUser(currentUser) {
     setMembers(members.filter((member) => member.id !== currentUser))
   }
@@ -121,18 +68,21 @@ const SingleOrganization = ({match}) => {
     <div className={styles.wrapper}>
       {isModalVisible && (
         <Modal>
-          <AddMemberModal closeModal={() => setModalVisible(false)} />
+          <AddMemberModal
+            members={members}
+            setMembers={setMembers}
+            closeModal={() => setModalVisible(false)}
+          />
         </Modal>
       )}
       <section className={styles.leftPanel}>
         {members.map((member) => (
           <Member key={member.id} member={member} removeUser={removeUser} />
         ))}
-        <AddMemberDialog members={members} setMembers={setMembers} />
       </section>
       <section className={styles.rightPanel}>
         <div className={styles.avatarAndName}>
-          <img className={styles.organizationImg} src={imageUrl} />
+          <img className={styles.organizationImg} src="" />
           <div className={styles.sectionHeader}>Organization: {name}</div>
         </div>
         <div className={styles.subsectionHeader}>Projects</div>
@@ -146,4 +96,10 @@ const SingleOrganization = ({match}) => {
   )
 }
 
-export default SingleOrganization
+const WrappedSingleOrg = () => (
+  <OrganizationProvider>
+    <SingleOrganization />
+  </OrganizationProvider>
+)
+
+export default WrappedSingleOrg
