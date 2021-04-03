@@ -55,6 +55,12 @@ const Signup = () => {
           Signup with{' '}
           <span className={styles.notearyColor}>note&#8209;ary</span>
         </div>
+        <div className={styles.underTitle}>
+          <p>
+            Note&#8209;ary offers one-click signup with Google as well as
+            conventional direct signup
+          </p>
+        </div>
 
         {!isFormVisible && (
           <div className={styles.btnContainer}>
