@@ -49,12 +49,13 @@ const SingleOrganization = () => {
     organization,
     projects,
     status,
-    members,
-    setOrganization,
-    setProjects,
     setStatus,
+    members,
     setMembers,
   } = useContext(OrganizationContext)
+
+  // destructure organization
+  const {name, imageUrl} = organization
 
   // handle modal visibility
   const [isModalVisible, setModalVisible] = useState(false)
@@ -76,14 +77,19 @@ const SingleOrganization = () => {
         </Modal>
       )}
       <section className={styles.leftPanel}>
-        {members.map((member) => (
-          <Member key={member.id} member={member} removeUser={removeUser} />
-        ))}
+        <div className="membersContainer">
+          {members.map((member) => (
+            <Member key={member.id} member={member} removeUser={removeUser} />
+          ))}
+        </div>
+        <button type="button" onClick={() => setModalVisible(true)}>
+          + Add A Teammate
+        </button>
       </section>
       <section className={styles.rightPanel}>
         <div className={styles.avatarAndName}>
-          <img className={styles.organizationImg} src="" />
-          <div className={styles.sectionHeader}>Organization: {name}</div>
+          <img className={styles.avatar} src={imageUrl} />
+          <div className={styles.name}>Organization: {name}</div>
         </div>
         <div className={styles.subsectionHeader}>Projects</div>
         <div className={styles.allProjectsContainer}>
