@@ -63,15 +63,20 @@ router.get('/:orgId/users', checkUser, async (req, res, next) => {
 // POST create new organization route '/api/organizations/' (AUTH USER ONLY)
 router.post('/', checkUser, async (req, res, next) => {
   try {
-    const {userId, name, imageUrl} = req.body
+    const {userId, newOrg} = req.body
 
-    const createdOrg = await Organization.create({
-      name,
-      imageUrl,
-      role: 'admin',
-    })
+    const createdOrg = await Organization.create(
+      {
+        ...newOrg,
+        role: 'admin',
+      },
+      {
+        include: [User],
+      }
+    )
 
-    createdOrg.addUsers([userId])
+    await createdOrg.addUsers([userId])
+    await createdOrg.reload()
 
     res.json(createdOrg)
   } catch (error) {

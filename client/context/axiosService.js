@@ -95,9 +95,9 @@ export async function getOrganizationRole(userId, orgId) {
   }
 }
 
-export const addOrganizationDB = async (newOrg) => {
+export const addOrganizationDB = async ({userId, newOrg}) => {
   try {
-    const {data} = await axios.post(`/api/organizations/`, newOrg)
+    const {data} = await axios.post(`/api/organizations/`, {userId, newOrg})
     return data
   } catch (err) {
     console.error(err)

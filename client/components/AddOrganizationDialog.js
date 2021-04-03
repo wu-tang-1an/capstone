@@ -4,12 +4,37 @@ import {addOrganizationDB} from '../context/axiosService'
 import {AuthContext} from '../context/authContext'
 import styles from './css/AddOrganizationDialog.css'
 
-const NewOrganizationForm = ({createOrganization, closeModal}) => {
+const NewOrganizationForm = ({
+  userId,
+  organizations,
+  setOrganizations,
+  closeModal,
+}) => {
   const [name, setName] = useState('')
   const [imageUrl, setImageUrl] = useState('')
 
   return (
-    <form>
+    <form
+      onSubmit={async (e) => {
+        e.preventDefault()
+        try {
+          const createdOrg = await addOrganizationDB({
+            userId,
+            newOrg: {
+              name,
+              imageUrl,
+            },
+          })
+
+          console.log(createdOrg)
+
+          setOrganizations([...organizations, createdOrg])
+          closeModal()
+        } catch (err) {
+          console.error(err)
+        }
+      }}
+    >
       <div className={styles.formField}>
         <label htmlFor="Organization name" />
         <input
@@ -36,38 +61,24 @@ const NewOrganizationForm = ({createOrganization, closeModal}) => {
         />
       </div>
 
-      <button
-        type="submit"
-        onClick={(e) => {
-          e.preventDefault()
-          createOrganization({name, imageUrl})
-          closeModal()
-        }}
-      >
-        Create My Organization
-      </button>
+      <button type="submit">Create My Organization</button>
     </form>
   )
 }
 
 const AddOrganizationDialog = ({organizations, setOrganizations}) => {
-  const [isModalVisible, setModalVisible] = useState(false)
+  const {user} = useContext(AuthContext)
 
-  const createOrganization = async (newOrg) => {
-    try {
-      const createdOrg = await addOrganizationDB(newOrg)
-      setOrganizations([...organizations, createdOrg])
-    } catch (err) {
-      console.error(err)
-    }
-  }
+  const [isModalVisible, setModalVisible] = useState(false)
 
   return (
     <div className={styles.addOrgContainer}>
       {isModalVisible && (
         <Modal>
           <NewOrganizationForm
-            createOrganization={createOrganization}
+            userId={user.id}
+            organizations={organizations}
+            setOrganizations={setOrganizations}
             closeModal={() => setModalVisible(false)}
           />
         </Modal>
