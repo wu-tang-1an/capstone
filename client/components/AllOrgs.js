@@ -65,10 +65,6 @@ const AllOrgs = () => {
     }
   }
 
-  // helper updates orgs on local state after accepting invite
-  const updateOrganizations = (newlyAssociatedOrg) =>
-    setOrganizations([...organizations, newlyAssociatedOrg])
-
   const [isModalVisible, setModalVisible] = useState(false)
 
   return (
@@ -82,7 +78,10 @@ const AllOrgs = () => {
         </Modal>
       )}
       <div className={styles.invitationsContainer}>
-        <Invitations updateOrganizations={updateOrganizations} />
+        <Invitations
+          organizations={organizations}
+          setOrganizations={setOrganizations}
+        />
       </div>
       <div className={styles.headerAndOrgs}>
         <div className={styles.sectionHeader}>My Organizations</div>
