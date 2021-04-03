@@ -15,7 +15,7 @@ describe('User routes', () => {
     createdBy: 'Test Man',
     description: 'I am a test task!',
     status: 'in-progress',
-    completionDate: new Date().toISOString(),
+    completionDate: new Date(),
   }
 
   describe('/api/users/', () => {
@@ -77,9 +77,9 @@ describe('User routes', () => {
             expect(res.body[0].createdBy).to.be.equal(foundTask.createdBy)
             expect(res.body[0].description).to.be.equal(foundTask.description)
             expect(res.body[0].status).to.be.equal(foundTask.status)
-            expect(
-              new Date(res.body[0].completionDate).toISOString()
-            ).to.include(foundTask.completionDate)
+            expect(new Date(res.body[0].completionDate)).to.include(
+              foundTask.completionDate
+            )
           })
       } catch (error) {
         console.log(error)
