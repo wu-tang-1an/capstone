@@ -19,13 +19,9 @@ const SingleInvitation = ({
 }) => {
   return (
     <div className={styles.singleOrgContainer}>
-      <div>
-        <img src={orgPicture} />
-      </div>
-      <div className={styles.orgNameCont}>
-        <h3 className={styles.orgName}>{orgName}</h3>
-      </div>
-      <div className={styles.buttonCont}>
+      <img src={orgPicture} />
+      <div className={styles.orgName}>{orgName}</div>
+      <div className={styles.btnContainer}>
         <Link
           to={`/organizations/${orgId}`}
           className={styles.acceptBtn}
@@ -57,6 +53,7 @@ const Invitations = () => {
   // initialize all orgs state
   const [invites, setInvitations] = useState([])
 
+  // fetch invites
   useEffect(() => {
     const fetchInvites = async () => {
       try {
@@ -69,6 +66,7 @@ const Invitations = () => {
     fetchInvites()
   }, [])
 
+  // helper updates user role to associate to given orgId, updates local state
   const acceptInvite = async (orgId, inviteId, role) => {
     try {
       await updateUserRoleDB(user.id, orgId, inviteId, role)
@@ -78,6 +76,7 @@ const Invitations = () => {
     }
   }
 
+  // helper removes invite from db and updates local state
   const declineInvite = async (inviteId) => {
     try {
       await deleteInviteDB(inviteId)
@@ -88,20 +87,23 @@ const Invitations = () => {
   }
 
   return (
-    <div className={styles.invitesContainer}>
-      {invites.map((invite) => (
-        <SingleInvitation
-          key={invite.id}
-          inviteId={invite.id}
-          orgId={invite.orgId}
-          orgPicture={invite.orgPicture}
-          orgName={invite.orgName}
-          role={invite.orgRole}
-          acceptInvite={acceptInvite}
-          declineInvite={declineInvite}
-        />
-      ))}
-    </div>
+    <React.Fragment>
+      <div className={styles.invitesHeader}>My Invites</div>
+      <div className={styles.invitesContainer}>
+        {invites.map((invite) => (
+          <SingleInvitation
+            key={invite.id}
+            inviteId={invite.id}
+            orgId={invite.orgId}
+            orgPicture={invite.orgPicture}
+            orgName={invite.orgName}
+            role={invite.orgRole}
+            acceptInvite={acceptInvite}
+            declineInvite={declineInvite}
+          />
+        ))}
+      </div>
+    </React.Fragment>
   )
 }
 
