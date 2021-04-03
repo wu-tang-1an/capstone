@@ -71,7 +71,7 @@ const Nav = () => {
       <Link to="/">
         <div className={styles.logo}>
           <span className="material-icons">note_alt</span>
-          <span>note-ary</span>
+          <span>note&#8209;ary</span>
         </div>
       </Link>
       <div className={styles.navLinks}>

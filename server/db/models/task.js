@@ -11,7 +11,7 @@ const Task = db.define('task', {
     defaultValue: 'This field is <strong>Markdown-enabled</strong>',
   },
   completionDate: {
-    type: Sequelize.STRING,
+    type: Sequelize.DATE,
   },
   createdBy: {
     type: Sequelize.STRING,
@@ -27,14 +27,5 @@ const Task = db.define('task', {
     type: Sequelize.INTEGER,
   },
 })
-
-Task.prototype.getTimeLeft = function () {
-  const today = new Date(moment().format('L'))
-  let result = this.completionDate - today
-  result = result / 60000
-
-  //this will return the amount of the days left
-  return result
-}
 
 module.exports = Task

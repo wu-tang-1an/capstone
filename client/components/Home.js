@@ -1,4 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react'
+import moment from 'moment'
 import {Link} from 'react-router-dom'
 import Slider from './sub-components/Slider'
 import {AuthContext} from '../context/authContext'
@@ -26,7 +27,12 @@ const ListContainer = ({list, type}) => {
               <li className={styles.listItem}>
                 {type === 'Tasks' && (
                   <span style={{textAlign: 'right'}}>
-                    {item.completionDate}
+                    {moment(
+                      new Date(Date.parse(item.completionDate)),
+                      'YYYYMMDD'
+                    )
+                      .endOf('week')
+                      .fromNow()}
                   </span>
                 )}
                 {item.name}
