@@ -19,7 +19,7 @@ const InvitationProvider = ({children}) => {
       }
     }
     getInvites()
-  }, [invitations])
+  }, [])
 
   const providerValue = {
     invitations,
