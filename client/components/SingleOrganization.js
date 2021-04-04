@@ -15,12 +15,12 @@ const ProjectFrame = ({project}) => {
 
   return (
     <Link to={`/projects/${id}`}>
-      <div className={styles.projectCardContainer}>
-        <div className={styles.cardContents}>
-          <img src={imageUrl} />
-          <div className={styles.name}>{name}</div>
-          <div className={styles.status}>{status}</div>
-          <div className={styles.description}>{description}</div>
+      <div className={styles.projectFrameContainer}>
+        <img src={imageUrl} />
+        <div className={styles.projectContents}>
+          <div className={styles.projectName}>{name}</div>
+          <div className={styles.projectStatus}>{status}</div>
+          <div className={styles.projectDescription}>{description}</div>
         </div>
       </div>
     </Link>
@@ -97,6 +97,7 @@ const SingleOrganization = () => {
         </Modal>
       )}
       <section className={styles.leftPanel}>
+        <div className={styles.membersTitle}>{name} Members:</div>
         <div className={styles.membersContainer}>
           {members.map((member) => (
             <Member
@@ -108,22 +109,24 @@ const SingleOrganization = () => {
             />
           ))}
         </div>
-        <div className={styles.addUserBtnContainer}>
-          <button
-            className={styles.addUserToOrgBtn}
-            type="button"
-            onClick={() => setModalVisible(true)}
-          >
-            + Add A Teammate
-          </button>
-        </div>
+        {authUserAdminStatus && (
+          <div className={styles.addUserBtnContainer}>
+            <button
+              className={styles.addUserToOrgBtn}
+              type="button"
+              onClick={() => setModalVisible(true)}
+            >
+              + Add A Teammate
+            </button>
+          </div>
+        )}
       </section>
       <section className={styles.rightPanel}>
         <div className={styles.avatarAndName}>
-          <img className={styles.avatar} src={imageUrl} />
-          <div className={styles.name}>Organization: {name}</div>
+          <img src={imageUrl} />
+          <span>{name}</span>
         </div>
-        <div className={styles.subsectionHeader}>Projects</div>
+        <div className={styles.projectHeader}>Projects</div>
         <div className={styles.allProjectsContainer}>
           {projects.map((project) => (
             <ProjectFrame key={project.id} project={project} />
