@@ -16,7 +16,7 @@ const validate = (name, imageUrl) => {
   return errors
 }
 
-const EditProjectModal = ({project, organization, setProjects, closeModal}) => {
+const EditProjectModal = ({organization, project, setProjects, closeModal}) => {
   const {user} = useContext(AuthContext)
 
   const [name, setName] = useState(project.name)

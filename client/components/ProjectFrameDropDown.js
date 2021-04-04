@@ -1,7 +1,6 @@
 import React, {useState} from 'react'
-import DeleteProjectModal from './DeleteProjectModal'
 import EditProjectModal from './EditProjectModal'
-
+import DeleteProjectModal from './DeleteProjectModal'
 import styles from './css/ProjectFrameDropDown.module.css'
 
 const fields = [
@@ -12,52 +11,64 @@ const fields = [
 ]
 
 const ProjectFrameDropDown = ({
-  project,
   organization,
+  project,
   setProjects,
   closeDropDown,
 }) => {
   // activeField tracks modal to display
   const [activeField, setActiveField] = useState('')
 
+  // isHiddenDropDown allows us to hide the drop down when modal is visible
+  const [isHiddenDropDown, setHiddenDropDown] = useState(false)
+
   // falsey activeField closes modal
-  const closeModal = () => setActiveField('')
+  const closeModal = () => {
+    setActiveField('')
+    closeDropDown()
+  }
 
   return (
     <>
-      <div className={styles.taskCardDropDownContainer}>
-        {/* to add fields to dropdown, use fields array above */}
-        {fields.map((field) => (
-          <div
-            key={field.id}
-            className={styles.dropDownField}
-            onClick={() => {
-              if (field.type === 'Back') return closeDropDown()
-              setActiveField(field.type)
-            }}
-          >
-            <span className={styles.fieldName}>{field.type}</span>
-            <span className="arrow material-icons">keyboard_arrow_right</span>
-          </div>
-        ))}
-      </div>
-      <div className={styles.arrowDown}></div>
       {activeField === 'Edit' && (
         <EditProjectModal
-          project={project}
           organization={organization}
+          project={project}
           setProjects={setProjects}
           closeModal={closeModal}
         />
       )}
       {activeField === 'Delete' && (
         <DeleteProjectModal
-          project={project}
           organization={organization}
+          project={project}
           setProjects={setProjects}
           closeModal={closeModal}
         />
       )}
+      <div
+        className={
+          isHiddenDropDown ? styles.dropDownParentHidden : styles.dropDownParent
+        }
+      >
+        <div className={styles.taskCardDropDownContainer}>
+          {/* to add fields to dropdown, use fields array above */}
+          {fields.map((field) => (
+            <div
+              key={field.id}
+              className={styles.dropDownField}
+              onClick={() => {
+                if (field.type === 'Back') return closeDropDown()
+                setActiveField(field.type)
+                setHiddenDropDown(true)
+              }}
+            >
+              <span className={styles.fieldName}>{field.type}</span>
+              <span className="arrow material-icons">keyboard_arrow_right</span>
+            </div>
+          ))}
+        </div>
+      </div>
     </>
   )
 }

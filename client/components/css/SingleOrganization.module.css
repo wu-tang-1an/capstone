@@ -160,11 +160,6 @@
 
 /* ---- ProjectFrame ---- */
 
-/* allows dropdown menu to float */
-.relContainer {
-  position: relative;
-}
-
 .projectFrameContainer {
   display: flex;
   justify-content: space-between;

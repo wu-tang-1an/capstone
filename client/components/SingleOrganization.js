@@ -54,7 +54,7 @@ const Member = ({member, members, setMembers, authUserAdminStatus}) => {
   )
 }
 
-const ProjectFrame = ({project, projects, setProjects}) => {
+const ProjectFrame = ({organization, project, projects, setProjects}) => {
   // destructure project
   const {id, name, imageUrl, description, status} = project
 
@@ -63,9 +63,11 @@ const ProjectFrame = ({project, projects, setProjects}) => {
 
   // separate links to sequester delete btn
   return (
-    <div className={styles.relContainer}>
+    <>
       {isProjectDropDownVisible && (
         <ProjectFrameDropDown
+          organization={organization}
+          project={project}
           projects={projects}
           setProjects={setProjects}
           closeDropDown={() => setProjectDropDownVisible(false)}
@@ -91,7 +93,7 @@ const ProjectFrame = ({project, projects, setProjects}) => {
           </Link>
         </div>
       </div>
-    </div>
+    </>
   )
 }
 
@@ -189,6 +191,7 @@ const SingleOrganization = () => {
           {projects.map((project) => (
             <ProjectFrame
               key={project.id}
+              organization={organization}
               project={project}
               projects={projects}
               setProjects={setProjects}
