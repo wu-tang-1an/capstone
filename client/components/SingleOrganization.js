@@ -8,27 +8,40 @@ import OrganizationProvider, {
 import Modal from './Modal'
 import AddMemberModal from './AddMemberModal'
 import AddProjectModal from './AddProjectModal'
+import ProjectFrameDropDown from './ProjectFrameDropDown'
 import {removeUserFromOrgDB} from '../context/axiosService'
 import styles from './css/SingleOrganization.module.css'
 
-const ProjectFrame = ({project}) => {
+const ProjectFrame = ({project, projects, setProject}) => {
+  // destructure project
   const {id, name, imageUrl, description, status} = project
+
+  // local state mgmt, dropdown menu
+  const [isProjectDropDownVisible, setProjectDropDownVisible] = useState(false)
 
   // separate links to sequester delete btn
   return (
-    <div className={styles.projectFrameContainer}>
-      <Link to={`/projects/${id}`}>
-        <img src={imageUrl} />
-      </Link>
-      <div className={styles.projectContents}>
-        <div className={styles.deleteProjectContainer}>
-          <span>Delete Project</span>
-        </div>
+    <div className={styles.relContainer}>
+      {isProjectDropDownVisible && <ProjectFrameDropDown />}
+      <div className={styles.projectFrameContainer}>
         <Link to={`/projects/${id}`}>
-          <div className={styles.projectName}>{name}</div>
-          <div className={styles.projectStatus}>{status}</div>
-          <div className={styles.projectDescription}>{description}</div>
+          <img src={imageUrl} />
         </Link>
+        <div className={styles.projectContents}>
+          <div
+            className={styles.menuContainer}
+            onClick={() => setProjectDropDownVisible(true)}
+          >
+            <span>
+              <i className="material-icons">more_horiz</i>
+            </span>
+          </div>
+          <Link to={`/projects/${id}`}>
+            <div className={styles.projectName}>{name}</div>
+            <div className={styles.projectStatus}>{status}</div>
+            <div className={styles.projectDescription}>{description}</div>
+          </Link>
+        </div>
       </div>
     </div>
   )

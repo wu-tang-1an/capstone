@@ -58,7 +58,7 @@ const OrganizationProvider = ({match, children}) => {
     return () => {
       isMounted = false
     }
-  }, [projects])
+  }, [projects.length])
 
   // memoize to keep rerenders to a minimum
   const providerValue = {

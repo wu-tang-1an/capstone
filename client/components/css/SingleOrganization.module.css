@@ -159,6 +159,11 @@
 
 /* ---- ProjectFrame ---- */
 
+/* allows dropdown menu to float */
+.relContainer {
+  position: relative;
+}
+
 .projectFrameContainer {
   display: flex;
   justify-content: space-between;
@@ -179,11 +184,12 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  padding: 1em 0 1em 1em;
+  height: 10px;
   width: 100%;
+  padding: 1em 0.4em 1em 1em;
 }
 
-.deleteProjectContainer {
+.menuContainer {
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -194,17 +200,8 @@
   cursor: pointer;
 }
 
-.deleteProjectContainer span {
-  padding: 0.5em;
-  color: white;
-  background-color: rgb(214, 85, 85);
-  border-radius: 5px;
-  margin-top: 2em;
-  margin-right: 0.7em;
-}
-
-.deleteProjectContainer span:hover {
-  background-color: rgb(202, 61, 61);
+.menuContainer span {
+  right: 0.3em;
 }
 
 .projectName {

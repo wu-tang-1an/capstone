@@ -1,53 +1,25 @@
 import React, {useState} from 'react'
-import styled from 'styled-components'
 import DeleteProjectModal from './DeleteProjectModal'
 import EditProjectModal from './EditProjectModal'
 
-import styles from './css/ProjectCardDropDown.module.css'
+import styles from './css/ProjectFrameDropDown.module.css'
 
 const fields = [
   {id: 1, type: 'Edit'},
   {id: 2, type: 'Delete'},
+  {id: 3, type: 'Back'},
   // more fields as necessary
 ]
 
-const Wrapper = styled.div`
-  position: relative;
-`
-
-const ProjectCardDropDown = ({project, organization, setProjects}) => {
-  const [isDropDownActive, setIsDropDownActive] = useState(false)
-
-  return (
-    <div>
-      {isDropDownActive && (
-        <DropDownContainer
-          project={project}
-          organization={organization}
-          setProjects={setProjects}
-        />
-      )}
-      <Wrapper>
-        <div className={styles.addIconAndName}>
-          <div
-            className="material-icons"
-            onClick={() => setIsDropDownActive(!isDropDownActive)}
-          >
-            more_horiz
-          </div>
-        </div>
-      </Wrapper>
-    </div>
-  )
-}
-
-const DropDownContainer = ({project, organization, setProjects}) => {
+const ProjectFrameDropDown = ({project, organization, setProjects}) => {
+  // activeField tracks modal to display
   const [activeField, setActiveField] = useState('')
 
+  // falsey activeField closes modal
   const closeModal = () => setActiveField('')
 
   return (
-    <div>
+    <>
       <div className={styles.taskCardDropDownContainer}>
         {/* to add fields to dropdown, use fields array above */}
         {fields.map((field) => (
@@ -78,7 +50,7 @@ const DropDownContainer = ({project, organization, setProjects}) => {
           closeModal={closeModal}
         />
       )}
-    </div>
+    </>
   )
 }
-export default ProjectCardDropDown
+export default ProjectFrameDropDown
