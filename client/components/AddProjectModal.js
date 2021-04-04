@@ -1,4 +1,5 @@
-import React, {useState} from 'react'
+import React, {useState, useContext} from 'react'
+import {OrganizationContext} from '../context/organizationContext'
 import {createProjectDb, getOrgDb} from '../context/axiosService'
 import {notify} from './helper/toast'
 import styles from './css/AddProjectModal.module.css'
@@ -10,15 +11,17 @@ const validate = (name) => {
   return errors
 }
 
-const AddProjectModal = ({organization, setProjects, closeModal}) => {
+const AddProjectModal = ({orgId, projects, setProjects, closeModal}) => {
   // init local state
   const [name, setName] = useState('')
   const [description, setDescription] = useState()
   const [imageUrl, setImageUrl] = useState()
 
   const createProject = async () => {
+    // set an errors array
     const errors = validate(name)
 
+    // early return if project name empty
     if (errors.length) {
       errors.forEach((error) => {
         notify(error, 'error')
@@ -27,20 +30,18 @@ const AddProjectModal = ({organization, setProjects, closeModal}) => {
       return
     }
 
-    await createProjectDb(organization.id, {
+    // create project
+    const createdProject = await createProjectDb(orgId, {
       name: name,
       description: description,
       imageUrl: imageUrl,
     })
 
-    // get new organization info from db
-    const data = await getOrgDb(organization.id)
+    // update projects state on org context to trigger rerender
+    setProjects([...projects, createdProject])
 
-    // update projects state
-    setProjects(data.projects || [])
-
+    // close modal and toastify
     closeModal()
-
     notify(`Project "${name}" created!`, 'success')
   }
 

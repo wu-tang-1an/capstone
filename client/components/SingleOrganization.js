@@ -78,6 +78,7 @@ const SingleOrganization = () => {
   const {
     organization,
     projects,
+    setProjects,
     members,
     setMembers,
     authUserAdminStatus,
@@ -110,6 +111,9 @@ const SingleOrganization = () => {
       {isAddProjectModalVisible && (
         <Modal>
           <AddProjectModal
+            orgId={id}
+            projects={projects}
+            setProjects={setProjects}
             closeModal={() => setAddProjectModalVisible(false)}
           />
         </Modal>
