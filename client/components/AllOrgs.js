@@ -98,13 +98,15 @@ const AllOrgs = () => {
           organizations={organizations}
           setOrganizations={setOrganizations}
         />
-        <AddOrganizationDialog
-          organizations={organizations}
-          setOrganizations={setOrganizations}
-        />
       </div>
       <div className={styles.headerAndOrgs}>
-        <div className={styles.sectionHeader}>My Organizations</div>
+        <div className={styles.headerAndCreateBtn}>
+          <div className={styles.sectionHeader}>My Organizations</div>
+          <AddOrganizationDialog
+            organizations={organizations}
+            setOrganizations={setOrganizations}
+          />
+        </div>
         <div className={styles.allOrgsContainer}>
           {organizations.map((org) => (
             <OrganizationCard

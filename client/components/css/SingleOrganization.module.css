@@ -125,6 +125,7 @@
   align-items: baseline;
   justify-content: center;
   width: min-content;
+  margin-bottom: 1em;
 }
 
 .projectHeader {

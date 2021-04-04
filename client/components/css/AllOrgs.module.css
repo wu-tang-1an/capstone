@@ -26,9 +26,16 @@
   height: 100%;
 }
 
+.headerAndCreateBtn {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-start;
+}
+
 .sectionHeader {
   font-size: 2em;
-  text-align: center;
+  text-align: left;
+  margin: 0 1em;
 }
 
 .orgCardContainer {
