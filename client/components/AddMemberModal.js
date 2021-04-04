@@ -4,7 +4,21 @@ import {AuthContext} from '../context/authContext'
 import {sendInvite} from '../context/axiosService'
 import {notify} from './helper/toast'
 
+// map roles to select options
+const roles = [
+  {
+    id: 1,
+    type: 'user',
+  },
+  {
+    id: 2,
+    type: 'admin',
+  },
+  // more select options as necessary here
+]
+
 const AddMemberModal = ({orgId, closeModal}) => {
+  // grab user from auth context to send with invite
   const {user} = useContext(AuthContext)
 
   // local state mgmt
@@ -13,23 +27,39 @@ const AddMemberModal = ({orgId, closeModal}) => {
 
   return (
     <div className={styles.addDropDownContainer}>
-      <textarea
-        placeholder="Enter the new member's email..."
-        className={styles.description}
+      <input
+        type="text"
+        className={styles.userEmail}
+        value={email}
         onChange={(e) => setEmail(e.target.value)}
         required
-      ></textarea>
+      />
       <select
         style={{marginBottom: '8px'}}
+        value={role}
         onChange={(e) => {
           setRole(e.target.value)
         }}
       >
-        <option value="user">User</option>
-        <option value="admin">Admin</option>
+        {roles.map(({id, type}) => (
+          <option key={id} value={type}>
+            {type}
+          </option>
+        ))}
       </select>
       <div className={styles.btnContainer}>
-        <button type="button" className={styles.addBtn} onClick={closeModal}>
+        <button
+          type="button"
+          className={styles.addBtn}
+          onClick={() =>
+            sendInvite({
+              orgId,
+              email,
+              inviter: user.id,
+              role,
+            })
+          }
+        >
           Add
         </button>
         <button type="button" className={styles.cancelBtn} onClick={closeModal}>
