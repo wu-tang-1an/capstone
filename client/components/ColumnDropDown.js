@@ -15,12 +15,7 @@ const fields = [
 
 const ColumnDropDown = ({columnId, closeDropDown}) => {
   // grab project, columns, columns setter from project context
-
-  console.log('columnId in Deee--->', columnId)
-
   const {project, columns, setColumns} = useContext(ProjectContext)
-
-  console.log('columns in Drop--->', columns)
 
   // initialize local state to track current field, which is the type of operation the user wants to perform
   const [currentField, setCurrentField] = useState('')
