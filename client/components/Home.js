@@ -150,14 +150,14 @@ const Home = () => {
       id: 2,
       title: 'Lists and tasks',
       text:
-        "Keeping track of what's next has never been easier. Note-ary's task-list system lets you create, assign, and prioritize your workflow, and built-in Markdown support lets you write and format task descriptions with ease and clarity.",
+        "Keeping track of what's next has never been easier. Note-ary's task-list system lets you create, assign, and prioritize your workflow. With built-in Markdown support, note-ary lets you write and format task descriptions with ease and clarity.",
       videoSrcList: ['/assets/add-column.webm', '/assets/add-task.webm'],
     },
     {
       id: 3,
       title: 'Frictionless collaboration',
       text:
-        "Our realtime communication support keeps you in sync with your teammates -- whatever changes you make will be reflected in your colleagues' boards instantly. Start a conversation, relocate a task or list, and have confidence that your work won't go unnoticed",
+        "Note-ary's realtime communication support keeps you in sync with your teammates: whatever changes you make will be reflected in your colleagues' boards instantly. Start a conversation, complete a task, reorganize a list -- with note-ary, your work will get the attention it deserves.",
       videoSrcList: [
         '/assets/edit-delete-column.webm',
         '/assets/delete-task.webm',
