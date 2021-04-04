@@ -9,17 +9,28 @@
   flex-direction: column;
   width: 30%;
   max-width: 300px;
-  height: 96vh;
+  height: 100%;
   border-right: 1px solid lightgrey;
   border-radius: 5px;
   padding: 0 1em;
   overflow-y: scroll;
 }
 
-.sectionHeader {
-  font-size: 1.6em;
-  text-align: center;
-  margin: 1em;
+.feedHeader {
+  font-size: 1.4em;
+  text-align: left;
+  padding: 0.5em;
+  margin-bottom: 1em;
+}
+
+.loggedIn {
+  opacity: 0.6;
+  font-size: 12px;
+}
+
+.welcomeHeader {
+  font-size: 2em;
+  text-align: left;
 }
 
 .overview {

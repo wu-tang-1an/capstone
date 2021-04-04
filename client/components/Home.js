@@ -148,23 +148,16 @@ const Home = () => {
     },
     {
       id: 2,
-      title: 'Creating lists and tasks',
+      title: 'Lists and tasks',
       text:
-        "Keeping track of what's next has never been easier: note-ary's task-list system lets you create, assign, and prioritize your workflow. Our realtime communication support keeps you in sync with your teammates -- whatever changes you make will be reflected in your colleagues' boards instantly.",
+        "Keeping track of what's next has never been easier. Note-ary's task-list system lets you create, assign, and prioritize your workflow, and built-in Markdown support lets you write and format task descriptions with ease and clarity.",
       videoSrcList: ['/assets/add-column.webm', '/assets/add-task.webm'],
     },
     {
       id: 3,
-      title: 'Editing tasks and lists',
+      title: 'Frictionless collaboration',
       text:
-        "Note-ary's built-in Markdown support lets you write and format task descriptions with ease and clarity. Each task comes equipped with a realtime-chat-enabled comments section -- remote communication is key, and note-ary wants to help keep you in the loop.",
-      videoSrcList: ['/assets/edit-task.webm'],
-    },
-    {
-      id: 4,
-      title: 'Removing tasks and lists',
-      text:
-        "Finished a task? One-click deletion moves you closer to your goal. New workflow? Create a new list, migrate your tasks, and tear down the old list. Note-ary allows you to customize your workflow to suit your team's unique vision and style.",
+        "Our realtime communication support keeps you in sync with your teammates -- whatever changes you make will be reflected in your colleagues' boards instantly. Start a conversation, relocate a task or list, and have confidence that your work won't go unnoticed",
       videoSrcList: [
         '/assets/edit-delete-column.webm',
         '/assets/delete-task.webm',
@@ -193,13 +186,18 @@ const Home = () => {
   return (
     <div className={styles.homeContainer}>
       <section className={styles.myFeed}>
-        <div className={styles.sectionHeader}>My Feed</div>
+        <div className={styles.feedHeader}>
+          <div>My Feed</div>
+          <div
+            className={styles.loggedIn}
+          >{`Logged in as ${user.firstName} ${user.lastName}`}</div>
+        </div>
         {lists.map(({id, list, type}) => (
           <ListContainer key={id} list={list} type={type} />
         ))}
       </section>
       <section className={styles.overview}>
-        <div className={styles.sectionHeader}>Welcome and Overview</div>
+        <div className={styles.welcomeHeader}>Welcome and Overview</div>
         {panels.map(({id, title, text, videoSrcList}) => (
           <OverviewSection
             key={id}
