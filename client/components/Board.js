@@ -186,11 +186,13 @@ const Board = () => {
   return (
     <div className={styles.boardContainer}>
       <DragDropContext onDragStart={onDragStart} onDragEnd={onDragEnd}>
-        {columns.map((column) => (
-          <Column key={column.id} column={column} />
-        ))}
+        <div className={styles.columnsContainer}>
+          {columns.map((column) => (
+            <Column key={column.id} column={column} />
+          ))}
+          <AddColumnDropDown />
+        </div>
       </DragDropContext>
-      <AddColumnDropDown />
     </div>
   )
 }
