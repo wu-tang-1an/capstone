@@ -13,9 +13,9 @@
 .inviteContainer {
   display: flex;
   height: 80px;
-  width: 240px;
-  max-width: 240px;
-  min-width: 220px;
+  width: 280px;
+  max-width: 300px;
+  min-width: 240px;
   border-radius: 5px;
   box-shadow: 0.8px 0.9px 3px rgb(187, 187, 187);
 }

@@ -1,20 +1,9 @@
 import React, {useContext} from 'react'
-import {
-  updateUserRoleDB,
-  deleteInviteDB,
-  getOrgDb,
-} from '../context/axiosService'
+import {updateUserRoleDB, deleteInviteDB} from '../context/axiosService'
 import {AuthContext} from '../context/authContext'
 import styles from './css/Invitations.module.css'
 
-const SingleInvitation = ({
-  invite,
-  userId,
-  invitations,
-  setInvitations,
-  organizations,
-  setOrganizations,
-}) => {
+const SingleInvitation = ({invite, userId, invitations, setInvitations}) => {
   const {id, orgId, orgPicture, orgName, role} = invite
 
   const acceptInvite = async () => {
@@ -59,12 +48,7 @@ const SingleInvitation = ({
   )
 }
 
-const Invitations = ({
-  invitations,
-  setInvitations,
-  organizations,
-  setOrganizations,
-}) => {
+const Invitations = ({invitations, setInvitations}) => {
   // grab user from auth context
   const {user} = useContext(AuthContext)
 
@@ -79,8 +63,6 @@ const Invitations = ({
             userId={user.id}
             invitations={invitations}
             setInvitations={setInvitations}
-            organizations={organizations}
-            setOrganizations={setOrganizations}
           />
         ))}
       </div>
