@@ -71,5 +71,6 @@
 }
 
 .cancelBtn:hover {
-  background-color: white;
+  color: white;
+  background-color: darkgrey;
 }

@@ -51,8 +51,8 @@ textarea {
 }
 
 .addBtn {
-  background-color: rgb(95, 189, 95);
   color: white;
+  background-color: rgb(95, 189, 95);
 }
 
 .addBtn:hover {
@@ -60,7 +60,8 @@ textarea {
 }
 
 .cancelBtn:hover {
-  background-color: white;
+  color: white;
+  background-color: darkgrey;
 }
 .flexCol {
   margin: 0 auto;

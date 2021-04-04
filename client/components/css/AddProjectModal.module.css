@@ -79,14 +79,15 @@
 }
 
 .createProjectBtn {
-  background-color: rgb(95, 189, 95);
   color: white;
+  background-color: rgb(35, 118, 187);
 }
 
 .createProjectBtn:hover {
-  background-color: rgb(77, 155, 77);
+  background-color: rgb(28, 96, 151);
 }
 
 .cancelBtn:hover {
-  background-color: white;
+  color: white;
+  background-color: darkgrey;
 }

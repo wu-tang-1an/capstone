@@ -59,8 +59,8 @@
 }
 
 .cancelBtn:hover {
-  background-color: rgb(172, 172, 172);
   color: white;
+  background-color: darkgrey;
 }
 
 .formField {
