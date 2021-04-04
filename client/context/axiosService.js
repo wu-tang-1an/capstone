@@ -97,6 +97,9 @@ export async function getOrganizationRole(userId, orgId) {
 
 export const addOrganizationDB = async ({userId, newOrg}) => {
   try {
+    // remove imageUrl key if empty to trigger Sequelize defaultValue imageUrl
+    if (!newOrg.imageUrl) delete newOrg.imageUrl
+
     const {data} = await axios.post(`/api/organizations/`, {userId, newOrg})
     return data
   } catch (err) {

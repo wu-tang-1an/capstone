@@ -18,7 +18,7 @@ const Routes = () => {
   const {user} = useContext(AuthContext)
 
   return (
-    <div>
+    <>
       {/* loading page while user is undefined */}
       {!user && <Loading />}
 
@@ -47,7 +47,7 @@ const Routes = () => {
           <Route component={Home} />
         </Switch>
       )}
-    </div>
+    </>
   )
 }
 
