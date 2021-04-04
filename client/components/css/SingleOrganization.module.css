@@ -120,9 +120,30 @@
   font-size: 1.4em;
 }
 
+.headerAndBtn {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  width: min-content;
+}
+
 .projectHeader {
   font-size: 1.2em;
   text-align: left;
+  margin-right: 1em;
+}
+
+.createProjectBtn {
+  border: transparent;
+  border-radius: 5px;
+  padding: 0.5em;
+  color: white;
+  background-color: rgb(35, 118, 187);
+  width: 160px;
+}
+
+.createProjectBtn:hover {
+  background-color: rgb(28, 96, 151);
 }
 
 .allProjectsContainer {

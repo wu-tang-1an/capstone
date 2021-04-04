@@ -5,8 +5,9 @@ import history from '../history'
 import OrganizationProvider, {
   OrganizationContext,
 } from '../context/organizationContext'
-import AddMemberModal from './AddMemberModal'
 import Modal from './Modal'
+import AddMemberModal from './AddMemberModal'
+import AddProjectModal from './AddProjectModal'
 import {removeUserFromOrgDB} from '../context/axiosService'
 import styles from './css/SingleOrganization.module.css'
 
@@ -70,6 +71,9 @@ const Member = ({member, members, setMembers, authUserAdminStatus}) => {
 }
 
 const SingleOrganization = () => {
+  // grab auth user from auth context
+  const {user} = useContext(AuthContext)
+
   // grab org and its projects, users from organization context
   const {
     organization,
@@ -83,17 +87,30 @@ const SingleOrganization = () => {
   const {id, name, imageUrl} = organization
 
   // handle modal visibility
-  const [isModalVisible, setModalVisible] = useState(false)
+  const [isAddMemModalVisible, setAddMemModalVisible] = useState(false)
+  const [isAddProjectModalVisible, setAddProjectModalVisible] = useState(false)
+
+  /* // helper determines visibility of add project btn
+  // according to auth user status in org
+  const canViewAddProjectBtn = () =>
+    organization.users.some((member) => member.id === user.id) */
 
   return (
     <div className={styles.wrapper}>
-      {isModalVisible && (
+      {isAddMemModalVisible && (
         <Modal>
           <AddMemberModal
             orgId={id}
             members={members}
             setMembers={setMembers}
-            closeModal={() => setModalVisible(false)}
+            closeModal={() => setAddMemModalVisible(false)}
+          />
+        </Modal>
+      )}
+      {isAddProjectModalVisible && (
+        <Modal>
+          <AddProjectModal
+            closeModal={() => setAddProjectModalVisible(false)}
           />
         </Modal>
       )}
@@ -115,7 +132,7 @@ const SingleOrganization = () => {
             <button
               className={styles.addUserToOrgBtn}
               type="button"
-              onClick={() => setModalVisible(true)}
+              onClick={() => setAddMemModalVisible(true)}
             >
               + Add A Teammate
             </button>
@@ -127,7 +144,18 @@ const SingleOrganization = () => {
           <img src={imageUrl} />
           <span>{name}</span>
         </div>
-        <div className={styles.projectHeader}>Projects</div>
+        <div className={styles.headerAndBtn}>
+          <span className={styles.projectHeader}>Projects</span>
+          {authUserAdminStatus && (
+            <button
+              className={styles.createProjectBtn}
+              type="button"
+              onClick={() => setAddProjectModalVisible(true)}
+            >
+              + Create A Project
+            </button>
+          )}
+        </div>
         <div className={styles.allProjectsContainer}>
           {projects.map((project) => (
             <ProjectFrame key={project.id} project={project} />
