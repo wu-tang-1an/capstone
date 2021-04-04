@@ -55,6 +55,7 @@ const Profile = () => {
 
   return (
     <div className={styles.profileCont}>
+      <MyInfo />
       <div className={styles.formContainer}>
         <div className={styles.NewUpdateUserContainer}>
           <h1>Update Profile</h1>
@@ -129,7 +130,6 @@ const Profile = () => {
           </div>
         </div>
       </div>
-      <MyInfo />
     </div>
   )
 }
