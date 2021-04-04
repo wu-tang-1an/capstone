@@ -11,7 +11,12 @@ const fields = [
   // more fields as necessary
 ]
 
-const ProjectFrameDropDown = ({project, organization, setProjects}) => {
+const ProjectFrameDropDown = ({
+  project,
+  organization,
+  setProjects,
+  closeDropDown,
+}) => {
   // activeField tracks modal to display
   const [activeField, setActiveField] = useState('')
 
@@ -26,7 +31,10 @@ const ProjectFrameDropDown = ({project, organization, setProjects}) => {
           <div
             key={field.id}
             className={styles.dropDownField}
-            onClick={() => setActiveField(field.type)}
+            onClick={() => {
+              if (field.type === 'Back') return closeDropDown()
+              setActiveField(field.type)
+            }}
           >
             <span className={styles.fieldName}>{field.type}</span>
             <span className="arrow material-icons">keyboard_arrow_right</span>

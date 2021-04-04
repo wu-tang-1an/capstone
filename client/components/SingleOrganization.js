@@ -12,41 +12,6 @@ import ProjectFrameDropDown from './ProjectFrameDropDown'
 import {removeUserFromOrgDB} from '../context/axiosService'
 import styles from './css/SingleOrganization.module.css'
 
-const ProjectFrame = ({project, projects, setProject}) => {
-  // destructure project
-  const {id, name, imageUrl, description, status} = project
-
-  // local state mgmt, dropdown menu
-  const [isProjectDropDownVisible, setProjectDropDownVisible] = useState(false)
-
-  // separate links to sequester delete btn
-  return (
-    <div className={styles.relContainer}>
-      {isProjectDropDownVisible && <ProjectFrameDropDown />}
-      <div className={styles.projectFrameContainer}>
-        <Link to={`/projects/${id}`}>
-          <img src={imageUrl} />
-        </Link>
-        <div className={styles.projectContents}>
-          <div
-            className={styles.menuContainer}
-            onClick={() => setProjectDropDownVisible(true)}
-          >
-            <span>
-              <i className="material-icons">more_horiz</i>
-            </span>
-          </div>
-          <Link to={`/projects/${id}`}>
-            <div className={styles.projectName}>{name}</div>
-            <div className={styles.projectStatus}>{status}</div>
-            <div className={styles.projectDescription}>{description}</div>
-          </Link>
-        </div>
-      </div>
-    </div>
-  )
-}
-
 const Member = ({member, members, setMembers, authUserAdminStatus}) => {
   // grab user from auth context
   // we'll use this user to redirect ourself
@@ -85,6 +50,47 @@ const Member = ({member, members, setMembers, authUserAdminStatus}) => {
           <span>Remove</span>
         </span>
       )}
+    </div>
+  )
+}
+
+const ProjectFrame = ({project, projects, setProjects}) => {
+  // destructure project
+  const {id, name, imageUrl, description, status} = project
+
+  // local state mgmt, dropdown menu
+  const [isProjectDropDownVisible, setProjectDropDownVisible] = useState(false)
+
+  // separate links to sequester delete btn
+  return (
+    <div className={styles.relContainer}>
+      {isProjectDropDownVisible && (
+        <ProjectFrameDropDown
+          projects={projects}
+          setProjects={setProjects}
+          closeDropDown={() => setProjectDropDownVisible(false)}
+        />
+      )}
+      <div className={styles.projectFrameContainer}>
+        <Link to={`/projects/${id}`}>
+          <img src={imageUrl} />
+        </Link>
+        <div className={styles.projectContents}>
+          <div
+            className={styles.menuContainer}
+            onClick={() => setProjectDropDownVisible(!isProjectDropDownVisible)}
+          >
+            <span>
+              <i className="material-icons">more_horiz</i>
+            </span>
+          </div>
+          <Link to={`/projects/${id}`}>
+            <div className={styles.projectName}>{name}</div>
+            <div className={styles.projectStatus}>{status}</div>
+            <div className={styles.projectDescription}>{description}</div>
+          </Link>
+        </div>
+      </div>
     </div>
   )
 }
@@ -138,7 +144,7 @@ const SingleOrganization = () => {
         </Modal>
       )}
       <section className={styles.leftPanel}>
-        <div className={styles.membersTitle}>{name} Members:</div>
+        <div className={styles.membersTitle}>{name} Members</div>
         <div className={styles.membersContainer}>
           {members.map((member) => (
             <Member
@@ -181,7 +187,12 @@ const SingleOrganization = () => {
         </div>
         <div className={styles.allProjectsContainer}>
           {projects.map((project) => (
-            <ProjectFrame key={project.id} project={project} />
+            <ProjectFrame
+              key={project.id}
+              project={project}
+              projects={projects}
+              setProjects={setProjects}
+            />
           ))}
         </div>
       </section>
