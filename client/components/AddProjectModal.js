@@ -1,6 +1,5 @@
-import React, {useState, useContext} from 'react'
-import {OrganizationContext} from '../context/organizationContext'
-import {createProjectDb, getOrgDb} from '../context/axiosService'
+import React, {useState} from 'react'
+import {createProjectDb} from '../context/axiosService'
 import {notify} from './helper/toast'
 import styles from './css/AddProjectModal.module.css'
 
