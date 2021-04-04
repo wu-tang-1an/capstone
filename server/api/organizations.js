@@ -63,22 +63,31 @@ router.get('/:orgId/users', checkUser, async (req, res, next) => {
 // POST create new organization route '/api/organizations/' (AUTH USER ONLY)
 router.post('/', checkUser, async (req, res, next) => {
   try {
+    // grab auth user id and org instance from req.body
     const {userId, newOrg} = req.body
 
-    const createdOrg = await Organization.create(
-      {
-        ...newOrg,
-        role: 'admin',
-      },
-      {
-        include: [User],
-      }
-    )
+    // create org
+    const createdOrg = await Organization.create(newOrg, {
+      include: [User],
+    })
 
+    // associate auth user
     await createdOrg.addUsers([userId])
-    await createdOrg.reload()
 
-    res.json(createdOrg)
+    // grab the userOrg through table intance and set role to admin
+    const foundUserOrgAssoc = await UserOrganization.findOne({
+      where: {
+        organizationId: createdOrg.id,
+      },
+    })
+    foundUserOrgAssoc.role = 'admin'
+    await foundUserOrgAssoc.save()
+
+    // refetch the associatedOrg and send to frontend
+    const associatedOrg = await Organization.findByPk(createdOrg.id, {
+      include: [User],
+    })
+    res.json(associatedOrg)
   } catch (error) {
     next(error)
   }
