@@ -179,6 +179,7 @@
   align-items: flex-start;
   justify-content: flex-start;
   padding: 1em;
+  width: 100%;
 }
 
 .projectName {
