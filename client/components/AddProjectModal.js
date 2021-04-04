@@ -30,12 +30,19 @@ const AddProjectModal = ({orgId, projects, setProjects, closeModal}) => {
       return
     }
 
-    // create project
-    const createdProject = await createProjectDb(orgId, {
-      name: name,
-      description: description,
-      imageUrl: imageUrl,
-    })
+    let createdProject
+
+    try {
+      // create project
+      createdProject = await createProjectDb(orgId, {
+        name: name,
+        description: description,
+        imageUrl: imageUrl,
+      })
+    } catch (err) {
+      notify(err, 'error')
+      closeModal()
+    }
 
     // update projects state on org context to trigger rerender
     setProjects([...projects, createdProject])

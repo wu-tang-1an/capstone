@@ -2,17 +2,18 @@
 
 .homeContainer {
   display: flex;
-  height: 100%;
-  width: 96vw;
 }
 
 .myFeed {
   display: flex;
   flex-direction: column;
-  width: 22%;
-  height: 100%;
+  width: 30%;
+  max-width: 300px;
+  height: 96vh;
   border-right: 1px solid lightgrey;
   border-radius: 5px;
+  padding: 0 1em;
+  overflow-y: scroll;
 }
 
 .sectionHeader {
@@ -45,8 +46,10 @@
 }
 
 .listHeader {
-  text-align: center;
+  text-align: left;
   margin-bottom: 1em;
+  border-bottom: 1px solid lightgrey;
+  width: 80%;
 }
 
 .listItem {
