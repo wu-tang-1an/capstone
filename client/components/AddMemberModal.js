@@ -52,36 +52,38 @@ const AddMemberModal = ({orgId, closeModal}) => {
 
   return (
     <div className={styles.addDropDownContainer}>
-      <input
-        type="text"
-        className={styles.userEmail}
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        required
-      />
-      <select
-        style={{marginBottom: '8px'}}
-        value={role}
-        onChange={(e) => {
-          setRole(e.target.value)
-        }}
-      >
-        {roles.map(({id, type}) => (
-          <option key={id} value={type}>
-            {type}
-          </option>
-        ))}
-      </select>
+      <div className={styles.emailLabelAndInput}>
+        <label htmlFor="email">Teammate email address</label>
+        <input
+          type="text"
+          className={styles.userEmail}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+      </div>
+      <div className={styles.statusContainer}>
+        <label htmlFor="userPermissions">Choose permissions:</label>
+        <div
+          className={styles.statusRadioGroup}
+          onChange={(e) => setRole(e.target.value)}
+        >
+          <input type="radio" id="user" name="permissions" value="user" />
+          <label htmlFor="user">User</label>
+          <input type="radio" id="admin" name="permissions" value="admin" />
+          <label htmlFor="admin">Admin</label>
+        </div>
+      </div>
       <div className={styles.btnContainer}>
         <button
           type="button"
-          className={styles.addBtn}
+          className={styles.inviteTeammateBtn}
           onClick={async () => {
             await inviteTeammate()
             closeModal()
           }}
         >
-          Add
+          Send Invitation
         </button>
         <button type="button" className={styles.cancelBtn} onClick={closeModal}>
           Cancel
