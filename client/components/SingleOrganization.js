@@ -80,7 +80,7 @@ const SingleOrganization = () => {
   } = useContext(OrganizationContext)
 
   // destructure organization
-  const {name, imageUrl} = organization
+  const {id, name, imageUrl} = organization
 
   // handle modal visibility
   const [isModalVisible, setModalVisible] = useState(false)
@@ -90,6 +90,7 @@ const SingleOrganization = () => {
       {isModalVisible && (
         <Modal>
           <AddMemberModal
+            orgId={id}
             members={members}
             setMembers={setMembers}
             closeModal={() => setModalVisible(false)}

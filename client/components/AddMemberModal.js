@@ -25,6 +25,31 @@ const AddMemberModal = ({orgId, closeModal}) => {
   const [email, setEmail] = useState('')
   const [role, setRole] = useState('user')
 
+  const inviteTeammate = async () => {
+    // build new member from local state, props
+    const newMember = {
+      userEmail: email,
+      orgId,
+      inviter: user.id,
+      role: role,
+    }
+
+    // send invite and process response
+    try {
+      const response = await sendInvite(newMember)
+
+      if (response.status === 200) {
+        const {firstName, lastName} = response.data
+        const name = `${firstName} ${lastName} (${email})`
+        notify(`${name} was invited!`, 'success')
+      }
+    } catch (err) {
+      notify(`User was already invited!`, 'error')
+
+      console.error(err)
+    }
+  }
+
   return (
     <div className={styles.addDropDownContainer}>
       <input
@@ -51,14 +76,10 @@ const AddMemberModal = ({orgId, closeModal}) => {
         <button
           type="button"
           className={styles.addBtn}
-          onClick={() =>
-            sendInvite({
-              orgId,
-              email,
-              inviter: user.id,
-              role,
-            })
-          }
+          onClick={async () => {
+            await inviteTeammate()
+            closeModal()
+          }}
         >
           Add
         </button>
