@@ -14,17 +14,23 @@ import styles from './css/SingleOrganization.module.css'
 const ProjectFrame = ({project}) => {
   const {id, name, imageUrl, description, status} = project
 
+  // separate links to sequester delete btn
   return (
-    <Link to={`/projects/${id}`}>
-      <div className={styles.projectFrameContainer}>
+    <div className={styles.projectFrameContainer}>
+      <Link to={`/projects/${id}`}>
         <img src={imageUrl} />
-        <div className={styles.projectContents}>
+      </Link>
+      <div className={styles.projectContents}>
+        <div className={styles.deleteProjectContainer}>
+          <span>Delete Project</span>
+        </div>
+        <Link to={`/projects/${id}`}>
           <div className={styles.projectName}>{name}</div>
           <div className={styles.projectStatus}>{status}</div>
           <div className={styles.projectDescription}>{description}</div>
-        </div>
+        </Link>
       </div>
-    </Link>
+    </div>
   )
 }
 
