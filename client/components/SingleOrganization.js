@@ -63,7 +63,7 @@ const ProjectFrame = ({organization, project, projects, setProjects}) => {
 
   // separate links to sequester delete btn
   return (
-    <>
+    <div className={styles.frameBoundary}>
       {isProjectDropDownVisible && (
         <ProjectFrameDropDown
           organization={organization}
@@ -93,7 +93,7 @@ const ProjectFrame = ({organization, project, projects, setProjects}) => {
           </Link>
         </div>
       </div>
-    </>
+    </div>
   )
 }
 
