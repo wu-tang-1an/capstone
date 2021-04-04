@@ -27,9 +27,7 @@ router.get('/:userId', async (req, res, next) => {
 
 router.post('/', checkOrgAdmin, checkInviteExists, async (req, res, next) => {
   try {
-    const orgId = req.body.orgId
-    const userEmail = req.body.userEmail
-    const role = req.body.role
+    const {orgId, userEmail, role} = req.body
 
     const org = await Organization.findByPk(orgId)
 
@@ -61,7 +59,7 @@ router.post('/', checkOrgAdmin, checkInviteExists, async (req, res, next) => {
 router.delete('/:inviteId', async (req, res, next) => {
   try {
     const {inviteId} = req.params
-    let invite = await Invitation.findByPk(inviteId)
+    const invite = await Invitation.findByPk(inviteId)
     await invite.destroy()
     res.send('Invite Deleted!').status(202)
   } catch (e) {

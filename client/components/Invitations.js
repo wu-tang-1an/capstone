@@ -8,37 +8,46 @@ import {AuthContext} from '../context/authContext'
 import styles from './css/Invitations.module.css'
 
 const SingleInvitation = ({
-  inviteId,
-  orgId,
-  orgPicture,
-  orgName,
-  role,
-  acceptInvite,
-  declineInvite,
+  invite,
+  userId,
+  invitations,
+  setInvitations,
+  organizations,
+  setOrganizations,
 }) => {
+  const {id, orgId, orgPicture, orgName, role} = invite
+
+  const acceptInvite = async () => {
+    try {
+      await updateUserRoleDB(userId, orgId, id, role)
+      setInvitations(invitations.filter((invitation) => invitation.id !== id))
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  const declineInvite = async () => {
+    try {
+      await deleteInviteDB(id)
+      setInvitations(invitations.filter((invitation) => invitation.id !== id))
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   return (
     <div className={styles.inviteContainer}>
       <img src={orgPicture} />
       <div className={styles.nameAndIcons}>
         <div className={styles.orgName}>{orgName}</div>
         <div className={styles.acceptAndDecline}>
-          <div
-            className={styles.textAndIcon}
-            onClick={() => {
-              acceptInvite(orgId, inviteId, role)
-            }}
-          >
+          <div className={styles.textAndIcon} onClick={acceptInvite}>
             <i className="material-icons" style={{color: 'green'}}>
               check_circle_outline
             </i>
             <span>Accept </span>
           </div>
-          <div
-            className={styles.textAndIcon}
-            onClick={() => {
-              declineInvite(inviteId)
-            }}
-          >
+          <div className={styles.textAndIcon} onClick={declineInvite}>
             <i className="material-icons" style={{color: 'red'}}>
               highlight_off
             </i>
@@ -50,28 +59,14 @@ const SingleInvitation = ({
   )
 }
 
-const Invitations = ({invitations}) => {
+const Invitations = ({
+  invitations,
+  setInvitations,
+  organizations,
+  setOrganizations,
+}) => {
   // grab user from auth context
   const {user} = useContext(AuthContext)
-
-  // helper updates user role to associate to given orgId, updates local state
-  const acceptInvite = async (orgId, inviteId, role) => {
-    try {
-      await updateUserRoleDB(user.id, orgId, inviteId, role)
-      await deleteInviteDB(inviteId)
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  // helper removes invite from db and updates local state
-  const declineInvite = async (inviteId) => {
-    try {
-      await deleteInviteDB(inviteId)
-    } catch (error) {
-      console.log(error)
-    }
-  }
 
   return (
     <React.Fragment>
@@ -80,13 +75,12 @@ const Invitations = ({invitations}) => {
         {invitations.map((invite) => (
           <SingleInvitation
             key={invite.id}
-            inviteId={invite.id}
-            orgId={invite.orgId}
-            orgPicture={invite.orgPicture}
-            orgName={invite.orgName}
-            role={invite.orgRole}
-            acceptInvite={acceptInvite}
-            declineInvite={declineInvite}
+            invite={invite}
+            userId={user.id}
+            invitations={invitations}
+            setInvitations={setInvitations}
+            organizations={organizations}
+            setOrganizations={setOrganizations}
           />
         ))}
       </div>

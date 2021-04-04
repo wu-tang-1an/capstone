@@ -92,7 +92,12 @@ const AllOrgs = () => {
         </Modal>
       )}
       <div className={styles.leftPanel}>
-        <Invitations invitations={invitations} />
+        <Invitations
+          invitations={invitations}
+          setInvitations={setInvitations}
+          organizations={organizations}
+          setOrganizations={setOrganizations}
+        />
         <AddOrganizationDialog
           organizations={organizations}
           setOrganizations={setOrganizations}
@@ -103,9 +108,7 @@ const AllOrgs = () => {
         <div className={styles.allOrgsContainer}>
           {organizations.map((org) => (
             <OrganizationCard
-              key={
-                org.id || Math.ceil(Math.random() * 1000 + organizations.length)
-              }
+              key={org.id}
               userId={user.id}
               orgId={org.id}
               name={org.name}
