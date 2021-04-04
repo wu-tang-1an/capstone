@@ -1,31 +1,17 @@
-import React, {useState, useContext} from 'react'
-import styled from 'styled-components'
-import {AuthContext} from '../context/authContext'
+import React, {useState} from 'react'
 import {createProjectDb, getOrgDb} from '../context/axiosService'
 import {notify} from './helper/toast'
+import styles from './css/AddProjectModal.module.css'
 
-import styles from './css/AddDialogShared.module.css'
-
-const FormWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-`
-
-const FormInput = styled.input`
-  margin-bottom: 5px;
-`
-
+// helper sends errors to toastify
 const validate = (name) => {
   let errors = []
-
   if (!name.length) errors.push('Name must not be empty!')
-
   return errors
 }
 
 const AddProjectModal = ({organization, setProjects, closeModal}) => {
-  const {user} = useContext(AuthContext)
-
+  // init local state
   const [name, setName] = useState('')
   const [description, setDescription] = useState()
   const [imageUrl, setImageUrl] = useState()
@@ -60,26 +46,33 @@ const AddProjectModal = ({organization, setProjects, closeModal}) => {
 
   return (
     <div className={styles.addDropDownContainer}>
-      <FormWrapper>
-        <FormInput
-          type="text"
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Project name"
-        ></FormInput>
-        <FormInput
-          type="text"
-          onChange={(e) => setImageUrl(e.target.value)}
-          placeholder="Project image URL"
-        ></FormInput>
-        <textarea
-          type="text"
-          onChange={(e) => setDescription(e.target.value)}
-          placeholder="Project description"
-        ></textarea>
-      </FormWrapper>
+      <div className={styles.inputContainer}>
+        <div className={styles.labelAndInput}>
+          <label htmlFor="">Name</label>
+          <input type="text" onChange={(e) => setName(e.target.value)}></input>
+        </div>
+        <div className={styles.labelAndInput}>
+          <label htmlFor="">Image url</label>
+          <input
+            type="text"
+            onChange={(e) => setImageUrl(e.target.value)}
+          ></input>
+        </div>
+        <div className={styles.labelAndInput}>
+          <label htmlFor="">Description</label>
+          <textarea
+            type="text"
+            onChange={(e) => setDescription(e.target.value)}
+          ></textarea>
+        </div>
+      </div>
       <div className={styles.btnContainer}>
-        <button type="button" className={styles.addBtn} onClick={createProject}>
-          Add
+        <button
+          className={styles.createProjectBtn}
+          type="button"
+          onClick={createProject}
+        >
+          Create My Project
         </button>
         <button type="button" className={styles.cancelBtn} onClick={closeModal}>
           Close
