@@ -54,7 +54,13 @@ const Member = ({member, members, setMembers, authUserAdminStatus}) => {
   )
 }
 
-const ProjectFrame = ({organization, project, projects, setProjects}) => {
+const ProjectFrame = ({
+  organization,
+  project,
+  projects,
+  setProjects,
+  authUserAdminStatus,
+}) => {
   // destructure project
   const {id, name, imageUrl, description, status} = project
 
@@ -78,14 +84,18 @@ const ProjectFrame = ({organization, project, projects, setProjects}) => {
           <img src={imageUrl} />
         </Link>
         <div className={styles.projectContents}>
-          <div
-            className={styles.menuContainer}
-            onClick={() => setProjectDropDownVisible(!isProjectDropDownVisible)}
-          >
-            <span>
-              <i className="material-icons">more_horiz</i>
-            </span>
-          </div>
+          {authUserAdminStatus && (
+            <div
+              className={styles.menuContainer}
+              onClick={() =>
+                setProjectDropDownVisible(!isProjectDropDownVisible)
+              }
+            >
+              <span>
+                <i className="material-icons">more_horiz</i>
+              </span>
+            </div>
+          )}
           <Link to={`/projects/${id}`}>
             <div className={styles.projectName}>{name}</div>
             <div className={styles.projectStatus}>{status}</div>
@@ -195,6 +205,7 @@ const SingleOrganization = () => {
               project={project}
               projects={projects}
               setProjects={setProjects}
+              authUserAdminStatus={authUserAdminStatus}
             />
           ))}
         </div>
