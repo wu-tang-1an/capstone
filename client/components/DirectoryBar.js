@@ -1,8 +1,9 @@
 import React, {useState, useEffect, useContext} from 'react'
 import {ProjectContext} from '../context/projectContext'
-import axios from 'axios'
 import {Link} from 'react-router-dom'
 import styles from './css/DirectoryBar.module.css'
+import {getOrgDb} from '../context/axiosService'
+import {errorRedirect} from './helper/errorHandle'
 
 const DirectoryBar = () => {
   const [organization, setOrganization] = useState({})
@@ -11,17 +12,24 @@ const DirectoryBar = () => {
 
   useEffect(() => {
     let isMounted = true
+    let org = {}
+
     const fetchOrg = async () => {
       try {
-        const {data} = await axios.get(
-          `/api/organizations/${project.organizationId}`
-        )
-        setOrganization(data)
+        org = await getOrgDb(project.organizationId)
+
+        if (!org) errorRedirect('/organizations')
       } catch (err) {
         console.error(err)
+        errorRedirect('/organizations')
       }
     }
-    if (project && project.organizationId) fetchOrg()
+
+    if (project && project.organizationId)
+      fetchOrg().then(() => {
+        if (isMounted) setOrganization(org)
+      })
+
     return () => {
       isMounted = false
     }
@@ -29,13 +37,20 @@ const DirectoryBar = () => {
 
   return (
     <div className={styles.directoryBarContainer}>
-      <Link to={`/organizations/${organization.id}`}>
-        <span>{organization.name}</span>
-      </Link>
-      <span className={styles.divider}>/</span>
-      <Link to={`/projects/${project.id}`}>
-        <span>{project.name}</span>
-      </Link>
+      <div>
+        <strong>Organization: </strong>
+        <Link to={`/organizations/${organization.id}`}>
+          <span> {organization.name}</span>
+        </Link>
+      </div>
+      <span className={styles.divider}> / </span>
+      <div>
+        <strong>Project: </strong>
+
+        <Link to={`/projects/${project.id}`}>
+          <span> {project.name}</span>
+        </Link>
+      </div>
     </div>
   )
 }

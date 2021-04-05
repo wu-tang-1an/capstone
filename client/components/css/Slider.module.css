@@ -1,0 +1,6 @@
+.sliderContainer {
+  width: auto;
+  height: 300px;
+  overflow-x: scroll;
+  border-radius: 5px;
+}

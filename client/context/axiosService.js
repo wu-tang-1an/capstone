@@ -1,39 +1,115 @@
 import axios from 'axios'
 import history from '../history'
 
-// INVITES
+/* USERS */
 
-export async function sendInvite(inviteObj) {
+export const fetchUserDB = async (userId) => {
   try {
-    let response = await axios.post('/api/invitations', {
+    const {data} = await axios.get(`/api/users/${userId}`)
+    return data
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+export const updateUserDB = async (userId, updateInfo) => {
+  try {
+    const {data} = await axios.put(`/api/users/${userId}`, updateInfo)
+    return data
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+/* INVITES */
+
+export const fetchUserInvites = async (userId) => {
+  try {
+    const {data} = await axios.get(`/api/invitations/${userId}/`)
+    return data
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+// important! no returned value from put on this route
+export const updateUserRoleDB = async (userId, orgId, inviteId, role) => {
+  try {
+    await axios.put(`/api/users/${userId}/organizations/${orgId}`, {
+      role: role,
+    })
+    await axios.delete(`/api/invitations/${inviteId}`)
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+export const deleteInviteDB = async (inviteId) => {
+  try {
+    await axios.delete(`/api/invitations/${inviteId}`)
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+export const sendInvite = async (inviteObj) => {
+  try {
+    const response = await axios.post('/api/invitations', {
       orgId: inviteObj.orgId,
       userEmail: inviteObj.userEmail,
+      inviter: inviteObj.inviter,
+      role: inviteObj.role,
     })
-
     return response
   } catch (e) {
     console.log(e)
   }
 }
 
-/* ORGANIZATION*/
+/* ORGANIZATIONS */
+
+// get a single org
+export const getOrgDb = async (orgId) => {
+  try {
+    const {data} = await axios.get(`/api/organizations/${orgId}`)
+
+    if (!data) return 404
+
+    return data
+  } catch (err) {
+    console.error(err)
+  }
+}
 
 export async function getOrganizationRole(userId, orgId) {
   try {
-    let admin = false
-    let {data} = await axios.get(`/api/users/${userId}/organizations/${orgId}`)
+    const {data} = await axios.get(
+      `/api/users/${userId}/organizations/${orgId}`
+    )
 
-    if (data.role === 'admin') admin = true
+    if (!data) return 404
 
-    return admin
+    return data.role === 'admin'
   } catch (e) {
     console.log(e)
   }
 }
 
-export const addOrganizationDB = async (newOrg) => {
+export const addOrganizationDB = async ({userId, newOrg}) => {
   try {
-    const {data} = await axios.post(`/api/organizations/`, newOrg)
+    // remove imageUrl key if empty to trigger Sequelize defaultValue imageUrl
+    if (!newOrg.imageUrl) delete newOrg.imageUrl
+
+    const {data} = await axios.post(`/api/organizations/`, {userId, newOrg})
+    return data
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+export const deleteOrganizationDB = async (deleteOrg) => {
+  try {
+    const {data} = await axios.delete(`/api/organizations/${deleteOrg.id}`)
     return data
   } catch (err) {
     console.error(err)
@@ -48,6 +124,67 @@ export const addUserToOrgDB = async (orgId, userId) => {
     return data
   } catch (err) {
     console.error(err)
+  }
+}
+
+export const removeUserFromOrgDB = async (orgId, userId) => {
+  try {
+    await axios.delete(`/api/organizations/${orgId}/users/${userId}`)
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+export const fetchAllOrganizations = async () => {
+  try {
+    const {data} = await axios.get('/api/organizations')
+    return data
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+export const fetchUserOrgs = async (userId) => {
+  try {
+    const {data} = await axios.get(`/api/users/${userId}/organizations`)
+    console.log(data)
+    return data
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+/* PROJECTS */
+
+// create a project
+export const createProjectDb = async (orgId, project) => {
+  try {
+    const {data} = await axios.post(
+      `/api/projects/organizations/${orgId}`,
+      project
+    )
+    return data
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+// update a project
+export const updateProjectDb = async (projectId, updateData) => {
+  try {
+    const data = await axios.put(`/api/projects/${projectId}`, updateData)
+    return data
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+// delete a project
+export const deleteProjectDb = async (projectId) => {
+  try {
+    await axios.delete(`/api/projects/${projectId}`)
+  } catch (err) {
+    console.log(err)
   }
 }
 

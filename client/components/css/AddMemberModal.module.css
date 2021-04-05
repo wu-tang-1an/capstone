@@ -1,0 +1,76 @@
+.addDropDownContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0.5em 0;
+  background-color: white;
+  padding: 2em;
+  border-radius: 5px;
+}
+
+.emailLabelAndInput {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.emailLabelAndInput label {
+  margin-bottom: 0.5em;
+}
+
+.addDropDownContainer input[type='text'] {
+  width: 400px;
+  height: 2.5em;
+  padding: 0.5em;
+  border-radius: 5px;
+  border: 1px solid lightgrey;
+}
+
+.statusContainer {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-start;
+  width: 100%;
+  margin: 1em;
+}
+
+.statusContainer label {
+  margin-right: 0.5em;
+}
+
+.statusRadioGroup input[type='radio'] {
+  margin-right: 0.2em;
+}
+
+.btnContainer {
+  display: flex;
+  width: 100%;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.btnContainer button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 49.5%;
+  border-radius: 5px;
+  border: transparent;
+  padding: 0.5em;
+}
+
+.inviteTeammateBtn {
+  background-color: rgb(95, 189, 95);
+  color: white;
+}
+
+.inviteTeammateBtn:hover {
+  background-color: rgb(77, 155, 77);
+}
+
+.cancelBtn:hover {
+  color: white;
+  background-color: darkgrey;
+}

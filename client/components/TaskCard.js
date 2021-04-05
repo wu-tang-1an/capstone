@@ -31,11 +31,13 @@ const TaskCard = ({task, index}) => {
     setDropDownTargetId,
     isTaskDropDownVisible,
     setTaskDropDownVisible,
+    dragDisabled,
+    setDragDisabled,
   } = useContext(TaskContext)
 
   // get user from auth context, unpack task, and get task's users
   const {user} = useContext(AuthContext)
-  const {id, name, createdAt} = task
+  const {id, name, createdAt, createdBy} = task
   const {users} = task || []
 
   // initilaize local state to track task card badge activation
@@ -49,12 +51,6 @@ const TaskCard = ({task, index}) => {
     taskChanged,
     setTaskChanged,
   } = useContext(ProjectContext)
-
-  // returns firstName + lastName for task card "opened by _____"
-  const getFullName = () => {
-    if (!users || (users && !users.length)) return ''
-    return `${users[0].firstName} ${users[0].lastName}`
-  }
 
   const activateTaskBadge = async () => {
     // PUT the new active badge status in db
@@ -75,6 +71,24 @@ const TaskCard = ({task, index}) => {
       updatedTask,
     })
   }
+
+  // socket logic for drag start
+  socket.on(
+    socketReceived.DRAG_WAS_STARTED,
+    ({ignoreUser, projectId, dragId}) => {
+      if (socket.id === ignoreUser || projectId !== project.id) return
+      if (dragId === task.id) setDragDisabled(true)
+    }
+  )
+
+  // socket logic for drag end
+  socket.on(
+    socketReceived.DRAG_WAS_ENDED,
+    ({ignoreUser, projectId, dragId}) => {
+      if (socket.id === ignoreUser || projectId !== project.id) return
+      if (dragId === task.id) setDragDisabled(false)
+    }
+  )
 
   // socket logic for task updates
   socket.on(
@@ -120,7 +134,11 @@ const TaskCard = ({task, index}) => {
   })
 
   return (
-    <Draggable draggableId={String(task.id)} index={index}>
+    <Draggable
+      draggableId={String(task.id)}
+      isDragDisabled={dragDisabled}
+      index={index}
+    >
       {(provided) => (
         <Container
           ref={provided.innerRef}
@@ -164,7 +182,7 @@ const TaskCard = ({task, index}) => {
                     <span>{name}</span>
                   </div>
                   <div className={styles.idAndCreatedBy}>
-                    {`opened by ${getFullName()} on ${moment(createdAt).format(
+                    {`opened by ${createdBy} on ${moment(createdAt).format(
                       'l'
                     )}`}
                   </div>
@@ -175,7 +193,7 @@ const TaskCard = ({task, index}) => {
               <NumberOfCommentsBadge
                 numberOfComments={comments ? comments.length : 0}
               />
-              <img src={user.imageUrl} />
+              <img src={users[0].imageUrl || ''} />
             </section>
           </div>
         </Container>

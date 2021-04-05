@@ -3,12 +3,14 @@ import {ProjectContext} from '../context/projectContext'
 import Modal from './Modal'
 import axios from 'axios'
 import socket, {socketSent} from '../socket'
+import {notify} from './helper/toast'
 import styles from './css/ColumnDropDown.module.css'
 
 // fields are actions that user can take from dropdown menu
 const fields = [
   {id: 1, content: 'Edit column name'},
-  {id: 3, content: 'Delete column'},
+  {id: 2, content: 'Delete column'},
+  {id: 3, content: 'Close'},
   // more fields as necessary
 ]
 
@@ -21,6 +23,10 @@ const ColumnDropDown = ({columnId, closeDropDown}) => {
   const [name, setName] = useState(
     columns.find((column) => column.id === columnId).name
   )
+
+  // handle dropdown visibility by checking for currentField
+  // if no currentField, dropdown is hidden
+  const [isVisibleDropDown, setIsVisibleDropDown] = useState(true)
 
   // editColumn method renames column and persists to db, local state
   const editColumn = async () => {
@@ -35,6 +41,8 @@ const ColumnDropDown = ({columnId, closeDropDown}) => {
       )
 
       setColumns(updatedColumns)
+
+      notify('Column name sucessfully edited!', 'success')
 
       socket.emit(socketSent.EDIT_COLUMN_NAME, {
         ignoreUser: socket.id,
@@ -57,6 +65,8 @@ const ColumnDropDown = ({columnId, closeDropDown}) => {
       // remove column from project context's columns record
       setColumns(updatedColumns)
 
+      notify('Column successfully deleted!', 'success')
+
       socket.emit(socketSent.DELETE_COLUMN, {
         ignoreUser: socket.id,
         projectId: project.id,
@@ -68,18 +78,7 @@ const ColumnDropDown = ({columnId, closeDropDown}) => {
   }
 
   return (
-    <div className={styles.columnDropDownContainer}>
-      {fields.map((field) => (
-        // onClick, reveal a dropdown with clickable links for each field
-        <div
-          key={field.id}
-          className={styles.dropDownField}
-          onClick={() => setCurrentField(field.content)}
-        >
-          <span className={styles.fieldName}>{field.content}</span>
-          <span className="material-icons">keyboard_arrow_right</span>
-        </div>
-      ))}
+    <React.Fragment>
       {/* delete modal */}
       {currentField === 'Delete column' && (
         <Modal>
@@ -115,6 +114,7 @@ const ColumnDropDown = ({columnId, closeDropDown}) => {
             <div className={styles.newColumnName}>New column name</div>
             <input
               type="text"
+              value={name}
               className={styles.columnNameInput}
               onChange={(e) => setName(e.target.value)}
             />
@@ -132,7 +132,7 @@ const ColumnDropDown = ({columnId, closeDropDown}) => {
               <button
                 type="button"
                 className={styles.cancelBtn}
-                onClick={closeDropDown}
+                onClick={() => closeDropDown()}
               >
                 Close
               </button>
@@ -140,7 +140,32 @@ const ColumnDropDown = ({columnId, closeDropDown}) => {
           </div>
         </Modal>
       )}
-    </div>
+      <div className={styles.colDropDownParent}>
+        <div
+          className={
+            isVisibleDropDown
+              ? styles.columnDropDownContainer
+              : styles.columnDropDownContainerHidden
+          }
+        >
+          {fields.map((field) => (
+            // onClick, reveal a dropdown with clickable links for each field
+            <div
+              key={field.id}
+              className={styles.dropDownField}
+              onClick={() => {
+                if (field.content === 'Back') return closeDropDown()
+                setIsVisibleDropDown(false)
+                setCurrentField(field.content)
+              }}
+            >
+              <span className={styles.fieldName}>{field.content}</span>
+              <span className="material-icons">keyboard_arrow_right</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </React.Fragment>
   )
 }
 export default ColumnDropDown

@@ -15,7 +15,7 @@ describe('Model Associations', () => {
   const task = {
     createdBy: 'albert',
     description: 'a description of how i will create this site',
-    completionDate: new Date().toISOString(),
+    completionDate: new Date(),
   }
   const user1 = {
     firstName: 'alice',

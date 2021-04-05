@@ -1,7 +1,13 @@
 const router = require('express').Router()
-const {Organization, Project, User} = require('../db/models')
-const {checkUser, checkAdmin} = require('./helper/gatekeeper')
-const {resNaN, resDbNotFound, resDeleted, resAssoc} = require('./helper/helper')
+const {Organization, Project, User, UserOrganization} = require('../db/models')
+const {checkUser, checkAdmin, checkUserOrg} = require('./helper/gatekeeper')
+const {
+  resNaN,
+  resDbNotFound,
+  resDeleted,
+  resAssoc,
+  resUnassoc,
+} = require('./helper/helper')
 const {
   STR_ORGANIZATIONS,
   STR_ORGANIZATION,
@@ -22,7 +28,7 @@ router.get('/', checkAdmin, async (req, res, next) => {
 })
 
 // GET single organizations route '/api/organizations/:orgId' (AUTH USER ONLY)
-router.get('/:orgId', checkUser, async (req, res, next) => {
+router.get('/:orgId', checkUser, checkUserOrg, async (req, res, next) => {
   try {
     const {orgId} = req.params
     if (isNaN(orgId)) return resNaN(orgId, res)
@@ -57,10 +63,31 @@ router.get('/:orgId/users', checkUser, async (req, res, next) => {
 // POST create new organization route '/api/organizations/' (AUTH USER ONLY)
 router.post('/', checkUser, async (req, res, next) => {
   try {
-    const data = req.body
-    const {dataValues} = await Organization.create(data)
+    // grab auth user id and org instance from req.body
+    const {userId, newOrg} = req.body
 
-    return res.json(dataValues)
+    // create org
+    const createdOrg = await Organization.create(newOrg, {
+      include: [User],
+    })
+
+    // associate auth user
+    await createdOrg.addUsers([userId])
+
+    // grab the userOrg through table intance and set role to admin
+    const foundUserOrgAssoc = await UserOrganization.findOne({
+      where: {
+        organizationId: createdOrg.id,
+      },
+    })
+    foundUserOrgAssoc.role = 'admin'
+    await foundUserOrgAssoc.save()
+
+    // refetch the associatedOrg and send to frontend
+    const associatedOrg = await Organization.findByPk(createdOrg.id, {
+      include: [User],
+    })
+    res.json(associatedOrg)
   } catch (error) {
     next(error)
   }
@@ -102,6 +129,27 @@ router.put('/:orgId/users/:userId', checkUser, async (req, res, next) => {
     organization.addUser(user)
 
     return resAssoc(STR_ORGANIZATION, STR_USER, orgId, userId, res)
+  } catch (err) {
+    next(err)
+  }
+})
+
+// PUT **remove** org from user's orgs '/api/organizations/:orgId/users/:userId' (AUTH USER ONLY)
+router.delete('/:orgId/users/:userId', checkUser, async (req, res, next) => {
+  try {
+    const {orgId, userId} = req.params
+    if (isNaN(orgId)) return resNaN(orgId, res)
+    if (isNaN(userId)) return resNaN(userId, res)
+
+    const organization = await Organization.findByPk(orgId)
+    if (!organization) return resDbNotFound(STR_ORGANIZATION, res)
+
+    const user = await User.findByPk(userId)
+    if (!user) return resDbNotFound(STR_USER, res)
+
+    organization.removeUser(user)
+
+    return resUnassoc(STR_ORGANIZATION, STR_USER, orgId, userId, res)
   } catch (err) {
     next(err)
   }

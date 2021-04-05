@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const {User, Invitation, Organization} = require('../db/models')
+const {checkOrgAdmin, checkInviteExists} = require('./helper/gatekeeper')
 
 router.get('/', async (req, res, next) => {
   try {
@@ -24,10 +25,9 @@ router.get('/:userId', async (req, res, next) => {
   }
 })
 
-router.post('/', async (req, res, next) => {
+router.post('/', checkOrgAdmin, checkInviteExists, async (req, res, next) => {
   try {
-    const orgId = req.body.orgId
-    const userEmail = req.body.userEmail
+    const {orgId, userEmail, role} = req.body
 
     const org = await Organization.findByPk(orgId)
 
@@ -35,6 +35,7 @@ router.post('/', async (req, res, next) => {
       orgId: orgId,
       orgPicture: org.imageUrl,
       orgName: org.name,
+      role: role,
     })
 
     let user = await User.findOne({
@@ -58,7 +59,7 @@ router.post('/', async (req, res, next) => {
 router.delete('/:inviteId', async (req, res, next) => {
   try {
     const {inviteId} = req.params
-    let invite = await Invitation.findByPk(inviteId)
+    const invite = await Invitation.findByPk(inviteId)
     await invite.destroy()
     res.send('Invite Deleted!').status(202)
   } catch (e) {

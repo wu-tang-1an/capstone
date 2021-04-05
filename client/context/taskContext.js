@@ -9,12 +9,15 @@ export default function TaskProvider({children}) {
   // opening on EVERY task in a column
   const [dropDownTargetId, setDropDownTargetId] = useState(0)
   const [isTaskDropDownVisible, setTaskDropDownVisible] = useState(false)
+  const [dragDisabled, setDragDisabled] = useState(false)
 
   const providerValue = {
     dropDownTargetId,
     setDropDownTargetId,
     isTaskDropDownVisible,
     setTaskDropDownVisible,
+    dragDisabled,
+    setDragDisabled,
   }
 
   return (

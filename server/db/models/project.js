@@ -4,7 +4,6 @@ const db = require('../db')
 const Project = db.define('project', {
   name: {
     type: Sequelize.STRING,
-    unique: true,
     allowNull: false,
     validate: {
       notEmpty: true,
@@ -22,7 +21,7 @@ const Project = db.define('project', {
   },
 
   imageUrl: {
-    type: Sequelize.STRING,
+    type: Sequelize.TEXT,
     defaultValue: 'https://unsplash.it/200/200',
     validate: {
       isUrl: true,

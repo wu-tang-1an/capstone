@@ -30,10 +30,13 @@ const User = db.define('user', {
     type: Sequelize.STRING,
     unique: true,
     allowNull: false,
+    validate: {
+      isEmail: true,
+    },
   },
 
   imageUrl: {
-    type: Sequelize.STRING,
+    type: Sequelize.TEXT,
     defaultValue:
       'https://improvementarchitecture.co.uk/wp-content/uploads/2015/02/missing-profile-picture.jpg',
   },

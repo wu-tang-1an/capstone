@@ -1,5 +1,27 @@
-.columnDropDownContainer {
+.colDropDownParent {
+  position: relative;
+  height: 0;
+  width: 100%;
+}
+
+.columnDropDownContainer,
+.columnDropDownContainerHidden {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  justify-content: space-between;
+  background-color: white;
+  border-radius: 5px;
+  z-index: 999;
+  border: 1px solid rgb(35, 118, 187);
   padding: 0.5em;
+  width: 200px;
+  right: 1em;
+  top: 2.5em;
+}
+
+.columnDropDownContainerHidden {
+  visibility: hidden;
 }
 
 .dropDownField {
@@ -43,6 +65,7 @@
   width: 49.5%;
   border-radius: 5px;
   border: transparent;
+  padding: 0.5em;
 }
 
 .deleteMessage {

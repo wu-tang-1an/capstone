@@ -7,6 +7,18 @@
   align-items: center;
   padding: 0.5em 0;
 }
+.OrgDialogContainer {
+  margin: 50px auto;
+  display: flex;
+  flex-direction: row;
+  width: 80%;
+  flex-wrap: wrap;
+  row-gap: 20px;
+  column-gap: 20px;
+}
+.ContainerRight {
+  flex: 1 1 400px;
+}
 
 textarea {
   outline: none;
@@ -35,11 +47,12 @@ textarea {
   width: 49.5%;
   border-radius: 5px;
   border: transparent;
+  padding: 0.5em;
 }
 
 .addBtn {
-  background-color: rgb(95, 189, 95);
   color: white;
+  background-color: rgb(95, 189, 95);
 }
 
 .addBtn:hover {
@@ -47,5 +60,35 @@ textarea {
 }
 
 .cancelBtn:hover {
-  background-color: white;
+  color: white;
+  background-color: darkgrey;
+}
+.flexCol {
+  margin: 0 auto;
+  flex: 1 1 500px;
+  display: flex;
+  flex-direction: column;
+}
+.formGroup {
+  margin-bottom: 1rem;
+}
+.formLabel {
+  display: inline-block;
+  margin-bottom: 0.5rem;
+}
+
+.formControl {
+  display: block;
+  width: 100%;
+  height: calc(1.5em + 0.75rem + 2px);
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }

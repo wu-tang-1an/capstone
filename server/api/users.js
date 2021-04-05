@@ -2,17 +2,25 @@ const router = require('express').Router()
 const {
   User,
   Organization,
+  Project,
+  Column,
   Task,
   Comment,
   UserOrganization,
 } = require('../db/models')
 const {checkUser, checkAdmin} = require('./helper/gatekeeper')
-const {resNaN, resDbNotFound, resAssoc, resDeleted} = require('./helper/helper')
+const {
+  resNaN,
+  resDbNotFound,
+  resAssoc,
+  resUnassoc,
+  resDeleted,
+} = require('./helper/helper')
 const {STR_USERS, STR_USER, STR_ORGANIZATION} = require('./helper/strings')
 module.exports = router
 
-const dee = User.prototype
-console.log('dee Add User---->', dee)
+// const dee = User.prototype
+// console.log('dee Add User---->', dee)
 
 // GET all users route '/api/users' (ADMIN ONLY)
 router.get('/', checkAdmin, async (req, res, next) => {
@@ -79,13 +87,44 @@ router.get('/:userId/organizations', checkUser, async (req, res, next) => {
     const user = await User.findByPk(userId)
     if (!user) return resDbNotFound(STR_USER, res)
 
-    const orgs = await user.getOrganizations()
+    const orgs = await user.getOrganizations({
+      include: [
+        {
+          model: Project,
+          include: [
+            {
+              model: Column,
+              include: [
+                {
+                  model: Task,
+                  include: [
+                    {
+                      model: User,
+                      include: [
+                        {
+                          model: Comment,
+                          include: [User],
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          model: User,
+        },
+      ],
+    })
     return res.json(orgs)
   } catch (error) {
     next(error)
   }
 })
 
+// get a specific user's org
 router.get('/:userId/organizations/:orgId', async (req, res, next) => {
   try {
     const {userId, orgId} = req.params
@@ -176,6 +215,8 @@ router.put(
   async (req, res, next) => {
     try {
       const {userId, orgId} = req.params
+      const {role} = req.body
+      console.log('this is the role', role)
       if (isNaN(userId)) return resNaN(userId, res)
       if (isNaN(orgId)) return resNaN(orgId, res)
 
@@ -185,7 +226,11 @@ router.put(
       const org = await Organization.findByPk(orgId)
       if (!org) return resDbNotFound(STR_ORGANIZATION, res)
 
-      user.addOrganization(org)
+      await UserOrganization.create({
+        role: role,
+        organizationId: orgId,
+        userId: userId,
+      })
 
       return resAssoc(STR_USER, STR_ORGANIZATION, userId, orgId, res)
     } catch (error) {

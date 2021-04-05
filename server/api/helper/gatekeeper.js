@@ -1,4 +1,4 @@
-const {User} = require('../../db/models')
+const {User, UserOrganization, Invitation} = require('../../db/models')
 
 const checkUser = async (req, res, next) => {
   // checks if someone is logged in
@@ -50,4 +50,64 @@ const checkAdmin = async (req, res, next) => {
   }
 }
 
-module.exports = {checkUser, checkAdmin}
+const checkOrgAdmin = async (req, res, next) => {
+  if (req.session.passport) {
+    const reqId = req.session.passport.user
+
+    let user = await UserOrganization.findOne({
+      where: {
+        userId: reqId,
+        organizationId: req.body.orgId,
+      },
+    })
+
+    user.role === 'admin' ? next() : res.status(401).send('Unauthorized')
+  } else {
+    res.status(401).send('Unauthorized')
+  }
+}
+
+const checkInviteExists = async (req, res, next) => {
+  const userEmail = req.body.userEmail
+  const orgId = req.body.orgId.toString()
+
+  let user = await User.findOne({
+    include: {
+      model: Invitation,
+      where: {
+        orgId: orgId,
+      },
+    },
+    where: {
+      email: userEmail,
+    },
+  })
+
+  user ? res.status(409).send('Invite already exists!') : next()
+}
+
+const checkUserOrg = async (req, res, next) => {
+  const userId = req.session.passport.user
+  const {orgId} = req.params
+
+  let user = await UserOrganization.findOne({
+    where: {
+      userId: userId,
+      organizationId: orgId,
+    },
+  })
+
+  if (user) {
+    next()
+  } else {
+    res.status(401).send('Unauthorized')
+  }
+}
+
+module.exports = {
+  checkUser,
+  checkAdmin,
+  checkOrgAdmin,
+  checkUserOrg,
+  checkInviteExists,
+}

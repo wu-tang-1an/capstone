@@ -1,8 +1,138 @@
+/* ---- Home ---- */
+
 .homeContainer {
-  height: 100vh;
-  width: 100vw;
+  display: flex;
 }
 
-.welcome {
-  font-size: 40px;
+.myFeed {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  max-width: 300px;
+  height: 100%;
+  border-right: 1px solid lightgrey;
+  border-radius: 5px;
+  padding: 0 1em;
+  overflow-y: scroll;
+}
+
+.feedHeader {
+  font-size: 1.4em;
+  text-align: left;
+  padding: 0.5em;
+  margin-bottom: 1em;
+}
+
+.loggedIn {
+  opacity: 0.6;
+  font-size: 12px;
+  max-width: 240px;
+  overflow-wrap: break-word;
+}
+
+.welcomeHeader {
+  font-size: 2em;
+  text-align: left;
+}
+
+.overview {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow-y: scroll;
+  padding: 0 1em;
+}
+
+/* ---- ListContainer ---- */
+
+.listContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 0.5em;
+}
+
+.listContainer ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.listHeader {
+  text-align: left;
+  margin-bottom: 1em;
+  border-bottom: 1px solid lightgrey;
+  width: 80%;
+}
+
+.listItem {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.listItem span {
+  opacity: 0.6;
+  font-size: 10px;
+  line-height: 1em;
+  margin-top: 1em;
+}
+
+.listItemTaskName {
+  max-width: 260px;
+  overflow-wrap: break-word;
+}
+
+/* ---- OverviewSection ---- */
+
+.overviewContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin: 2em 0;
+}
+
+.overviewContainer:first-child {
+  margin-top: 0;
+}
+
+.titleAndText {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 600px;
+  height: 300px;
+  padding: 0 1em;
+}
+
+.title {
+  font-size: 1.1em;
+  font-weight: bold;
+  margin: 1em 0;
+}
+
+.title:first-child {
+  margin-top: 0;
+}
+
+.text {
+  line-height: 1.6em;
+}
+
+/* ---- VideoList ---- */
+
+.videoContainer {
+  display: flex;
+  flex: 1 1 100%;
+  height: 300px;
+  padding: 0 1em;
+}
+
+.videoContainer video {
+  width: 100%;
+  height: auto;
+  max-height: 100%;
 }
