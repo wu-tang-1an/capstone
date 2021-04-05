@@ -61,6 +61,12 @@
   justify-content: center;
 }
 
+.memberName {
+  max-width: 120px;
+  overflow-wrap: break-word;
+  display: inline-block;
+}
+
 .memberRole {
   opacity: 0.6;
   font-size: 12px;
@@ -239,4 +245,6 @@
 .projectDescription {
   width: auto;
   max-width: 440px;
+  overflow-wrap: break-word;
+  display: inline-block;
 }
