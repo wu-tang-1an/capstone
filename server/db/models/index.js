@@ -36,19 +36,19 @@ User.belongsToMany(Task, {through: UserTask})
 Comment.belongsTo(User)
 User.hasMany(Comment)
 
-Comment.belongsTo(Task)
+Comment.belongsTo(Task, {onDelete: 'cascade'})
 Task.hasMany(Comment)
 
-Project.belongsTo(Organization)
+Project.belongsTo(Organization, {onDelete: 'cascade'})
 Organization.hasMany(Project)
 
-Task.belongsTo(Column)
+Task.belongsTo(Column, {onDelete: 'cascade'})
 Column.hasMany(Task)
 
-Column.belongsTo(Project)
+Column.belongsTo(Project, {onDelete: 'cascade'})
 Project.hasMany(Column)
 
-Invitation.belongsTo(User)
+Invitation.belongsTo(User, {onDelete: 'cascade'})
 User.hasMany(Invitation)
 
 /**
