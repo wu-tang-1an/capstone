@@ -4,7 +4,7 @@ import {getOrgDb, updateOrganizationDb} from '../context/axiosService'
 import {notify} from './helper/toast'
 import strConstraints from './helper/strConstrain'
 
-import styles from './css/EditOrganizationModal.module.css'
+import styles from './css/EditOrgModal.module.css'
 
 const validate = (name, description, imageUrl) => {
   let errors = []
@@ -26,14 +26,18 @@ const validate = (name, description, imageUrl) => {
   return errors
 }
 
-const EditOrganizationModal = ({
-  organization,
+const EditOrgModal = ({
+  currentOrgId,
   organizations,
   setOrganizations,
   closeModal,
 }) => {
-  const [name, setName] = useState(organization.name)
-  const [imageUrl, setImageUrl] = useState(organization.imageUrl)
+  // grab org from organizations by orgId
+  const thisOrg = organizations.find((org) => org.id === currentOrgId)
+
+  // set local state
+  const [name, setName] = useState(thisOrg.name)
+  const [imageUrl, setImageUrl] = useState(thisOrg.imageUrl)
 
   const editOrganization = async () => {
     const errors = validate(name, imageUrl)
@@ -46,17 +50,17 @@ const EditOrganizationModal = ({
       return
     }
 
-    await updateOrganizationDb(organization.id, {
+    await updateOrganizationDb(currentOrgId, {
       name: name,
       imageUrl: imageUrl,
     })
 
     // get new organization info from db
-    const updatedOrg = await getOrgDb(organization.id)
+    const updatedOrg = await getOrgDb(currentOrgId)
 
     // update all orgs state
     setOrganizations(
-      organizations.map((org) => (org.id === updatedOrg.id ? updatedOrg : org))
+      organizations.map((org) => (org.id === currentOrgId ? updatedOrg : org))
     )
 
     closeModal()
@@ -113,4 +117,4 @@ const EditOrganizationModal = ({
   )
 }
 
-export default EditOrganizationModal
+export default EditOrgModal

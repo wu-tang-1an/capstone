@@ -2,6 +2,8 @@ import React, {useState, useContext, useEffect} from 'react'
 import AddOrganizationDialog from './AddOrganizationDialog'
 import Modal from './Modal'
 import LeaveOrgModal from './LeaveOrgModal'
+import EditOrgModal from './EditOrgModal'
+import DeleteOrgModal from './DeleteOrgModal'
 import Invitations from './Invitations'
 import {Link} from 'react-router-dom'
 import {AuthContext} from '../context/authContext'
@@ -12,13 +14,32 @@ import styles from './css/AllOrgs.module.css'
 import {fetchUserOrgs, removeUserFromOrgDB} from '../context/axiosService'
 
 const OrganizationCard = ({
+  userId,
   orgId,
   name,
-  numMembers,
   imageUrl,
-  setModalVisible,
-  setOrgIdForDelete,
+  numMembers,
+  setCurrentOrgId,
+  setActiveField,
 }) => {
+  const buttons = [
+    {
+      id: 1,
+      value: 'Leave',
+      modalType: 'leaveOrg',
+    },
+    {
+      id: 2,
+      value: 'Edit',
+      modalType: 'editOrg',
+    },
+    {
+      id: 3,
+      value: 'Delete',
+      modalType: 'deleteOrg',
+    },
+  ]
+
   return (
     <div className={styles.orgCardContainer}>
       <Link to={`/organizations/${orgId}`}>
@@ -28,16 +49,21 @@ const OrganizationCard = ({
           <div className={styles.numMembers}>{`${numMembers} members`}</div>
         </div>
       </Link>
-      <button
-        className={styles.leaveOrgBtn}
-        type="button"
-        onClick={() => {
-          setOrgIdForDelete(orgId)
-          setModalVisible(true)
-        }}
-      >
-        Leave Organization
-      </button>
+      <div className={styles.orgBtnsContainer}>
+        {buttons.map(({id, value, modalType}) => (
+          <button
+            key={id}
+            className={styles.modifyOrgBtn}
+            type="button"
+            onClick={() => {
+              setCurrentOrgId(orgId)
+              setActiveField(modalType)
+            }}
+          >
+            {value}
+          </button>
+        ))}
+      </div>
     </div>
   )
 }
@@ -75,19 +101,43 @@ const AllOrgs = () => {
     }
   }
 
-  const [isModalVisible, setModalVisible] = useState(false)
-  const [orgIdForDelete, setOrgIdForDelete] = useState(0)
+  // local state for modals
+  const [activeField, setActiveField] = useState('')
+  const [currentOrgId, setCurrentOrgId] = useState(0)
 
   return (
     <div className={styles.wrapper}>
-      {isModalVisible && (
+      {activeField === 'leaveOrg' && (
         <Modal>
           <LeaveOrgModal
             leaveOrg={leaveOrg}
-            orgIdForDelete={orgIdForDelete}
+            currentOrgId={currentOrgId}
             organizations={organizations}
             setOrganizations={setOrganizations}
-            closeModal={() => setModalVisible(false)}
+            setActiveField={setActiveField}
+            closeModal={() => setActiveField('leaveOrg')}
+          />
+        </Modal>
+      )}
+      {activeField === 'editOrg' && (
+        <Modal>
+          <EditOrgModal
+            currentOrgId={currentOrgId}
+            organizations={organizations}
+            setOrganizations={setOrganizations}
+            setActiveField={setActiveField}
+            closeModal={() => setActiveField('editOrg')}
+          />
+        </Modal>
+      )}
+      {activeField === 'deleteOrg' && (
+        <Modal>
+          <DeleteOrgModal
+            currentOrgId={currentOrgId}
+            organizations={organizations}
+            setOrganizations={setOrganizations}
+            setActiveField={setActiveField}
+            closeModal={() => setActiveField('deleteOrg')}
           />
         </Modal>
       )}
@@ -118,8 +168,8 @@ const AllOrgs = () => {
               name={org.name}
               imageUrl={org.imageUrl}
               numMembers={org && org.users ? org.users.length : 0}
-              setModalVisible={setModalVisible}
-              setOrgIdForDelete={setOrgIdForDelete}
+              setCurrentOrgId={setCurrentOrgId}
+              setActiveField={setActiveField}
             />
           ))}
         </div>
