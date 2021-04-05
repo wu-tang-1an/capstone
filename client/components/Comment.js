@@ -1,6 +1,8 @@
 import React, {useContext, useState} from 'react'
 import {AuthContext} from '../context/authContext'
 import moment from 'moment'
+import {notify} from './helper/toast'
+import strConstraints from './helper/strConstrain'
 import styles from './css/Comment.module.css'
 
 const Comment = ({comment, editComment, deleteComment}) => {
@@ -49,6 +51,12 @@ const Comment = ({comment, editComment, deleteComment}) => {
             ref={(input) => input && input.focus()}
             onChange={(e) => setContent(e.target.value)}
             onBlur={async () => {
+              if (content.length > strConstraints.textMaxChar)
+                return notify(
+                  `Comment limited to ${strConstraints.textMaxChar} characters!`,
+                  'error'
+                )
+
               // update comment and return from db
               const updatedComment = await editComment(id, {
                 text: content,

@@ -29,7 +29,7 @@ const DeleteTaskModal = ({task, closeModal, closeDropDown}) => {
 
       setTasks(tasks.filter((currTask) => currTask.id !== task.id))
 
-      notify('Task successfully deleted', 'success')
+      notify(`Task ${task.name} deleted!`, 'warning')
     } catch (err) {
       console.error(err)
     }
@@ -43,7 +43,8 @@ const DeleteTaskModal = ({task, closeModal, closeDropDown}) => {
   return (
     <div className={styles.modalContent}>
       <div className={styles.deleteMessage}>
-        <strong>Warning!</strong> This action will delete the selected task.
+        <strong>Warning!</strong> This action will delete the task "{task.name}
+        ".
         <br /> Press <span>Delete task</span> to continue, or cancel to go back.
       </div>
       <div className={styles.modalBtnsContainer}>

@@ -15,6 +15,8 @@ import {
   deleteCommentDB,
 } from '../context/axiosService'
 import socket, {socketSent, socketReceived} from '../socket'
+import {notify} from './helper/toast'
+import strConstraints from './helper/strConstrain'
 import styles from './css/SingleTaskExpanded.module.css'
 
 const SingleTaskExpanded = ({task, closeModal}) => {
@@ -183,6 +185,12 @@ const SingleTaskExpanded = ({task, closeModal}) => {
                   defaultValue={taskName}
                   onChange={(e) => setTaskName(e.target.value)}
                   onBlur={async () => {
+                    if (taskName.length > strConstraints.titleMaxChar)
+                      return notify(
+                        `Task name limited to ${strConstraints.titleMaxChar} characters!`,
+                        'error'
+                      )
+
                     // get a new timeStamp for the edit
                     const newTimeStamp = new Date()
                     // PUT the new task in the db
@@ -230,6 +238,12 @@ const SingleTaskExpanded = ({task, closeModal}) => {
                 className={styles.descriptionMarkdown}
                 ref={(input) => input && input.focus()}
                 onBlur={async () => {
+                  if (taskDescription.length > strConstraints.textMaxChar)
+                    return notify(
+                      `Task description limited to ${strConstraints.textMaxChar} characters!`,
+                      'error'
+                    )
+
                   // get a new timeStamp for the edit
                   const newTimeStamp = new Date()
                   // PUT task db
@@ -292,7 +306,7 @@ const SingleTaskExpanded = ({task, closeModal}) => {
             )}
             {/* sort taskComments by editTimeStamp to put in descending chronological order */}
             {taskComments
-              .sort((a, b) => (a.editTimeStamp < b.editTimeStamp ? -1 : 1))
+              .sort((a, b) => a.editTimeStamp - b.editTimeStamp)
               .map((comment) => (
                 <Comment
                   key={comment.id}

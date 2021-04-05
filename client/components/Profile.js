@@ -1,7 +1,41 @@
 import React, {useState, useContext} from 'react'
 import {AuthContext} from '../context/authContext'
 import {updateUserDB} from '../context/axiosService'
+import {notify} from './helper/toast'
+import strConstraints from './helper/strConstrain'
 import styles from './css/Profile.module.css'
+
+// eslint-disable-next-line complexity
+const validate = (firstName, lastName, imageUrl, email, password) => {
+  let errors = []
+
+  if (!firstName.length) errors.push('First name must not be empty!')
+  if (firstName > strConstraints.nameMaxChar)
+    errors.push(
+      `First name is limited to ${strConstraints.nameMaxChar} characters!`
+    )
+
+  if (!lastName.length) errors.push('Last name must not be empty!')
+  if (lastName > strConstraints.nameMaxChar)
+    errors.push(
+      `Last name is limited to ${strConstraints.nameMaxChar} characters!`
+    )
+
+  if (!imageUrl.length) errors.push('URL must not be empty!')
+  // implement check if valid url later
+
+  if (email.length < 5) errors.push('Email must be at least 5 characters long!')
+  if (email.length > strConstraints.emailMaxChar)
+    errors.push(
+      `Email is limited to ${strConstraints.emailMaxChar} characters!`
+    )
+  if (!email.includes('@')) errors.push('Email must contain an @ symbol!')
+  if (!email.includes('.')) errors.push('Email must contain at least one dot!')
+
+  if (!password.length) errors.push('Password must not be empty!')
+
+  return errors
+}
 
 const Profile = () => {
   // grab user from auth context
@@ -12,11 +46,19 @@ const Profile = () => {
   const [lastName, setLastName] = useState(user.lastName)
   const [imageUrl, setImageUrl] = useState(user.imageUrl)
   const [email, setEmail] = useState(user.email)
-  const [password, setPassword] = useState(user.password)
+  const [password, setPassword] = useState(user.password || '')
 
   // update form logic
   const updateUserInfo = async (e) => {
     e.preventDefault()
+
+    const errors = validate(firstName, lastName, imageUrl, email, password)
+
+    if (errors.length) {
+      return errors.forEach((error) => {
+        notify(error, 'error')
+      })
+    }
 
     const updateInfo = {
       ...user,

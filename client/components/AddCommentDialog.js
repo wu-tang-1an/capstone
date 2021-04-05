@@ -1,6 +1,8 @@
 import React, {useState, useContext, useEffect, useRef} from 'react'
 import styles from './css/AddDialogShared.module.css'
 import {AuthContext} from '../context/authContext'
+import {notify} from './helper/toast'
+import strConstraints from './helper/strConstrain'
 
 const AddCommentDialog = ({addComment, closeCommentDialog}) => {
   // set a ref on the outermost container of the dialog to scroll into view on open
@@ -18,6 +20,12 @@ const AddCommentDialog = ({addComment, closeCommentDialog}) => {
   // submit new comment method calls addComment method passed down by SingleTaskExpanded, which persists new comment in db and updates local task.comments
   const submitNewComment = async (e) => {
     e.preventDefault()
+
+    if (content.length > strConstraints.textMaxChar)
+      return notify(
+        `Comment limited to ${strConstraints.textMaxChar} characters!`,
+        'error'
+      )
 
     const newComment = {
       text: content,

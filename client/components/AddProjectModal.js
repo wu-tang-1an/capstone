@@ -1,12 +1,19 @@
 import React, {useState} from 'react'
 import {createProjectDb} from '../context/axiosService'
 import {notify} from './helper/toast'
+import strConstraints from './helper/strConstrain'
 import styles from './css/AddProjectModal.module.css'
 
 // helper sends errors to toastify
 const validate = (name) => {
   let errors = []
-  if (!name.length) errors.push('Name must not be empty!')
+
+  if (!name.length) errors.push('Project name must not be empty!')
+  if (name.length > strConstraints.titleMaxChar)
+    errors.push(
+      `Project name is limited to ${strConstraints.titleMaxChar} characters!`
+    )
+
   return errors
 }
 

@@ -3,21 +3,32 @@ import {AuthContext} from '../context/authContext'
 import axios from 'axios'
 import history from '../history'
 import {notify} from './helper/toast'
+import strConstraints from './helper/strConstrain'
 import styles from './css/Signup.module.css'
 
+// eslint-disable-next-line complexity
 const validate = (firstName, lastName, email, password) => {
   let errors = []
 
   if (!firstName.length) errors.push('First name must not be empty!')
+  if (firstName.length > strConstraints.nameMaxChar)
+    errors.push(
+      `First name limited to ${strConstraints.nameMaxChar} characters!`
+    )
+
   if (!lastName.length) errors.push('Last name must not be empty!')
+  if (lastName.length > strConstraints.nameMaxChar)
+    errors.push(
+      `Last name limited to ${strConstraints.nameMaxChar} characters!`
+    )
 
   if (email.length < 5) errors.push('Email must be at least 5 characters long!')
+  if (email.length > strConstraints.emailMaxChar)
+    errors.push(`Email limited to ${strConstraints.emailMaxChar} characters!`)
   if (!email.includes('@')) errors.push('Email must contain an @ symbol!')
   if (!email.includes('.')) errors.push('Email must contain at least one dot!')
 
-  if (!password.length) {
-    errors.push('Password must not be empty!')
-  }
+  if (!password.length) errors.push('Password must not be empty!')
 
   return errors
 }
