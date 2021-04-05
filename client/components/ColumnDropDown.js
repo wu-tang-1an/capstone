@@ -10,7 +10,7 @@ import styles from './css/ColumnDropDown.module.css'
 const fields = [
   {id: 1, content: 'Edit column name'},
   {id: 2, content: 'Delete column'},
-  {id: 3, content: 'Close menu'},
+  {id: 3, content: 'Close'},
   // more fields as necessary
 ]
 

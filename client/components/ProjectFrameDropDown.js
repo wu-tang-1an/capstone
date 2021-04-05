@@ -6,7 +6,7 @@ import styles from './css/ProjectFrameDropDown.module.css'
 const fields = [
   {id: 1, type: 'Edit'},
   {id: 2, type: 'Delete'},
-  {id: 3, type: 'Close menu'},
+  {id: 3, type: 'Close'},
   // more fields as necessary
 ]
 
