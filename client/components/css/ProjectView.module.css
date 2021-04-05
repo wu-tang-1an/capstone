@@ -1,7 +1,9 @@
 .projectContainer {
   display: flex;
   flex-direction: column;
-  width: 100vw;
-  height: 530px;
-  padding: 0.5em;
+  align-items: stretch;
+  justify-content: flex-start;
+  flex: 1;
+  padding: 0.5em 0.2em;
+  margin-right: 0.5em;
 }

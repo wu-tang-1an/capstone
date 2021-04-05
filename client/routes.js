@@ -9,7 +9,7 @@ import {
   Profile,
   Home,
   Loading,
-  Organization,
+  AllOrgs,
 } from './components'
 
 import {AuthContext} from './context/authContext'
@@ -18,7 +18,7 @@ const Routes = () => {
   const {user} = useContext(AuthContext)
 
   return (
-    <div>
+    <>
       {/* loading page while user is undefined */}
       {!user && <Loading />}
 
@@ -37,7 +37,7 @@ const Routes = () => {
         <Switch>
           <Route exact path="/" component={LandingPage} />
           <Route path="/home" component={Home} />
-          <Route exact path="/organizations" component={Organization} />
+          <Route exact path="/organizations" component={AllOrgs} />
           <Route
             path="/organizations/:organizationId"
             component={SingleOrganization}
@@ -47,7 +47,7 @@ const Routes = () => {
           <Route component={Home} />
         </Switch>
       )}
-    </div>
+    </>
   )
 }
 

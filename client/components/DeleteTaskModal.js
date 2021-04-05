@@ -5,6 +5,7 @@ import socket, {socketSent} from '../socket'
 
 import axios from 'axios'
 import {ProjectContext} from '../context/projectContext'
+import {notify} from './helper/toast'
 
 const DeleteTaskModal = ({task, closeModal, closeDropDown}) => {
   // grab tasks, setTasks from column context
@@ -27,6 +28,8 @@ const DeleteTaskModal = ({task, closeModal, closeDropDown}) => {
       )
 
       setTasks(tasks.filter((currTask) => currTask.id !== task.id))
+
+      notify('Task successfully deleted', 'success')
     } catch (err) {
       console.error(err)
     }

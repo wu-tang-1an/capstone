@@ -3,17 +3,12 @@ import styles from './css/AddDialogShared.module.css'
 import {ProjectContext} from '../context/projectContext'
 import {addColumnDB} from '../context/axiosService'
 import socket, {socketSent} from '../socket'
+import {notify} from './helper/toast'
 import axios from 'axios'
 
 const AddColumnDialog = ({closeModal}) => {
   // grab project and its columns and setters from project context
-  const {
-    project,
-    columns,
-    setColumns,
-    taskChanged,
-    setTaskChanged,
-  } = useContext(ProjectContext)
+  const {project, columns, setColumns} = useContext(ProjectContext)
 
   // initialize local state for new column name
   const [name, setName] = useState('')
@@ -38,10 +33,12 @@ const AddColumnDialog = ({closeModal}) => {
 
       // set local column state
       setColumns([...columns, createdColumn])
+      closeModal()
 
       // do NOT close dialog
       // allows user to create multiple columns without
       // having to repeatedly click the + button
+      notify('Column successfully created!', 'success')
     } catch (err) {
       console.error(err)
     }
@@ -56,6 +53,7 @@ const AddColumnDialog = ({closeModal}) => {
     <div className={styles.addDropDownContainer}>
       <textarea
         className={styles.description}
+        value={name}
         onChange={(e) => setName(e.target.value)}
       ></textarea>
       <div className={styles.btnContainer}>

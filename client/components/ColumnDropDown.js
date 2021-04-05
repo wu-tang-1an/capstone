@@ -3,6 +3,7 @@ import {ProjectContext} from '../context/projectContext'
 import Modal from './Modal'
 import axios from 'axios'
 import socket, {socketSent} from '../socket'
+import {notify} from './helper/toast'
 import styles from './css/ColumnDropDown.module.css'
 
 // fields are actions that user can take from dropdown menu
@@ -15,12 +16,7 @@ const fields = [
 
 const ColumnDropDown = ({columnId, closeDropDown}) => {
   // grab project, columns, columns setter from project context
-
-  console.log('columnId in Deee--->', columnId)
-
   const {project, columns, setColumns} = useContext(ProjectContext)
-
-  console.log('columns in Drop--->', columns)
 
   // initialize local state to track current field, which is the type of operation the user wants to perform
   const [currentField, setCurrentField] = useState('')
@@ -46,6 +42,8 @@ const ColumnDropDown = ({columnId, closeDropDown}) => {
 
       setColumns(updatedColumns)
 
+      notify('Column name sucessfully edited!', 'success')
+
       socket.emit(socketSent.EDIT_COLUMN_NAME, {
         ignoreUser: socket.id,
         projectId: project.id,
@@ -66,6 +64,8 @@ const ColumnDropDown = ({columnId, closeDropDown}) => {
 
       // remove column from project context's columns record
       setColumns(updatedColumns)
+
+      notify('Column successfully deleted!', 'success')
 
       socket.emit(socketSent.DELETE_COLUMN, {
         ignoreUser: socket.id,
@@ -114,6 +114,7 @@ const ColumnDropDown = ({columnId, closeDropDown}) => {
             <div className={styles.newColumnName}>New column name</div>
             <input
               type="text"
+              value={name}
               className={styles.columnNameInput}
               onChange={(e) => setName(e.target.value)}
             />

@@ -2,23 +2,35 @@
 
 .homeContainer {
   display: flex;
-  height: 100%;
-  width: 96vw;
 }
 
 .myFeed {
   display: flex;
   flex-direction: column;
-  width: 22%;
+  width: 30%;
+  max-width: 300px;
   height: 100%;
   border-right: 1px solid lightgrey;
   border-radius: 5px;
+  padding: 0 1em;
+  overflow-y: scroll;
 }
 
-.sectionHeader {
-  font-size: 1.6em;
-  text-align: center;
-  margin: 1em;
+.feedHeader {
+  font-size: 1.4em;
+  text-align: left;
+  padding: 0.5em;
+  margin-bottom: 1em;
+}
+
+.loggedIn {
+  opacity: 0.6;
+  font-size: 12px;
+}
+
+.welcomeHeader {
+  font-size: 2em;
+  text-align: left;
 }
 
 .overview {
@@ -45,11 +57,24 @@
 }
 
 .listHeader {
-  text-align: center;
+  text-align: left;
   margin-bottom: 1em;
+  border-bottom: 1px solid lightgrey;
+  width: 80%;
 }
 
 .listItem {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.listItem span {
+  opacity: 0.6;
+  font-size: 10px;
+  line-height: 1em;
+  margin-top: 1em;
 }
 
 /* ---- OverviewSection ---- */
