@@ -2,6 +2,7 @@ import React, {useState, useContext} from 'react'
 import {AuthContext} from '../context/authContext'
 import axios from 'axios'
 import history from '../history'
+import {notify} from './helper/toast'
 import styles from './css/Signup.module.css'
 
 const Signup = () => {
@@ -31,7 +32,7 @@ const Signup = () => {
         password,
       })
     } catch (err) {
-      console.error(err)
+      notify(`${err}`, 'error')
     }
 
     // pull user out of response, add local set on AuthContext
