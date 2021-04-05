@@ -20,14 +20,14 @@ import {
 } from '../context/axiosService'
 
 const OrganizationCard = ({
-  userId,
-  orgId,
-  name,
-  imageUrl,
+  organization,
   numMembers,
   setCurrentOrgId,
   setActiveField,
 }) => {
+  const {name, imageUrl} = organization
+  const orgId = organization.id
+
   const buttons = [
     {
       id: 1,
@@ -120,14 +120,21 @@ const AllOrgs = () => {
   }
 
   // delete a single org and persist to local state
-  const deleteOrg = async (orgId) => {
-    const orgToBeDeleted = organizations.find((org) => org.id === orgId)
-
+  const deleteOrg = async (orgForDelete) => {
     // check user status and escape if not admin
+    const isAdmin = orgForDelete.user_organization.role === 'admin'
+    if (!isAdmin) {
+      notify('Only organization admins can delete the organization!', 'warning')
 
+      return
+    }
+
+    // else delete org and persist to local state, db
     try {
-      await deleteOrganizationDB(orgId)
-      setOrganizations(organizations.filter((org) => org.id !== orgId))
+      await deleteOrganizationDB(orgForDelete.id)
+      setOrganizations(
+        organizations.filter((org) => org.id !== orgForDelete.id)
+      )
       notify(`Organization successfully deleted!`, 'warning')
     } catch (err) {
       console.error(err)
@@ -195,9 +202,7 @@ const AllOrgs = () => {
             <OrganizationCard
               key={org.id}
               userId={user.id}
-              orgId={org.id}
-              name={org.name}
-              imageUrl={org.imageUrl}
+              organization={org}
               numMembers={org && org.users ? org.users.length : 0}
               setCurrentOrgId={setCurrentOrgId}
               setActiveField={setActiveField}

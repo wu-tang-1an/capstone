@@ -3,8 +3,8 @@ import Modal from './Modal'
 import styles from './css/DeleteOrgModal.module.css'
 
 const DeleteOrgModal = ({
-  deleteOrg,
   currentOrgId,
+  deleteOrg,
   organizations,
   closeModal,
 }) => {
@@ -25,7 +25,7 @@ const DeleteOrgModal = ({
             type="button"
             className={styles.deleteBtn}
             onClick={() => {
-              deleteOrg(thisOrg.id)
+              deleteOrg(thisOrg)
               closeModal()
             }}
           >
