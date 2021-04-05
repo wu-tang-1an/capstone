@@ -25,12 +25,14 @@ const AddCommentDialog = ({addComment, closeCommentDialog}) => {
     }
 
     await addComment(newComment, user.id)
+    setContent('')
   }
 
   return (
     <div className={styles.addCommentDropDownContainer} ref={containerRef}>
       <textarea
         className={styles.description}
+        value={content}
         onChange={(e) => setContent(e.target.value)}
         style={{border: '1px solid lightgrey', marginTop: '1em'}}
       ></textarea>

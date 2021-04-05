@@ -193,7 +193,7 @@ const TaskCard = ({task, index}) => {
               <NumberOfCommentsBadge
                 numberOfComments={comments ? comments.length : 0}
               />
-              <img src={user.imageUrl} />
+              <img src={users[0].imageUrl || ''} />
             </section>
           </div>
         </Container>
