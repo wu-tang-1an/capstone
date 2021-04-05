@@ -134,11 +134,7 @@ router.delete('/:commentId', checkUser, async (req, res, next) => {
     const {commentId} = req.params
     if (isNaN(commentId)) return resNaN(commentId, res)
 
-    const comment = await Comment.destroy({
-      where: {
-        id: commentId,
-      },
-    })
+    const comment = await Comment.destroy({where: {id: commentId}})
     if (!comment) return resDbNotFound(STR_COMMENT, res)
 
     return resDeleted(STR_COMMENT, commentId, res)

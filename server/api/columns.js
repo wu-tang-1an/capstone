@@ -217,11 +217,7 @@ router.delete('/:columnId', checkUser, async (req, res, next) => {
     const {columnId} = req.params
     if (isNaN(columnId)) return resNaN(columnId, res)
 
-    const column = await Column.destroy({
-      where: {
-        id: columnId,
-      },
-    })
+    const column = await Column.destroy({where: {id: columnId}})
     if (!column) return resDbNotFound(STR_COLUMN, res)
 
     return resDeleted(STR_COLUMN, columnId, res)
