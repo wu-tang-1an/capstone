@@ -29,7 +29,7 @@ const OrganizationCard = ({
         </div>
       </Link>
       <button
-        className={styles.openModalBtn}
+        className={styles.leaveOrgBtn}
         type="button"
         onClick={() => {
           setOrgIdForDelete(orgId)
@@ -99,6 +99,7 @@ const AllOrgs = () => {
           setOrganizations={setOrganizations}
         />
       </div>
+
       <div className={styles.headerAndOrgs}>
         <div className={styles.headerAndCreateBtn}>
           <div className={styles.sectionHeader}>My Organizations</div>
@@ -107,6 +108,7 @@ const AllOrgs = () => {
             setOrganizations={setOrganizations}
           />
         </div>
+
         <div className={styles.allOrgsContainer}>
           {organizations.map((org) => (
             <OrganizationCard
