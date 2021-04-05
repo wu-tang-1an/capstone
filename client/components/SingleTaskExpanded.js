@@ -165,12 +165,13 @@ const SingleTaskExpanded = ({task, closeModal}) => {
             </span>
             <span className={styles.taskId}>{`#${id}`}</span>
             {!isActiveNameEdit && (
-              <div className={styles.nameAndEditIcon}>
-                <span
-                  className={styles.taskName}
-                  onClick={() => setActiveNameEdit(true)}
-                >
-                  {taskName} <i className="material-icons">create</i>
+              <div
+                className={styles.nameAndEditIcon}
+                onClick={() => setActiveNameEdit(true)}
+              >
+                <span className={styles.taskName}>{taskName}</span>
+                <span className={styles.editIcon}>
+                  <i className="material-icons">create</i>
                 </span>
               </div>
             )}
@@ -210,37 +211,45 @@ const SingleTaskExpanded = ({task, closeModal}) => {
       </section>
       <section className={styles.mainPanel}>
         <div className={styles.descriptionContainer}>
-          <div className={styles.containerLabel}>
+          <div
+            className={styles.containerLabel}
+            onClick={() => setActiveMarkdownEditor(true)}
+          >
             <span>Task description</span>
-            <span className={styles.smol}>click below to edit</span>
+            <span className={styles.editIcon}>
+              <i className="material-icons">create</i>
+            </span>
           </div>
           {/* when markdown editor has focus, it is a textarea */}
           {activeMarkdownEditor && (
-            <textarea
-              className={styles.descriptionMarkdown}
-              ref={(input) => input && input.focus()}
-              onBlur={async () => {
-                // get a new timeStamp for the edit
-                const newTimeStamp = new Date()
-                // PUT task db
-                const updateInfo = {
-                  description: taskDescription,
-                  editTimeStamp: newTimeStamp,
-                }
-                const updatedTask = await updateTaskDB(updateInfo, id)
-                setTaskChanged(!taskChanged)
-                setActiveMarkdownEditor(false)
-                setLastEdit(updatedTask.editTimeStamp)
-                socket.emit(socketSent.EDIT_TASK, {
-                  ignoreUser: socket.id,
-                  projectId: project.id,
-                  updatedTask,
-                })
-              }}
-              name="description"
-              value={taskDescription || ''}
-              onChange={(e) => setDescription(e.target.value)}
-            ></textarea>
+            <>
+              <textarea
+                className={styles.descriptionMarkdown}
+                ref={(input) => input && input.focus()}
+                onBlur={async () => {
+                  // get a new timeStamp for the edit
+                  const newTimeStamp = new Date()
+                  // PUT task db
+                  const updateInfo = {
+                    description: taskDescription,
+                    editTimeStamp: newTimeStamp,
+                  }
+                  const updatedTask = await updateTaskDB(updateInfo, id)
+                  setTaskChanged(!taskChanged)
+                  setActiveMarkdownEditor(false)
+                  setLastEdit(updatedTask.editTimeStamp)
+                  socket.emit(socketSent.EDIT_TASK, {
+                    ignoreUser: socket.id,
+                    projectId: project.id,
+                    updatedTask,
+                  })
+                }}
+                name="description"
+                value={taskDescription || ''}
+                onChange={(e) => setDescription(e.target.value)}
+              ></textarea>
+              <span className={styles.saveEditBtn}>Save Changes</span>
+            </>
           )}
           {/* when markdown editor does not have focus it is a div that renders its innerHTML as markdown */}
           {!activeMarkdownEditor && (

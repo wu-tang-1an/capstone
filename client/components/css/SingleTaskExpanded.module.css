@@ -49,7 +49,7 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  margin-top: -1em;
+  margin-top: 1em;
 }
 
 .badgeNameId {
@@ -70,28 +70,21 @@
 
 .nameAndEditIcon {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: flex-start;
   width: 100%;
+  max-width: 320px;
 }
 
 .taskName {
   font-weight: bold;
-  padding: 0.3em 0.4em;
-  width: max-content;
-  max-width: 250px;
-  height: min-content;
+  margin-left: 0.5em;
 }
 
-.taskName i {
-  visibility: hidden;
+.clickToEdit {
   font-size: 18px;
   opacity: 0.6;
   width: min-content;
-}
-
-.taskName:hover i {
-  visibility: visible;
 }
 
 .editName {
@@ -99,9 +92,9 @@
   align-items: center;
   justify-content: flex-start;
   height: 3em;
-  width: auto;
-  margin-left: 0.5em;
+  width: 300px;
   padding: 0 0.3em;
+  margin-left: 0.5em;
 }
 
 .creator,
@@ -152,9 +145,25 @@
 
 .containerLabel {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
   margin-top: 1em;
+}
+
+.editIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  padding: 4px;
+  height: 24px;
+  width: 24px;
+  background-color: white;
+  margin-left: 0.5em;
+}
+
+.editIcon i {
+  font-size: 18px;
 }
 
 .smol {
@@ -177,14 +186,18 @@
   cursor: auto;
 }
 
-textarea {
-  outline: none;
-  padding: 1em;
+.saveEditBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  padding: 0.3em 0.6em;
+  border-radius: 5px;
+  font-size: 14px;
 }
 
-textarea:focus {
-  border: transparent;
-  resize: none;
+.saveEditBtn:hover {
+  color: blue;
 }
 
 .markdownLink {
