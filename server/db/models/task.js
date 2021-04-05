@@ -34,6 +34,17 @@ const Task = db.define('task', {
   },
 })
 
+// class methods
 Task.getFromNow = (date) => moment(date).format('l').replace(/\//g, '')
+
+// instance methods
+Task.prototype.getTimeLeft = function () {
+  const today = new Date(moment().format('L'))
+  let result = this.completionDate - today
+  result = result / 60000
+
+  //this will return the amount of the days left
+  return result
+}
 
 module.exports = Task
