@@ -20,6 +20,7 @@ import {
 } from '../context/axiosService'
 
 const OrganizationCard = ({
+  userId,
   orgId,
   name,
   imageUrl,
@@ -120,6 +121,10 @@ const AllOrgs = () => {
 
   // delete a single org and persist to local state
   const deleteOrg = async (orgId) => {
+    const orgToBeDeleted = organizations.find((org) => org.id === orgId)
+
+    // check user status and escape if not admin
+
     try {
       await deleteOrganizationDB(orgId)
       setOrganizations(organizations.filter((org) => org.id !== orgId))
@@ -189,6 +194,7 @@ const AllOrgs = () => {
           {organizations.map((org) => (
             <OrganizationCard
               key={org.id}
+              userId={user.id}
               orgId={org.id}
               name={org.name}
               imageUrl={org.imageUrl}
