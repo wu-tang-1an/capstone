@@ -79,6 +79,8 @@
 .taskName {
   font-weight: bold;
   margin-left: 0.5em;
+  max-width: 300px;
+  overflow-wrap: break-word;
 }
 
 .clickToEdit {
@@ -141,6 +143,7 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
+  overflow-wrap: break-word;
 }
 
 .containerLabel {
@@ -216,8 +219,13 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 4em;
+  height: auto;
   padding: 1em;
   border: 1px solid lightgrey;
   border-radius: 5px;
+}
+
+.noCommentMessage span {
+  max-width: 300px;
+  overflow-wrap: break-word;
 }
