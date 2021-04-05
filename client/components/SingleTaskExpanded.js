@@ -285,6 +285,7 @@ const SingleTaskExpanded = ({task, closeModal}) => {
               <div className={styles.noCommentMessage}>
                 <span>
                   Be the first to comment on
+                  <br />
                   <strong>{` ${task.name}`}</strong>
                 </span>
               </div>
