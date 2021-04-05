@@ -156,7 +156,9 @@ const SingleOrganization = () => {
         </Modal>
       )}
       <section className={styles.leftPanel}>
-        <div className={styles.membersTitle}>{name} Members</div>
+        <div className={styles.membersTitle}>
+          <span>{name}</span> Members
+        </div>
         <div className={styles.membersContainer}>
           {members.map((member) => (
             <Member

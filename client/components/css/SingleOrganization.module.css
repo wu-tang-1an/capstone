@@ -39,6 +39,12 @@
   margin-left: 1em;
 }
 
+.membersTitle span {
+  max-width: 270px;
+  display: inline-block;
+  overflow-wrap: break-word;
+}
+
 .imgAndInfo {
   display: flex;
   align-items: center;
@@ -131,6 +137,8 @@
 .avatarAndName span {
   padding: 1em;
   font-size: 1.8em;
+  max-width: 400px;
+  overflow-wrap: break-word;
 }
 
 .headerAndBtn {
