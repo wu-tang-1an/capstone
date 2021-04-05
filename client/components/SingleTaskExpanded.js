@@ -176,31 +176,34 @@ const SingleTaskExpanded = ({task, closeModal}) => {
               </div>
             )}
             {isActiveNameEdit && (
-              <textarea
-                className={styles.editName}
-                ref={(input) => input && input.focus()}
-                defaultValue={taskName}
-                onChange={(e) => setTaskName(e.target.value)}
-                onBlur={async () => {
-                  // get a new timeStamp for the edit
-                  const newTimeStamp = new Date()
-                  // PUT the new task in the db
-                  const updateInfo = {
-                    name: taskName,
-                    editTimeStamp: newTimeStamp,
-                  }
-                  const updatedTask = await updateTaskDB(updateInfo, task.id)
-                  setTaskChanged(!taskChanged)
-                  setTaskName(updatedTask.name)
-                  setActiveNameEdit(false)
-                  setLastEdit(updatedTask.editTimeStamp)
-                  socket.emit(socketSent.EDIT_TASK, {
-                    ignoreUser: socket.id,
-                    projectId: project.id,
-                    updatedTask,
-                  })
-                }}
-              ></textarea>
+              <>
+                <textarea
+                  className={styles.editName}
+                  ref={(input) => input && input.focus()}
+                  defaultValue={taskName}
+                  onChange={(e) => setTaskName(e.target.value)}
+                  onBlur={async () => {
+                    // get a new timeStamp for the edit
+                    const newTimeStamp = new Date()
+                    // PUT the new task in the db
+                    const updateInfo = {
+                      name: taskName,
+                      editTimeStamp: newTimeStamp,
+                    }
+                    const updatedTask = await updateTaskDB(updateInfo, task.id)
+                    setTaskChanged(!taskChanged)
+                    setTaskName(updatedTask.name)
+                    setActiveNameEdit(false)
+                    setLastEdit(updatedTask.editTimeStamp)
+                    socket.emit(socketSent.EDIT_TASK, {
+                      ignoreUser: socket.id,
+                      projectId: project.id,
+                      updatedTask,
+                    })
+                  }}
+                ></textarea>
+                <span className={styles.saveEditTitleBtn}>Save Changes</span>
+              </>
             )}
           </div>
           <span className={styles.creator}>Opened by {createdBy}</span>
@@ -282,6 +285,7 @@ const SingleTaskExpanded = ({task, closeModal}) => {
               <div className={styles.noCommentMessage}>
                 <span>
                   Be the first to comment on
+                  <br />
                   <strong>{` ${task.name}`}</strong>
                 </span>
               </div>

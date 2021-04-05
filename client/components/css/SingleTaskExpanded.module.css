@@ -95,7 +95,7 @@
   align-items: center;
   justify-content: flex-start;
   height: 3em;
-  width: 300px;
+  width: 200px;
   padding: 0 0.3em;
   margin-left: 0.5em;
 }
@@ -151,7 +151,7 @@
 .containerLabel {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   margin-top: 1em;
 }
 
@@ -191,7 +191,13 @@
   cursor: auto;
 }
 
-.saveEditBtn {
+.saveEditTitleBtn {
+  margin-left: 0.5em;
+  margin-bottom: -0.8em;
+}
+
+.saveEditBtn,
+.saveEditTitleBtn {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -199,9 +205,12 @@
   padding: 0.3em 0.6em;
   border-radius: 5px;
   font-size: 14px;
+  width: 110px;
+  cursor: pointer;
 }
 
-.saveEditBtn:hover {
+.saveEditBtn:hover,
+.saveEditTitleBtn:hover {
   color: blue;
 }
 
@@ -223,12 +232,14 @@
   width: 100%;
   height: auto;
   padding: 1em;
+  margin: 0 auto;
   border: 1px solid lightgrey;
   border-radius: 5px;
 }
 
 .noCommentMessage span {
   max-width: 300px;
+  text-align: center;
   overflow-wrap: break-word;
   display: inline-block;
 }
