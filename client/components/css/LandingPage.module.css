@@ -51,6 +51,9 @@
 
 .landingPageForm button,
 .gotoProjects button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 5px;
   border: transparent;
   background-color: rgb(60, 60, 197);
@@ -67,4 +70,8 @@
   display: flex;
   justify-content: flex-end;
   padding-right: 3em;
+}
+
+.gotoProjects button {
+  padding: 1em;
 }
