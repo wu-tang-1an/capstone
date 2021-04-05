@@ -10,11 +10,16 @@ import {AuthContext} from '../context/authContext'
 import InvitationProvider, {
   InvitationContext,
 } from '../context/invitationContext'
+import {notify} from './helper/toast'
 import styles from './css/AllOrgs.module.css'
-import {fetchUserOrgs, removeUserFromOrgDB} from '../context/axiosService'
+import {
+  fetchUserOrgs,
+  removeUserFromOrgDB,
+  editOrganizationDB,
+  deleteOrganizationDB,
+} from '../context/axiosService'
 
 const OrganizationCard = ({
-  userId,
   orgId,
   name,
   imageUrl,
@@ -101,6 +106,29 @@ const AllOrgs = () => {
     }
   }
 
+  // edit a single org and persist to local state
+  const editOrg = async (orgId, updateInfo) => {
+    try {
+      const editedOrg = await editOrganizationDB(orgId, updateInfo)
+      setOrganizations(
+        organizations.map((org) => (org.id === editedOrg.id ? editedOrg : org))
+      )
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  // delete a single org and persist to local state
+  const deleteOrg = async (orgId) => {
+    try {
+      await deleteOrganizationDB(orgId)
+      setOrganizations(organizations.filter((org) => org.id !== orgId))
+      notify(`Organization successfully deleted!`, 'warning')
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   // local state for modals
   const [activeField, setActiveField] = useState('')
   const [currentOrgId, setCurrentOrgId] = useState(0)
@@ -114,30 +142,28 @@ const AllOrgs = () => {
             currentOrgId={currentOrgId}
             organizations={organizations}
             setOrganizations={setOrganizations}
-            setActiveField={setActiveField}
-            closeModal={() => setActiveField('leaveOrg')}
+            closeModal={() => setActiveField('')}
           />
         </Modal>
       )}
       {activeField === 'editOrg' && (
         <Modal>
           <EditOrgModal
+            editOrg={editOrg}
             currentOrgId={currentOrgId}
             organizations={organizations}
             setOrganizations={setOrganizations}
-            setActiveField={setActiveField}
-            closeModal={() => setActiveField('editOrg')}
+            closeModal={() => setActiveField('')}
           />
         </Modal>
       )}
       {activeField === 'deleteOrg' && (
         <Modal>
           <DeleteOrgModal
+            deleteOrg={deleteOrg}
             currentOrgId={currentOrgId}
             organizations={organizations}
-            setOrganizations={setOrganizations}
-            setActiveField={setActiveField}
-            closeModal={() => setActiveField('deleteOrg')}
+            closeModal={() => setActiveField('')}
           />
         </Modal>
       )}
@@ -163,7 +189,6 @@ const AllOrgs = () => {
           {organizations.map((org) => (
             <OrganizationCard
               key={org.id}
-              userId={user.id}
               orgId={org.id}
               name={org.name}
               imageUrl={org.imageUrl}

@@ -107,9 +107,18 @@ export const addOrganizationDB = async ({userId, newOrg}) => {
   }
 }
 
-export const deleteOrganizationDB = async (deleteOrg) => {
+export const deleteOrganizationDB = async (orgId) => {
   try {
-    const {data} = await axios.delete(`/api/organizations/${deleteOrg.id}`)
+    const {data} = await axios.delete(`/api/organizations/${orgId}`)
+    return data
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+export const editOrganizationDB = async (orgId, updateInfo) => {
+  try {
+    const {data} = await axios.put(`/api/organizations/${orgId}`, updateInfo)
     return data
   } catch (err) {
     console.error(err)
