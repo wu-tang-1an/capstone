@@ -29,7 +29,7 @@ const OrganizationCard = ({
         </div>
       </Link>
       <button
-        className={styles.openModalBtn}
+        className={styles.leaveOrgBtn}
         type="button"
         onClick={() => {
           setOrgIdForDelete(orgId)

@@ -103,7 +103,7 @@
   text-align: center;
 }
 
-.openModalBtn {
+.leaveOrgBtn {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -111,9 +111,10 @@
   padding: 0.5em;
   border: transparent;
   border-radius: 5px;
+  width: 94%;
 }
 
-.openModalBtn:hover {
+.leaveOrgBtn:hover {
   color: white;
   background-color: darkgrey;
 }
