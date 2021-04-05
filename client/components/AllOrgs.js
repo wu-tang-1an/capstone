@@ -23,7 +23,7 @@ const OrganizationCard = ({
     <div className={styles.orgCardContainer}>
       <Link to={`/organizations/${orgId}`}>
         <div className={styles.imgAndOrgName}>
-          <img src={imageUrl} />
+          <img src={imageUrl} className={styles.allOrgsImg} />
           <div className={styles.orgName}>{name}</div>
           <div className={styles.numMembers}>{`${numMembers} members`}</div>
         </div>
