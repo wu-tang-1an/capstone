@@ -27,7 +27,6 @@
   border-right: 1px solid lightgrey;
   border-radius: 5px;
   padding: 0 1em;
-  /* overflow-y: scroll; */
   overflow: auto;
 }
 
@@ -43,6 +42,7 @@
   font-size: 12px;
   max-width: 240px;
   overflow-wrap: break-word;
+  display: inline-block;
 }
 
 .welcomeHeader {
@@ -97,6 +97,7 @@
 .listItemTaskName {
   max-width: 260px;
   overflow-wrap: break-word;
+  display: inline-block;
 }
 
 /* ---- OverviewSection ---- */

@@ -58,6 +58,7 @@
 .orgCardContainer {
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: space-between;
   height: auto;
   min-height: 300px;
@@ -70,8 +71,6 @@
 .imgAndOrgName {
   display: flex;
   flex-direction: column;
-  overflow-wrap: break-word;
-  display: inline-block;
 }
 
 .allOrgsImg {
@@ -93,7 +92,10 @@
   font-size: 1.2em;
   font-weight: bold;
   text-align: center;
-  margin: 0.5em 0;
+  margin: 0.5em auto;
+  max-width: 230px;
+  overflow-wrap: break-word;
+  display: inline-block;
 }
 
 .numMembers {
