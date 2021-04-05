@@ -3,6 +3,7 @@
 .wrapper {
   display: flex;
   padding: 1em;
+  justify-content: center;
 }
 
 .leftPanel {
@@ -103,6 +104,10 @@
 }
 
 /* ---- SingleOrganization Right Panel ---- */
+
+.rightPanel {
+  width: 70%;
+}
 
 .avatarAndName {
   display: flex;
