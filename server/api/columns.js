@@ -217,26 +217,6 @@ router.delete('/:columnId', checkUser, async (req, res, next) => {
     const {columnId} = req.params
     if (isNaN(columnId)) return resNaN(columnId, res)
 
-    // get column tasks
-    const columnTasks = await Task.findAll({
-      where: {
-        columnId: columnId,
-      },
-    })
-    if (!columnTasks) return resDbNotFound(STR_TASKS, res)
-
-    // destroy column tasks before destroying column
-    // this removes tasks from db rather than simply
-    // removing the association of a task to a column
-    columnTasks.forEach(async (task) => {
-      await Task.destroy({
-        where: {
-          id: task.id,
-        },
-      })
-    })
-
-    // then destroy column
     const column = await Column.destroy({
       where: {
         id: columnId,
