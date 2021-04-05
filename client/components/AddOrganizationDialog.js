@@ -2,6 +2,7 @@ import React, {useState, useContext} from 'react'
 import Modal from './Modal'
 import {addOrganizationDB} from '../context/axiosService'
 import {AuthContext} from '../context/authContext'
+import {notify} from './helper/toast'
 import styles from './css/AddOrganizationDialog.module.css'
 
 const NewOrganizationForm = ({
@@ -31,6 +32,10 @@ const NewOrganizationForm = ({
 
             setOrganizations([...organizations, createdOrg])
             closeModal()
+            notify(
+              `Organization ${createdOrg.name} successfully created!`,
+              'success'
+            )
           } catch (err) {
             console.error(err)
           }
