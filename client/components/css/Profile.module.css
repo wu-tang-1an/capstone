@@ -25,10 +25,14 @@
 
 .nameCont {
   text-align: center;
+  overflow-wrap: break-word;
+  max-width: 500px;
 }
 
 .emailCont {
   text-align: center;
+  overflow-wrap: break-word;
+  max-width: 500px;
 }
 
 .updateProfileCont {

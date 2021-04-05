@@ -168,7 +168,7 @@
 .projectFrameContainer {
   display: flex;
   justify-content: space-between;
-  height: 200px;
+  height: auto;
   width: 700px;
   box-shadow: 0.8px 0.9px 3px rgb(187, 187, 187);
   border-radius: 5px;
@@ -185,8 +185,7 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  height: 100%;
-  width: 100%;
+  width: 500px;
   padding: 1em 0.4em 1em 1em;
 }
 
@@ -207,13 +206,16 @@
 .projectName {
   font-size: 1.4em;
   font-weight: bold;
+  overflow-wrap: break-word;
 }
 
 .projectStatus {
   opacity: 0.6;
   margin-bottom: 2em;
+  max-width: 440px;
 }
 
 .projectDescription {
-  width: 100%;
+  width: auto;
+  max-width: 440px;
 }

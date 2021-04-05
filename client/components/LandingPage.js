@@ -41,7 +41,7 @@ const LandingPage = () => {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Email"
             />
-            <button type="submit">Sign up!</button>
+            <button type="button">Sign up!</button>
           </form>
         )}
       </section>
