@@ -207,6 +207,8 @@
   font-size: 1.4em;
   font-weight: bold;
   overflow-wrap: break-word;
+  display: inline-block;
+  max-width: 400px;
 }
 
 .projectStatus {
