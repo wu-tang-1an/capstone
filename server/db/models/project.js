@@ -21,7 +21,7 @@ const Project = db.define('project', {
   },
 
   imageUrl: {
-    type: Sequelize.STRING,
+    type: Sequelize.TEXT,
     defaultValue: 'https://unsplash.it/200/200',
     validate: {
       isUrl: true,

@@ -80,6 +80,12 @@
   font-size: 14px;
 }
 
+.formField pre img {
+  margin: 1em;
+  max-height: 300px;
+  width: auto;
+}
+
 .formField label .columnNameInput {
   width: 400px;
   border: 1px solid lightgrey;
