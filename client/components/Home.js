@@ -36,6 +36,7 @@ const ListContainer = ({list, type}) => {
                   </span>
                 )}
                 <div
+                  className={styles.listItemTaskName}
                   style={
                     item.isActiveBadge ? {color: 'red'} : {color: 'inherit'}
                   }

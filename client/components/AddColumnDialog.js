@@ -31,7 +31,7 @@ const AddColumnDialog = ({closeModal}) => {
 
     try {
       // create new column
-      const createdColumn = await addColumnDB(newColumn)
+      const createdColumn = await addColumnDB(newColumn, project.id)
 
       // associate new column with project
       await axios.put(

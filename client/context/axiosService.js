@@ -201,9 +201,12 @@ export const getColumnsDB = async (projectId) => {
 }
 
 // add a column
-export const addColumnDB = async (newColumn) => {
+export const addColumnDB = async (newColumn, projectId) => {
   try {
-    const {data} = await axios.post(`/api/columns/`, newColumn)
+    const {data} = await axios.post(
+      `/api/columns/projects/${projectId}`,
+      newColumn
+    )
     return data
   } catch (err) {
     console.error(err)
