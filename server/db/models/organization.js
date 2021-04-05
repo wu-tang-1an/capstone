@@ -10,7 +10,7 @@ const Organization = db.define('organization', {
   },
 
   imageUrl: {
-    type: Sequelize.STRING,
+    type: Sequelize.TEXT,
     defaultValue: `https://source.unsplash.com/600x400/?headquarters,sig=${getRandNum()}`,
   },
 })
