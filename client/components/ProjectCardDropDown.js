@@ -43,6 +43,7 @@ const ProjectCardDropDown = ({project, organization, setProjects}) => {
 
 const DropDownContainer = ({project, organization, setProjects}) => {
   const [activeField, setActiveField] = useState('')
+  console.log('activeField--->', activeField)
 
   const closeModal = () => setActiveField('')
 

@@ -1,11 +1,12 @@
 import React, {useState, useContext, useEffect} from 'react'
 import {Link} from 'react-router-dom'
 import {AuthContext} from '../context/authContext'
+import RemoveOrgModal from './RemoveOrgModal'
 import {CgOrganisation} from 'react-icons/cg'
 import {IconContext} from 'react-icons'
 import AddOrgDropdown from './AddOrgDropdown'
 import styles from './css/AllOrgs.module.css'
-import RemoveOrgModal from './RemoveOrgModal'
+// import RemoveOrgModal from './RemoveOrgModal'
 import {removeUserFromOrgDB, fetchUserOrgs} from '../context/axiosService'
 
 const AllOrgs = () => {
@@ -14,12 +15,6 @@ const AllOrgs = () => {
 
   // initialize all orgs state
   const [organizations, setOrganizations] = useState([])
-
-  // closeModal clears activeField
-  // used by RemoveOrg modal
-  const [show, setShow] = useState(false)
-
-  const closeModalHandler = () => setShow(false)
 
   // fetch all orgs
   useEffect(() => {
@@ -74,23 +69,15 @@ const AllOrgs = () => {
                     <h3 className={styles.orgName}>{org.name}</h3>
                   </div>
                   <div className={styles.btnContainer}>
-                    <div onClick={closeModalHandler}></div>
                     <button
                       className={styles.removeBtn}
                       type="button"
-                      onClick={() => setShow(true)}
-                      style={{zIndex: '10'}}
+                      onClick={(event) => {
+                        deleteOrganization(event, org)
+                      }}
                     >
                       Leave
                     </button>
-                    {show && (
-                      <RemoveOrgModal
-                        org={org}
-                        show={show}
-                        deleteOrganization={deleteOrganization}
-                        closeModalHandler={closeModalHandler}
-                      />
-                    )}
                   </div>
                 </div>
               </Link>
