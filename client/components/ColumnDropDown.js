@@ -109,6 +109,7 @@ const ColumnDropDown = ({columnId, closeDropDown}) => {
             <div className={styles.newColumnName}>New column name</div>
             <input
               type="text"
+              value={name}
               className={styles.columnNameInput}
               onChange={(e) => setName(e.target.value)}
             />
