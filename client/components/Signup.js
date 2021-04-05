@@ -3,6 +3,24 @@ import {AuthContext} from '../context/authContext'
 import axios from 'axios'
 import history from '../history'
 import styles from './css/Signup.module.css'
+import {notify} from './helper/toast'
+
+const validate = (firstName, lastName, email, password) => {
+  let errors = []
+
+  if (!firstName.length) errors.push('First name must not be empty!')
+  if (!lastName.length) errors.push('Last name must not be empty!')
+
+  if (email.length < 5) errors.push('Email must be at least 5 characters long!')
+  if (!email.includes('@')) errors.push('Email must contain an @ symbol!')
+  if (!email.includes('.')) errors.push('Email must contain at least one dot!')
+
+  if (!password.length) {
+    errors.push('Password must not be empty!')
+  }
+
+  return errors
+}
 
 const Signup = () => {
   // retrieve the user's email from landing page
@@ -20,6 +38,16 @@ const Signup = () => {
   // login method
   const authenticateUser = async (e) => {
     e.preventDefault()
+
+    const errors = validate(firstName, lastName, email, password)
+
+    if (errors.length) {
+      errors.forEach((error) => {
+        notify(error, 'error')
+      })
+
+      return
+    }
 
     // catch errors with user retrieval
     let res
