@@ -8,7 +8,7 @@ import styles from './css/TaskCardDropDown.module.css'
 const fields = [
   {id: 1, type: 'Edit task'},
   {id: 2, type: 'Delete task'},
-  {id: 3, type: 'Back'},
+  {id: 3, type: 'Close menu'},
   // more fields as necessary
 ]
 
