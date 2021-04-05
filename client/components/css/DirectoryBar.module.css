@@ -1,6 +1,6 @@
 .directoryBarContainer {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: flex-start;
   width: auto;
   height: min-content;
@@ -11,6 +11,16 @@
 
 .directoryBarContainer a:hover {
   text-decoration: underline;
+}
+
+.directoryBarContainer strong {
+  margin-right: 0.5em;
+}
+
+.cappedWidth {
+  max-width: 400px;
+  display: inline-block;
+  overflow-wrap: break-word;
 }
 
 .divider {
