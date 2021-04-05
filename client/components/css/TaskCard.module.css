@@ -44,6 +44,8 @@ section {
   justify-content: space-between;
   margin: 0 0 0.5em 1em;
   width: 76%;
+  max-width: 280px;
+  overflow-wrap: break-word;
 }
 
 .title {
