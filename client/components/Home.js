@@ -1,5 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react'
-import Slider from './sub-components/Slider'
+import moment from 'moment'
+import {Link} from 'react-router-dom'
+import Slider from './Slider'
 import {AuthContext} from '../context/authContext'
 import {fetchUserOrgs} from '../context/axiosService'
 import styles from './css/Home.module.css'
@@ -9,11 +11,41 @@ const ListContainer = ({list, type}) => {
     <div className={styles.listContainer}>
       <div className={styles.listHeader}>My {type}</div>
       <ul>
-        {list.map((item) => (
-          <li key={item.id} className={styles.listItem}>
-            {item.name}
-          </li>
-        ))}
+        {list.map((item) => {
+          // generate a link based on list type
+          // if org or project, link to org || project / orgId || projectId
+          // if task, link to task's project board
+          const address =
+            type === 'Organizations'
+              ? `/organizations/${item.id}`
+              : type === 'Projects'
+              ? `/projects/${item.id}`
+              : `/projects/${item.projectId}`
+
+          return (
+            <Link key={item.id} to={address}>
+              <li className={styles.listItem}>
+                {type === 'Tasks' && (
+                  <span style={{textAlign: 'right'}}>
+                    {moment(
+                      new Date(Date.parse(item.completionDate)),
+                      'YYYYMMDD'
+                    )
+                      .endOf('week')
+                      .fromNow()}
+                  </span>
+                )}
+                <div
+                  style={
+                    item.isActiveBadge ? {color: 'red'} : {color: 'inherit'}
+                  }
+                >
+                  {item.name}
+                </div>
+              </li>
+            </Link>
+          )
+        })}
       </ul>
     </div>
   )
@@ -77,12 +109,27 @@ const Home = () => {
     return orgs.map((org) => org.projects).flat()
   }
 
-  // helper extracts tasks from user projects
+  // helper extracts tasks from user projects and sorts by closest completionDate
   const getMyTasks = (projects) => {
-    return projects
-      .map((project) => project.columns.map((column) => column.tasks).flat())
+    const columns = projects.map((project) => project.columns).flat()
+
+    const colAndProjectIds = columns.map((col) => ({
+      colId: col.id,
+      projectId: col.projectId,
+    }))
+
+    const tasks = columns
+      .map((col) => col.tasks)
       .flat()
       .filter((task) => task.createdBy === `${user.firstName} ${user.lastName}`)
+      .map((task) => {
+        const colAndProjectIdObj = colAndProjectIds.find(
+          (obj) => obj.colId === task.columnId
+        )
+        return {...task, projectId: colAndProjectIdObj.projectId}
+      })
+
+    return tasks.sort((a, b) => (a.completionDate < b.completionDate ? -1 : 1))
   }
 
   const userProjects = getMyProjects(userOrgs)
@@ -101,23 +148,16 @@ const Home = () => {
     },
     {
       id: 2,
-      title: 'Creating lists and tasks',
+      title: 'Lists and tasks',
       text:
-        "Keeping track of what's next has never been easier: note-ary's task-list system lets you create, assign, and prioritize your workflow. Our realtime communication support keeps you in sync with your teammates -- whatever changes you make will be reflected in your colleagues' boards instantly.",
+        "Keeping track of what's next has never been easier. Note-ary's task-list system lets you create, assign, and prioritize your workflow. With built-in Markdown support, note-ary lets you write and format task descriptions with ease and clarity.",
       videoSrcList: ['/assets/add-column.webm', '/assets/add-task.webm'],
     },
     {
       id: 3,
-      title: 'Editing tasks and lists',
+      title: 'Frictionless collaboration',
       text:
-        "Note-ary's built-in Markdown support lets you write and format task descriptions with ease and clarity. Each task comes equipped with a realtime-chat-enabled comments section -- remote communication is key, and note-ary wants to help keep you in the loop.",
-      videoSrcList: ['/assets/edit-task.webm'],
-    },
-    {
-      id: 4,
-      title: 'Removing tasks and lists',
-      text:
-        "Finished a task? One-click deletion moves you closer to your goal. New workflow? Create a new list, migrate your tasks, and tear down the old list. Note-ary allows you to customize your workflow to suit your team's unique vision and style.",
+        "Note-ary's realtime communication support keeps you in sync with your teammates: whatever changes you make will be reflected in your colleagues' boards instantly. Start a conversation, complete a task, reorganize a list -- with note-ary, your work will get the attention it deserves.",
       videoSrcList: [
         '/assets/edit-delete-column.webm',
         '/assets/delete-task.webm',
@@ -146,13 +186,18 @@ const Home = () => {
   return (
     <div className={styles.homeContainer}>
       <section className={styles.myFeed}>
-        <div className={styles.sectionHeader}>My Feed</div>
+        <div className={styles.feedHeader}>
+          <div>My Feed</div>
+          <div
+            className={styles.loggedIn}
+          >{`Logged in as ${user.firstName} ${user.lastName}`}</div>
+        </div>
         {lists.map(({id, list, type}) => (
           <ListContainer key={id} list={list} type={type} />
         ))}
       </section>
       <section className={styles.overview}>
-        <div className={styles.sectionHeader}>Welcome and Overview</div>
+        <div className={styles.welcomeHeader}>Welcome and Overview</div>
         {panels.map(({id, title, text, videoSrcList}) => (
           <OverviewSection
             key={id}

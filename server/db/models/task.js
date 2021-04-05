@@ -11,13 +11,19 @@ const Task = db.define('task', {
     defaultValue: 'This field is <strong>Markdown-enabled</strong>',
   },
   completionDate: {
-    type: Sequelize.STRING,
+    type: Sequelize.DATE,
   },
   createdBy: {
     type: Sequelize.STRING,
   },
   editTimeStamp: {
     type: Sequelize.DATE,
+  },
+  formattedDate: {
+    type: Sequelize.VIRTUAL,
+    set() {
+      this.setDataValue('formattedDate', this.getFromNow(this.editTimeStamp))
+    },
   },
   isActiveBadge: {
     type: Sequelize.BOOLEAN,
@@ -28,6 +34,10 @@ const Task = db.define('task', {
   },
 })
 
+// class methods
+Task.getFromNow = (date) => moment(date).format('l').replace(/\//g, '')
+
+// instance methods
 Task.prototype.getTimeLeft = function () {
   const today = new Date(moment().format('L'))
   let result = this.completionDate - today

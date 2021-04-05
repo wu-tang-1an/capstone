@@ -1,10 +1,18 @@
 const timeStamp = new Date()
 
+const getCompletionDate = () => {
+  const newDate = timeStamp.setDate(
+    timeStamp.getDate() + Math.ceil(Math.random() * 5)
+  )
+
+  return newDate
+}
+
 module.exports = [
   {
     name: 'refactor components',
     isActiveBadge: false,
-    completionDate: '4/1/2021',
+    completionDate: getCompletionDate(),
     editTimeStamp: timeStamp,
     createdBy: 'Daniel Shapiro',
     index: 0,
@@ -12,7 +20,7 @@ module.exports = [
   {
     name: 'marketing work',
     isActiveBadge: true,
-    completionDate: '4/2/2021',
+    completionDate: getCompletionDate(),
     editTimeStamp: timeStamp,
     createdBy: 'David Ahn',
     index: 1,
@@ -20,7 +28,7 @@ module.exports = [
   {
     name: 'design logo',
     isActiveBadge: false,
-    completionDate: '4/3/2021',
+    completionDate: getCompletionDate(),
     editTimeStamp: timeStamp,
     createdBy: 'Gene Kaufman',
     index: 0,
@@ -28,7 +36,7 @@ module.exports = [
   {
     name: 'design header',
     isActiveBadge: true,
-    completionDate: '4/4/2021',
+    completionDate: getCompletionDate(),
     editTimeStamp: timeStamp,
     createdBy: 'Johnny Vazquez',
     index: 1,
@@ -36,7 +44,7 @@ module.exports = [
   {
     name: 'update vscode',
     isActiveBadge: false,
-    completionDate: '4/5/2021',
+    completionDate: getCompletionDate(),
     editTimeStamp: timeStamp,
     createdBy: 'Daniel Shapiro',
     index: 0,
@@ -44,7 +52,7 @@ module.exports = [
   {
     name: 'update oauth',
     isActiveBadge: true,
-    completionDate: '4/6/2021',
+    completionDate: getCompletionDate(),
     editTimeStamp: timeStamp,
     createdBy: 'David Ahn',
     index: 1,
@@ -52,7 +60,7 @@ module.exports = [
   {
     name: 'changeover localSecrets.js',
     isActiveBadge: false,
-    completionDate: '4/7/2021',
+    completionDate: getCompletionDate(),
     editTimeStamp: timeStamp,
     createdBy: 'Gene Kaufman',
     index: 0,
@@ -60,7 +68,7 @@ module.exports = [
   {
     name: 'oversee merge',
     isActiveBadge: true,
-    completionDate: '4/8/2021',
+    completionDate: getCompletionDate(),
     editTimeStamp: timeStamp,
     createdBy: 'Johnny Vazquez',
     index: 1,
@@ -68,7 +76,7 @@ module.exports = [
   {
     name: 'build component tree',
     isActiveBadge: false,
-    completionDate: '4/9/2021',
+    completionDate: getCompletionDate(),
     editTimeStamp: timeStamp,
     createdBy: 'Daniel Shapiro',
     index: 0,
@@ -76,7 +84,7 @@ module.exports = [
   {
     name: 'diagram changes',
     isActiveBadge: true,
-    completionDate: '4/10/2021',
+    completionDate: getCompletionDate(),
     editTimeStamp: timeStamp,
     createdBy: 'David Ahn',
     index: 1,
@@ -84,7 +92,7 @@ module.exports = [
   {
     name: 'update layout',
     isActiveBadge: false,
-    completionDate: '4/11/2021',
+    completionDate: getCompletionDate(),
     editTimeStamp: timeStamp,
     createdBy: 'Gene Kaufman',
     index: 0,
@@ -92,7 +100,7 @@ module.exports = [
   {
     name: 'modularize css',
     isActiveBadge: true,
-    completionDate: '4/12/2021',
+    completionDate: getCompletionDate(),
     editTimeStamp: timeStamp,
     createdBy: 'Johnny Vazquez',
     index: 1,
@@ -100,7 +108,7 @@ module.exports = [
   {
     name: 'write user stories',
     isActiveBadge: false,
-    completionDate: '4/13/2021',
+    completionDate: getCompletionDate(),
     editTimeStamp: timeStamp,
     createdBy: 'Daniel Shapiro',
     index: 0,
@@ -108,7 +116,7 @@ module.exports = [
   {
     name: 'refactor db',
     isActiveBadge: true,
-    completionDate: '4/14/2021',
+    completionDate: getCompletionDate(),
     editTimeStamp: timeStamp,
     createdBy: 'David Ahn',
     index: 1,
@@ -116,7 +124,7 @@ module.exports = [
   {
     name: 'update models',
     isActiveBadge: false,
-    completionDate: '4/15/2021',
+    completionDate: getCompletionDate(),
     editTimeStamp: timeStamp,
     createdBy: 'Gene Kaufman',
     index: 0,
@@ -124,7 +132,7 @@ module.exports = [
   {
     name: 'write gatekeeping middleware',
     isActiveBadge: true,
-    completionDate: '4/16/2021',
+    completionDate: getCompletionDate(),
     editTimeStamp: timeStamp,
     createdBy: 'Johnny Vazquez',
     index: 1,
@@ -132,7 +140,7 @@ module.exports = [
   {
     name: 'reverse linked list',
     isActiveBadge: false,
-    completionDate: '4/17/2021',
+    completionDate: getCompletionDate(),
     editTimeStamp: timeStamp,
     createdBy: 'Daniel Shapiro',
     index: 0,
@@ -140,7 +148,7 @@ module.exports = [
   {
     name: 'buy popcorn',
     isActiveBadge: true,
-    completionDate: '4/18/2021',
+    completionDate: getCompletionDate(),
     editTimeStamp: timeStamp,
     createdBy: 'David Ahn',
     index: 1,
@@ -148,7 +156,7 @@ module.exports = [
   {
     name: 'play guitar hero',
     isActiveBadge: false,
-    completionDate: '4/19/2021',
+    completionDate: getCompletionDate(),
     editTimeStamp: timeStamp,
     createdBy: 'Gene Kaufman',
     index: 0,
@@ -156,7 +164,7 @@ module.exports = [
   {
     name: 'deploy on heroku',
     isActiveBadge: true,
-    completionDate: '4/20/2021',
+    completionDate: getCompletionDate(),
     editTimeStamp: timeStamp,
     createdBy: 'Johnny Vazquez',
     index: 1,
@@ -164,7 +172,7 @@ module.exports = [
   {
     name: 'rewrite markup',
     isActiveBadge: false,
-    completionDate: '4/9/2021',
+    completionDate: getCompletionDate(),
     editTimeStamp: timeStamp,
     createdBy: 'Daniel Shapiro',
     index: 0,
@@ -172,7 +180,7 @@ module.exports = [
   {
     name: 'purchase snacks',
     isActiveBadge: true,
-    completionDate: '4/10/2021',
+    completionDate: getCompletionDate(),
     editTimeStamp: timeStamp,
     createdBy: 'David Ahn',
     index: 1,
@@ -180,7 +188,7 @@ module.exports = [
   {
     name: 'reboot server',
     isActiveBadge: false,
-    completionDate: '4/11/2021',
+    completionDate: getCompletionDate(),
     editTimeStamp: timeStamp,
     createdBy: 'Gene Kaufman',
     index: 0,
@@ -188,7 +196,7 @@ module.exports = [
   {
     name: 'install centOS',
     isActiveBadge: true,
-    completionDate: '4/12/2021',
+    completionDate: getCompletionDate(),
     editTimeStamp: timeStamp,
     createdBy: 'Johnny Vazquez',
     index: 1,
@@ -196,7 +204,7 @@ module.exports = [
   {
     name: 'play backgammon',
     isActiveBadge: false,
-    completionDate: '4/13/2021',
+    completionDate: getCompletionDate(),
     editTimeStamp: timeStamp,
     createdBy: 'Daniel Shapiro',
     index: 0,
@@ -204,7 +212,7 @@ module.exports = [
   {
     name: 'eat more greens',
     isActiveBadge: true,
-    completionDate: '4/14/2021',
+    completionDate: getCompletionDate(),
     editTimeStamp: timeStamp,
     createdBy: 'David Ahn',
     index: 1,
@@ -212,7 +220,7 @@ module.exports = [
   {
     name: 'update schema',
     isActiveBadge: false,
-    completionDate: '4/15/2021',
+    completionDate: getCompletionDate(),
     editTimeStamp: timeStamp,
     createdBy: 'Gene Kaufman',
     index: 0,
@@ -220,7 +228,7 @@ module.exports = [
   {
     name: 'learn sass',
     isActiveBadge: true,
-    completionDate: '4/16/2021',
+    completionDate: getCompletionDate(),
     editTimeStamp: timeStamp,
     createdBy: 'Johnny Vazquez',
     index: 1,
@@ -228,7 +236,7 @@ module.exports = [
   {
     name: 'convert to context',
     isActiveBadge: false,
-    completionDate: '4/17/2021',
+    completionDate: getCompletionDate(),
     editTimeStamp: timeStamp,
     createdBy: 'Daniel Shapiro',
     index: 0,
@@ -236,7 +244,7 @@ module.exports = [
   {
     name: 'refactor store',
     isActiveBadge: true,
-    completionDate: '4/18/2021',
+    completionDate: getCompletionDate(),
     editTimeStamp: timeStamp,
     createdBy: 'David Ahn',
     index: 1,
@@ -244,7 +252,7 @@ module.exports = [
   {
     name: 'play guitar hero again',
     isActiveBadge: false,
-    completionDate: '4/19/2021',
+    completionDate: getCompletionDate(),
     editTimeStamp: timeStamp,
     createdBy: 'Gene Kaufman',
     index: 0,
@@ -252,7 +260,7 @@ module.exports = [
   {
     name: 'deploy on Travis-CI',
     isActiveBadge: true,
-    completionDate: '4/20/2021',
+    completionDate: getCompletionDate(),
     editTimeStamp: timeStamp,
     createdBy: 'Johnny Vazquez',
     index: 1,

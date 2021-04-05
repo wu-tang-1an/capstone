@@ -113,6 +113,9 @@ router.get('/:userId/organizations', checkUser, async (req, res, next) => {
             },
           ],
         },
+        {
+          model: User,
+        },
       ],
     })
     return res.json(orgs)

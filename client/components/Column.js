@@ -27,7 +27,7 @@ const DivHell = ({column}) => {
     column && column.tasks ? column.tasks.sort((a, b) => a.index - b.index) : []
 
   return (
-    <div>
+    <>
       {isDropDownActive && (
         <ColumnDropDown columnId={column.id} closeDropDown={closeDropDown} />
       )}
@@ -87,7 +87,7 @@ const DivHell = ({column}) => {
           )}
         </Droppable>
       </div>
-    </div>
+    </>
   )
 }
 

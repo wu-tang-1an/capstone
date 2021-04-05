@@ -1,39 +1,219 @@
-.organizationContainer {
-  display: flex;
-  flex-direction: column;
-  margin: 0 auto;
-  padding: 0;
-}
+/* ---- SingleOrganization Left Panel ---- */
 
-.organizationImg {
-  height: 200px;
-  width: auto;
-  margin: 0 auto;
-}
-
-.membersAndProjects {
+.wrapper {
   display: flex;
-  justify-content: space-around;
-  width: 80vw;
-  margin: 0 auto;
   padding: 1em;
 }
 
-.membersContainer,
-.projectsContainer {
+.leftPanel {
+  width: 30%;
+  min-width: 280px;
+  max-width: 300px;
+  border-right: 1px solid lightgrey;
+  margin-right: 2em;
+}
+
+.membersContainer {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
 }
 
-.membersTitle,
-.projectsTitle {
-  font: bold;
-  font-size: 22px;
+/* ---- Member ---- */
+
+.memberContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 270px;
+  padding: 1em;
 }
 
-.memberList {
+.membersTitle {
+  font-size: 1.2em;
+  text-align: left;
+  margin-bottom: 1em;
+  margin-left: 1em;
+}
+
+.imgAndInfo {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.memberAvatar {
+  border-radius: 50%;
+  height: 48px;
+  width: 48px;
+  border: transparent;
+  margin-right: 1em;
+}
+
+.nameAndRole {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.memberRole {
+  opacity: 0.6;
+  font-size: 12px;
+}
+
+.removeBtnContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.removeBtnContainer i {
+  color: red;
+}
+
+.removeBtnContainer span {
+  font-size: 12px;
+}
+
+.addUserBtnContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2em;
+}
+
+.addUserToOrgBtn {
+  padding: 0.5em 1em;
+  border-radius: 5px;
+  border: transparent;
+  color: white;
+  background-color: rgb(77, 155, 77);
+}
+
+.addUserToOrgBtn:hover {
+  background-color: rgb(60, 122, 60);
+}
+
+/* ---- SingleOrganization Right Panel ---- */
+
+.avatarAndName {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 2em;
+}
+
+.avatarAndName img {
+  height: 100px;
+  width: auto;
+  border-radius: 5px;
+}
+
+.avatarAndName span {
+  padding: 1em;
+  font-size: 1.8em;
+}
+
+.headerAndBtn {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  width: min-content;
+  margin-bottom: 1em;
+}
+
+.projectHeader {
+  font-size: 1.2em;
+  text-align: left;
+  margin-right: 1em;
+}
+
+.createProjectBtn {
+  border: transparent;
+  border-radius: 5px;
+  padding: 0.5em;
+  color: white;
+  background-color: rgb(35, 118, 187);
+  width: 160px;
+}
+
+.createProjectBtn:hover {
+  background-color: rgb(28, 96, 151);
+}
+
+.allProjectsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 0;
+  height: 660px;
+  overflow-y: scroll;
+}
+
+/* ---- ProjectFrame ---- */
+
+.frameBoundary {
+  width: 700px;
+}
+
+.projectFrameContainer {
+  display: flex;
+  justify-content: space-between;
+  height: 200px;
+  width: 700px;
+  box-shadow: 0.8px 0.9px 3px rgb(187, 187, 187);
+  border-radius: 5px;
+  margin: 1em 0;
+}
+
+.projectFrameContainer img {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.projectContents {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  height: 100%;
+  width: 100%;
+  padding: 1em 0.4em 1em 1em;
+}
+
+.menuContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+  padding: 0;
+  height: 0;
+  cursor: pointer;
+}
+
+.menuContainer span {
+  right: 0.3em;
+}
+
+.projectName {
+  font-size: 1.4em;
+  font-weight: bold;
+}
+
+.projectStatus {
+  opacity: 0.6;
+  margin-bottom: 2em;
+}
+
+.projectDescription {
+  width: 100%;
 }

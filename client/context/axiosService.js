@@ -23,9 +23,38 @@ export const updateUserDB = async (userId, updateInfo) => {
 
 /* INVITES */
 
-export async function sendInvite(inviteObj) {
+export const fetchUserInvites = async (userId) => {
   try {
-    let response = await axios.post('/api/invitations', {
+    const {data} = await axios.get(`/api/invitations/${userId}/`)
+    return data
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+// important! no returned value from put on this route
+export const updateUserRoleDB = async (userId, orgId, inviteId, role) => {
+  try {
+    await axios.put(`/api/users/${userId}/organizations/${orgId}`, {
+      role: role,
+    })
+    await axios.delete(`/api/invitations/${inviteId}`)
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+export const deleteInviteDB = async (inviteId) => {
+  try {
+    await axios.delete(`/api/invitations/${inviteId}`)
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+export const sendInvite = async (inviteObj) => {
+  try {
+    const response = await axios.post('/api/invitations', {
       orgId: inviteObj.orgId,
       userEmail: inviteObj.userEmail,
       inviter: inviteObj.inviter,
@@ -66,9 +95,12 @@ export async function getOrganizationRole(userId, orgId) {
   }
 }
 
-export const addOrganizationDB = async (newOrg) => {
+export const addOrganizationDB = async ({userId, newOrg}) => {
   try {
-    const {data} = await axios.post(`/api/organizations/`, newOrg)
+    // remove imageUrl key if empty to trigger Sequelize defaultValue imageUrl
+    if (!newOrg.imageUrl) delete newOrg.imageUrl
+
+    const {data} = await axios.post(`/api/organizations/`, {userId, newOrg})
     return data
   } catch (err) {
     console.error(err)
@@ -89,8 +121,6 @@ export const addUserToOrgDB = async (orgId, userId) => {
     const {data} = await axios.put(
       `/api/organizations/${orgId}/users/${userId}`
     )
-    console.log('data is: ', data)
-
     return data
   } catch (err) {
     console.error(err)
@@ -99,10 +129,7 @@ export const addUserToOrgDB = async (orgId, userId) => {
 
 export const removeUserFromOrgDB = async (orgId, userId) => {
   try {
-    const {data} = await axios.delete(
-      `/api/organizations/${orgId}/users/${userId}`
-    )
-    return data
+    await axios.delete(`/api/organizations/${orgId}/users/${userId}`)
   } catch (err) {
     console.error(err)
   }

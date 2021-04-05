@@ -14,9 +14,6 @@ const Signup = () => {
   const [email, setEmail] = useState(newUserEmail || '')
   const [password, setPassword] = useState('')
 
-  // reveal form
-  const [isFormVisible, setFormVisible] = useState(false)
-
   // setUser method from AuthProvider
   const {setUser} = useContext(AuthContext)
 
@@ -42,7 +39,7 @@ const Signup = () => {
     const user = res.data
     try {
       setUser(user)
-      history.push('/organizations')
+      history.push('/home')
     } catch (err) {
       console.error(err)
     }
@@ -50,79 +47,62 @@ const Signup = () => {
 
   return (
     <div className={styles.signupContainer}>
-      <div className={styles.leftPanel}>
-        <div className={styles.title}>
-          Signup with{' '}
-          <span className={styles.notearyColor}>note&#8209;ary</span>
-        </div>
+      <div className={styles.sectionHeader}>
+        Signup with <span className={styles.notearyColor}>note&#8209;ary</span>
+      </div>
 
-        {!isFormVisible && (
-          <div className={styles.btnContainer}>
-            <a href="/auth/google" className={styles.googleSignupBtn}>
-              <span>
-                <img src="/google-logo.webp" />
-              </span>
-              Signup with Google
-            </a>
-            <button
-              type="submit"
-              className={styles.localSignupBtn}
-              onClick={() => setFormVisible(!isFormVisible)}
-            >
-              Signup Direct
-            </button>
+      <section className={styles.formAndBtns}>
+        <form className={styles.signupForm}>
+          <div>
+            <label htmlFor="firstName">First name</label>
+            <input
+              type="text"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+            />
           </div>
-        )}
-        {isFormVisible && (
-          <form className={styles.signupForm}>
-            <span onClick={() => setFormVisible(!isFormVisible)}>
-              Back to signup options
+          <div>
+            <label htmlFor="lastName">Last name</label>
+            <input
+              type="text"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+            />
+          </div>
+          <div>
+            <label htmlFor="email">Email</label>
+            <input
+              type="text"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <div>
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+        </form>
+
+        <div className={styles.btnContainer}>
+          <button
+            type="submit"
+            className={styles.signMeUpBtn}
+            onClick={authenticateUser}
+          >
+            Sign me up!
+          </button>
+          <a href="/auth/google" className={styles.googleSignupBtn}>
+            <span>
+              <img src="/google-logo.webp" />
             </span>
-            <div>
-              <label htmlFor="firstName">First name</label>
-              <input
-                type="text"
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-              />
-            </div>
-            <div>
-              <label htmlFor="lastName">Last name</label>
-              <input
-                type="text"
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
-              />
-            </div>
-            <div>
-              <label htmlFor="email">Email</label>
-              <input
-                type="text"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-            <div>
-              <label htmlFor="password">Password</label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-            <button
-              type="submit"
-              className={styles.signMeUp}
-              onClick={authenticateUser}
-            >
-              Sign me up!
-            </button>
-          </form>
-        )}
-      </div>
-      <div className={styles.signupPhoto}>
-        <div className={styles.transparencyMask}></div>
-      </div>
+            Signup with Google
+          </a>
+        </div>
+      </section>
     </div>
   )
 }

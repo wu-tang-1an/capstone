@@ -1,0 +1,94 @@
+.modalContent {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 2em;
+  border-radius: 5px;
+  background-color: white;
+}
+
+.labelAndInput,
+.statusContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  margin-bottom: 1em;
+}
+
+.labelAndInput label,
+.statusContainer label {
+  margin-bottom: 0.3em;
+  font-size: 14px;
+}
+
+.labelAndInput input[type='text'] {
+  width: 400px;
+  height: 2.5em;
+  padding: 0.5em;
+  border-radius: 5px;
+  border: 1px solid lightgrey;
+}
+
+.labelAndInput textarea {
+  width: 400px;
+  height: 120px;
+  resize: vertical;
+  border-radius: 5px;
+  border: 1px solid lightgrey;
+  padding: 0.5em;
+}
+
+.statusContainer {
+  margin-top: 1em;
+  width: 100%;
+}
+
+.statusContainer label {
+  margin-right: 0.5em;
+}
+
+.statusRadioGroup input[type='radio'] {
+  margin-right: 0.3em;
+  font-size: 18px;
+}
+
+.statusRadioGroup label {
+  font-size: 1em;
+  margin-right: 1em;
+}
+
+.modalBtnsContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: min-content;
+  margin-top: 1em;
+}
+
+.modalBtnsContainer button {
+  width: 49.5%;
+  border-radius: 5px;
+  border: transparent;
+  padding: 0.5em;
+}
+
+.cancelBtn {
+  background-color: lightgrey;
+}
+
+.cancelBtn:hover {
+  background-color: rgb(172, 172, 172);
+  color: white;
+}
+
+.editBtn {
+  color: white;
+  background-color: rgb(37, 134, 214);
+}
+
+.editBtn:hover {
+  background-color: rgb(35, 118, 187);
+}

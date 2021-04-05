@@ -9,7 +9,7 @@ const ProjectView = ({match}) => {
   const projectId = +match.params.projectId
 
   return (
-    <div className={styles.projectContainer} style={{marginTop: '15px'}}>
+    <div className={styles.projectContainer}>
       <ProjectProvider projectId={projectId}>
         <DirectoryBar />
         <Board />

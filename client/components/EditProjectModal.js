@@ -4,7 +4,7 @@ import {AuthContext} from '../context/authContext'
 import {getOrgDb, updateProjectDb} from '../context/axiosService'
 import {notify} from './helper/toast'
 
-import styles from './css/ColumnDropDown.module.css'
+import styles from './css/EditProjectModal.module.css'
 
 const validate = (name, imageUrl) => {
   let errors = []
@@ -16,7 +16,7 @@ const validate = (name, imageUrl) => {
   return errors
 }
 
-const EditProjectModal = ({project, organization, setProjects, closeModal}) => {
+const EditProjectModal = ({organization, project, setProjects, closeModal}) => {
   const {user} = useContext(AuthContext)
 
   const [name, setName] = useState(project.name)
@@ -61,39 +61,64 @@ const EditProjectModal = ({project, organization, setProjects, closeModal}) => {
   return (
     <Modal>
       <div className={styles.modalContent}>
-        <div className={styles.newColumnName}>Edit project name</div>
-        <input
-          type="text"
-          className={styles.columnNameInput}
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <div className={styles.newColumnName}>Edit project description</div>
-        <input
-          type="text"
-          className={styles.columnNameInput}
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
-        <div className={styles.newColumnName}>Edit project image URL</div>
-        <input
-          type="text"
-          className={styles.columnNameInput}
-          value={imageUrl}
-          onChange={(e) => setImageUrl(e.target.value)}
-        />
-        <div className={styles.newColumnName}>Edit project status</div>
-        <select value={status} onChange={(e) => setStatus(e.target.value)}>
-          <option value="in-progress">in-progress</option>
-          <option value="complete">complete</option>
-        </select>
+        <div className={styles.labelAndInput}>
+          <label htmlFor="name">Name</label>
+          <input
+            type="text"
+            className={styles.projectNameInput}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </div>
+        <div className={styles.labelAndInput}>
+          <label htmlFor="description">Description</label>
+          <textarea
+            type="text"
+            className={styles.projectNameInput}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+        </div>
+        <div className={styles.labelAndInput}>
+          <label htmlFor="imageUrl">Image url</label>
+          <input
+            type="text"
+            className={styles.projectNameInput}
+            value={imageUrl}
+            onChange={(e) => setImageUrl(e.target.value)}
+          />
+        </div>
+        <div className={styles.statusContainer}>
+          <label htmlFor="status">Status</label>
+          <div
+            className={styles.statusRadioGroup}
+            onChange={(e) => setStatus(e.target.value)}
+          >
+            <input
+              type="radio"
+              id="in-progress"
+              name="status"
+              value="in-progress"
+              defaultChecked={status === 'in-progress'}
+            />
+            <label htmlFor="status">In-progress</label>
+            <input
+              type="radio"
+              id="complete"
+              name="status"
+              value="complete"
+              defaultChecked={status === 'complete'}
+            />
+            <label htmlFor="admin">Complete</label>
+          </div>
+        </div>
         <div className={styles.modalBtnsContainer}>
           <button
             type="button"
             className={styles.editBtn}
             onClick={editProject}
           >
-            Save
+            Save Project Info
           </button>
           <button
             type="button"

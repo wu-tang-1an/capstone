@@ -1,89 +1,93 @@
-.btnContainer {
+.wrapper {
   display: flex;
+  padding: 1em;
+}
+
+.leftPanel {
+  width: 30%;
+  min-width: 280px;
+  border-right: 1px solid lightgrey;
+  padding: 0 1em;
+}
+
+.headerAndOrgs {
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  align-items: baseline;
-  justify-content: center;
-  padding: 6px;
+  height: 100%;
 }
 
-.btnContainer button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 49.5%;
-  border-radius: 5px;
-  border: transparent;
-  padding: 0.5em;
-}
-
-.headerCont {
-  display: flex;
-  align-items: center;
-  text-align: center;
-}
-
-.spanCont {
-  padding: 6px;
-}
-
-.allOrgsHeader {
-  padding: 0px 10px;
-}
-
-.allOrgsAnchor {
-  text-decoration: none;
-}
-
-.allOrgsCont {
-  padding: 10px;
-  /* background-color: aqua; */
+.allOrgsContainer {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-
-  align-items: center;
+  justify-content: flex-start;
+  margin: 1em;
+  width: 900px;
+  height: 660px;
+  overflow-y: scroll;
 }
 
-.orgCont {
-  background-color: brown;
-
-  -webkit-box-shadow: 0 8px 6px -6px black;
-  -moz-box-shadow: 0 8px 6px -6px black;
-  box-shadow: 0 8px 6px -6px black;
-  margin-right: 6px;
-  margin-bottom: 6px;
+.headerAndCreateBtn {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-start;
+  margin-bottom: 1em;
 }
 
-.orgImgCont {
-  height: max-content;
-  width: 15rem;
+.sectionHeader {
+  font-size: 2em;
+  text-align: left;
+  margin-left: 1em;
+  margin-right: 0.8em;
 }
 
-.orgImg {
-  height: 9rem;
-  width: 15rem;
-  max-height: 9rem;
-  max-width: 15rem;
+.orgCardContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 300px;
+  width: 240px;
+  box-shadow: 0.8px 0.9px 3px rgb(187, 187, 187);
+  border-radius: 5px;
+  margin: 1em;
 }
 
-.orgNameCont {
-  text-align: center;
-  vertical-align: middle;
-  margin: auto;
-  color: whitesmoke;
+.imgAndOrgName {
+  display: flex;
+  flex-direction: column;
+}
+
+.imgAndOrgName img {
+  max-height: 100%;
+  width: auto;
+  object-fit: cover;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
 }
 
 .orgName {
-  padding: 5px;
-}
-.removeBtn {
-  background-color: rgb(95, 189, 95);
-  color: white;
-}
-.removeBtn:hover {
-  background-color: rgb(77, 155, 77);
+  font-size: 1.2em;
+  font-weight: bold;
+  text-align: center;
+  margin: 0.5em 0;
 }
 
-.test {
+.numMembers {
+  opacity: 0.6;
   text-align: center;
+}
+
+.openModalBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0.5em;
+  padding: 0.5em;
+  border: transparent;
+  border-radius: 5px;
+}
+
+.openModalBtn:hover {
+  color: white;
+  background-color: darkgrey;
 }

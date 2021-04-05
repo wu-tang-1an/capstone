@@ -37,7 +37,7 @@ const TaskCard = ({task, index}) => {
 
   // get user from auth context, unpack task, and get task's users
   const {user} = useContext(AuthContext)
-  const {id, name, createdAt} = task
+  const {id, name, createdAt, createdBy} = task
   const {users} = task || []
 
   // initilaize local state to track task card badge activation
@@ -51,12 +51,6 @@ const TaskCard = ({task, index}) => {
     taskChanged,
     setTaskChanged,
   } = useContext(ProjectContext)
-
-  // returns firstName + lastName for task card "opened by _____"
-  const getFullName = () => {
-    if (!users || (users && !users.length)) return ''
-    return `${users[0].firstName} ${users[0].lastName}`
-  }
 
   const activateTaskBadge = async () => {
     // PUT the new active badge status in db
@@ -188,7 +182,7 @@ const TaskCard = ({task, index}) => {
                     <span>{name}</span>
                   </div>
                   <div className={styles.idAndCreatedBy}>
-                    {`opened by ${getFullName()} on ${moment(createdAt).format(
+                    {`opened by ${createdBy} on ${moment(createdAt).format(
                       'l'
                     )}`}
                   </div>
@@ -199,7 +193,7 @@ const TaskCard = ({task, index}) => {
               <NumberOfCommentsBadge
                 numberOfComments={comments ? comments.length : 0}
               />
-              <img src={user.imageUrl} />
+              <img src={users[0].imageUrl || ''} />
             </section>
           </div>
         </Container>
