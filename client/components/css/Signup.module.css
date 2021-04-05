@@ -1,59 +1,52 @@
 .signupContainer {
   display: flex;
-}
-
-.leftPanel {
-  display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: center;
-  width: 38%;
-  padding: 0 1em;
+  width: 100%;
+  padding: 2em;
 }
 
-.title {
+.sectionHeader {
   font-size: 3em;
   color: black;
   line-height: 1em;
   margin-bottom: 1em;
-  text-align: center;
+  text-align: left;
+  width: 100%;
 }
 
-.smolTitle {
-  font-size: 24px;
+.notearyColor {
+  color: rgb(60, 60, 197);
 }
 
-.leftPanel .btnContainer {
+.formAndBtns {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  height: 100%;
+  width: 100%;
 }
 
-.btnContainer button,
-.btnContainer a,
-.signMeUp {
+/* ---- buttons ---- */
+
+.btnContainer {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 260px;
-  border-radius: 5px;
-  padding: 0.5em;
-  font-size: 18px;
+  width: 100%;
   margin-top: 2em;
 }
 
-.localSignupBtn,
-.signMeUp {
-  border: transparent;
-  background-color: rgb(60, 60, 197);
-  color: white;
-  margin-top: 1em;
-}
-
 .googleSignupBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: black;
   border: 1px solid lightgrey;
   background-color: transparent;
+  padding: 0.2em;
 }
 
 .googleSignupBtn img {
@@ -62,31 +55,48 @@
   margin-right: 1em;
 }
 
-.bigOr {
+.btnContainer button,
+.btnContainer a,
+.signMeUpBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 220px;
+  border-radius: 5px;
+  padding: 0.5em;
   font-size: 18px;
 }
 
-.leftPanel .signupForm {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin: 0 4em;
+.signMeUpBtn {
+  border: transparent;
+  background-color: rgb(60, 60, 197);
+  color: white;
+  margin-right: 10px;
 }
 
-.leftPanel .signupForm label {
+/* ---- form ---- */
+
+.signupForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  width: 450px;
+}
+
+.signupForm label {
   opacity: 0.6;
 }
 
-.leftPanel .signupForm > div:not(.formBtnContainer) {
+.signupForm > div:not(.btnContainer) {
   display: flex;
   flex-direction: column;
   margin-top: 1em;
   width: 100%;
 }
 
-.leftPanel .signupForm > div > input[type='text'],
-.leftPanel .signupForm > div > input[type='password'] {
+.signupForm > div > input[type='text'],
+.signupForm > div > input[type='password'] {
   display: flex;
   flex-grow: 1;
   width: 100%;
@@ -95,7 +105,7 @@
   border-radius: 5px;
 }
 
-.leftPanel .signupForm > span {
+.signupForm > span {
   border: 1px solid lightgrey;
   padding: 0.5em;
   border-radius: 5px;
@@ -103,16 +113,6 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-}
-
-.leftPanel .signupForm button {
-  width: 49.5%;
-  align-self: flex-end;
-  margin-top: 1.6em;
-}
-
-.notearyColor {
-  color: rgb(60, 60, 197);
 }
 
 .signupPhoto {
