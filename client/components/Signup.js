@@ -4,7 +4,6 @@ import axios from 'axios'
 import history from '../history'
 import {notify} from './helper/toast'
 import styles from './css/Signup.module.css'
-import {notify} from './helper/toast'
 
 const validate = (firstName, lastName, email, password) => {
   let errors = []
