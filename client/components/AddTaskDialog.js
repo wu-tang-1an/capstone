@@ -4,6 +4,7 @@ import {AuthContext} from '../context/authContext'
 import {ProjectContext} from '../context/projectContext'
 import {addTaskToColumnDB} from '../context/axiosService'
 import socket, {socketSent} from '../socket'
+import {notify} from './helper/toast'
 import axios from 'axios'
 
 const AddTaskDialog = ({columnId, closeTaskDialog}) => {
@@ -56,6 +57,8 @@ const AddTaskDialog = ({columnId, closeTaskDialog}) => {
 
       // then update the local state tasks record
       setTasks([...tasks, createdTask])
+      setName('')
+      notify('Task successfully created!', 'task')
 
       // do NOT close the task dialog -- this allows users
       // to create multiple cards without having to click the +
@@ -73,6 +76,7 @@ const AddTaskDialog = ({columnId, closeTaskDialog}) => {
   return (
     <div className={styles.addDropDownContainer}>
       <textarea
+        value={name}
         className={styles.name}
         onChange={(e) => setName(e.target.value)}
       ></textarea>
@@ -80,7 +84,9 @@ const AddTaskDialog = ({columnId, closeTaskDialog}) => {
         <button
           type="button"
           className={styles.addBtn}
-          onClick={(e) => addTask(e, name)}
+          onClick={(e) => {
+            addTask(e, name)
+          }}
         >
           Add task
         </button>
