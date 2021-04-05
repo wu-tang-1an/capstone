@@ -76,6 +76,10 @@
   border-radius: 5px;
 }
 
+.formField label {
+  font-size: 14px;
+}
+
 .formField label .columnNameInput {
   width: 400px;
   border: 1px solid lightgrey;
