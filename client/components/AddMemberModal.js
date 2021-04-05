@@ -4,19 +4,6 @@ import {AuthContext} from '../context/authContext'
 import {sendInvite} from '../context/axiosService'
 import {notify} from './helper/toast'
 
-// map roles to select options
-const roles = [
-  {
-    id: 1,
-    type: 'user',
-  },
-  {
-    id: 2,
-    type: 'admin',
-  },
-  // more select options as necessary here
-]
-
 const AddMemberModal = ({orgId, closeModal}) => {
   // grab user from auth context to send with invite
   const {user} = useContext(AuthContext)

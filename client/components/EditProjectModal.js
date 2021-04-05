@@ -2,13 +2,24 @@ import React, {useState} from 'react'
 import Modal from './Modal'
 import {getOrgDb, updateProjectDb} from '../context/axiosService'
 import {notify} from './helper/toast'
+import strConstraints from './helper/strConstrain'
 
 import styles from './css/EditProjectModal.module.css'
 
-const validate = (name, imageUrl) => {
+const validate = (name, description, imageUrl) => {
   let errors = []
 
-  if (!name.length) errors.push('Name must not be empty!')
+  if (!name.length) errors.push('Project name must not be empty!')
+  if (name > strConstraints.titleMaxChar)
+    errors.push(
+      `Project name is limited to ${strConstraints.titleMaxChar} characters!`
+    )
+
+  if (description > strConstraints.textMaxChar)
+    errors.push(
+      `Project description is limited to ${strConstraints.textMaxChar} characters!`
+    )
+
   if (!imageUrl.length) errors.push('URL must not be empty!')
   // implement check if valid url later
 
@@ -22,7 +33,7 @@ const EditProjectModal = ({organization, project, setProjects, closeModal}) => {
   const [imageUrl, setImageUrl] = useState(project.imageUrl)
 
   const editProject = async () => {
-    const errors = validate(name, imageUrl)
+    const errors = validate(name, description, imageUrl)
 
     if (errors.length) {
       errors.forEach((error) => {
