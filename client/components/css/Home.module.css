@@ -26,6 +26,8 @@
 .loggedIn {
   opacity: 0.6;
   font-size: 12px;
+  max-width: 240px;
+  overflow-wrap: break-word;
 }
 
 .welcomeHeader {
