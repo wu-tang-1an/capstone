@@ -1,6 +1,5 @@
-import React, {useContext} from 'react'
+import React from 'react'
 import Modal from './Modal'
-import {AuthContext} from '../context/authContext'
 import {deleteProjectDb, getOrgDb} from '../context/axiosService'
 import {notify} from './helper/toast'
 
@@ -12,14 +11,9 @@ const DeleteProjectModal = ({
   setProjects,
   closeModal,
 }) => {
-  const {user} = useContext(AuthContext)
-
   const deleteProject = async () => {
     // close the modal BEFORE changing state
     closeModal()
-
-    if (user.status !== 'admin')
-      return notify('Only admins can delete projects!', 'warning')
 
     // delete project from db
     await deleteProjectDb(project.id)
