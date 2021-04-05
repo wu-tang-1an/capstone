@@ -36,7 +36,7 @@ const User = db.define('user', {
   },
 
   imageUrl: {
-    type: Sequelize.STRING,
+    type: Sequelize.TEXT,
     defaultValue:
       'https://improvementarchitecture.co.uk/wp-content/uploads/2015/02/missing-profile-picture.jpg',
   },
