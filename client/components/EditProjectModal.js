@@ -99,9 +99,16 @@ const EditProjectModal = ({organization, project, setProjects, closeModal}) => {
               id="in-progress"
               name="status"
               value="in-progress"
+              defaultChecked={status === 'in-progress'}
             />
             <label htmlFor="status">In-progress</label>
-            <input type="radio" id="complete" name="status" value="complete" />
+            <input
+              type="radio"
+              id="complete"
+              name="status"
+              value="complete"
+              defaultChecked={status === 'complete'}
+            />
             <label htmlFor="admin">Complete</label>
           </div>
         </div>
