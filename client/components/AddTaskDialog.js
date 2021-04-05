@@ -5,6 +5,7 @@ import {ProjectContext} from '../context/projectContext'
 import {addTaskToColumnDB} from '../context/axiosService'
 import socket, {socketSent} from '../socket'
 import {notify} from './helper/toast'
+import strConstraints from './helper/strConstrain'
 import axios from 'axios'
 
 const AddTaskDialog = ({columnId, closeTaskDialog}) => {
@@ -28,6 +29,12 @@ const AddTaskDialog = ({columnId, closeTaskDialog}) => {
   // add task method updates db/local state before closing dialog
   const addTask = async (e) => {
     e.preventDefault()
+
+    if (name.length > strConstraints.titleMaxChar)
+      return notify(
+        `Task name is limited to ${strConstraints.titleMaxChar} characters!`,
+        'error'
+      )
 
     const newTask = {
       name,
@@ -58,7 +65,7 @@ const AddTaskDialog = ({columnId, closeTaskDialog}) => {
       // then update the local state tasks record
       setTasks([...tasks, createdTask])
       setName('')
-      notify('Task successfully created!', 'task')
+      notify(`Task ${createdTask.name} created!`, 'success')
 
       // do NOT close the task dialog -- this allows users
       // to create multiple cards without having to click the +

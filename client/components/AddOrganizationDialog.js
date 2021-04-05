@@ -3,6 +3,7 @@ import Modal from './Modal'
 import {addOrganizationDB} from '../context/axiosService'
 import {AuthContext} from '../context/authContext'
 import {notify} from './helper/toast'
+import strConstraints from './helper/strConstrain'
 import styles from './css/AddOrganizationDialog.module.css'
 
 const NewOrganizationForm = ({
@@ -19,6 +20,13 @@ const NewOrganizationForm = ({
       <form
         onSubmit={async (e) => {
           e.preventDefault()
+
+          if (name.length > strConstraints.nameMaxChar)
+            return notify(
+              `Organization name is limited to ${strConstraints.nameMaxChar} characters!`,
+              'error'
+            )
+
           try {
             const createdOrg = await addOrganizationDB({
               userId,

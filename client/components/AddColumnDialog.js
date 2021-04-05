@@ -4,6 +4,7 @@ import {ProjectContext} from '../context/projectContext'
 import {addColumnDB} from '../context/axiosService'
 import socket, {socketSent} from '../socket'
 import {notify} from './helper/toast'
+import strConstraints from './helper/strConstrain'
 import axios from 'axios'
 
 const AddColumnDialog = ({closeModal}) => {
@@ -16,6 +17,12 @@ const AddColumnDialog = ({closeModal}) => {
   // add column method updates db and closes the dialog
   const addColumn = async (e) => {
     e.preventDefault()
+
+    if (name.length > strConstraints.titleMaxChar)
+      return notify(
+        `Column name is limited to ${strConstraints.titleMaxChar} characters!`,
+        'error'
+      )
 
     // get new column instance for addColumnDB call
     const newColumn = {
