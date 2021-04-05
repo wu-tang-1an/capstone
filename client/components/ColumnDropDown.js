@@ -3,6 +3,7 @@ import {ProjectContext} from '../context/projectContext'
 import Modal from './Modal'
 import axios from 'axios'
 import socket, {socketSent} from '../socket'
+import {notify} from './helper/toast'
 import styles from './css/ColumnDropDown.module.css'
 
 // fields are actions that user can take from dropdown menu
@@ -41,6 +42,8 @@ const ColumnDropDown = ({columnId, closeDropDown}) => {
 
       setColumns(updatedColumns)
 
+      notify('Column name sucessfully edited!', 'success')
+
       socket.emit(socketSent.EDIT_COLUMN_NAME, {
         ignoreUser: socket.id,
         projectId: project.id,
@@ -61,6 +64,8 @@ const ColumnDropDown = ({columnId, closeDropDown}) => {
 
       // remove column from project context's columns record
       setColumns(updatedColumns)
+
+      notify('Column successfully deleted!', 'success')
 
       socket.emit(socketSent.DELETE_COLUMN, {
         ignoreUser: socket.id,
