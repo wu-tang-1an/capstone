@@ -18,11 +18,11 @@ import {
   editOrganizationDB,
   deleteOrganizationDB,
 } from '../context/axiosService'
+import socket, {socketSent, socketReceived} from '../socket'
 
 const OrganizationCard = ({
   userId,
   organization,
-  numMembers,
   setCurrentOrgId,
   setActiveField,
 }) => {
@@ -40,7 +40,9 @@ const OrganizationCard = ({
         <div className={styles.imgAndOrgName}>
           <img src={imageUrl} className={styles.allOrgsImg} />
           <div className={styles.orgName}>{name}</div>
-          <div className={styles.numMembers}>{`${numMembers} members`}</div>
+          <div className={styles.numMembers}>{`${
+            organization.users ? organization.users.length : 0
+          } members`}</div>
         </div>
       </Link>
       <div className={styles.orgBtnsContainer}>
@@ -111,7 +113,11 @@ const AllOrgs = () => {
   const leaveOrg = async (orgId) => {
     try {
       await removeUserFromOrgDB(orgId, user.id)
-      setOrganizations(organizations.filter((org) => org.id !== orgId))
+      setOrgWasEdited(!orgWasEdited)
+      /* setOrganizations(organizations.filter((org) => org.id !== orgId)) */
+      socket.emit(socketSent.LEAVE_ORG, {
+        ignoreUser: user.id,
+      })
     } catch (err) {
       console.error(err)
     }
@@ -121,11 +127,14 @@ const AllOrgs = () => {
   const editOrg = async (orgId, updateInfo) => {
     try {
       const editedOrg = await editOrganizationDB(orgId, updateInfo)
-      setOrgWasEdited(true)
-      setOrganizations(
-        organizations.map((org) => (org.id === editedOrg.id ? editedOrg : org))
-      )
-      setOrgWasEdited(false)
+      const projectIdArray = editedOrg.projects
+        ? editedOrg.projects.map((project) => project.id)
+        : []
+      setOrgWasEdited(!orgWasEdited)
+      socket.emit(socketSent.DELETE_ORG, {
+        ignoreUser: user.id,
+        projectIdArray: projectIdArray,
+      })
     } catch (err) {
       console.error(err)
     }
@@ -134,10 +143,15 @@ const AllOrgs = () => {
   // delete a single org and persist to local state
   const deleteOrg = async (orgForDelete) => {
     try {
+      const projectIdArray = orgForDelete.projects
+        ? orgForDelete.projects.map((project) => project.id)
+        : []
       await deleteOrganizationDB(orgForDelete.id)
-      setOrganizations(
-        organizations.filter((org) => org.id !== orgForDelete.id)
-      )
+      setOrgWasEdited(!orgWasEdited)
+      socket.emit(socketSent.DELETE_ORG, {
+        ignoreUser: user.id,
+        projectIdArray: projectIdArray,
+      })
       notify(`Organization successfully deleted!`, 'warning')
     } catch (err) {
       console.error(err)
@@ -147,6 +161,23 @@ const AllOrgs = () => {
   // local state for modals
   const [activeField, setActiveField] = useState('')
   const [currentOrgId, setCurrentOrgId] = useState(0)
+
+  // handle remote edit, delete orgs and user leave org events
+  socket.on(socketReceived.USER_LEFT_ORG, ({ignoreUser}) => {
+    if (user.id === ignoreUser) return
+    console.log('msg received!')
+    setOrgWasEdited(!orgWasEdited)
+  })
+  socket.on(socketReceived.ORG_WAS_EDITED, ({ignoreUser}) => {
+    if (user.id === ignoreUser) return
+    console.log('msg received!')
+    setOrgWasEdited(!orgWasEdited)
+  })
+  socket.on(socketReceived.ORG_WAS_DELETED, ({ignoreUser}) => {
+    if (user.id === ignoreUser) return
+    console.log('msg received!')
+    setOrgWasEdited(!orgWasEdited)
+  })
 
   return (
     <div className={styles.wrapper}>
@@ -204,7 +235,6 @@ const AllOrgs = () => {
               key={org.id}
               userId={user.id}
               organization={org}
-              numMembers={org && org.users ? org.users.length : 0}
               setCurrentOrgId={setCurrentOrgId}
               setActiveField={setActiveField}
               setOrganizations={setOrganizations}

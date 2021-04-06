@@ -101,7 +101,7 @@ router.put('/:orgId', checkUser, async (req, res, next) => {
     if (isNaN(orgId)) return resNaN(orgId, res)
 
     const [, updatedOrg] = await Organization.update(data, {
-      include: [{model: User}],
+      include: [{model: User}, {model: Project}],
       returning: true,
       where: {id: orgId},
     })

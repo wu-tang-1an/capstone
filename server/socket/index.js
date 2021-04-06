@@ -11,6 +11,9 @@ const received = {
   EDIT_COMMENT: 'edit-comment',
   DRAG_START: 'drag-start',
   DRAG_END: 'drag-end',
+  EDIT_ORG: 'edit-org',
+  DELETE_ORG: 'org-was-deleted',
+  LEAVE_ORG: 'leave-org',
 }
 
 const sent = {
@@ -26,6 +29,9 @@ const sent = {
   COMMENT_WAS_EDITED: 'comment-was-edited',
   DRAG_WAS_STARTED: 'drag-was-started',
   DRAG_WAS_ENDED: 'drag-was-ended',
+  ORG_WAS_EDITED: 'org-was-edited',
+  ORG_WAS_DELETED: 'org-was-deleted',
+  USER_LEFT_ORG: 'user-left-org',
 }
 
 module.exports = (io) => {
@@ -128,6 +134,30 @@ module.exports = (io) => {
         ignoreUser,
         projectId,
         dragId,
+      })
+    })
+
+    // if an org is edited or deleted, send to all project "rooms"
+    // if user is currently working in the project, they'll
+    // be notified and sent back to their home view
+    socket.on(received.EDIT_ORG, ({ignoreUser}) => {
+      console.log('received edited org')
+      io.emit(sent.ORG_WAS_EDITED, {
+        ignoreUser,
+      })
+    })
+
+    socket.on(received.DELETE_ORG, ({ignoreUser}) => {
+      console.log('received deleted org')
+      io.emit(sent.ORG_WAS_DELETED, {
+        ignoreUser,
+      })
+    })
+
+    socket.on(received.LEAVE_ORG, ({ignoreUser}) => {
+      console.log('received user left org')
+      io.emit(sent.USER_LEFT_ORG, {
+        ignoreUser,
       })
     })
   })
