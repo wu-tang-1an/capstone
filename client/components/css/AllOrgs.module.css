@@ -1,6 +1,7 @@
 .wrapper {
   display: flex;
   padding: 1em;
+  overflow-x: hidden;
 }
 
 .leftPanel {
