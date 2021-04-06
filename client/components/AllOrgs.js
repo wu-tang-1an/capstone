@@ -28,20 +28,21 @@ const OrganizationCard = ({
   const {name, imageUrl} = organization
   const orgId = organization.id
 
+  const leaveOrgBtn = {
+    id: 1,
+    value: 'Leave',
+    modalType: 'leaveOrg',
+  }
+
   const buttons = [
     {
       id: 1,
-      value: 'Leave',
-      modalType: 'leaveOrg',
-    },
-    {
-      id: 2,
-      value: 'Edit',
+      value: 'edit',
       modalType: 'editOrg',
     },
     {
-      id: 3,
-      value: 'Delete',
+      id: 2,
+      value: 'delete',
       modalType: 'deleteOrg',
     },
   ]
@@ -56,19 +57,40 @@ const OrganizationCard = ({
         </div>
       </Link>
       <div className={styles.orgBtnsContainer}>
-        {buttons.map(({id, value, modalType}) => (
-          <button
-            key={id}
-            className={styles.modifyOrgBtn}
-            type="button"
-            onClick={() => {
-              setCurrentOrgId(orgId)
-              setActiveField(modalType)
-            }}
-          >
-            {value}
-          </button>
-        ))}
+        <button
+          className={styles.modifyOrgBtn}
+          type="button"
+          onClick={() => {
+            setCurrentOrgId(orgId)
+            setActiveField('leaveOrg')
+          }}
+        >
+          Leave
+        </button>
+        {/* only show edit, delete btns if auth user is admin of organization */}
+        {organization.user_organization.role === 'admin' && (
+          <div className={styles.editAndDelete}>
+            <span
+              className={styles.editBtn}
+              onClick={() => {
+                setCurrentOrgId(orgId)
+                setActiveField('editOrg')
+              }}
+            >
+              edit
+            </span>
+            <span className={styles.divider}>|</span>
+            <span
+              className={styles.deleteBtn}
+              onClick={() => {
+                setCurrentOrgId(orgId)
+                setActiveField('deleteOrg')
+              }}
+            >
+              delete
+            </span>
+          </div>
+        )}
       </div>
     </div>
   )
