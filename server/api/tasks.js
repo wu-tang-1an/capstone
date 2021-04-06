@@ -198,19 +198,19 @@ router.put('/:taskId/users/:userId', checkUser, async (req, res, next) => {
 // DELETE remove user from task route '/api/tasks/:taskId/users/:userId' (AUTH USER ONLY)
 router.delete('/:taskId/users/:userId', checkUser, async (req, res, next) => {
   try {
-    const {userId, taskId} = req.params
-    if (isNaN(userId)) return resNaN(userId, res)
+    const {taskId, userId} = req.params
     if (isNaN(taskId)) return resNaN(taskId, res)
-
-    const user = await User.findByPk(userId)
-    if (!user) return resDbNotFound(STR_COLUMN, res)
+    if (isNaN(userId)) return resNaN(userId, res)
 
     const task = await Task.findByPk(taskId)
     if (!task) return resDbNotFound(STR_TASK, res)
 
+    const user = await User.findByPk(userId)
+    if (!user) return resDbNotFound(STR_USER, res)
+
     task.removeUser(user)
 
-    return resUnassoc(STR_USER, STR_TASK, userId, taskId, res)
+    return resUnassoc(STR_TASK, STR_USER, taskId, userId, res)
   } catch (err) {
     console.error(err)
   }
