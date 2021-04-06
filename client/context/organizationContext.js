@@ -19,6 +19,7 @@ const OrganizationProvider = ({match, children}) => {
   const [projects, setProjects] = useState([])
   const [authUserAdminStatus, setAuthUserAdminStatus] = useState(false)
   const [members, setMembers] = useState([])
+  const [projectWasEdited, setProjectWasEdited] = useState(false)
 
   // fetch org
   useEffect(() => {
@@ -38,8 +39,8 @@ const OrganizationProvider = ({match, children}) => {
     const fetchStatus = async () => {
       try {
         admin = await isAdmin(user.id, organizationId)
-      } catch (e) {
-        console.log(e)
+      } catch (err) {
+        console.error(err)
       }
     }
 
@@ -58,7 +59,7 @@ const OrganizationProvider = ({match, children}) => {
     return () => {
       isMounted = false
     }
-  }, [projects.length])
+  }, [projects.length, members.length, projectWasEdited])
 
   // memoize to keep rerenders to a minimum
   const providerValue = {
@@ -70,6 +71,8 @@ const OrganizationProvider = ({match, children}) => {
     setMembers,
     authUserAdminStatus,
     setAuthUserAdminStatus,
+    projectWasEdited,
+    setProjectWasEdited,
   }
 
   return (

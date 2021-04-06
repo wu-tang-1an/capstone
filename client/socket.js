@@ -19,6 +19,15 @@ export const socketSent = {
   EDIT_COMMENT: 'edit-comment',
   DRAG_START: 'drag-start',
   DRAG_END: 'drag-end',
+  EDIT_ORG: 'edit-org',
+  DELETE_ORG: 'org-was-deleted',
+  LEAVE_ORG: 'leave-org',
+  SEND_INVITE: 'send-invite',
+  ACCEPT_INVITE: 'accept-invite',
+  REMOVE_USER: 'remove-user',
+  EDIT_PROJECT: 'edit-project',
+  DELETE_PROJECT: 'delete-project',
+  ADD_PROJECT: 'add-project',
 }
 
 export const socketReceived = {
@@ -34,6 +43,15 @@ export const socketReceived = {
   COMMENT_WAS_EDITED: 'comment-was-edited',
   DRAG_WAS_STARTED: 'drag-was-started',
   DRAG_WAS_ENDED: 'drag-was-ended',
+  ORG_WAS_EDITED: 'org-was-edited',
+  ORG_WAS_DELETED: 'org-was-deleted',
+  USER_LEFT_ORG: 'user-left-org',
+  INVITE_WAS_SENT: 'invite-was-sent',
+  INVITE_WAS_ACCEPTED: 'invite-was-accepted',
+  USER_WAS_REMOVED: 'user-was-removed',
+  PROJECT_WAS_EDITED: 'project-was-edited',
+  PROJECT_WAS_DELETED: 'project-was-deleted',
+  PROJECT_WAS_ADDED: 'project-was-added',
 }
 
 export default socket

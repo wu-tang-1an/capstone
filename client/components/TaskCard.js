@@ -193,7 +193,17 @@ const TaskCard = ({task, index}) => {
               <NumberOfCommentsBadge
                 numberOfComments={comments ? comments.length : 0}
               />
-              <img src={users[0].imageUrl || ''} />
+              <div className={styles.avatarsContainer}>
+                {users.length ? (
+                  users.map((currUser) => (
+                    <img key={currUser.id} src={currUser.imageUrl} />
+                  ))
+                ) : (
+                  <span style={{opacity: '.6', fontSize: '12px'}}>
+                    unassigned
+                  </span>
+                )}
+              </div>
             </section>
           </div>
         </Container>

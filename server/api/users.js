@@ -19,9 +19,6 @@ const {
 const {STR_USERS, STR_USER, STR_ORGANIZATION} = require('./helper/strings')
 module.exports = router
 
-// const dee = User.prototype
-// console.log('dee Add User---->', dee)
-
 // GET all users route '/api/users' (ADMIN ONLY)
 router.get('/', checkAdmin, async (req, res, next) => {
   try {
@@ -46,13 +43,7 @@ router.get('/:userId', checkUser, async (req, res, next) => {
     if (isNaN(userId)) return resNaN(userId, res)
 
     const user = await User.findByPk(userId, {
-      include: [
-        Comment,
-        {
-          model: Task,
-          // include: [Comment], do we need the task comments here?
-        },
-      ],
+      include: [Organization, Comment, Task],
     })
     if (!user) return resDbNotFound(STR_USER, res)
 
@@ -216,7 +207,7 @@ router.put(
     try {
       const {userId, orgId} = req.params
       const {role} = req.body
-      console.log('this is the role', role)
+
       if (isNaN(userId)) return resNaN(userId, res)
       if (isNaN(orgId)) return resNaN(orgId, res)
 

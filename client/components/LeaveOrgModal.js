@@ -1,13 +1,10 @@
 import React from 'react'
 import styles from './css/DeleteTaskModal.module.css'
 
-const LeaveOrgModal = ({
-  orgIdForDelete,
-  leaveOrg,
-  organizations,
-  setOrganizations,
-  closeModal,
-}) => {
+const LeaveOrgModal = ({leaveOrg, currentOrgId, organizations, closeModal}) => {
+  // grab this organization from organizations
+  const thisOrg = organizations.find((org) => org.id === currentOrgId)
+
   return (
     <div className={styles.modalContent}>
       <div className={styles.deleteMessage}>
@@ -21,10 +18,7 @@ const LeaveOrgModal = ({
           type="button"
           className={styles.deleteBtn}
           onClick={() => {
-            leaveOrg(orgIdForDelete)
-            setOrganizations(
-              organizations.filter((org) => org.id !== orgIdForDelete)
-            )
+            leaveOrg(thisOrg.id)
             closeModal()
           }}
         >

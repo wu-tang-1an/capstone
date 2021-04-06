@@ -1,20 +1,32 @@
 .homeContainer {
+  width: 100%;
+  height: 100%;
   display: flex;
-  height: 100vh;
-  width: 100vw;
-  padding: 2em;
+  align-items: center;
+  justify-content: center;
+  padding: 1em;
 }
 
 .leftPanel {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  align-items: flex-start;
+  justify-content: space-evenly;
+  width: 50%;
 }
 
-.homeContainer .rightPanel .landingPageImg {
-  height: 510px;
+.leftPanel p {
+  margin-bottom: 6em;
+}
+
+.rightPanel {
+  width: 50%;
+}
+
+.rightPanel img {
+  display: flex;
+  height: 60vh;
   width: auto;
-  justify-self: flex-end;
 }
 
 .bigText {
@@ -35,10 +47,9 @@
 
 .landingPageForm {
   display: flex;
-  flex-direction: row;
-  justify-content: center;
   align-items: center;
-  flex-grow: 1;
+  justify-content: flex-end;
+  width: 100%;
 }
 
 .landingPageForm input {
@@ -46,7 +57,7 @@
   padding: 0.5em;
   border-radius: 5px;
   margin-right: 1em;
-  width: 60%;
+  width: 400px;
 }
 
 .landingPageForm button,
@@ -63,7 +74,8 @@
 
 .landingPageForm button {
   margin-top: 0;
-  width: 40%;
+  width: 180px;
+  margin-right: 3em;
 }
 
 .gotoProjects {

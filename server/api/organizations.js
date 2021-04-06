@@ -96,18 +96,30 @@ router.post('/', checkUser, async (req, res, next) => {
 // PUT edit organization route '/api/organizations/:orgId' (AUTH USER ONLY)
 router.put('/:orgId', checkUser, async (req, res, next) => {
   try {
-    const data = req.body
+    const {name, imageUrl} = req.body
     const {orgId} = req.params
     if (isNaN(orgId)) return resNaN(orgId, res)
 
-    const [, updatedOrg] = await Organization.update(data, {
-      plain: true,
-      returning: true,
-      where: {id: orgId},
+    const foundOrg = await Organization.findByPk(orgId, {
+      include: [Project, User],
     })
-    if (!updatedOrg) return resDbNotFound(STR_ORGANIZATION, res)
 
-    return res.json(updatedOrg)
+    console.log(foundOrg)
+
+    if (!foundOrg) return resDbNotFound(STR_ORGANIZATION, res)
+
+    foundOrg.name = name
+    foundOrg.imageUrl = imageUrl
+
+    await foundOrg.save()
+
+    const fetchedOrg = await Organization.findByPk(orgId, {
+      include: [Project, User],
+    })
+
+    console.log('fetchedOrg is: ', fetchedOrg)
+
+    return res.json(fetchedOrg)
   } catch (error) {
     next(error)
   }

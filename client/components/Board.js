@@ -1,12 +1,14 @@
 /* eslint-disable complexity */
 import React, {useContext} from 'react'
 import {DragDropContext} from 'react-beautiful-dnd'
+import {AuthContext} from '../context/authContext'
 import {ProjectContext} from '../context/projectContext'
 import {dropUpdateDb} from '../context/axiosService'
 import Column from './Column'
 import AddColumnDropDown from './AddColumnDropDown'
 import socket, {socketReceived, socketSent} from '../socket'
 import {notify} from './helper/toast'
+import history from '../history'
 import styles from './css/Board.module.css'
 
 const Board = () => {
@@ -121,6 +123,36 @@ const Board = () => {
     })
   }
 
+  // grab auth user specifically to check if "we" are auth
+  // in order to push ourselves to all orgs if we've been
+  // removed by an org admin
+  // important! should be processed before the rest of the socket crud ops messages to avoid memory leaks, typeerrors
+  const {user} = useContext(AuthContext)
+
+  socket.on(socketReceived.USER_WAS_REMOVED, ({ignoreUser, removedUserId}) => {
+    if (socket.id === ignoreUser) return
+    if (user.id === removedUserId) history.push('/organizations')
+  })
+
+  socket.on(
+    socketReceived.PROJECT_WAS_DELETED,
+    ({ignoreUser, projectId, orgId}) => {
+      // no need to use ignoreUser here, on the board, we're a remote user who is receiving a notification that the project no longer exists!
+
+      // kick ourself to single org that held the deleted project
+      if (project.id === projectId) history.push(`/organizations/${orgId}`)
+    }
+  )
+
+  // *** edit project logic here *** //
+  socket.on(socketReceived.PROJECT_WAS_EDITED, ({ignoreUser, projectId}) => {
+    // no need to use ignoreUser here ...
+
+    // register name change in board since that's the only relevant socket-based project edit info we can receive from this view
+    // trigger with context's set task changed flag
+    if (project.id === projectId) setTaskChanged(!taskChanged)
+  })
+
   // socket logic
   const {
     TASK_WAS_MOVED,
@@ -180,6 +212,19 @@ const Board = () => {
 
   socket.on(OTHER_CRUD_OP, ({ignoreUser, projectId}) => {
     if (socket.id === ignoreUser || projectId !== project.id) return
+    setTaskChanged(!taskChanged)
+  })
+
+  // socket org-level edits, deletes
+  socket.on(socketReceived.ORG_WAS_DELETED, ({ignoreUser, projectIdArray}) => {
+    const affectsThisProject = projectIdArray.some((id) => id === project.id)
+    if (socket.id === ignoreUser || !affectsThisProject) return
+    history.push('/organizations')
+  })
+
+  socket.on(socketReceived.ORG_WAS_EDITED, ({ignoreUser, projectIdArray}) => {
+    const affectsThisProject = projectIdArray.some((id) => id === project.id)
+    if (socket.id === ignoreUser || !affectsThisProject) return
     setTaskChanged(!taskChanged)
   })
 

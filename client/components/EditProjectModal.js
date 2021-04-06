@@ -6,6 +6,8 @@ import strConstraints from './helper/strConstrain'
 
 import styles from './css/EditProjectModal.module.css'
 
+import socket, {socketSent} from '../socket'
+
 const validate = (name, description, imageUrl) => {
   let errors = []
 
@@ -59,6 +61,11 @@ const EditProjectModal = ({organization, project, setProjects, closeModal}) => {
     closeModal()
 
     notify(`Project "${name}" updated!`, 'success')
+
+    socket.emit(socketSent.EDIT_PROJECT, {
+      ignoreUser: socket.id,
+      editedProject: data.projects.find((proj) => proj.id === project.id),
+    })
   }
 
   return (

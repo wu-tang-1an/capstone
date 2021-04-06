@@ -5,6 +5,8 @@ import {notify} from './helper/toast'
 
 import styles from './css/DeleteTaskModal.module.css'
 
+import socket, {socketSent} from '../socket'
+
 const DeleteProjectModal = ({
   project,
   organization,
@@ -14,6 +16,9 @@ const DeleteProjectModal = ({
   const deleteProject = async () => {
     // close the modal BEFORE changing state
     closeModal()
+
+    // store projectId for socket message
+    const projectId = project.id
 
     // delete project from db
     await deleteProjectDb(project.id)
@@ -25,6 +30,12 @@ const DeleteProjectModal = ({
     setProjects(data.projects || [])
 
     notify(`Project "${project.name}" deleted!`, 'warning')
+
+    socket.emit(socketSent.DELETE_PROJECT, {
+      ignoreUser: socket.id,
+      projectId: projectId,
+      orgId: project.organizationId,
+    })
   }
 
   return (

@@ -1,0 +1,61 @@
+.addUserDialog {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  margin: 0.5em;
+  margin-left: 2em;
+  border-radius: 5px;
+  background-color: white;
+  border: 1px solid green;
+  font-size: 14px;
+  width: 164px;
+}
+
+.menuHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.5em 0.3em;
+  margin-left: 0.4em;
+  cursor: pointer;
+}
+
+.menuContainer {
+  position: absolute;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  top: 2.5em;
+  width: 164px;
+  background-color: white;
+  border: 1px solid green;
+  border-top: transparent;
+}
+
+.menuContainerHidden {
+  display: none;
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5em;
+  width: 100%;
+  cursor: pointer;
+}
+
+.menuItem:first-child {
+  border-top: 1px solid lightgrey;
+}
+
+.menuItem:not(:last-child) {
+  border-bottom: 1px solid lightgrey;
+}
+
+.menuItem i {
+  width: 20px;
+  font-size: 14px;
+}

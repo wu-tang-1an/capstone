@@ -4,6 +4,8 @@ import {notify} from './helper/toast'
 import strConstraints from './helper/strConstrain'
 import styles from './css/AddProjectModal.module.css'
 
+import socket, {socketSent} from '../socket'
+
 // helper sends errors to toastify
 const validate = (name) => {
   let errors = []
@@ -56,6 +58,8 @@ const AddProjectModal = ({orgId, projects, setProjects, closeModal}) => {
     // close modal and toastify
     closeModal()
     notify(`Project "${name}" created!`, 'success')
+
+    socket.emit(socketSent.ADD_PROJECT, {ignoreUser: socket.id})
   }
 
   return (

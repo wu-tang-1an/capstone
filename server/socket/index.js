@@ -11,6 +11,15 @@ const received = {
   EDIT_COMMENT: 'edit-comment',
   DRAG_START: 'drag-start',
   DRAG_END: 'drag-end',
+  EDIT_ORG: 'edit-org',
+  DELETE_ORG: 'org-was-deleted',
+  LEAVE_ORG: 'leave-org',
+  SEND_INVITE: 'send-invite',
+  ACCEPT_INVITE: 'accept-invite',
+  REMOVE_USER: 'remove-user',
+  EDIT_PROJECT: 'edit-project',
+  DELETE_PROJECT: 'delete-project',
+  ADD_PROJECT: 'add-project',
 }
 
 const sent = {
@@ -26,6 +35,15 @@ const sent = {
   COMMENT_WAS_EDITED: 'comment-was-edited',
   DRAG_WAS_STARTED: 'drag-was-started',
   DRAG_WAS_ENDED: 'drag-was-ended',
+  ORG_WAS_EDITED: 'org-was-edited',
+  ORG_WAS_DELETED: 'org-was-deleted',
+  USER_LEFT_ORG: 'user-left-org',
+  INVITE_WAS_SENT: 'invite-was-sent',
+  INVITE_WAS_ACCEPTED: 'invite-was-accepted',
+  USER_WAS_REMOVED: 'user-was-removed',
+  PROJECT_WAS_EDITED: 'project-was-edited',
+  PROJECT_WAS_DELETED: 'project-was-deleted',
+  PROJECT_WAS_ADDED: 'project-was-added',
 }
 
 module.exports = (io) => {
@@ -129,6 +147,80 @@ module.exports = (io) => {
         projectId,
         dragId,
       })
+    })
+
+    // if an org is edited or deleted, send to all project "rooms"
+    // if user is currently working in the project, they'll
+    // be notified and sent back to their home view
+    socket.on(received.EDIT_ORG, ({ignoreUser, projectIdArray}) => {
+      console.log('received edited org')
+      io.emit(sent.ORG_WAS_EDITED, {
+        ignoreUser,
+        projectIdArray,
+      })
+    })
+
+    socket.on(received.DELETE_ORG, ({ignoreUser, projectIdArray}) => {
+      console.log('received deleted org')
+      io.emit(sent.ORG_WAS_DELETED, {
+        ignoreUser,
+        projectIdArray,
+      })
+    })
+
+    socket.on(received.LEAVE_ORG, ({ignoreUser, userWhoLeft}) => {
+      console.log('received user left org')
+      io.emit(sent.USER_LEFT_ORG, {
+        ignoreUser,
+        userWhoLeft,
+      })
+    })
+
+    socket.on(
+      received.REMOVE_USER,
+      ({ignoreUser, removedUserId, removedOrgId}) => {
+        console.log('received remove user')
+        io.emit(sent.USER_WAS_REMOVED, {
+          ignoreUser,
+          removedUserId,
+          removedOrgId,
+        })
+      }
+    )
+
+    // invitations
+
+    // send invite passes an invitedUserId
+    // update invitations
+    socket.on(received.SEND_INVITE, ({invitedUserId}) => {
+      console.log('received send invite')
+      io.emit(sent.INVITE_WAS_SENT, {
+        invitedUserId,
+      })
+    })
+
+    // on accept invite
+    // update invitations
+    // no payload -- just trigger an invitations render
+    socket.on(received.ACCEPT_INVITE, ({userWhoAccepted}) => {
+      console.log('received accept invite')
+      io.emit(sent.INVITE_WAS_ACCEPTED, {userWhoAccepted})
+    })
+
+    // projects
+    socket.on(received.EDIT_PROJECT, ({ignoreUser, editedProject}) => {
+      console.log('received edit project')
+      io.emit(sent.PROJECT_WAS_EDITED, {ignoreUser, editedProject})
+    })
+
+    socket.on(received.DELETE_PROJECT, ({ignoreUser, projectId, orgId}) => {
+      console.log('received edit project')
+      io.emit(sent.PROJECT_WAS_DELETED, {ignoreUser, projectId, orgId})
+    })
+
+    socket.on(received.ADD_PROJECT, ({ignoreUser}) => {
+      console.log('received add project')
+      io.emit(sent.PROJECT_WAS_ADDED, {ignoreUser})
     })
   })
 }

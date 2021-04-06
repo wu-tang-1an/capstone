@@ -2,10 +2,12 @@
 import React, {useState, useContext} from 'react'
 import marked from 'marked'
 import moment from 'moment'
+import AddUserToTask from './AddUserToTask'
 import Comment from './Comment'
 import ImportantBadge from './ImportantBadge'
 import AddCommentDialog from './AddCommentDialog'
 import {ProjectContext} from '../context/projectContext'
+import {ColumnContext} from '../context/columnContext'
 import axios from 'axios'
 import {
   updateTaskDB,
@@ -21,15 +23,8 @@ import styles from './css/SingleTaskExpanded.module.css'
 
 const SingleTaskExpanded = ({task, closeModal}) => {
   // destructure task
-  const {
-    id,
-    name,
-    description,
-    formattedDate,
-    createdBy,
-    editTimeStamp,
-    isActiveBadge,
-  } = task || {}
+  const {id, name, description, formattedDate, createdBy, isActiveBadge} =
+    task || {}
 
   // initialize taskComments to track local state for CRUD ops on comments
   const [taskComments, setTaskComments] = useState(task.comments || [])
@@ -37,18 +32,14 @@ const SingleTaskExpanded = ({task, closeModal}) => {
   // then declare state and initialize with task data
   const [taskName, setTaskName] = useState(name || '')
   const [taskDescription, setDescription] = useState(description || '')
-  const [lastEdit, setLastEdit] = useState(formattedDate)
+  const [, setLastEdit] = useState(formattedDate)
 
   const [activeMarkdownEditor, setActiveMarkdownEditor] = useState(false)
   const [isAddCommentActive, setAddCommentActive] = useState(false)
   const [isActiveNameEdit, setActiveNameEdit] = useState(false)
 
-  const {
-    project,
-    taskChanged,
-    setTaskChanged,
-    refreshProjectBoard,
-  } = useContext(ProjectContext)
+  const {project, taskChanged, setTaskChanged} = useContext(ProjectContext)
+  const {orgUsers} = useContext(ColumnContext)
 
   // deleteComment removes comment from db
   // local state will reload on single task view
@@ -214,10 +205,15 @@ const SingleTaskExpanded = ({task, closeModal}) => {
               </>
             )}
           </div>
-          <span className={styles.creator}>Opened by {createdBy}</span>
-          <span className={styles.lastEdited}>{`Last edit: ${moment(
-            formattedDate
-          ).fromNow()}`}</span>
+          <div className={styles.underTitleInfo}>
+            <div className={styles.creatorAndLastEdited}>
+              <span className={styles.creator}>Opened by {createdBy}</span>
+              <span className={styles.lastEdited}>{`Last edit: ${moment(
+                formattedDate
+              ).fromNow()}`}</span>
+            </div>
+            <AddUserToTask users={orgUsers} task={task} />
+          </div>
         </div>
       </section>
       <section className={styles.mainPanel}>

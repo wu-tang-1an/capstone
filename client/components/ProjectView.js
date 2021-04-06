@@ -4,6 +4,7 @@ import ProjectProvider from '../context/projectContext'
 import Board from './Board'
 import DirectoryBar from './DirectoryBar'
 import styles from './css/ProjectView.module.css'
+import socket, {socketReceived} from '../socket'
 
 const ProjectView = ({match}) => {
   const projectId = +match.params.projectId

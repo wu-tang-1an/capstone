@@ -103,18 +103,49 @@
   text-align: center;
 }
 
-.leaveOrgBtn {
+.orgBtnsContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 0.5em;
+  margin-bottom: 0.4em;
+}
+
+.modifyOrgBtn {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0.5em;
-  padding: 0.5em;
+  margin: 0.3em;
+  padding: 0.2em;
   border: transparent;
   border-radius: 5px;
-  width: 94%;
+  width: 60px;
+  font-size: 14px;
 }
 
-.leaveOrgBtn:hover {
+.modifyOrgBtn:hover {
   color: white;
   background-color: darkgrey;
+}
+
+.editAndDelete {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  width: 84px;
+  opacity: 0.6;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.editBtn:hover {
+  color: blue;
+  text-decoration: underline;
+}
+
+.deleteBtn:hover {
+  color: red;
+  text-decoration: underline;
 }

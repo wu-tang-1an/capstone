@@ -1,5 +1,7 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import SingleTaskExpanded from '../components/SingleTaskExpanded'
+import {ProjectContext} from './projectContext'
+import {getOrgDb, fetchTaskDB} from './axiosService'
 import Modal from '../components/Modal'
 
 export const ColumnContext = React.createContext()
@@ -11,11 +13,48 @@ const ColumnProvider = ({children}) => {
   const [activeTask, setActiveTask] = useState(0)
   const [isSingleTaskVisible, setSingleTaskVisible] = useState(false)
 
+  // grab project from project context, get orgId from project
+  // grab users to make available to SingleTaskExpanded for
+  // AddUserToTask select
+  const {project} = useContext(ProjectContext)
+
+  // intialize state for fetched org and flag to indicate
+  // downstream updates
+  const [thisOrg, setThisOrg] = useState({})
+
+  useEffect(() => {
+    const getOrg = async () => {
+      try {
+        const org = await getOrgDb(project.organizationId)
+        setThisOrg(org)
+      } catch (err) {
+        console.error(err)
+      }
+    }
+    getOrg()
+  }, [])
+
+  const orgUsers = thisOrg.users
+
+  useEffect(() => {
+    const getActiveTask = async () => {
+      try {
+        let fetchedTask
+        if (activeTask) fetchedTask = await fetchTaskDB(activeTask.id)
+        setActiveTask(fetchedTask)
+      } catch (err) {
+        console.error(err)
+      }
+    }
+    getActiveTask()
+  }, [orgUsers])
+
   const providerValue = {
     activeTask,
     setActiveTask,
     isSingleTaskVisible,
     setSingleTaskVisible,
+    orgUsers,
   }
 
   return (
