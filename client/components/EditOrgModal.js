@@ -1,23 +1,18 @@
 import React, {useState} from 'react'
 import Modal from './Modal'
-import {getOrgDb, updateOrganizationDb} from '../context/axiosService'
 import {notify} from './helper/toast'
 import strConstraints from './helper/strConstrain'
 
 import styles from './css/EditOrgModal.module.css'
 
-const validate = (name, description, imageUrl) => {
+const validate = (name, imageUrl) => {
   let errors = []
 
   if (!name.length) errors.push('Organization name must not be empty!')
+
   if (name > strConstraints.titleMaxChar)
     errors.push(
       `Organization name is limited to ${strConstraints.titleMaxChar} characters!`
-    )
-
-  if (description > strConstraints.textMaxChar)
-    errors.push(
-      `Organization description is limited to ${strConstraints.textMaxChar} characters!`
     )
 
   if (!imageUrl.length) errors.push('URL must not be empty!')
@@ -26,47 +21,13 @@ const validate = (name, description, imageUrl) => {
   return errors
 }
 
-const EditOrgModal = ({
-  currentOrgId,
-  organizations,
-  setOrganizations,
-  closeModal,
-}) => {
+const EditOrgModal = ({currentOrgId, editOrg, organizations, closeModal}) => {
   // grab org from organizations by orgId
   const thisOrg = organizations.find((org) => org.id === currentOrgId)
 
   // set local state
   const [name, setName] = useState(thisOrg.name)
   const [imageUrl, setImageUrl] = useState(thisOrg.imageUrl)
-
-  const editOrganization = async () => {
-    const errors = validate(name, imageUrl)
-
-    if (errors.length) {
-      errors.forEach((error) => {
-        notify(error, 'error')
-      })
-
-      return
-    }
-
-    await updateOrganizationDb(currentOrgId, {
-      name: name,
-      imageUrl: imageUrl,
-    })
-
-    // get new organization info from db
-    const updatedOrg = await getOrgDb(currentOrgId)
-
-    // update all orgs state
-    setOrganizations(
-      organizations.map((org) => (org.id === currentOrgId ? updatedOrg : org))
-    )
-
-    closeModal()
-
-    notify(`Organization "${name}" updated!`, 'success')
-  }
 
   return (
     <Modal>
@@ -100,7 +61,17 @@ const EditOrgModal = ({
           <button
             type="button"
             className={styles.editBtn}
-            onClick={editOrganization}
+            onClick={() => {
+              // validate edited inputs
+              const errors = validate(name, imageUrl)
+              if (errors.length) {
+                return errors.forEach((error) => {
+                  notify(error, 'error')
+                })
+              }
+              editOrg(currentOrgId, {name: name, imageUrl: imageUrl})
+              closeModal()
+            }}
           >
             Save Organization Info
           </button>

@@ -101,11 +101,13 @@ router.put('/:orgId', checkUser, async (req, res, next) => {
     if (isNaN(orgId)) return resNaN(orgId, res)
 
     const [, updatedOrg] = await Organization.update(data, {
-      plain: true,
+      include: [{model: User}],
       returning: true,
       where: {id: orgId},
     })
     if (!updatedOrg) return resDbNotFound(STR_ORGANIZATION, res)
+
+    console.log('upated org is: ', updatedOrg)
 
     return res.json(updatedOrg)
   } catch (error) {

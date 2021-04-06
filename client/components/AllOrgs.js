@@ -20,6 +20,7 @@ import {
 } from '../context/axiosService'
 
 const OrganizationCard = ({
+  userId,
   organization,
   numMembers,
   setCurrentOrgId,
@@ -28,24 +29,10 @@ const OrganizationCard = ({
   const {name, imageUrl} = organization
   const orgId = organization.id
 
-  const leaveOrgBtn = {
-    id: 1,
-    value: 'Leave',
-    modalType: 'leaveOrg',
-  }
-
-  const buttons = [
-    {
-      id: 1,
-      value: 'edit',
-      modalType: 'editOrg',
-    },
-    {
-      id: 2,
-      value: 'delete',
-      modalType: 'deleteOrg',
-    },
-  ]
+  // only organization admins can edit, delete orgs
+  const isOrgAdmin =
+    organization.users.find((member) => member.id === userId).user_organization
+      .role === 'admin'
 
   return (
     <div className={styles.orgCardContainer}>
@@ -68,7 +55,7 @@ const OrganizationCard = ({
           Leave
         </button>
         {/* only show edit, delete btns if auth user is admin of organization */}
-        {organization.user_organization.role === 'admin' && (
+        {isOrgAdmin && (
           <div className={styles.editAndDelete}>
             <span
               className={styles.editBtn}
@@ -105,6 +92,7 @@ const AllOrgs = () => {
 
   // initialize all orgs state
   const [organizations, setOrganizations] = useState([])
+  const [orgWasEdited, setOrgWasEdited] = useState(false)
 
   // fetch all orgs
   useEffect(() => {
@@ -117,7 +105,7 @@ const AllOrgs = () => {
       }
     }
     fetchAllOrgs()
-  }, [invitations])
+  }, [invitations, orgWasEdited])
 
   // delete a single org and persist to local state
   const leaveOrg = async (orgId) => {
@@ -133,9 +121,11 @@ const AllOrgs = () => {
   const editOrg = async (orgId, updateInfo) => {
     try {
       const editedOrg = await editOrganizationDB(orgId, updateInfo)
+      setOrgWasEdited(true)
       setOrganizations(
         organizations.map((org) => (org.id === editedOrg.id ? editedOrg : org))
       )
+      setOrgWasEdited(false)
     } catch (err) {
       console.error(err)
     }
@@ -143,15 +133,6 @@ const AllOrgs = () => {
 
   // delete a single org and persist to local state
   const deleteOrg = async (orgForDelete) => {
-    // check user status and escape if not admin
-    const isAdmin = orgForDelete.user_organization.role === 'admin'
-    if (!isAdmin) {
-      notify('Only organization admins can delete the organization!', 'warning')
-
-      return
-    }
-
-    // else delete org and persist to local state, db
     try {
       await deleteOrganizationDB(orgForDelete.id)
       setOrganizations(
@@ -175,7 +156,6 @@ const AllOrgs = () => {
             leaveOrg={leaveOrg}
             currentOrgId={currentOrgId}
             organizations={organizations}
-            setOrganizations={setOrganizations}
             closeModal={() => setActiveField('')}
           />
         </Modal>
@@ -186,7 +166,6 @@ const AllOrgs = () => {
             editOrg={editOrg}
             currentOrgId={currentOrgId}
             organizations={organizations}
-            setOrganizations={setOrganizations}
             closeModal={() => setActiveField('')}
           />
         </Modal>
@@ -228,6 +207,7 @@ const AllOrgs = () => {
               numMembers={org && org.users ? org.users.length : 0}
               setCurrentOrgId={setCurrentOrgId}
               setActiveField={setActiveField}
+              setOrganizations={setOrganizations}
             />
           ))}
         </div>
