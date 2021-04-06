@@ -173,7 +173,7 @@ const AllOrgs = () => {
   const [activeField, setActiveField] = useState('')
   const [currentOrgId, setCurrentOrgId] = useState(0)
 
-  // handle remote edit, delete orgs and user leave org events
+  // handle remote edit, delete orgs and user leave, removed org events
   // important! user left only needs to be registered as an org edit, even though the payload includes the userWhoLeft (we don't need to process it here ...)
   socket.on(socketReceived.USER_LEFT_ORG, ({ignoreUser}) => {
     if (socket.id === ignoreUser) return

@@ -1,6 +1,7 @@
 /* eslint-disable complexity */
 import React, {useContext} from 'react'
 import {DragDropContext} from 'react-beautiful-dnd'
+import {AuthContext} from '../context/authContext'
 import {ProjectContext} from '../context/projectContext'
 import {dropUpdateDb} from '../context/axiosService'
 import Column from './Column'
@@ -121,6 +122,17 @@ const Board = () => {
       newColumns,
     })
   }
+
+  // grab auth user specifically to check if "we" are auth
+  // in order to push ourselves to all orgs if we've been
+  // removed by an org admin
+  // important! should be processed before the rest of the socket crud ops messages to avoid memory leaks, typeerrors
+  const {user} = useContext(AuthContext)
+
+  socket.on(socketReceived.USER_WAS_REMOVED, ({ignoreUser, removedUserId}) => {
+    if (socket.id === ignoreUser) return
+    if (user.id === removedUserId) history.push('/organizations')
+  })
 
   // socket logic
   const {
