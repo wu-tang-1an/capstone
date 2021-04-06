@@ -43,9 +43,7 @@ const DirectoryBar = () => {
       </Link>
       <span className={styles.divider}> / </span>
       <strong>Project: </strong>
-      <Link to={`/projects/${project.id}`}>
-        <span className={styles.cappedWidth}> {project.name}</span>
-      </Link>
+      <span className={styles.cappedWidth}> {project.name}</span>
     </div>
   )
 }
