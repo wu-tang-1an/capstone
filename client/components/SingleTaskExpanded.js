@@ -7,6 +7,7 @@ import Comment from './Comment'
 import ImportantBadge from './ImportantBadge'
 import AddCommentDialog from './AddCommentDialog'
 import {ProjectContext} from '../context/projectContext'
+import {ColumnContext} from '../context/columnContext'
 import axios from 'axios'
 import {
   updateTaskDB,
@@ -20,7 +21,7 @@ import {notify} from './helper/toast'
 import strConstraints from './helper/strConstrain'
 import styles from './css/SingleTaskExpanded.module.css'
 
-const SingleTaskExpanded = ({task, orgUsers, closeModal}) => {
+const SingleTaskExpanded = ({task, closeModal}) => {
   // destructure task
   const {id, name, description, formattedDate, createdBy, isActiveBadge} =
     task || {}
@@ -38,6 +39,7 @@ const SingleTaskExpanded = ({task, orgUsers, closeModal}) => {
   const [isActiveNameEdit, setActiveNameEdit] = useState(false)
 
   const {project, taskChanged, setTaskChanged} = useContext(ProjectContext)
+  const {orgUsers} = useContext(ColumnContext)
 
   // deleteComment removes comment from db
   // local state will reload on single task view
