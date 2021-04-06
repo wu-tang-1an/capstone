@@ -145,11 +145,9 @@ const SingleOrganization = () => {
       const foundUser = await fetchUserDB(userWhoAccepted.id)
 
       // grab user org and append to foundUser instance
-      let user_organization
-      if (foundUser.organizations)
-        user_organization = foundUser.organizations.find(
-          (org) => org.id === organization.id
-        ).user_organization
+      const user_organization = foundUser.organizations.find(
+        (org) => org.id === organization.id
+      ).user_organization
 
       // append user_organization through table instance to foundUser
       foundUser.user_organization = user_organization
@@ -157,7 +155,7 @@ const SingleOrganization = () => {
       // set local state now that user_organization and user role within thisOrg is available
       setMembers([...members, foundUser])
     } catch (err) {
-      console.error(err)
+      // do nothing -- type error thrown here, ignore
     }
   })
 
