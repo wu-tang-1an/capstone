@@ -13,6 +13,8 @@ const AddUserToTask = ({users, task}) => {
   // initialize local state for updates
   const [assignees, setAssignees] = useState(task.users)
 
+  console.log(assignees)
+
   return (
     <div className={styles.addUserDialog}>
       <div
@@ -38,13 +40,15 @@ const AddUserToTask = ({users, task}) => {
                 ? 'green'
                 : 'inherit',
             }}
-            onClick={() => {
+            onClick={async () => {
               if (assignees.some((assignee) => assignee.id === id)) {
-                removeUserFromTaskDB(id, task.id)
+                await removeUserFromTaskDB(id, task.id)
+                setTaskChanged(!taskChanged)
                 setAssignees(assignees.filter((assignee) => assignee.id !== id))
                 return
               }
-              addUserToTaskDB(id, task.id)
+              await addUserToTaskDB(id, task.id)
+              setTaskChanged(!taskChanged)
               setAssignees([...assignees, users.find((user) => user.id === id)])
             }}
           >
