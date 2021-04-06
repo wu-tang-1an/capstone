@@ -1,8 +1,56 @@
 .addUserDialog {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  width: 120px;
-  height: 3em;
+  justify-content: flex-start;
   margin: 0.5em;
+  margin-left: 2em;
+  position: relative;
+  border-radius: 5px;
+  background-color: white;
+  border: 1px solid green;
+  font-size: 14px;
+  width: 164px;
+}
+
+.menuHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.3em;
+  cursor: pointer;
+}
+
+.menuContainer {
+  position: absolute;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  top: 2em;
+  width: 164px;
+  background-color: white;
+  border: 1px solid green;
+  border-top: transparent;
+}
+
+.menuContainerHidden {
+  display: none;
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.3em;
+  width: 100%;
+}
+
+.menuItem:not(:last-child),
+.menuItem:first-child {
+  border-bottom: 1px solid lightgrey;
+}
+
+.menuItem i {
+  width: 20px;
+  font-size: 14px;
 }

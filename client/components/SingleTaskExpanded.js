@@ -212,7 +212,7 @@ const SingleTaskExpanded = ({task, closeModal}) => {
                 formattedDate
               ).fromNow()}`}</span>
             </div>
-            <AddUserToTask users={orgUsers} />
+            <AddUserToTask users={orgUsers} task={task} />
           </div>
         </div>
       </section>
