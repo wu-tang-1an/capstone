@@ -144,6 +144,15 @@ const Board = () => {
     }
   )
 
+  // *** edit project logic here *** //
+  socket.on(socketReceived.PROJECT_WAS_EDITED, ({ignoreUser, projectId}) => {
+    // no need to use ignoreUser here ...
+
+    // register name change in board since that's the only relevant socket-based project edit info we can receive from this view
+    // trigger with context's set task changed flag
+    if (project.id === projectId) setTaskChanged(!taskChanged)
+  })
+
   // socket logic
   const {
     TASK_WAS_MOVED,

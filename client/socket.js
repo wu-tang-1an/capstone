@@ -27,6 +27,7 @@ export const socketSent = {
   REMOVE_USER: 'remove-user',
   EDIT_PROJECT: 'edit-project',
   DELETE_PROJECT: 'delete-project',
+  ADD_PROJECT: 'add-project',
 }
 
 export const socketReceived = {
@@ -50,6 +51,7 @@ export const socketReceived = {
   USER_WAS_REMOVED: 'user-was-removed',
   PROJECT_WAS_EDITED: 'project-was-edited',
   PROJECT_WAS_DELETED: 'project-was-deleted',
+  PROJECT_WAS_ADDED: 'project-was-added',
 }
 
 export default socket

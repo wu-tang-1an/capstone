@@ -19,6 +19,7 @@ const received = {
   REMOVE_USER: 'remove-user',
   EDIT_PROJECT: 'edit-project',
   DELETE_PROJECT: 'delete-project',
+  ADD_PROJECT: 'add-project',
 }
 
 const sent = {
@@ -42,6 +43,7 @@ const sent = {
   USER_WAS_REMOVED: 'user-was-removed',
   PROJECT_WAS_EDITED: 'project-was-edited',
   PROJECT_WAS_DELETED: 'project-was-deleted',
+  PROJECT_WAS_ADDED: 'project-was-added',
 }
 
 module.exports = (io) => {
@@ -210,6 +212,11 @@ module.exports = (io) => {
     socket.on(received.DELETE_PROJECT, ({ignoreUser, projectId, orgId}) => {
       console.log('received edit project')
       io.emit(sent.PROJECT_WAS_DELETED, {ignoreUser, projectId, orgId})
+    })
+
+    socket.on(received.ADD_PROJECT, ({ignoreUser}) => {
+      console.log('received add project')
+      io.emit(sent.PROJECT_WAS_ADDED, {ignoreUser})
     })
   })
 }

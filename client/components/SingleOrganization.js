@@ -197,6 +197,10 @@ const SingleOrganization = () => {
     if (socket.id === ignoreUser) return
     setProjectWasEdited(!projectWasEdited)
   })
+  socket.on(socketReceived.PROJECT_WAS_ADDED, ({ignoreUser}) => {
+    if (socket.id === ignoreUser) return
+    setProjectWasEdited(!projectWasEdited)
+  })
 
   return (
     <div className={styles.wrapper}>
