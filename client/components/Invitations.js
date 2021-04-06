@@ -14,7 +14,7 @@ const SingleInvitation = ({invite, userId, invitations, setInvitations}) => {
     try {
       await updateUserRoleDB(userId, orgId, id, role)
       setInvitations(invitations.filter((invitation) => invitation.id !== id))
-      socket.emit(socketSent.ACCEPT_INVITE, {user: user})
+      socket.emit(socketSent.ACCEPT_INVITE, {userWhoAccepted: user})
     } catch (err) {
       console.error(err)
     }

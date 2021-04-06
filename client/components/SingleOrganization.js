@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import React, {useState, useContext} from 'react'
 import {Link} from 'react-router-dom'
 import {AuthContext} from '../context/authContext'
@@ -9,7 +10,7 @@ import Modal from './Modal'
 import AddMemberModal from './AddMemberModal'
 import AddProjectModal from './AddProjectModal'
 import ProjectFrameDropDown from './ProjectFrameDropDown'
-import {removeUserFromOrgDB} from '../context/axiosService'
+import {removeUserFromOrgDB, fetchUserDB} from '../context/axiosService'
 import styles from './css/SingleOrganization.module.css'
 
 import socket, {socketSent, socketReceived} from '../socket'
@@ -131,9 +132,33 @@ const SingleOrganization = () => {
   const [isAddProjectModalVisible, setAddProjectModalVisible] = useState(false)
 
   // handle accepted invite
-  socket.on(socketReceived.INVITE_WAS_ACCEPTED, ({userWhoAccepted}) => {
-    console.log('got invite!')
-    setMembers([...members, userWhoAccepted])
+  socket.on(socketReceived.INVITE_WAS_ACCEPTED, async ({userWhoAccepted}) => {
+    console.log(
+      `${
+        userWhoAccepted.firstName + ' ' + userWhoAccepted.lastName
+      } accepted invite!`
+    )
+
+    try {
+      // fetch user with organizations for determining role
+      // in thisOrg
+      const foundUser = await fetchUserDB(userWhoAccepted.id)
+
+      // grab user org and append to foundUser instance
+      let user_organization
+      if (foundUser.organizations)
+        user_organization = foundUser.organizations.find(
+          (org) => org.id === organization.id
+        ).user_organization
+
+      // append user_organization through table instance to foundUser
+      foundUser.user_organization = user_organization
+
+      // set local state now that user_organization and user role within thisOrg is available
+      setMembers([...members, foundUser])
+    } catch (err) {
+      console.error(err)
+    }
   })
 
   // handle user left

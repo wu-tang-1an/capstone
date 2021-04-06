@@ -20,7 +20,7 @@ const InvitationProvider = ({children}) => {
       }
     }
     getInvites()
-  }, [invitations.length])
+  }, [invitations.length, invitationsWereEdited])
 
   const providerValue = {
     invitations,

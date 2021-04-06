@@ -31,7 +31,7 @@ const AddMemberModal = ({orgId, closeModal}) => {
         const {id, firstName, lastName} = response.data
         const name = `${firstName} ${lastName} (${email})`
         notify(`${name} was invited!`, 'success')
-        socket.emit(socketSent.SEND_INVITE, {invtedUserId: id})
+        socket.emit(socketSent.SEND_INVITE, {invitedUserId: id})
       }
     } catch (err) {
       notify(`User was already invited!`, 'error')

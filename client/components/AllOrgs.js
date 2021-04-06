@@ -17,6 +17,7 @@ import {
   removeUserFromOrgDB,
   editOrganizationDB,
   deleteOrganizationDB,
+  fetchUserDB,
 } from '../context/axiosService'
 import socket, {socketSent, socketReceived} from '../socket'
 
@@ -119,9 +120,12 @@ const AllOrgs = () => {
     try {
       await removeUserFromOrgDB(orgId, user.id)
       setOrgWasEdited(!orgWasEdited)
-      /* setOrganizations(organizations.filter((org) => org.id !== orgId)) */
+
+      const fetchedUserWithRole = await fetchUserDB(user.id)
+
       socket.emit(socketSent.LEAVE_ORG, {
         ignoreUser: socket.id,
+        userWhoLeft: fetchedUserWithRole,
       })
     } catch (err) {
       console.error(err)
@@ -186,8 +190,8 @@ const AllOrgs = () => {
 
   // handle remote invitations sent to thisUser
   socket.on(socketReceived.INVITE_WAS_SENT, ({invitedUserId}) => {
-    if (user.id === invitedUserId)
-      setInvitationsWereEdited(!invitationsWereEdited)
+    if (user.id === invitedUserId) console.log('heyo invite received!')
+    setInvitationsWereEdited(!invitationsWereEdited)
   })
 
   return (
