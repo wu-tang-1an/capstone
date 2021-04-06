@@ -236,6 +236,11 @@
   right: 0.3em;
 }
 
+.projectAvatar {
+  max-height: 200px;
+  width: auto;
+}
+
 .projectName {
   font-size: 1.4em;
   font-weight: bold;
