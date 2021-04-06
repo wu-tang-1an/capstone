@@ -13,8 +13,6 @@ const AddUserToTask = ({users, task}) => {
   // initialize local state for updates
   const [assignees, setAssignees] = useState(task.users)
 
-  console.log(assignees)
-
   return (
     <div className={styles.addUserDialog}>
       <div
