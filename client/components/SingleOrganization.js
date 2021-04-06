@@ -186,6 +186,12 @@ const SingleOrganization = () => {
     }
   )
 
+  // handle project edit, delete
+  socket.on(socketReceived.PROJECT_WAS_DELETED, ({ignoreUser, projectId}) => {
+    if (socket.id === ignoreUser) return
+    setProjects(projects.filter((proj) => proj.id !== projectId))
+  })
+
   return (
     <div className={styles.wrapper}>
       {isAddMemModalVisible && (

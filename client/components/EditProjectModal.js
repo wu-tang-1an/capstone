@@ -6,6 +6,8 @@ import strConstraints from './helper/strConstrain'
 
 import styles from './css/EditProjectModal.module.css'
 
+import socket from '../socket'
+
 const validate = (name, description, imageUrl) => {
   let errors = []
 

@@ -17,6 +17,8 @@ const received = {
   SEND_INVITE: 'send-invite',
   ACCEPT_INVITE: 'accept-invite',
   REMOVE_USER: 'remove-user',
+  EDIT_PROJECT: 'edit-project',
+  DELETE_PROJECT: 'delete-project',
 }
 
 const sent = {
@@ -38,6 +40,8 @@ const sent = {
   INVITE_WAS_SENT: 'invite-was-sent',
   INVITE_WAS_ACCEPTED: 'invite-was-accepted',
   USER_WAS_REMOVED: 'user-was-removed',
+  PROJECT_WAS_EDITED: 'project-was-edited',
+  PROJECT_WAS_DELETED: 'project-was-deleted',
 }
 
 module.exports = (io) => {
@@ -195,6 +199,17 @@ module.exports = (io) => {
     socket.on(received.ACCEPT_INVITE, ({userWhoAccepted}) => {
       console.log('received accept invite')
       io.emit(sent.INVITE_WAS_ACCEPTED, {userWhoAccepted})
+    })
+
+    // projects
+    socket.on(received.EDIT_PROJECT, ({ignoreUser, projectId}) => {
+      console.log('received edit project')
+      io.emit(sent.PROJECT_WAS_EDITED, {ignoreUser, projectId})
+    })
+
+    socket.on(received.DELETE_PROJECT, ({ignoreUser, projectId}) => {
+      console.log('received edit project')
+      io.emit(sent.PROJECT_WAS_DELETED, {ignoreUser, projectId})
     })
   })
 }
