@@ -1,13 +1,17 @@
 import React, {useState, useContext} from 'react'
-import {addUserToTaskDB} from '../context/axiosService'
-import {ColumnContext} from '../context/columnContext'
+import {addUserToTaskDB, removeUserFromTaskDB} from '../context/axiosService'
+import {ProjectContext} from '../context/projectContext'
 import styles from './css/AddUserToTask.module.css'
 
 const AddUserToTask = ({users, task}) => {
+  // toggle drop down
   const [isMenuVisible, setMenuVisible] = useState(false)
-  const [selectedUserId, setSelectedUserId] = useState(0)
 
-  const {didUpdateTask, setDidUpdateTask} = useContext(ColumnContext)
+  // grab flag from project context to trigger renders
+  const {taskChanged, setTaskChanged} = useContext(ProjectContext)
+
+  // initialize local state for updates
+  const [assignees, setAssignees] = useState(task.users)
 
   return (
     <div className={styles.addUserDialog}>
@@ -30,27 +34,25 @@ const AddUserToTask = ({users, task}) => {
             key={id}
             className={styles.menuItem}
             style={{
-              color: task.users.some((user) => user.id === id)
+              color: assignees.some((user) => user.id === id)
                 ? 'green'
                 : 'inherit',
             }}
-            onClick={async () => {
-              try {
-                setSelectedUserId(id)
-                // add user to task db
-                // find out which context we'll need to trigger a refresh in ...
-                await addUserToTaskDB(id, task.id)
-                setDidUpdateTask(!didUpdateTask)
-              } catch (err) {
-                console.error(err)
+            onClick={() => {
+              if (assignees.some((assignee) => assignee.id === id)) {
+                removeUserFromTaskDB(id, task.id)
+                setAssignees(assignees.filter((assignee) => assignee.id !== id))
+                return
               }
+              addUserToTaskDB(id, task.id)
+              setAssignees([...assignees, users.find((user) => user.id === id)])
             }}
           >
             <span className={styles.userName}>
               {firstName + ' ' + lastName}
             </span>
             <i className="material-icons">
-              {task.users.some((user) => user.id === id) ? 'checkmark' : ''}
+              {assignees.some((user) => user.id === id) ? 'checkmark' : ''}
             </i>
           </div>
         ))}

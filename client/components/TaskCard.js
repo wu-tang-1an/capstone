@@ -193,7 +193,13 @@ const TaskCard = ({task, index}) => {
               <NumberOfCommentsBadge
                 numberOfComments={comments ? comments.length : 0}
               />
-              <img src={users[0].imageUrl || ''} />
+              {users.length ? (
+                <img src={users[0].imageUrl} />
+              ) : (
+                <span style={{opacity: '.6', fontSize: '12px'}}>
+                  unassigned
+                </span>
+              )}
             </section>
           </div>
         </Container>

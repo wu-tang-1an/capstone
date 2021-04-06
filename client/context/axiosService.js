@@ -305,6 +305,16 @@ export const addUserToTaskDB = async (userId, taskId) => {
   }
 }
 
+// remove user from task
+export const removeUserFromTaskDB = async (userId, taskId) => {
+  try {
+    const response = await axios.delete(`/api/tasks/${taskId}/users/${userId}`)
+    return response.status === 200
+  } catch (err) {
+    console.error(err)
+  }
+}
+
 /* COMMENTS */
 
 // get a single comment

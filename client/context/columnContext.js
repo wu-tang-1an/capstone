@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useContext} from 'react'
 import SingleTaskExpanded from '../components/SingleTaskExpanded'
 import {ProjectContext} from './projectContext'
-import {getOrgDb} from './axiosService'
+import {getOrgDb, fetchTaskDB} from './axiosService'
 import Modal from '../components/Modal'
 
 export const ColumnContext = React.createContext()
@@ -21,7 +21,6 @@ const ColumnProvider = ({children}) => {
   // intialize state for fetched org and flag to indicate
   // downstream updates
   const [thisOrg, setThisOrg] = useState({})
-  const [didUpdateTask, setDidUpdateTask] = useState(false)
 
   useEffect(() => {
     const getOrg = async () => {
@@ -33,9 +32,22 @@ const ColumnProvider = ({children}) => {
       }
     }
     getOrg()
-  }, [didUpdateTask])
+  }, [])
 
   const orgUsers = thisOrg.users
+
+  useEffect(() => {
+    const getActiveTask = async () => {
+      try {
+        let fetchedTask
+        if (activeTask) fetchedTask = await fetchTaskDB(activeTask.id)
+        setActiveTask(fetchedTask)
+      } catch (err) {
+        console.error(err)
+      }
+    }
+    getActiveTask()
+  }, [orgUsers])
 
   const providerValue = {
     activeTask,
@@ -43,8 +55,6 @@ const ColumnProvider = ({children}) => {
     isSingleTaskVisible,
     setSingleTaskVisible,
     orgUsers,
-    didUpdateTask,
-    setDidUpdateTask,
   }
 
   return (
