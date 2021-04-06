@@ -38,8 +38,8 @@ const OrganizationProvider = ({match, children}) => {
     const fetchStatus = async () => {
       try {
         admin = await isAdmin(user.id, organizationId)
-      } catch (e) {
-        console.log(e)
+      } catch (err) {
+        console.error(err)
       }
     }
 

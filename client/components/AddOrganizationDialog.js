@@ -36,8 +36,6 @@ const NewOrganizationForm = ({
               },
             })
 
-            console.log(createdOrg)
-
             setOrganizations([...organizations, createdOrg])
             closeModal()
             notify(

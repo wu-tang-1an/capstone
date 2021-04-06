@@ -21,15 +21,8 @@ import styles from './css/SingleTaskExpanded.module.css'
 
 const SingleTaskExpanded = ({task, closeModal}) => {
   // destructure task
-  const {
-    id,
-    name,
-    description,
-    formattedDate,
-    createdBy,
-    editTimeStamp,
-    isActiveBadge,
-  } = task || {}
+  const {id, name, description, formattedDate, createdBy, isActiveBadge} =
+    task || {}
 
   // initialize taskComments to track local state for CRUD ops on comments
   const [taskComments, setTaskComments] = useState(task.comments || [])
@@ -37,18 +30,13 @@ const SingleTaskExpanded = ({task, closeModal}) => {
   // then declare state and initialize with task data
   const [taskName, setTaskName] = useState(name || '')
   const [taskDescription, setDescription] = useState(description || '')
-  const [lastEdit, setLastEdit] = useState(formattedDate)
+  const [, setLastEdit] = useState(formattedDate)
 
   const [activeMarkdownEditor, setActiveMarkdownEditor] = useState(false)
   const [isAddCommentActive, setAddCommentActive] = useState(false)
   const [isActiveNameEdit, setActiveNameEdit] = useState(false)
 
-  const {
-    project,
-    taskChanged,
-    setTaskChanged,
-    refreshProjectBoard,
-  } = useContext(ProjectContext)
+  const {project, taskChanged, setTaskChanged} = useContext(ProjectContext)
 
   // deleteComment removes comment from db
   // local state will reload on single task view
