@@ -14,11 +14,10 @@ const DeleteOrgModal = ({
     <Modal>
       <div className={styles.modalContent}>
         <div className={styles.deleteMessage}>
-          <strong>Warning!</strong> This action will delete the project "
-          {thisOrg.name}" and{' '}
-          <strong>all columns and tasks associated with it.</strong>
-          <br /> Press <span>Delete project</span> to continue, or cancel to go
-          back.
+          <strong>Warning!</strong> This action will delete the organization "
+          {thisOrg.name}" and <strong>all projects associated with it.</strong>
+          <br /> Press <span>Delete organization</span> to continue, or cancel
+          to go back.
         </div>
         <div className={styles.modalBtnsContainer}>
           <button
@@ -29,7 +28,7 @@ const DeleteOrgModal = ({
               closeModal()
             }}
           >
-            Delete Project
+            Delete Organization
           </button>
           <button
             type="button"
