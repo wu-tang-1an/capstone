@@ -35,8 +35,6 @@ const AddMemberModal = ({orgId, closeModal}) => {
       }
     } catch (err) {
       notify(`User was already invited!`, 'error')
-
-      console.error(err)
     }
   }
 
