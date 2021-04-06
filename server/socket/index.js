@@ -140,17 +140,19 @@ module.exports = (io) => {
     // if an org is edited or deleted, send to all project "rooms"
     // if user is currently working in the project, they'll
     // be notified and sent back to their home view
-    socket.on(received.EDIT_ORG, ({ignoreUser}) => {
+    socket.on(received.EDIT_ORG, ({ignoreUser, projectIdArray}) => {
       console.log('received edited org')
       io.emit(sent.ORG_WAS_EDITED, {
         ignoreUser,
+        projectIdArray,
       })
     })
 
-    socket.on(received.DELETE_ORG, ({ignoreUser}) => {
+    socket.on(received.DELETE_ORG, ({ignoreUser, projectIdArray}) => {
       console.log('received deleted org')
       io.emit(sent.ORG_WAS_DELETED, {
         ignoreUser,
+        projectIdArray,
       })
     })
 

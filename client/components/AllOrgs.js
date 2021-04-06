@@ -116,7 +116,7 @@ const AllOrgs = () => {
       setOrgWasEdited(!orgWasEdited)
       /* setOrganizations(organizations.filter((org) => org.id !== orgId)) */
       socket.emit(socketSent.LEAVE_ORG, {
-        ignoreUser: user.id,
+        ignoreUser: socket.id,
       })
     } catch (err) {
       console.error(err)
@@ -130,9 +130,11 @@ const AllOrgs = () => {
       const projectIdArray = editedOrg.projects
         ? editedOrg.projects.map((project) => project.id)
         : []
+      console.log(editedOrg)
+      console.log(editedOrg.projects)
       setOrgWasEdited(!orgWasEdited)
-      socket.emit(socketSent.DELETE_ORG, {
-        ignoreUser: user.id,
+      socket.emit(socketSent.EDIT_ORG, {
+        ignoreUser: socket.id,
         projectIdArray: projectIdArray,
       })
     } catch (err) {
@@ -149,7 +151,7 @@ const AllOrgs = () => {
       await deleteOrganizationDB(orgForDelete.id)
       setOrgWasEdited(!orgWasEdited)
       socket.emit(socketSent.DELETE_ORG, {
-        ignoreUser: user.id,
+        ignoreUser: socket.id,
         projectIdArray: projectIdArray,
       })
       notify(`Organization successfully deleted!`, 'warning')
@@ -164,18 +166,15 @@ const AllOrgs = () => {
 
   // handle remote edit, delete orgs and user leave org events
   socket.on(socketReceived.USER_LEFT_ORG, ({ignoreUser}) => {
-    if (user.id === ignoreUser) return
-    console.log('msg received!')
+    if (socket.id === ignoreUser) return
     setOrgWasEdited(!orgWasEdited)
   })
   socket.on(socketReceived.ORG_WAS_EDITED, ({ignoreUser}) => {
-    if (user.id === ignoreUser) return
-    console.log('msg received!')
+    if (socket.id === ignoreUser) return
     setOrgWasEdited(!orgWasEdited)
   })
   socket.on(socketReceived.ORG_WAS_DELETED, ({ignoreUser}) => {
-    if (user.id === ignoreUser) return
-    console.log('msg received!')
+    if (socket.id === ignoreUser) return
     setOrgWasEdited(!orgWasEdited)
   })
 

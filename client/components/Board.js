@@ -7,6 +7,7 @@ import Column from './Column'
 import AddColumnDropDown from './AddColumnDropDown'
 import socket, {socketReceived, socketSent} from '../socket'
 import {notify} from './helper/toast'
+import history from '../history'
 import styles from './css/Board.module.css'
 
 const Board = () => {
@@ -180,6 +181,20 @@ const Board = () => {
 
   socket.on(OTHER_CRUD_OP, ({ignoreUser, projectId}) => {
     if (socket.id === ignoreUser || projectId !== project.id) return
+    setTaskChanged(!taskChanged)
+  })
+
+  // socket org-level edits, deletes
+  socket.on(socketReceived.ORG_WAS_DELETED, ({ignoreUser, projectIdArray}) => {
+    const affectsThisProject = projectIdArray.some((id) => id === project.id)
+    if (socket.id === ignoreUser || !affectsThisProject) return
+    history.push('/organizations')
+  })
+
+  socket.on(socketReceived.ORG_WAS_EDITED, ({ignoreUser, projectIdArray}) => {
+    const affectsThisProject = projectIdArray.some((id) => id === project.id)
+    if (socket.id === ignoreUser || !affectsThisProject) return
+    console.log('msg received!', projectIdArray)
     setTaskChanged(!taskChanged)
   })
 
