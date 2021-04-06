@@ -194,7 +194,6 @@ const Board = () => {
   socket.on(socketReceived.ORG_WAS_EDITED, ({ignoreUser, projectIdArray}) => {
     const affectsThisProject = projectIdArray.some((id) => id === project.id)
     if (socket.id === ignoreUser || !affectsThisProject) return
-    console.log('msg received!', projectIdArray)
     setTaskChanged(!taskChanged)
   })
 
