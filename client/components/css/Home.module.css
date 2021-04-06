@@ -1,7 +1,12 @@
 /* ---- Home ---- */
 
+html {
+  scroll-behavior: smooth;
+}
+
 .homeContainer {
   display: flex;
+  overflow-y: hidden;
 }
 
 .myFeed::-webkit-scrollbar-track {
