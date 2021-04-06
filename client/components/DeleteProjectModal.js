@@ -34,6 +34,7 @@ const DeleteProjectModal = ({
     socket.emit(socketSent.DELETE_PROJECT, {
       ignoreUser: socket.id,
       projectId: projectId,
+      orgId: project.organizationId,
     })
   }
 

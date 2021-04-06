@@ -202,14 +202,14 @@ module.exports = (io) => {
     })
 
     // projects
-    socket.on(received.EDIT_PROJECT, ({ignoreUser, projectId}) => {
+    socket.on(received.EDIT_PROJECT, ({ignoreUser, editedProject}) => {
       console.log('received edit project')
-      io.emit(sent.PROJECT_WAS_EDITED, {ignoreUser, projectId})
+      io.emit(sent.PROJECT_WAS_EDITED, {ignoreUser, editedProject})
     })
 
-    socket.on(received.DELETE_PROJECT, ({ignoreUser, projectId}) => {
+    socket.on(received.DELETE_PROJECT, ({ignoreUser, projectId, orgId}) => {
       console.log('received edit project')
-      io.emit(sent.PROJECT_WAS_DELETED, {ignoreUser, projectId})
+      io.emit(sent.PROJECT_WAS_DELETED, {ignoreUser, projectId, orgId})
     })
   })
 }
