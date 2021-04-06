@@ -1,0 +1,8 @@
+.addUserDialog {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  height: 3em;
+  margin: 0.5em;
+}
