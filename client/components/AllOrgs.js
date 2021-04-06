@@ -187,6 +187,10 @@ const AllOrgs = () => {
     if (socket.id === ignoreUser) return
     setOrgWasEdited(!orgWasEdited)
   })
+  socket.on(socketReceived.USER_WAS_REMOVED, ({ignoreUser}) => {
+    if (socket.id === ignoreUser) return
+    setOrgWasEdited(!orgWasEdited)
+  })
 
   // handle remote invitations sent to thisUser
   socket.on(socketReceived.INVITE_WAS_SENT, ({invitedUserId}) => {

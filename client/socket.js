@@ -24,6 +24,7 @@ export const socketSent = {
   LEAVE_ORG: 'leave-org',
   SEND_INVITE: 'send-invite',
   ACCEPT_INVITE: 'accept-invite',
+  REMOVE_USER: 'remove-user',
 }
 
 export const socketReceived = {
@@ -44,6 +45,7 @@ export const socketReceived = {
   USER_LEFT_ORG: 'user-left-org',
   INVITE_WAS_SENT: 'invite-was-sent',
   INVITE_WAS_ACCEPTED: 'invite-was-accepted',
+  USER_WAS_REMOVED: 'user-was-removed',
 }
 
 export default socket

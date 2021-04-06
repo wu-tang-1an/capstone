@@ -16,6 +16,7 @@ const received = {
   LEAVE_ORG: 'leave-org',
   SEND_INVITE: 'send-invite',
   ACCEPT_INVITE: 'accept-invite',
+  REMOVE_USER: 'remove-user',
 }
 
 const sent = {
@@ -36,6 +37,7 @@ const sent = {
   USER_LEFT_ORG: 'user-left-org',
   INVITE_WAS_SENT: 'invite-was-sent',
   INVITE_WAS_ACCEPTED: 'invite-was-accepted',
+  USER_WAS_REMOVED: 'user-was-removed',
 }
 
 module.exports = (io) => {
@@ -165,6 +167,14 @@ module.exports = (io) => {
       io.emit(sent.USER_LEFT_ORG, {
         ignoreUser,
         userWhoLeft,
+      })
+    })
+
+    socket.on(received.REMOVE_USER, ({ignoreUser, removedUserId}) => {
+      console.log('received remove user')
+      io.emit(sent.USER_WAS_REMOVED, {
+        ignoreUser,
+        removedUserId,
       })
     })
 

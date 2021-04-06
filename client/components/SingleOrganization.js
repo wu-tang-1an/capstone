@@ -43,6 +43,10 @@ const Member = ({member, members, setMembers, authUserAdminStatus}) => {
             try {
               await removeUserFromOrgDB(organizationId, id)
               setMembers(members.filter((mem) => mem.id !== id))
+              socket.emit(socketSent.REMOVE_USER, {
+                ignoreUser: socket.id,
+                removedUserId: member.id,
+              })
               if (id === user.id) history.push('/home')
             } catch (err) {
               console.error(err)
@@ -164,6 +168,23 @@ const SingleOrganization = () => {
     if (socket.id === ignoreUser) return
     setMembers(members.filter((mem) => mem.id !== userWhoLeft.id))
   })
+
+  // handle user was removed
+  socket.on(
+    socketReceived.USER_WAS_REMOVED,
+    ({ignoreUser, userWhoWasRemoved}) => {
+      console.log('hi im a remove user msg')
+
+      if (socket.id === ignoreUser) return
+
+      // if thisUser has been removed from current org by another org admin
+      if (user.id === userWhoWasRemoved.id)
+        return history.push('/organizations')
+
+      // otherwise, thisUser updates their members
+      setMembers(members.filter((mem) => mem.id !== userWhoWasRemoved.id))
+    }
+  )
 
   return (
     <div className={styles.wrapper}>
