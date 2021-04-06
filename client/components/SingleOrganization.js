@@ -126,6 +126,8 @@ const SingleOrganization = () => {
     members,
     setMembers,
     authUserAdminStatus,
+    projectWasEdited,
+    setProjectWasEdited,
   } = useContext(OrganizationContext)
 
   // destructure organization
@@ -187,9 +189,13 @@ const SingleOrganization = () => {
   )
 
   // handle project edit, delete
-  socket.on(socketReceived.PROJECT_WAS_DELETED, ({ignoreUser, projectId}) => {
+  socket.on(socketReceived.PROJECT_WAS_DELETED, ({ignoreUser}) => {
     if (socket.id === ignoreUser) return
-    setProjects(projects.filter((proj) => proj.id !== projectId))
+    setProjectWasEdited(!projectWasEdited)
+  })
+  socket.on(socketReceived.PROJECT_WAS_EDITED, ({ignoreUser}) => {
+    if (socket.id === ignoreUser) return
+    setProjectWasEdited(!projectWasEdited)
   })
 
   return (

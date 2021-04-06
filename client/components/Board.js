@@ -134,6 +134,16 @@ const Board = () => {
     if (user.id === removedUserId) history.push('/organizations')
   })
 
+  socket.on(
+    socketReceived.PROJECT_WAS_DELETED,
+    ({ignoreUser, projectId, orgId}) => {
+      // no need to use ignoreUser here, on the board, we're a remote user who is receiving a notification that the project no longer exists!
+
+      // kick ourself to single org that held the deleted project
+      if (project.id === projectId) history.push(`/organizations/${orgId}`)
+    }
+  )
+
   // socket logic
   const {
     TASK_WAS_MOVED,
