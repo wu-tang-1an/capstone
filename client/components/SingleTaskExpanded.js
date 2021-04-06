@@ -2,6 +2,7 @@
 import React, {useState, useContext} from 'react'
 import marked from 'marked'
 import moment from 'moment'
+import AddUserToTask from './AddUserToTask'
 import Comment from './Comment'
 import ImportantBadge from './ImportantBadge'
 import AddCommentDialog from './AddCommentDialog'
@@ -19,7 +20,7 @@ import {notify} from './helper/toast'
 import strConstraints from './helper/strConstrain'
 import styles from './css/SingleTaskExpanded.module.css'
 
-const SingleTaskExpanded = ({task, closeModal}) => {
+const SingleTaskExpanded = ({task, orgUsers, closeModal}) => {
   // destructure task
   const {id, name, description, formattedDate, createdBy, isActiveBadge} =
     task || {}
@@ -202,10 +203,15 @@ const SingleTaskExpanded = ({task, closeModal}) => {
               </>
             )}
           </div>
-          <span className={styles.creator}>Opened by {createdBy}</span>
-          <span className={styles.lastEdited}>{`Last edit: ${moment(
-            formattedDate
-          ).fromNow()}`}</span>
+          <div className={styles.underTitleInfo}>
+            <div className={styles.creatorAndLastEdited}>
+              <span className={styles.creator}>Opened by {createdBy}</span>
+              <span className={styles.lastEdited}>{`Last edit: ${moment(
+                formattedDate
+              ).fromNow()}`}</span>
+            </div>
+            <AddUserToTask users={orgUsers} />
+          </div>
         </div>
       </section>
       <section className={styles.mainPanel}>

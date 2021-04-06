@@ -100,6 +100,19 @@
   margin-left: 0.5em;
 }
 
+.underTitleInfo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.creatorAndLastEdited {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
 .creator,
 .lastEdited {
   font-size: 0.8em;
