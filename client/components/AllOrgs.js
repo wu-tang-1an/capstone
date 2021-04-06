@@ -187,10 +187,15 @@ const AllOrgs = () => {
     if (socket.id === ignoreUser) return
     setOrgWasEdited(!orgWasEdited)
   })
-  socket.on(socketReceived.USER_WAS_REMOVED, ({ignoreUser}) => {
-    if (socket.id === ignoreUser) return
-    setOrgWasEdited(!orgWasEdited)
-  })
+  socket.on(
+    socketReceived.USER_WAS_REMOVED,
+    ({ignoreUser, removedUserId, removedOrgId}) => {
+      if (socket.id === ignoreUser) return
+
+      // need to fire this rather that setOrg to avoid permissions issue since user no longer has access to GET / this org
+      setOrganizations(organizations.filter((org) => org.id !== removedOrgId))
+    }
+  )
 
   // handle remote invitations sent to thisUser
   socket.on(socketReceived.INVITE_WAS_SENT, ({invitedUserId}) => {

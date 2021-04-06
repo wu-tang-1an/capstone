@@ -176,13 +176,17 @@ module.exports = (io) => {
       })
     })
 
-    socket.on(received.REMOVE_USER, ({ignoreUser, removedUserId}) => {
-      console.log('received remove user')
-      io.emit(sent.USER_WAS_REMOVED, {
-        ignoreUser,
-        removedUserId,
-      })
-    })
+    socket.on(
+      received.REMOVE_USER,
+      ({ignoreUser, removedUserId, removedOrgId}) => {
+        console.log('received remove user')
+        io.emit(sent.USER_WAS_REMOVED, {
+          ignoreUser,
+          removedUserId,
+          removedOrgId,
+        })
+      }
+    )
 
     // invitations
 
