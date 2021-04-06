@@ -18,7 +18,10 @@ const ColumnProvider = ({children}) => {
   // AddUserToTask select
   const {project} = useContext(ProjectContext)
 
+  // intialize state for fetched org and flag to indicate
+  // downstream updates
   const [thisOrg, setThisOrg] = useState({})
+  const [didUpdateTask, setDidUpdateTask] = useState(false)
 
   useEffect(() => {
     const getOrg = async () => {
@@ -30,7 +33,7 @@ const ColumnProvider = ({children}) => {
       }
     }
     getOrg()
-  }, [])
+  }, [didUpdateTask])
 
   const orgUsers = thisOrg.users
 
@@ -40,6 +43,8 @@ const ColumnProvider = ({children}) => {
     isSingleTaskVisible,
     setSingleTaskVisible,
     orgUsers,
+    didUpdateTask,
+    setDidUpdateTask,
   }
 
   return (

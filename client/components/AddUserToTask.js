@@ -1,9 +1,13 @@
-import React, {useState} from 'react'
+import React, {useState, useContext} from 'react'
+import {addUserToTaskDB} from '../context/axiosService'
+import {ColumnContext} from '../context/columnContext'
 import styles from './css/AddUserToTask.module.css'
 
 const AddUserToTask = ({users, task}) => {
   const [isMenuVisible, setMenuVisible] = useState(false)
   const [selectedUserId, setSelectedUserId] = useState(0)
+
+  const {didUpdateTask, setDidUpdateTask} = useContext(ColumnContext)
 
   return (
     <div className={styles.addUserDialog}>
@@ -30,10 +34,16 @@ const AddUserToTask = ({users, task}) => {
                 ? 'green'
                 : 'inherit',
             }}
-            onClick={() => {
-              setSelectedUserId(id)
-              // add user to task db
-              // find out which context we'll need to trigger a refresh in ...
+            onClick={async () => {
+              try {
+                setSelectedUserId(id)
+                // add user to task db
+                // find out which context we'll need to trigger a refresh in ...
+                await addUserToTaskDB(id, task.id)
+                setDidUpdateTask(!didUpdateTask)
+              } catch (err) {
+                console.error(err)
+              }
             }}
           >
             <span className={styles.userName}>

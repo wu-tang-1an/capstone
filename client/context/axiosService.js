@@ -294,6 +294,17 @@ export const deleteTaskDB = async (taskId) => {
   }
 }
 
+// add user to task
+// important! returns a BOOLEAN indicating success / failure
+export const addUserToTaskDB = async (userId, taskId) => {
+  try {
+    const response = await axios.put(`/api/tasks/${taskId}/users/${userId}`)
+    return response.status === 200
+  } catch (err) {
+    console.error(err)
+  }
+}
+
 /* COMMENTS */
 
 // get a single comment
