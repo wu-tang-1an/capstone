@@ -4,6 +4,8 @@ import {AuthContext} from '../context/authContext'
 import {sendInvite} from '../context/axiosService'
 import {notify} from './helper/toast'
 
+import socket, {socketSent} from '../socket'
+
 const AddMemberModal = ({orgId, closeModal}) => {
   // grab user from auth context to send with invite
   const {user} = useContext(AuthContext)
@@ -26,9 +28,10 @@ const AddMemberModal = ({orgId, closeModal}) => {
       const response = await sendInvite(newMember)
 
       if (response.status === 200) {
-        const {firstName, lastName} = response.data
+        const {id, firstName, lastName} = response.data
         const name = `${firstName} ${lastName} (${email})`
         notify(`${name} was invited!`, 'success')
+        socket.emit(socketSent.SEND_INVITE, {invtedUserId: id})
       }
     } catch (err) {
       notify(`User was already invited!`, 'error')

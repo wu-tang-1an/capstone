@@ -8,6 +8,7 @@ const InvitationProvider = ({children}) => {
   const {user} = useContext(AuthContext)
 
   const [invitations, setInvitations] = useState([])
+  const [invitationsWereEdited, setInvitationsWereEdited] = useState(false)
 
   useEffect(() => {
     const getInvites = async () => {
@@ -19,11 +20,13 @@ const InvitationProvider = ({children}) => {
       }
     }
     getInvites()
-  }, [])
+  }, [invitations.length])
 
   const providerValue = {
     invitations,
     setInvitations,
+    invitationsWereEdited,
+    setInvitationsWereEdited,
   }
 
   return (

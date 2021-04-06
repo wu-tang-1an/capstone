@@ -12,6 +12,8 @@ import ProjectFrameDropDown from './ProjectFrameDropDown'
 import {removeUserFromOrgDB} from '../context/axiosService'
 import styles from './css/SingleOrganization.module.css'
 
+import socket, {socketSent, socketReceived} from '../socket'
+
 const Member = ({member, members, setMembers, authUserAdminStatus}) => {
   // grab user from auth context
   // we'll use this user to redirect ourself
@@ -128,10 +130,17 @@ const SingleOrganization = () => {
   const [isAddMemModalVisible, setAddMemModalVisible] = useState(false)
   const [isAddProjectModalVisible, setAddProjectModalVisible] = useState(false)
 
-  /* // helper determines visibility of add project btn
-  // according to auth user status in org
-  const canViewAddProjectBtn = () =>
-    organization.users.some((member) => member.id === user.id) */
+  // handle accepted invite
+  socket.on(socketReceived.INVITE_WAS_ACCEPTED, ({userWhoAccepted}) => {
+    console.log('got invite!')
+    setMembers([...members, userWhoAccepted])
+  })
+
+  // handle user left
+  socket.on(socketReceived.USER_LEFT_ORG, ({ignoreUser, userWhoLeft}) => {
+    if (socket.id === ignoreUser) return
+    setMembers(members.filter((mem) => mem.id !== userWhoLeft.id))
+  })
 
   return (
     <div className={styles.wrapper}>

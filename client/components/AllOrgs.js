@@ -90,7 +90,12 @@ const AllOrgs = () => {
   const {user} = useContext(AuthContext)
 
   // grab invitations and setter from invitation context
-  const {invitations, setInvitations} = useContext(InvitationContext)
+  const {
+    invitations,
+    setInvitations,
+    invitationsWereEdited,
+    setInvitationsWereEdited,
+  } = useContext(InvitationContext)
 
   // initialize all orgs state
   const [organizations, setOrganizations] = useState([])
@@ -165,6 +170,7 @@ const AllOrgs = () => {
   const [currentOrgId, setCurrentOrgId] = useState(0)
 
   // handle remote edit, delete orgs and user leave org events
+  // important! user left only needs to be registered as an org edit, even though the payload includes the userWhoLeft (we don't need to process it here ...)
   socket.on(socketReceived.USER_LEFT_ORG, ({ignoreUser}) => {
     if (socket.id === ignoreUser) return
     setOrgWasEdited(!orgWasEdited)
@@ -176,6 +182,12 @@ const AllOrgs = () => {
   socket.on(socketReceived.ORG_WAS_DELETED, ({ignoreUser}) => {
     if (socket.id === ignoreUser) return
     setOrgWasEdited(!orgWasEdited)
+  })
+
+  // handle remote invitations sent to thisUser
+  socket.on(socketReceived.INVITE_WAS_SENT, ({invitedUserId}) => {
+    if (user.id === invitedUserId)
+      setInvitationsWereEdited(!invitationsWereEdited)
   })
 
   return (

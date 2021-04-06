@@ -3,13 +3,18 @@ import {updateUserRoleDB, deleteInviteDB} from '../context/axiosService'
 import {AuthContext} from '../context/authContext'
 import styles from './css/Invitations.module.css'
 
+import socket, {socketSent} from '../socket'
+
 const SingleInvitation = ({invite, userId, invitations, setInvitations}) => {
   const {id, orgId, orgPicture, orgName, role} = invite
+
+  const {user} = useContext(AuthContext)
 
   const acceptInvite = async () => {
     try {
       await updateUserRoleDB(userId, orgId, id, role)
       setInvitations(invitations.filter((invitation) => invitation.id !== id))
+      socket.emit(socketSent.ACCEPT_INVITE, {user: user})
     } catch (err) {
       console.error(err)
     }
