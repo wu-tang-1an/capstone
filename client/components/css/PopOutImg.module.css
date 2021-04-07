@@ -1,11 +1,14 @@
 .popOutContainer {
-  height: 100%;
-  width: auto;
+  height: 300px;
+  width: 100%;
   border-radius: 5px;
   background-color: transparent;
   position: relative;
   padding: 0.5em;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .closeModalBtn {
@@ -24,8 +27,6 @@
 
 .zoomInOverlay {
   position: absolute;
-  height: 100%;
-  width: 100%;
   top: 0;
   left: 0;
   display: flex;
@@ -33,6 +34,8 @@
   justify-content: center;
   background-color: transparent;
   border-radius: 5px;
+  height: 100%;
+  width: 100%;
 }
 
 .popOutContainer:hover .zoomInOverlay {
@@ -52,4 +55,24 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.popOutContainer img {
+  height: 300px;
+  width: auto;
+}
+
+.centeredImgBlock {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-height: 80vh;
+  width: auto;
+}
+
+.centeredImgBlock img {
+  height: 100%;
+  max-height: 80vh;
+  width: auto;
+  max-width: 80vw;
 }

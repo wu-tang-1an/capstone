@@ -4,27 +4,20 @@ import styles from './css/PopOutImg.module.css'
 
 const PopOutImg = ({source}) => {
   const [isModalVisible, setModalVisible] = useState(false)
-  const [isIconVisible, setIconVisible] = useState(false)
-
-  const img = (
-    <img
-      src={source}
-      style={{height: '300px', width: 'auto', margin: '0 auto'}}
-    />
-  )
 
   return (
     <div>
       {isModalVisible && (
         <Modal>
-          <div className={styles.popOutContainer}>
-            {img}
+          <div className={styles.centeredImgBlock}>
             <span
               className={styles.closeModalBtn}
               onClick={() => setModalVisible(false)}
             >
               <i className="material-icons">close</i>
             </span>
+            {/* source array contains an optional second image for full-screen modal view if the first image was object-fitted or cropped */}
+            <img src={source.length === 2 ? source[1] : source[0]} />
           </div>
         </Modal>
       )}
@@ -35,7 +28,7 @@ const PopOutImg = ({source}) => {
         >
           <i className="material-icons">zoom_in</i>
         </div>
-        {img}
+        <img src={source[0]} />
       </div>
     </div>
   )

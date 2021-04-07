@@ -53,14 +53,9 @@ const ListContainer = ({list, type}) => {
 }
 
 // sub-component renders section views in home
-const OverviewSection = ({title, text, source, shouldReverse}) => {
+const OverviewSection = ({title, text, source}) => {
   return (
-    <div
-      className={styles.overviewContainer}
-      style={
-        shouldReverse ? {flexDirection: 'row-reverse'} : {flexDirection: 'row'}
-      }
-    >
+    <div className={styles.overviewContainer}>
       <div className={styles.titleAndText}>
         <div className={styles.title}>{title}</div>
         <div className={styles.text}>{text}</div>
@@ -130,21 +125,24 @@ const Home = () => {
       title: 'Working with your project board',
       text:
         "The note-ary board is the heart of your project. Make lists, create tasks, leave comments to encourage your team or suggest changes -- note-ary keeps it flexible and let's you decide what works for you.",
-      source: 'https://i.imgur.com/WCWLZxw.png',
+      source: ['https://i.imgur.com/WCWLZxw.png'],
     },
     {
       id: 2,
       title: 'Lists and tasks',
       text:
         "Keeping track of what's next has never been easier. Note-ary's task-list system lets you create, assign, and prioritize your workflow. With built-in Markdown support, note-ary lets you write and format task descriptions with ease and clarity.",
-      source: 'https://i.imgur.com/bcehXIp.png',
+      source: [
+        'https://i.imgur.com/scn7jvD.png',
+        'https://i.imgur.com/PJitTFa.png',
+      ],
     },
     {
       id: 3,
       title: 'Frictionless collaboration',
       text:
         "Note-ary's realtime communication support keeps you in sync with your teammates: whatever changes you make will be reflected in your colleagues' boards instantly. Start a conversation, complete a task, reorganize a list -- with note-ary, your work will get the attention it deserves.",
-      source: '',
+      source: [''],
     },
   ]
 
@@ -182,13 +180,7 @@ const Home = () => {
       <section className={styles.overview}>
         <div className={styles.welcomeHeader}>Welcome and Overview</div>
         {panels.map(({id, title, text, source}) => (
-          <OverviewSection
-            key={id}
-            title={title}
-            text={text}
-            source={source}
-            shouldReverse={id % 2 === 0}
-          />
+          <OverviewSection key={id} title={title} text={text} source={source} />
         ))}
       </section>
     </div>

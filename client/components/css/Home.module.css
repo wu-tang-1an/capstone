@@ -115,6 +115,10 @@ html {
   margin: 2em 0;
 }
 
+.overviewContainer:nth-child(odd) {
+  flex-direction: row-reverse;
+}
+
 .overviewContainer:first-child {
   margin-top: 0;
 }
