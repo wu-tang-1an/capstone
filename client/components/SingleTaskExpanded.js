@@ -233,7 +233,13 @@ const SingleTaskExpanded = ({task, closeModal}) => {
               <textarea
                 className={styles.descriptionMarkdown}
                 ref={(input) => input && input.focus()}
-                onBlur={async () => {
+                name="description"
+                value={taskDescription || ''}
+                onChange={(e) => setDescription(e.target.value)}
+              ></textarea>
+              <span
+                className={styles.saveEditBtn}
+                onClick={async () => {
                   if (taskDescription.length > strConstraints.textMaxChar)
                     return notify(
                       `Task description limited to ${strConstraints.textMaxChar} characters!`,
@@ -257,11 +263,9 @@ const SingleTaskExpanded = ({task, closeModal}) => {
                     updatedTask,
                   })
                 }}
-                name="description"
-                value={taskDescription || ''}
-                onChange={(e) => setDescription(e.target.value)}
-              ></textarea>
-              <span className={styles.saveEditBtn}>Save Changes</span>
+              >
+                Save Changes
+              </span>
             </>
           )}
           {/* when markdown editor does not have focus it is a div that renders its innerHTML as markdown */}
