@@ -58,8 +58,8 @@
 
 .editCommentTextarea,
 .editCommentTextarea:focus {
-  width: 300px;
-  resize: none;
+  resize: vertical;
+  width: 95%;
   border: 1px solid lightgrey;
   padding: 0.3em;
   margin: 0 0 0 0.5em;
@@ -78,15 +78,51 @@
   display: flex;
 }
 
-.edit {
+.editFieldAndBtn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  height: min-content;
+  width: 100%;
+}
+
+.editLink,
+.deleteLink {
   opacity: 0.6;
+  cursor: pointer;
+}
+
+.editLink:hover,
+.deleteLink:hover {
+  opacity: 1;
+}
+
+.editLink {
+  color: blue;
 }
 
 .deleteLink {
-  color: blue;
-  cursor: pointer;
+  color: red;
 }
 
 .pipeDivide {
   margin: 0 0.3em;
+}
+
+.saveEditCommentBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(231, 231, 231);
+  padding: 0.3em 0.6em;
+  border-radius: 5px;
+  font-size: 14px;
+  width: 110px;
+  margin: 0.5em;
+  cursor: pointer;
+}
+
+.saveEditCommentBtn:hover {
+  color: blue;
 }
