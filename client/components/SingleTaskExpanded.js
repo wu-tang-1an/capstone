@@ -170,12 +170,13 @@ const SingleTaskExpanded = ({task, closeModal}) => {
             )}
             {isActiveNameEdit && (
               <>
-                <textarea
+                <input
+                  type="text"
                   className={styles.editName}
                   ref={(input) => input && input.focus()}
                   defaultValue={taskName}
                   onChange={(e) => setTaskName(e.target.value)}
-                ></textarea>
+                ></input>
                 <span
                   className={styles.saveEditTitleBtn}
                   onClick={async () => {
@@ -224,7 +225,7 @@ const SingleTaskExpanded = ({task, closeModal}) => {
         <div className={styles.descriptionContainer}>
           <div
             className={styles.containerLabel}
-            onClick={() => setActiveMarkdownEditor(!activeMarkdownEditor)}
+            onClick={() => setActiveMarkdownEditor(true)}
           >
             <span>Task description</span>
             {!activeMarkdownEditor && (

@@ -1,24 +1,3 @@
-.btnContainer {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  width: 100%;
-}
-
-.addCommentBtn {
-  border: transparent;
-  border-radius: 5px;
-  background-color: rgb(95, 189, 95);
-  color: white;
-  font-size: 14px;
-  padding: 0.5em 0.8em;
-  margin-top: 1em;
-}
-
-.addCommentBtn:hover {
-  background-color: rgb(77, 155, 77);
-}
-
 .singleTaskContainer {
   display: flex;
   flex-direction: column;
@@ -95,10 +74,16 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  height: 3em;
-  width: 200px;
-  padding: 0 0.3em;
+  height: auto;
+  width: min-content;
+  padding-bottom: 0.2em;
   margin-left: 0.5em;
+  font-size: bold;
+  border: transparent;
+  border-bottom: 2px solid black;
+  cursor: text;
+  background-color: transparent;
+  outline: none;
 }
 
 .underTitleInfo {
@@ -272,4 +257,25 @@
   text-align: center;
   overflow-wrap: break-word;
   display: inline-block;
+}
+
+.btnContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.addCommentBtn {
+  border: transparent;
+  border-radius: 5px;
+  background-color: rgb(95, 189, 95);
+  color: white;
+  font-size: 14px;
+  padding: 0.5em 0.8em;
+  margin-top: 1em;
+}
+
+.addCommentBtn:hover {
+  background-color: rgb(77, 155, 77);
 }
