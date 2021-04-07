@@ -1,6 +1,7 @@
 .popOutContainer {
-  height: 300px;
+  height: 100%;
   width: 100%;
+  max-width: 500px;
   border-radius: 5px;
   background-color: transparent;
   position: relative;
@@ -44,8 +45,8 @@
 }
 
 .popOutContainer img {
-  height: 300px;
-  width: auto;
+  width: 100%;
+  height: auto;
 }
 
 .centeredImgBlock {
