@@ -11,15 +11,18 @@ const InvitationProvider = ({children}) => {
   const [invitationsWereEdited, setInvitationsWereEdited] = useState(false)
 
   useEffect(() => {
+    let isMounted = true
     const getInvites = async () => {
       try {
         const fetchedInvites = await fetchUserInvites(user.id)
-        setInvitations(fetchedInvites)
+        return fetchedInvites
       } catch (err) {
         console.error(err)
       }
     }
-    getInvites()
+    getInvites().then((invites) => {
+      if (isMounted) setInvitations(invites)
+    })
   }, [invitations.length, invitationsWereEdited])
 
   const providerValue = {

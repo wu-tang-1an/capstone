@@ -1,6 +1,6 @@
 import React, {useState, useContext, useEffect} from 'react'
 import {withRouter} from 'react-router-dom'
-import axios from 'axios'
+import {getOrgDb} from '../context/axiosService'
 import {AuthContext} from './authContext'
 import isAdmin from '../components/helper/isAdmin'
 import {errorRedirect} from '../components/helper/errorHandle'
@@ -24,12 +24,11 @@ const OrganizationProvider = ({match, children}) => {
   // fetch org
   useEffect(() => {
     let isMounted = true
-    let org = {}
-    let admin = false
 
     const fetchSingleOrg = async () => {
       try {
-        org = await axios.get(`/api/organizations/${organizationId}`)
+        const fetchedOrg = await getOrgDb(organizationId)
+        return fetchedOrg
       } catch (err) {
         console.error(err)
         errorRedirect('/organizations')
@@ -38,22 +37,23 @@ const OrganizationProvider = ({match, children}) => {
 
     const fetchStatus = async () => {
       try {
-        admin = await isAdmin(user.id, organizationId)
+        const fetchedStatus = await isAdmin(user.id, organizationId)
+        return fetchedStatus
       } catch (err) {
         console.error(err)
       }
     }
 
-    fetchSingleOrg().then(() => {
+    fetchSingleOrg().then((fetchedOrg) => {
       if (isMounted) {
-        setOrganization(org.data)
-        setProjects(org.data.projects)
-        setMembers(org.data.users)
+        setOrganization(fetchedOrg)
+        setProjects(fetchedOrg.projects)
+        setMembers(fetchedOrg.users)
       }
     })
 
-    fetchStatus().then(() => {
-      if (isMounted) setAuthUserAdminStatus(admin)
+    fetchStatus().then((fetchedStatus) => {
+      if (isMounted) setAuthUserAdminStatus(fetchedStatus)
     })
 
     return () => {

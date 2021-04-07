@@ -34,48 +34,53 @@ const Comment = ({comment, editComment, deleteComment}) => {
             </span>
           </div>
         </div>
-        {!isActiveEdit && (
-          <div
-            className={styles.content}
-            onClick={() => {
-              if (comment.userId === user.id) setActiveEdit(!isActiveEdit)
-            }}
-          >
-            {text}
-          </div>
-        )}
+        {!isActiveEdit && <div className={styles.content}>{text}</div>}
         {isActiveEdit && (
-          <textarea
-            className={styles.editCommentTextarea}
-            value={content}
-            ref={(input) => input && input.focus()}
-            onChange={(e) => setContent(e.target.value)}
-            onBlur={async () => {
-              if (content.length > strConstraints.textMaxChar)
-                return notify(
-                  `Comment limited to ${strConstraints.textMaxChar} characters!`,
-                  'error'
-                )
+          <div className={styles.editFieldAndBtn}>
+            <textarea
+              className={styles.editCommentTextarea}
+              value={content}
+              ref={(input) => input && input.focus()}
+              onChange={(e) => setContent(e.target.value)}
+            />
+            <span
+              className={styles.saveEditCommentBtn}
+              onClick={async () => {
+                if (content.length > strConstraints.textMaxChar)
+                  return notify(
+                    `Comment limited to ${strConstraints.textMaxChar} characters!`,
+                    'error'
+                  )
 
-              // update comment and return from db
-              const updatedComment = await editComment(id, {
-                text: content,
-                editTimeStamp: new Date(),
-              })
+                // update comment and return from db
+                const updatedComment = await editComment(id, {
+                  text: content,
+                  editTimeStamp: new Date(),
+                })
 
-              // update comment on local state
-              setComment(updatedComment)
-              setLocalTime(updatedComment.editTimeStamp)
-              setActiveEdit(!isActiveEdit)
-            }}
-          />
+                // update comment on local state
+                setComment(updatedComment)
+                setLocalTime(updatedComment.editTimeStamp)
+                setActiveEdit(!isActiveEdit)
+              }}
+            >
+              Save Changes
+            </span>
+          </div>
         )}
       </div>
 
       {/* only render edit-delete for user's own comments */}
       {comment.userId === user.id && (
         <div className={styles.editDelete}>
-          <span className={styles.edit}>click comment to edit</span>
+          <span
+            className={styles.editLink}
+            onClick={() => {
+              if (comment.userId === user.id) setActiveEdit(!isActiveEdit)
+            }}
+          >
+            edit comment
+          </span>
           <span className={styles.pipeDivide}>|</span>
           <span className={styles.deleteLink} onClick={() => deleteComment(id)}>
             delete comment

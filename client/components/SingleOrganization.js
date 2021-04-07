@@ -103,7 +103,7 @@ const ProjectFrame = ({
       )}
       <div className={styles.projectFrameContainer}>
         <Link to={`/projects/${id}`}>
-          <img src={imageUrl} />
+          <img className={styles.projectAvatar} src={imageUrl} />
         </Link>
         <div className={styles.projectContents}>
           {authUserAdminStatus && (

@@ -1,0 +1,91 @@
+.popOutContainer {
+  height: 100%;
+  width: 100%;
+  max-width: 500px;
+  border-radius: 5px;
+  background-color: transparent;
+  position: relative;
+  padding: 0.5em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.zoomInOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border-radius: 5px;
+  height: 100%;
+  width: 100%;
+}
+
+.popOutContainer:hover .zoomInOverlay {
+  background-color: black;
+  opacity: 0.6;
+}
+
+.popOutContainer .zoomInOverlay i {
+  visibility: hidden;
+}
+
+.popOutContainer:hover .zoomInOverlay i {
+  visibility: inherit;
+  color: white;
+  font-size: 2em;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.popOutContainer img {
+  width: 100%;
+  height: auto;
+}
+
+.centeredImgBlock {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-height: 80vh;
+  width: auto;
+  border-radius: 5px;
+  position: relative;
+}
+
+.closeModalBtn {
+  background-color: white;
+  border-radius: 50%;
+  height: 24px;
+  width: 24px;
+  padding: 0.5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  box-shadow: 0.8px 0.9px 3px rgb(187, 187, 187);
+  position: absolute;
+  top: 0.5em;
+  right: 0.5em;
+  z-index: 10;
+  cursor: pointer;
+}
+
+.closeModalBtn:hover {
+  color: rgb(51, 86, 238);
+  box-shadow: 0.8px 0.9px 3px rgb(51, 86, 238);
+}
+
+.centeredImgBlock img {
+  height: 100%;
+  max-height: 80vh;
+  width: auto;
+  max-width: 80vw;
+  border-radius: 5px;
+}

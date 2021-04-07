@@ -1,7 +1,7 @@
 const strConstraints = {
   nameMaxChar: 35,
   emailMaxChar: 35,
-  titleMaxChar: 20,
+  titleMaxChar: 30,
   textMaxChar: 255,
 }
 

@@ -1,31 +1,11 @@
-.btnContainer {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  width: 100%;
-}
-
-.addCommentBtn {
-  border: transparent;
-  border-radius: 5px;
-  background-color: rgb(95, 189, 95);
-  color: white;
-  font-size: 14px;
-  padding: 0.5em 0.8em;
-  margin-top: 1em;
-}
-
-.addCommentBtn:hover {
-  background-color: rgb(77, 155, 77);
-}
-
 .singleTaskContainer {
   display: flex;
   flex-direction: column;
   background-color: #ccc;
   padding: 0 1em 1em 1em;
   border-radius: 5px;
-  max-height: 80vh;
+  max-height: 90vh;
+  max-width: min-content;
   overflow-y: scroll;
 }
 
@@ -94,15 +74,22 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  height: 3em;
-  width: 200px;
-  padding: 0 0.3em;
+  height: auto;
+  width: min-content;
+  padding-bottom: 0.2em;
   margin-left: 0.5em;
+  font-size: bold;
+  border: transparent;
+  border-bottom: 2px solid black;
+  cursor: text;
+  background-color: transparent;
+  outline: none;
 }
 
 .underTitleInfo {
   display: flex;
   align-items: center;
+  width: 100%;
   justify-content: space-between;
 }
 
@@ -152,6 +139,11 @@
   justify-content: space-between;
 }
 
+.inactiveMarkdownContainer {
+  min-width: 375px;
+  max-width: 60vw;
+}
+
 .descriptionContainer {
   display: flex;
   flex-direction: column;
@@ -159,6 +151,8 @@
   justify-content: center;
   overflow-wrap: break-word;
   display: inline-block;
+  min-width: 375px;
+  max-width: 60vw;
 }
 
 .containerLabel {
@@ -193,12 +187,19 @@
 
 .descriptionMarkdown,
 .commentsContainer {
-  height: min-content;
-  width: 400px;
+  height: 100%;
+  min-height: 200px;
+  width: 100%;
+  min-width: 375px;
+  width: 50vw;
   background-color: white;
   border-radius: 5px;
   padding: 1em;
   margin: 0.5em 0;
+}
+
+.descriptionMarkdown {
+  resize: vertical;
 }
 
 .descriptionMarkdown:hover {
@@ -207,7 +208,6 @@
 
 .saveEditTitleBtn {
   margin-left: 0.5em;
-  margin-bottom: -0.8em;
 }
 
 .saveEditBtn,
@@ -221,6 +221,10 @@
   font-size: 14px;
   width: 110px;
   cursor: pointer;
+}
+
+.saveEditBtn {
+  margin-bottom: 0.5em;
 }
 
 .saveEditBtn:hover,
@@ -256,4 +260,25 @@
   text-align: center;
   overflow-wrap: break-word;
   display: inline-block;
+}
+
+.btnContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.addCommentBtn {
+  border: transparent;
+  border-radius: 5px;
+  background-color: rgb(95, 189, 95);
+  color: white;
+  font-size: 14px;
+  padding: 0.5em 0.8em;
+  margin-top: 1em;
+}
+
+.addCommentBtn:hover {
+  background-color: rgb(77, 155, 77);
 }

@@ -35,8 +35,6 @@ const AddMemberModal = ({orgId, closeModal}) => {
       }
     } catch (err) {
       notify(`User was already invited!`, 'error')
-
-      console.error(err)
     }
   }
 
@@ -58,7 +56,13 @@ const AddMemberModal = ({orgId, closeModal}) => {
           className={styles.statusRadioGroup}
           onChange={(e) => setRole(e.target.value)}
         >
-          <input type="radio" id="user" name="permissions" value="user" />
+          <input
+            type="radio"
+            id="user"
+            name="permissions"
+            value="user"
+            defaultChecked
+          />
           <label htmlFor="user">User</label>
           <input type="radio" id="admin" name="permissions" value="admin" />
           <label htmlFor="admin">Admin</label>

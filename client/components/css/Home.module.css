@@ -58,7 +58,7 @@ html {
 .overview {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 100%;
   overflow-y: scroll;
   padding: 0 1em;
 }
@@ -111,8 +111,13 @@ html {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
   margin: 2em 0;
+  width: 100%;
+}
+
+.overviewContainer:nth-child(odd) {
+  flex-direction: row-reverse;
 }
 
 .overviewContainer:first-child {
@@ -123,9 +128,10 @@ html {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  justify-content: flex-start;
-  width: 600px;
-  height: 300px;
+  justify-content: center;
+  width: 100%;
+  max-width: 600px;
+  height: 100%;
   padding: 0 1em;
 }
 
@@ -141,20 +147,4 @@ html {
 
 .text {
   line-height: 1.6em;
-}
-
-/* ---- VideoList ---- */
-
-.videoContainer {
-  display: flex;
-  flex: 1 1 100%;
-  height: 300px;
-  max-height: 300px;
-  padding: 0 1em;
-}
-
-.videoContainer video {
-  width: 100%;
-  height: auto;
-  max-height: 100%;
 }

@@ -3,18 +3,18 @@ const getRandNum = () => Math.ceil(Math.random() * 10000)
 module.exports = [
   {
     name: 'SingleCycle',
-    imageUrl: `https://source.unsplash.com/600x400/?headquarters,sig=${getRandNum()}`,
+    imageUrl: `https://source.unsplash.com/600x400/?sig=${getRandNum()}`,
   },
   {
     name: 'Readr',
-    imageUrl: `https://source.unsplash.com/600x400/?headquarters,sig=${getRandNum()}`,
+    imageUrl: `https://source.unsplash.com/600x400/?sig=${getRandNum()}`,
   },
   {
     name: 'Skimm',
-    imageUrl: `https://source.unsplash.com/600x400/?headquarters,sig=${getRandNum()}`,
+    imageUrl: `https://source.unsplash.com/600x400/?sig=${getRandNum()}`,
   },
   {
     name: 'NorEaster',
-    imageUrl: `https://source.unsplash.com/600x400/?headquarters,sig=${getRandNum()}`,
+    imageUrl: `https://source.unsplash.com/600x400/?sig=${getRandNum()}`,
   },
 ]
