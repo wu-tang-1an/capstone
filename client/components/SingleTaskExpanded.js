@@ -32,12 +32,11 @@ const SingleTaskExpanded = ({task, closeModal}) => {
   // then declare state and initialize with task data
   const [taskName, setTaskName] = useState(name || '')
   const [taskDescription, setDescription] = useState(description || '')
-  const [, setLastEdit] = useState(formattedDate)
-
   const [activeMarkdownEditor, setActiveMarkdownEditor] = useState(false)
   const [isAddCommentActive, setAddCommentActive] = useState(false)
   const [isActiveNameEdit, setActiveNameEdit] = useState(false)
 
+  // grab project and project flag, org users from project, column contexts for assignment dropdown
   const {project, taskChanged, setTaskChanged} = useContext(ProjectContext)
   const {orgUsers} = useContext(ColumnContext)
 
@@ -45,8 +44,11 @@ const SingleTaskExpanded = ({task, closeModal}) => {
   // local state will reload on single task view
   const deleteComment = async (commentId) => {
     await deleteCommentDB(commentId)
+
     setTaskComments(taskComments.filter((comment) => comment.id !== commentId))
+
     setTaskChanged(!taskChanged)
+
     socket.emit(socketSent.DELETE_COMMENT, {
       ignoreUser: socket.id,
       projectId: project.id,
@@ -57,17 +59,21 @@ const SingleTaskExpanded = ({task, closeModal}) => {
   // editComment updates comment in db, local state
   const editComment = async (commentId, updateInfo) => {
     const updatedComment = await updateCommentDB(commentId, updateInfo)
+
     setTaskComments(
       taskComments.map((comment) =>
         comment.id === updatedComment.id ? updatedComment : comment
       )
     )
+
     setTaskChanged(!taskChanged)
+
     socket.emit(socketSent.EDIT_COMMENT, {
       ignoreUser: socket.id,
       projectId: project.id,
       updatedComment,
     })
+
     return updatedComment
   }
 
@@ -99,7 +105,7 @@ const SingleTaskExpanded = ({task, closeModal}) => {
     }
   }
 
-  // socket logic
+  // socket logic for comments
   socket.on(
     socketReceived.COMMENT_WAS_ADDED,
     ({ignoreUser, projectId, newComment}) => {
@@ -137,6 +143,65 @@ const SingleTaskExpanded = ({task, closeModal}) => {
     }
   )
 
+  // persist name edits to db and local state
+  const saveNameEdit = async () => {
+    if (taskName.length > strConstraints.titleMaxChar)
+      return notify(
+        `Task name limited to ${strConstraints.titleMaxChar} characters!`,
+        'error'
+      )
+
+    // get a new timeStamp for the edit
+    const newTimeStamp = new Date()
+
+    // PUT the new task in the db
+    const updateInfo = {
+      name: taskName,
+      editTimeStamp: newTimeStamp,
+    }
+
+    const updatedTask = await updateTaskDB(updateInfo, task.id)
+
+    setTaskChanged(!taskChanged)
+    setTaskName(updatedTask.name)
+    setActiveNameEdit(false)
+
+    socket.emit(socketSent.EDIT_TASK, {
+      ignoreUser: socket.id,
+      projectId: project.id,
+      updatedTask,
+    })
+  }
+
+  // persist description edits to db and local state
+  const saveDescriptionEdit = async () => {
+    if (taskDescription.length > strConstraints.textMaxChar)
+      return notify(
+        `Task description limited to ${strConstraints.textMaxChar} characters!`,
+        'error'
+      )
+
+    // get a new timeStamp for the edit
+    const newTimeStamp = new Date()
+
+    // PUT task db
+    const updateInfo = {
+      description: taskDescription,
+      editTimeStamp: newTimeStamp,
+    }
+
+    const updatedTask = await updateTaskDB(updateInfo, id)
+
+    setTaskChanged(!taskChanged)
+    setActiveMarkdownEditor(false)
+
+    socket.emit(socketSent.EDIT_TASK, {
+      ignoreUser: socket.id,
+      projectId: project.id,
+      updatedTask,
+    })
+  }
+
   return (
     <div className={styles.singleTaskContainer}>
       <section className={styles.fixedHeader}>
@@ -145,6 +210,8 @@ const SingleTaskExpanded = ({task, closeModal}) => {
             href="#"
             className={styles.spanContainer}
             onClick={() => {
+              if (activeMarkdownEditor) saveDescriptionEdit()
+              if (isActiveNameEdit) saveNameEdit()
               closeModal()
             }}
           >
@@ -158,12 +225,29 @@ const SingleTaskExpanded = ({task, closeModal}) => {
             </span>
             <span className={styles.taskId}>{`#${id}`}</span>
             {!isActiveNameEdit && (
-              <div
-                className={styles.nameAndEditIcon}
-                onClick={() => setActiveNameEdit(true)}
-              >
-                <span className={styles.taskName}>{taskName}</span>
-                <span className={styles.editIcon}>
+              <div className={styles.nameAndEditIcon}>
+                <span
+                  className={styles.taskName}
+                  onClick={() => {
+                    if (activeMarkdownEditor) {
+                      saveDescriptionEdit()
+                      setActiveMarkdownEditor(false)
+                    }
+                    setActiveNameEdit(true)
+                  }}
+                >
+                  {taskName}{' '}
+                </span>
+                <span
+                  className={styles.editIcon}
+                  onClick={() => {
+                    if (activeMarkdownEditor) {
+                      saveDescriptionEdit()
+                      setActiveMarkdownEditor(false)
+                    }
+                    setActiveNameEdit(true)
+                  }}
+                >
                   <i className="material-icons">create</i>
                 </span>
               </div>
@@ -173,37 +257,13 @@ const SingleTaskExpanded = ({task, closeModal}) => {
                 <input
                   type="text"
                   className={styles.editName}
-                  ref={(input) => input && input.focus()}
-                  defaultValue={taskName}
+                  /* ref={(input) => input && input.focus()} */
+                  value={taskName || ''}
                   onChange={(e) => setTaskName(e.target.value)}
                 ></input>
                 <span
                   className={styles.saveEditTitleBtn}
-                  onClick={async () => {
-                    if (taskName.length > strConstraints.titleMaxChar)
-                      return notify(
-                        `Task name limited to ${strConstraints.titleMaxChar} characters!`,
-                        'error'
-                      )
-
-                    // get a new timeStamp for the edit
-                    const newTimeStamp = new Date()
-                    // PUT the new task in the db
-                    const updateInfo = {
-                      name: taskName,
-                      editTimeStamp: newTimeStamp,
-                    }
-                    const updatedTask = await updateTaskDB(updateInfo, task.id)
-                    setTaskChanged(!taskChanged)
-                    setTaskName(updatedTask.name)
-                    setActiveNameEdit(false)
-                    setLastEdit(updatedTask.editTimeStamp)
-                    socket.emit(socketSent.EDIT_TASK, {
-                      ignoreUser: socket.id,
-                      projectId: project.id,
-                      updatedTask,
-                    })
-                  }}
+                  onClick={saveNameEdit}
                 >
                   Save Changes
                 </span>
@@ -228,7 +288,13 @@ const SingleTaskExpanded = ({task, closeModal}) => {
             {!activeMarkdownEditor && (
               <span
                 className={styles.editIcon}
-                onClick={() => setActiveMarkdownEditor(true)}
+                onClick={() => {
+                  if (isActiveNameEdit) {
+                    saveNameEdit()
+                    setActiveNameEdit(false)
+                  }
+                  setActiveMarkdownEditor(true)
+                }}
               >
                 <i className="material-icons">create</i>
               </span>
@@ -239,37 +305,14 @@ const SingleTaskExpanded = ({task, closeModal}) => {
             <>
               <textarea
                 className={styles.descriptionMarkdown}
-                ref={(input) => input && input.focus()}
+                ref={(mdField) => mdField && mdField.focus()}
                 name="description"
                 value={taskDescription || ''}
                 onChange={(e) => setDescription(e.target.value)}
               ></textarea>
               <span
                 className={styles.saveEditBtn}
-                onClick={async () => {
-                  if (taskDescription.length > strConstraints.textMaxChar)
-                    return notify(
-                      `Task description limited to ${strConstraints.textMaxChar} characters!`,
-                      'error'
-                    )
-
-                  // get a new timeStamp for the edit
-                  const newTimeStamp = new Date()
-                  // PUT task db
-                  const updateInfo = {
-                    description: taskDescription,
-                    editTimeStamp: newTimeStamp,
-                  }
-                  const updatedTask = await updateTaskDB(updateInfo, id)
-                  setTaskChanged(!taskChanged)
-                  setActiveMarkdownEditor(false)
-                  setLastEdit(updatedTask.editTimeStamp)
-                  socket.emit(socketSent.EDIT_TASK, {
-                    ignoreUser: socket.id,
-                    projectId: project.id,
-                    updatedTask,
-                  })
-                }}
+                onClick={saveDescriptionEdit}
               >
                 Save Changes
               </span>
