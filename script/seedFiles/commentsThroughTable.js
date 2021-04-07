@@ -4,19 +4,19 @@ module.exports = [
   {
     userId: 1,
     taskId: 1,
-    text: 'Why go to college? There is Google.',
+    text: 'On track and on time, what a perfect combo :D',
     editTimeStamp: timeStamp,
   },
   {
     userId: 2,
     taskId: 1,
-    text: 'A good lawyer knows the law; a clever one takes the judge to lunch.',
+    text: 'What a great user experience, bravo!',
     editTimeStamp: timeStamp,
   },
   {
     userId: 3,
     taskId: 2,
-    text: 'My 25 year old mum rates this work very fabulous dude',
+    text: 'My project manager rates this work very fabulous dude',
     editTimeStamp: timeStamp,
   },
   {
@@ -53,7 +53,7 @@ module.exports = [
   {
     userId: 2,
     taskId: 5,
-    text: 'Mmh wondering if this comment will hit the generateor as well...',
+    text: 'Absolutely nailed it, well done!',
     editTimeStamp: timeStamp,
   },
   {
@@ -199,7 +199,7 @@ module.exports = [
   {
     userId: 4,
     taskId: 20,
-    text: 'My 73 year old son rates this job very sleek m8',
+    text: 'My work colleagues rate this job very sleek!',
     editTimeStamp: timeStamp,
   },
   {
