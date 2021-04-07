@@ -175,7 +175,10 @@ const SingleTaskExpanded = ({task, closeModal}) => {
                   ref={(input) => input && input.focus()}
                   defaultValue={taskName}
                   onChange={(e) => setTaskName(e.target.value)}
-                  onBlur={async () => {
+                ></textarea>
+                <span
+                  className={styles.saveEditTitleBtn}
+                  onClick={async () => {
                     if (taskName.length > strConstraints.titleMaxChar)
                       return notify(
                         `Task name limited to ${strConstraints.titleMaxChar} characters!`,
@@ -200,8 +203,9 @@ const SingleTaskExpanded = ({task, closeModal}) => {
                       updatedTask,
                     })
                   }}
-                ></textarea>
-                <span className={styles.saveEditTitleBtn}>Save Changes</span>
+                >
+                  Save Changes
+                </span>
               </>
             )}
           </div>
@@ -220,12 +224,14 @@ const SingleTaskExpanded = ({task, closeModal}) => {
         <div className={styles.descriptionContainer}>
           <div
             className={styles.containerLabel}
-            onClick={() => setActiveMarkdownEditor(true)}
+            onClick={() => setActiveMarkdownEditor(!activeMarkdownEditor)}
           >
             <span>Task description</span>
-            <span className={styles.editIcon}>
-              <i className="material-icons">create</i>
-            </span>
+            {!activeMarkdownEditor && (
+              <span className={styles.editIcon}>
+                <i className="material-icons">create</i>
+              </span>
+            )}
           </div>
           {/* when markdown editor has focus, it is a textarea */}
           {activeMarkdownEditor && (
