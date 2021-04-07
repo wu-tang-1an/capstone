@@ -141,8 +141,8 @@ const Home = () => {
       id: 3,
       title: 'Frictionless collaboration',
       text:
-        "Note-ary's realtime communication support keeps you in sync with your teammates: whatever changes you make will be reflected in your colleagues' boards instantly. Start a conversation, complete a task, reorganize a list -- with note-ary, your work will get the attention it deserves.",
-      source: [''],
+        "Note-ary's realtime communication support keeps you in sync with your teammates: whatever changes you make will be reflected in your colleagues' boards instantly. With note-ary, your work will get the attention it deserves.",
+      source: ['https://i.imgur.com/tNA7jsP.png'],
     },
   ]
 
