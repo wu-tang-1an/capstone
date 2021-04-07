@@ -1,0 +1,55 @@
+.popOutContainer {
+  height: 100%;
+  width: auto;
+  border-radius: 5px;
+  background-color: transparent;
+  position: relative;
+  padding: 0.5em;
+  cursor: pointer;
+}
+
+.closeModalBtn {
+  background-color: white;
+  padding: 0.5em;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  position: absolute;
+  top: 0.5em;
+  right: 0.5em;
+  box-shadow: 0.8px 0.9px 3px rgb(187, 187, 187);
+}
+
+.zoomInOverlay {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border-radius: 5px;
+}
+
+.popOutContainer:hover .zoomInOverlay {
+  background-color: black;
+  opacity: 0.6;
+}
+
+.popOutContainer .zoomInOverlay i {
+  visibility: hidden;
+}
+
+.popOutContainer:hover .zoomInOverlay i {
+  visibility: inherit;
+  color: white;
+  font-size: 2em;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

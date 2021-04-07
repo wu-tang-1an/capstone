@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react'
 import moment from 'moment'
 import {Link} from 'react-router-dom'
-import Slider from './Slider'
+import PopOutImg from './PopOutImg'
 import {AuthContext} from '../context/authContext'
 import {fetchUserOrgs} from '../context/axiosService'
 import styles from './css/Home.module.css'
@@ -65,10 +65,7 @@ const OverviewSection = ({title, text, source, shouldReverse}) => {
         <div className={styles.title}>{title}</div>
         <div className={styles.text}>{text}</div>
       </div>
-      <img
-        src={source}
-        style={{height: '300px', width: 'auto', margin: '0 auto'}}
-      />
+      <PopOutImg source={source} />
     </div>
   )
 }
@@ -140,7 +137,7 @@ const Home = () => {
       title: 'Lists and tasks',
       text:
         "Keeping track of what's next has never been easier. Note-ary's task-list system lets you create, assign, and prioritize your workflow. With built-in Markdown support, note-ary lets you write and format task descriptions with ease and clarity.",
-      source: 'https://i.imgur.com/a3pukQH.png',
+      source: 'https://i.imgur.com/bcehXIp.png',
     },
     {
       id: 3,
