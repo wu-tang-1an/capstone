@@ -52,23 +52,8 @@ const ListContainer = ({list, type}) => {
   )
 }
 
-const VideoList = ({videoSrcList}) => {
-  return (
-    <div className={styles.videoContainer}>
-      <Slider>
-        {videoSrcList.map((src, idx) => (
-          <video key={idx} controls>
-            <source src={src} type="video/webm" />
-            Your browser does not support the video tag.
-          </video>
-        ))}
-      </Slider>
-    </div>
-  )
-}
-
 // sub-component renders section views in home
-const OverviewSection = ({title, text, videoSrcList, shouldReverse}) => {
+const OverviewSection = ({title, text, source, shouldReverse}) => {
   return (
     <div
       className={styles.overviewContainer}
@@ -80,7 +65,10 @@ const OverviewSection = ({title, text, videoSrcList, shouldReverse}) => {
         <div className={styles.title}>{title}</div>
         <div className={styles.text}>{text}</div>
       </div>
-      <VideoList videoSrcList={videoSrcList} />
+      <img
+        src={source}
+        style={{height: '300px', width: 'auto', margin: '0 auto'}}
+      />
     </div>
   )
 }
@@ -130,14 +118,14 @@ const Home = () => {
         return {...task, projectId: colAndProjectIdObj.projectId}
       })
 
-    return tasks.sort((a, b) => (a.completionDate < b.completionDate ? -1 : 1))
+    return tasks.sort((a, b) => a.completionDate - b.completionDate)
   }
 
   const userProjects = getMyProjects(userOrgs)
   const userTasks = getMyTasks(userProjects)
 
   // panels are section overviews
-  // each is structured: title/text, video
+  // each is structured: title/text, img
   // alternating left-right layout with flex-wrap reverse
   const panels = [
     {
@@ -145,24 +133,21 @@ const Home = () => {
       title: 'Working with your project board',
       text:
         "The note-ary board is the heart of your project. Make lists, create tasks, leave comments to encourage your team or suggest changes -- note-ary keeps it flexible and let's you decide what works for you.",
-      videoSrcList: ['/assets/add-column.webm'],
+      source: 'https://i.imgur.com/WCWLZxw.png',
     },
     {
       id: 2,
       title: 'Lists and tasks',
       text:
         "Keeping track of what's next has never been easier. Note-ary's task-list system lets you create, assign, and prioritize your workflow. With built-in Markdown support, note-ary lets you write and format task descriptions with ease and clarity.",
-      videoSrcList: ['/assets/add-column.webm', '/assets/add-task.webm'],
+      source: 'https://i.imgur.com/a3pukQH.png',
     },
     {
       id: 3,
       title: 'Frictionless collaboration',
       text:
         "Note-ary's realtime communication support keeps you in sync with your teammates: whatever changes you make will be reflected in your colleagues' boards instantly. Start a conversation, complete a task, reorganize a list -- with note-ary, your work will get the attention it deserves.",
-      videoSrcList: [
-        '/assets/edit-delete-column.webm',
-        '/assets/delete-task.webm',
-      ],
+      source: '',
     },
   ]
 
@@ -199,12 +184,12 @@ const Home = () => {
       </section>
       <section className={styles.overview}>
         <div className={styles.welcomeHeader}>Welcome and Overview</div>
-        {panels.map(({id, title, text, videoSrcList}) => (
+        {panels.map(({id, title, text, source}) => (
           <OverviewSection
             key={id}
             title={title}
             text={text}
-            videoSrcList={videoSrcList}
+            source={source}
             shouldReverse={id % 2 === 0}
           />
         ))}
