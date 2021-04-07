@@ -208,7 +208,6 @@
 
 .saveEditTitleBtn {
   margin-left: 0.5em;
-  margin-bottom: -0.8em;
 }
 
 .saveEditBtn,
@@ -222,6 +221,10 @@
   font-size: 14px;
   width: 110px;
   cursor: pointer;
+}
+
+.saveEditBtn {
+  margin-bottom: 0.5em;
 }
 
 .saveEditBtn:hover,

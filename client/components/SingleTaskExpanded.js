@@ -287,17 +287,19 @@ const SingleTaskExpanded = ({task, closeModal}) => {
               ></div>
             </div>
           )}
-          <div className={styles.markdownLink}>
-            (new to markdown?
-            <a
-              href="https://www.markdownguide.org/getting-started/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {' click here for an overview'}
-            </a>
-            )
-          </div>
+          {!activeMarkdownEditor && (
+            <div className={styles.markdownLink}>
+              (new to markdown?
+              <a
+                href="https://www.markdownguide.org/getting-started/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {' click here for an overview'}
+              </a>
+              )
+            </div>
+          )}
         </div>
         <div>
           <div className={styles.containerLabel}>Comments</div>
