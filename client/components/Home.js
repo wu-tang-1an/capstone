@@ -110,7 +110,7 @@ const Home = () => {
         return {...task, projectId: colAndProjectIdObj.projectId}
       })
 
-    return tasks.sort((a, b) => a.completionDate - b.completionDate)
+    return tasks.sort((a, b) => (a.completionDate < b.completionDate ? -1 : 1))
   }
 
   const userProjects = getMyProjects(userOrgs)

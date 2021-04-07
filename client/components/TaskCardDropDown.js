@@ -32,12 +32,10 @@ const TaskCardDropDown = ({task, closeDropDown}) => {
   // handle drop down selections
   const handleSelectOption = (option) => {
     // handle 'Delete' selection
-    if (option === 'Delete task') {
-      return setActiveField(option)
-    }
+    if (option === 'Delete task') return setActiveField(option)
 
     // handle 'Back' selection
-    if (option === 'Back') return closeDropDown()
+    if (option === 'Close') return closeDropDown()
 
     // otherwise, handle 'Edit' selection
     closeDropDown()
