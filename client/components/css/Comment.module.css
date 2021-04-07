@@ -98,11 +98,11 @@
   opacity: 1;
 }
 
-.editLink {
+.editLink:hover {
   color: blue;
 }
 
-.deleteLink {
+.deleteLink:hover {
   color: red;
 }
 
