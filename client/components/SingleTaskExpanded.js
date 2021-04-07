@@ -223,13 +223,13 @@ const SingleTaskExpanded = ({task, closeModal}) => {
       </section>
       <section className={styles.mainPanel}>
         <div className={styles.descriptionContainer}>
-          <div
-            className={styles.containerLabel}
-            onClick={() => setActiveMarkdownEditor(true)}
-          >
+          <div className={styles.containerLabel}>
             <span>Task description</span>
             {!activeMarkdownEditor && (
-              <span className={styles.editIcon}>
+              <span
+                className={styles.editIcon}
+                onClick={() => setActiveMarkdownEditor(true)}
+              >
                 <i className="material-icons">create</i>
               </span>
             )}
