@@ -358,7 +358,7 @@ const SingleTaskExpanded = ({task, closeModal}) => {
             )}
             {/* sort taskComments by editTimeStamp to put in descending chronological order */}
             {taskComments
-              .sort((a, b) => a.editTimeStamp - b.editTimeStamp)
+              .sort((a, b) => (a.editTimeStamp < b.editTimeStamp ? 1 : -1))
               .map((comment) => (
                 <Comment
                   key={comment.id}
