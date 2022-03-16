@@ -98,9 +98,9 @@ const Profile = () => {
   return (
     <div className={styles.profileCont}>
       <MyInfo />
-      <div className={styles.formContainer}>
+      <div>
         <div className={styles.NewUpdateUserContainer}>
-          <h1>Update Profile</h1>
+          <h1>Update Profile Here</h1>
           <div className={styles.NewUpdateUserContainerRight}>
             <div>
               <form className={styles.flexCol} onSubmit={updateUserInfo}>
